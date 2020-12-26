@@ -23,7 +23,9 @@ Did I mention that I was looking for a new job? Yes, I am currently looking for 
 | Generalist 🛠 | `Git` `Docker` `VSCode` `NPM` `Yarn` `Parcel Bundler` `Kanban`            |
 
 <!--START_SECTION:waka-->
-![Profile Views](http://img.shields.io/badge/Profile%20Views-13-blue)
+![Profile Views](http://img.shields.io/badge/Profile%20Views-16-blue)
+
+![Lines of code](https://img.shields.io/badge/From%20Hello%20World%20I%27ve%20Written-293659%20lines%20of%20code-blue)
 
 **🐱 My Github Data** 
 
@@ -40,22 +42,10 @@ Did I mention that I was looking for a new job? Yes, I am currently looking for 
 **I'm a Night 🦉** 
 
 ```text
-🌞 Morning    25 commits     ███░░░░░░░░░░░░░░░░░░░░░░   13.09% 
-🌆 Daytime    12 commits     █░░░░░░░░░░░░░░░░░░░░░░░░   6.28% 
-🌃 Evening    37 commits     ████░░░░░░░░░░░░░░░░░░░░░   19.37% 
-🌙 Night      117 commits    ███████████████░░░░░░░░░░   61.26%
-
-```
-📅 **I'm Most Productive on Wednesday** 
-
-```text
-Monday       25 commits     ███░░░░░░░░░░░░░░░░░░░░░░   13.09% 
-Tuesday      32 commits     ████░░░░░░░░░░░░░░░░░░░░░   16.75% 
-Wednesday    49 commits     ██████░░░░░░░░░░░░░░░░░░░   25.65% 
-Thursday     18 commits     ██░░░░░░░░░░░░░░░░░░░░░░░   9.42% 
-Friday       30 commits     ████░░░░░░░░░░░░░░░░░░░░░   15.71% 
-Saturday     11 commits     █░░░░░░░░░░░░░░░░░░░░░░░░   5.76% 
-Sunday       26 commits     ███░░░░░░░░░░░░░░░░░░░░░░   13.61%
+🌞 Morning    25 commits     ███░░░░░░░░░░░░░░░░░░░░░░   12.95% 
+🌆 Daytime    12 commits     █░░░░░░░░░░░░░░░░░░░░░░░░   6.22% 
+🌃 Evening    37 commits     ████░░░░░░░░░░░░░░░░░░░░░   19.17% 
+🌙 Night      119 commits    ███████████████░░░░░░░░░░   61.66%
 
 ```
 
@@ -63,20 +53,6 @@ Sunday       26 commits     ███░░░░░░░░░░░░░░�
 📊 **This Week I Spent My Time On** 
 
 ```text
-⌚︎ Time Zone: Asia/Jakarta
-
-💬 Programming Languages: 
-No Activity Tracked This Week
-
-🔥 Editors: 
-No Activity Tracked This Week
-
-🐱‍💻 Projects: 
-No Activity Tracked This Week
-
-💻 Operating System: 
-No Activity Tracked This Week
-
 ```
 
 **I Mostly Code in JavaScript** 
@@ -90,10 +66,6 @@ TypeScript               1 repo              █░░░░░░░░░░�
 
 ```
 
-
-**Timeline**
-
-![Chart not found](https://raw.githubusercontent.com/arviantodwi/arviantodwi/master/charts/bar_graph.png) 
 
 
 <!--END_SECTION:waka-->
