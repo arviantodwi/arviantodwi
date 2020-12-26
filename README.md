@@ -22,7 +22,7 @@ Did I mention that I was looking for a new job? Yes, I am currently looking for 
 | UI Design 🎨  | `Sketch` `Figma` `Adobe Photoshop` `Adobe Illustrator`                    |
 | Generalist 🛠 | `Git` `Docker` `VSCode` `NPM` `Yarn` `Parcel Bundler` `Kanban`            |
 
-## My portfolio
+## My portfolio <img src="https://cdn.joypixels.com/products/previews/O6D7BMG8R2DMMNC4LLZH/3104_JHkrGQkijIv75krokr6AkrF8wlTa4oXL.gif" width="28px" />
 | Reserved 1 | Reserved 2 |
 | ---------- | ---------- |
 | Reserved 1 | Reserved 2 |
