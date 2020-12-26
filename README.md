@@ -22,6 +22,9 @@ Did I mention that I was looking for a new job? Yes, I am currently looking for 
 | UI Design 🎨  | `Sketch` `Figma` `Adobe Photoshop` `Adobe Illustrator`                    |
 | Generalist 🛠 | `Git` `Docker` `VSCode` `NPM` `Yarn` `Parcel Bundler` `Kanban`            |
 
+<!--START_SECTION:waka-->
+<!--END_SECTION:waka-->
+
 <!--
 ## My portfolio <img src="https://cdn.joypixels.com/products/previews/O6D7BMG8R2DMMNC4LLZH/3104_JHkrGQkijIv75krokr6AkrF8wlTa4oXL.gif" width="28px" />
 <center>
