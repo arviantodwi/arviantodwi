@@ -2,8 +2,8 @@ name: Waka Readme
 
 on:
   schedule:
-    # Runs at 5pm UTC / 12am GMT+7
-    - cron: '5 * * * *'
+    # Runs twice at 5am and 5pm UTC (12am and 12pm GMT+7)
+    - cron: '0 5,17 * * *'
   workflow_dispatch:
 jobs:
   update-readme:
