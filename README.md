@@ -23,6 +23,79 @@ Did I mention that I was looking for a new job? Yes, I am currently looking for 
 | Generalist 🛠 | `Git` `Docker` `VSCode` `NPM` `Yarn` `Parcel Bundler` `Kanban`            |
 
 <!--START_SECTION:waka-->
+![Profile Views](http://img.shields.io/badge/Profile%20Views-13-blue)
+
+**🐱 My Github Data** 
+
+> 🏆 148 Contributions in the Year 2020
+ > 
+> 📦 10.2 kB Used in Github's Storage 
+ > 
+> 🚫 Not Opted to Hire
+ > 
+> 📜 10 Public Repositories 
+ > 
+> 🔑 9 Private Repositories  
+ > 
+**I'm a Night 🦉** 
+
+```text
+🌞 Morning    25 commits     ███░░░░░░░░░░░░░░░░░░░░░░   13.09% 
+🌆 Daytime    12 commits     █░░░░░░░░░░░░░░░░░░░░░░░░   6.28% 
+🌃 Evening    37 commits     ████░░░░░░░░░░░░░░░░░░░░░   19.37% 
+🌙 Night      117 commits    ███████████████░░░░░░░░░░   61.26%
+
+```
+📅 **I'm Most Productive on Wednesday** 
+
+```text
+Monday       25 commits     ███░░░░░░░░░░░░░░░░░░░░░░   13.09% 
+Tuesday      32 commits     ████░░░░░░░░░░░░░░░░░░░░░   16.75% 
+Wednesday    49 commits     ██████░░░░░░░░░░░░░░░░░░░   25.65% 
+Thursday     18 commits     ██░░░░░░░░░░░░░░░░░░░░░░░   9.42% 
+Friday       30 commits     ████░░░░░░░░░░░░░░░░░░░░░   15.71% 
+Saturday     11 commits     █░░░░░░░░░░░░░░░░░░░░░░░░   5.76% 
+Sunday       26 commits     ███░░░░░░░░░░░░░░░░░░░░░░   13.61%
+
+```
+
+
+📊 **This Week I Spent My Time On** 
+
+```text
+⌚︎ Time Zone: Asia/Jakarta
+
+💬 Programming Languages: 
+No Activity Tracked This Week
+
+🔥 Editors: 
+No Activity Tracked This Week
+
+🐱‍💻 Projects: 
+No Activity Tracked This Week
+
+💻 Operating System: 
+No Activity Tracked This Week
+
+```
+
+**I Mostly Code in JavaScript** 
+
+```text
+JavaScript               5 repos             ████████░░░░░░░░░░░░░░░░░   33.33% 
+Vue                      2 repos             ███░░░░░░░░░░░░░░░░░░░░░░   13.33% 
+HTML                     2 repos             ███░░░░░░░░░░░░░░░░░░░░░░   13.33% 
+CSS                      1 repo              █░░░░░░░░░░░░░░░░░░░░░░░░   6.67% 
+TypeScript               1 repo              █░░░░░░░░░░░░░░░░░░░░░░░░   6.67%
+
+```
+
+
+**Timeline**
+
+![Chart not found](https://raw.githubusercontent.com/arviantodwi/arviantodwi/master/charts/bar_graph.png) 
+
+
 <!--END_SECTION:waka-->
 
 <!--
