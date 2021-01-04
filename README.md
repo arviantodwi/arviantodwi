@@ -22,7 +22,7 @@ Did I mention that I was looking for a new job? Yes, I am currently looking for 
 | Front End ✨  | `HTML` `(S)CSS` `JavaScript` `React` `Vue` `Bootstrap` `Bulma` `Tailwind` |
 | Back End ⚡️    | `PHP` `Laravel/Lumen` `Vala` `MySQL` `REST API` `GraphQL`                |
 | UI Design 🎨  | `Sketch` `Figma` `Adobe Photoshop` `Adobe Illustrator`                    |
-| Generalist 🛠 | `Git` `Docker` `VSCode` `NPM` `Yarn` `Parcel Bundler` `Kanban`            |
+| Generalist 🛠 | `Git` `Docker` `VSCode` `NPM` `Yarn` `Parcel Bundler` `Kanban` `CircleCI` |
 
 ## My Stats <img src="https://cdn.joypixels.com/products/previews/O6D7BMG8R2DMMNC4LLZH/3104_JHkrGQkijIv75krokr6AkrF8wlTa4oXL.gif" width="28px" />
 <!--START_SECTION:waka-->
