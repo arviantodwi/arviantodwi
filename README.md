@@ -28,15 +28,15 @@ Did I mention that I was looking for a new job? Yes, I am currently looking for 
 <!--START_SECTION:waka-->
 ![Profile Views](http://img.shields.io/badge/Profile%20Views-0-blue)
 
-![Lines of code](https://img.shields.io/badge/From%20Hello%20World%20I%27ve%20Written-773740%20lines%20of%20code-blue)
+![Lines of code](https://img.shields.io/badge/From%20Hello%20World%20I%27ve%20Written-773954%20lines%20of%20code-blue)
 
 **I'm a Night 🦉** 
 
 ```text
-🌞 Morning    42 commits     ████░░░░░░░░░░░░░░░░░░░░░   16.28% 
-🌆 Daytime    10 commits     █░░░░░░░░░░░░░░░░░░░░░░░░   3.88% 
-🌃 Evening    44 commits     ████░░░░░░░░░░░░░░░░░░░░░   17.05% 
-🌙 Night      162 commits    ███████████████░░░░░░░░░░   62.79%
+🌞 Morning    42 commits     ████░░░░░░░░░░░░░░░░░░░░░   15.73% 
+🌆 Daytime    10 commits     █░░░░░░░░░░░░░░░░░░░░░░░░   3.75% 
+🌃 Evening    45 commits     ████░░░░░░░░░░░░░░░░░░░░░   16.85% 
+🌙 Night      170 commits    ████████████████░░░░░░░░░   63.67%
 
 ```
 
