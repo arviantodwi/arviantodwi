@@ -2,8 +2,7 @@
 
 # TL;DR <img src="https://cdn.joypixels.com/products/previews/O6D7BMG8R2DMMNC4LLZH/3084_vam5PaUBOZubnfnTPYC2Zfj4JaiicECV.gif" width="32px" />
 - 🔭 &nbsp; I’m currently looking for a new job in Front End role – preferably remote worldwide.
-- 🌱 &nbsp; I’m currently learning React and sharpening my problem solving skills.
-- 🤔 &nbsp; I’m looking for some help to learn Software Testing e.g. Jest ☹️.
+- 🌱 &nbsp; I’m currently learning React, Python, and Unit Testing.
 - 💬 &nbsp; I speak in English 🏴󠁧󠁢󠁥󠁮󠁧󠁿 and Bahasa Indonesia 🇮🇩. Ask me anything you like.
 - 📫 &nbsp; I can be reached at `arvianto DOT dwi AT gmail DOT com`.
 - 💡 &nbsp; Fun fact: I build guitars 🎸.
@@ -17,12 +16,12 @@ Call me Arvi 🔊[(/ɑr-viː/)] (he/him). I currently live in Indonesia 🇮🇩
 Did I mention that I was looking for a new job? Yes, I am currently looking for a next job where I can shift my career and fully focus on Front End Development.
 
 ## My top-notch skills <img src="https://cdn.joypixels.com/products/previews/O6D7BMG8R2DMMNC4LLZH/3077_O2SFhOsxCkfgqyVoBHutvxuoKMEx9XmF.gif" width="28px" />
-| Field        | Skills                                                                    |
-|:-------------|:--------------------------------------------------------------------------|
-| Front End ✨  | `HTML` `(S)CSS` `JavaScript` `React` `Vue` `Bootstrap` `Bulma` `Tailwind` |
-| Back End ⚡️    | `PHP` `Laravel/Lumen` `Vala` `MySQL` `REST API` `GraphQL`                |
-| UI Design 🎨  | `Sketch` `Figma` `Adobe Photoshop` `Adobe Illustrator`                    |
-| Generalist 🛠 | `Git` `Docker` `VSCode` `NPM` `Yarn` `Parcel Bundler` `Kanban` `CircleCI` |
+| Field        | Skills                                                                               |
+|:-------------|:-------------------------------------------------------------------------------------|
+| Front End ✨  | `HTML` `(S)CSS` `JavaScript` `React` `Vue` `Bootstrap` `Bulma` `Tailwind`           |
+| Back End ⚡️    | `PHP` `Laravel/Lumen` `Flask` `Vala` `MySQL` `REST API` `GraphQL`                   |
+| UI Design 🎨  | `Figma` `Sketch` `Adobe Photoshop` `Adobe Illustrator`                              |
+| Generalist 🛠 | `Git` `Docker` `VSCode` `NPM` `Yarn` `Parcel Bundler` `Webpack` `Kanban` `CI/CD`    |
 
 ## My Stats <img src="https://cdn.joypixels.com/products/previews/O6D7BMG8R2DMMNC4LLZH/3104_JHkrGQkijIv75krokr6AkrF8wlTa4oXL.gif" width="28px" />
 <!--START_SECTION:waka-->
