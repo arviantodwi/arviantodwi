@@ -25,17 +25,17 @@ Did I mention that I was looking for a new job? Yes, I am currently looking for 
 
 ## My Stats <img src="https://cdn.joypixels.com/products/previews/O6D7BMG8R2DMMNC4LLZH/3104_JHkrGQkijIv75krokr6AkrF8wlTa4oXL.gif" width="28px" />
 <!--START_SECTION:waka-->
-![Profile Views](http://img.shields.io/badge/Profile%20Views-27-blue)
+![Profile Views](http://img.shields.io/badge/Profile%20Views-28-blue)
 
-![Lines of code](https://img.shields.io/badge/From%20Hello%20World%20I%27ve%20Written-647297%20lines%20of%20code-blue)
+![Lines of code](https://img.shields.io/badge/From%20Hello%20World%20I%27ve%20Written-648335%20lines%20of%20code-blue)
 
 **I'm a Night 🦉** 
 
 ```text
-🌞 Morning    39 commits     ███░░░░░░░░░░░░░░░░░░░░░░   12.66% 
-🌆 Daytime    19 commits     █░░░░░░░░░░░░░░░░░░░░░░░░   6.17% 
-🌃 Evening    70 commits     █████░░░░░░░░░░░░░░░░░░░░   22.73% 
-🌙 Night      180 commits    ██████████████░░░░░░░░░░░   58.44%
+🌞 Morning    39 commits     ███░░░░░░░░░░░░░░░░░░░░░░   12.15% 
+🌆 Daytime    19 commits     █░░░░░░░░░░░░░░░░░░░░░░░░   5.92% 
+🌃 Evening    75 commits     █████░░░░░░░░░░░░░░░░░░░░   23.36% 
+🌙 Night      188 commits    ██████████████░░░░░░░░░░░   58.57%
 
 ```
 
@@ -61,7 +61,7 @@ CSS                      1 repo              █░░░░░░░░░░�
 
 
 
- Last Updated on 11/06/2021
+ Last Updated on 12/06/2021
 <!--END_SECTION:waka-->
 
 <!--
