@@ -1,14 +1,16 @@
-import Hero from './Hero';
-import Gallery from './Gallery';
-import { contents, portfolio } from './data';
+import Nav from "./components/Nav";
+import Hero from "./components/Hero";
+import Footer from "./components/Footer";
+import Gallery from "./components/Gallery";
 
 const App = () => {
   return (
-    <div className="container is-max-widescreen">
-      <Hero {...contents.hero} />
-
-      <Gallery items={portfolio} />
-    </div>
+    <>
+      <Nav />
+      <Hero />
+      <Gallery />
+      <Footer />
+    </>
   );
 };
 

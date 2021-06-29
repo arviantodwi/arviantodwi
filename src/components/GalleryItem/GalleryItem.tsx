@@ -1,20 +1,22 @@
-import SwiperCore, { Navigation } from 'swiper';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/swiper.scss';
-import 'swiper/components/navigation/navigation.scss';
-import { PortfolioUIData } from './@types/ui-data';
+import "swiper/swiper.scss";
+import SwiperCore, { Navigation } from "swiper";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/components/navigation/navigation.scss";
 
 SwiperCore.use([Navigation]);
 
-const GalleryItem: React.FC<PortfolioUIData> = props => {
-  const { title, description, images } = props;
+type Props = {
+  title: string;
+  description: string;
+  images: string[];
+};
 
+const GalleryItem: React.FC<Props> = ({ title, description, images }) => {
   const Slides = images.map((image, index) => {
-    const imageSource = require(`${image}`);
     return (
       <SwiperSlide key={`slide-${index}`}>
         <div className="image is-5by3">
-          <img src={imageSource.default} alt="" />
+          <img src={image} alt="" />
         </div>
       </SwiperSlide>
     );
