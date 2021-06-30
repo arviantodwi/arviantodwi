@@ -14,38 +14,51 @@ import vpa03 from "../../images/portfolio/vpa-2020-03.jpg";
 export type Portfolio = {
   title: string;
   description: string;
+  tags?: string[];
   images: string[];
 };
 
 const data: Portfolio[] = [
   {
-    title: "Rlly iOS App UI",
-    description: "",
+    title: "RLLY: Auto En Wandelrally",
+    description:
+      "RLLY is a navigation-based game to explore many points of interest in Netherland. You may play as a soloist or with your group, and compete with the others for a position in leaderboard.",
+    tags: ["iOS", "UI", "Gamified"],
     images: [rlly01, rlly02, rlly03],
   },
   {
-    title: "Haulex Mobile Web App UI",
-    description: "",
+    title: "HaulEx Tracking System",
+    description:
+      "HaulEx is a company that provides car hauling service. I redesigned the vehicles delivery tracker feature as part of Freelancer contest entry.",
+    tags: ["Mobile Web", "UI"],
     images: [haulex],
   },
   {
-    title: "Movie Tinder iOS App UI",
-    description: "",
+    title: "Movie Matcher App Concept",
+    description:
+      "UI design for a concept of movie matcher app. The idea is an app that works like Tinder but for movie lovers who like to find and watch movies together with their partner. I collaborated with <a href='https://www.davidseek.com' target='_blank' rel='noopener noreferer'>David Seek</a> on this project.",
+    tags: ["iOS", "App Concept", "UI"],
     images: [movie01, movie02],
   },
   {
-    title: "Devstimate Landing Page UI",
-    description: "",
+    title: "Devstimate Landing Page",
+    description:
+      "A work in progress web app. This app will help users on estimating the development cost of their new app project.",
+    tags: ["Web", "WIP"],
     images: [devs01, devs02],
   },
   {
-    title: "Fulo ElementaryOS App",
-    description: "",
+    title: "Fulo Color Picker",
+    description:
+      "Fulo is a native ElementaryOS app built using Vala, GTK, and CSS.",
+    tags: ["ElementaryOS App"],
     images: [fulo],
   },
   {
-    title: "Voice Pitch Analyzer",
-    description: "",
+    title: "VoicePitchAnalyzer",
+    description:
+      "An iOS app to measure, calculate, and track the voice pitch changes. This app was developed for LGBTQ community so they could practice and improve their voice. Another project with <a href='https://www.davidseek.com' target='_blank' rel='noopener noreferer'>David Seek</a>.",
+    tags: ["iOS", "UI", "Trending"],
     images: [vpa01, vpa02, vpa03],
   },
 ];

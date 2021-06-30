@@ -3,36 +3,53 @@ import SwiperCore, { Navigation } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/components/navigation/navigation.scss";
 
+import {
+  Container,
+  Summary,
+  Title,
+  Description,
+  TagsUnordered,
+  TagsList,
+  SlideShow,
+  ImageWrapper,
+} from "./style";
+
 SwiperCore.use([Navigation]);
 
 type Props = {
   title: string;
   description: string;
   images: string[];
+  tags?: string[];
 };
 
-const GalleryItem: React.FC<Props> = ({ title, description, images }) => {
-  const Slides = images.map((image, index) => {
+const GalleryItem: React.FC<Props> = ({ title, description, images, tags }) => {
+  const slides = images.map((image, i) => {
     return (
-      <SwiperSlide key={`slide-${index}`}>
-        <div className="image is-5by3">
+      <SwiperSlide key={`slide-${i}`}>
+        <ImageWrapper>
           <img src={image} alt="" />
-        </div>
+        </ImageWrapper>
       </SwiperSlide>
     );
   });
 
-  return (
-    <div className="columns is-centered">
-      <div className="column is-10">
-        <div className="summary">
-          <h2 className="is-size-5 has-text-weight-bold">{title}</h2>
-          <p>{description}</p>
-        </div>
+  const tagsList = tags?.map((tag, i) => {
+    return <TagsList key={`tag-${i}`}>{tag}</TagsList>;
+  });
 
-        <Swiper navigation>{Slides}</Swiper>
-      </div>
-    </div>
+  return (
+    <Container>
+      <Summary>
+        <Title>{title}</Title>
+        <Description dangerouslySetInnerHTML={{ __html: description }} />
+        {tags && <TagsUnordered>{tagsList}</TagsUnordered>}
+      </Summary>
+
+      <SlideShow as={Swiper} navigation>
+        {slides}
+      </SlideShow>
+    </Container>
   );
 };
 

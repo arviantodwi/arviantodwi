@@ -14,6 +14,7 @@ const Gallery = () => {
       title={item.title}
       description={item.description}
       images={item.images}
+      tags={item.tags}
     />
   ));
 

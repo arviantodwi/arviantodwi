@@ -1,5 +1,10 @@
 import styled from "styled-components";
-import { COLOR_TAN, COLOR_TEXT, COLOR_TOMATO } from "../../app/constants";
+import {
+  COLOR_TAN,
+  COLOR_TEXT,
+  COLOR_TEXT_STRONG,
+  COLOR_TOMATO,
+} from "../../app/constants";
 
 export const Container = styled.div`
   background-color: ${COLOR_TAN.HEX};
@@ -34,22 +39,25 @@ const Text = styled.p`
 `;
 
 export const ArticleIntro = styled(Text)`
-  font-size: 1rem;
+  font-size: ${15 / 16}rem;
   order: 1;
+  align-self: stretch;
 `;
 
 export const ArticleParagraph = styled(Text)`
-  font-size: ${15 / 16}rem;
+  font-size: 1rem;
   line-height: ${(16 / 15) * 1.5};
   order: 3;
 `;
 
 export const ArticleHeadline = styled(Text).attrs({ as: "h1" })`
+  max-width: 343px;
   font-size: ${32 / 16}rem;
   font-weight: 900;
   line-height ${38 / 32};
   order: 2;
   margin: 8px 0 12px;
+  color: ${COLOR_TEXT_STRONG.HEX};
 `;
 
 export const ResumeButtonLink = styled.a`
@@ -82,6 +90,7 @@ export const SkillsHeading = styled(Text).attrs({ as: "h2" })`
   font-weight: 700;
   font-size: ${24 / 16}rem;
   margin: -12px 0 12px;
+  color: ${COLOR_TEXT_STRONG.HEX};
 `;
 
 export const SkillsUnordered = styled.ul`

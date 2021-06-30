@@ -1,3 +1,4 @@
+import { COLOR_TEXT_STRONG } from "../../app/constants";
 import { ReactComponent as GithubIcon } from "../../images/icons/brand-github.svg";
 import { ReactComponent as LinkedinIcon } from "../../images/icons/brand-linkedin.svg";
 
@@ -12,7 +13,7 @@ const Nav = () => {
           target="_blank"
           rel="noopener noreferrer"
         >
-          <GithubIcon height={24} />
+          <GithubIcon height={32} fill={COLOR_TEXT_STRONG.HEX} />
         </SocialLink>
 
         <SocialLink
@@ -20,7 +21,7 @@ const Nav = () => {
           target="_blank"
           rel="noopener noreferrer"
         >
-          <LinkedinIcon height={24} />
+          <LinkedinIcon height={32} fill={COLOR_TEXT_STRONG.HEX} />
         </SocialLink>
       </SocialLinksWrapper>
     </Container>
