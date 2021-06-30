@@ -1,6 +1,6 @@
-import "swiper/swiper.scss";
-import SwiperCore, { Navigation } from "swiper";
+import React, { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/swiper.scss";
 import "swiper/components/navigation/navigation.scss";
 
 import {
@@ -12,9 +12,8 @@ import {
   TagsList,
   SlideShow,
   ImageWrapper,
+  SlideNavButton,
 } from "./style";
-
-SwiperCore.use([Navigation]);
 
 type Props = {
   title: string;
@@ -24,6 +23,11 @@ type Props = {
 };
 
 const GalleryItem: React.FC<Props> = ({ title, description, images, tags }) => {
+  const allowTouchMove = images.length > 1;
+  const [swiper, setSwiper] = useState(null);
+  const [prevNavButtonDisabled, setPrevNavButtonDisabled] = useState(true);
+  const [nextNavButtonDisabled, setNextNavButtonDisabled] = useState(false);
+
   const slides = images.map((image, i) => {
     return (
       <SwiperSlide key={`slide-${i}`}>
@@ -38,6 +42,20 @@ const GalleryItem: React.FC<Props> = ({ title, description, images, tags }) => {
     return <TagsList key={`tag-${i}`}>{tag}</TagsList>;
   });
 
+  const handleSlideChange = (instance: any) => {
+    const { isBeginning, isEnd } = instance;
+    if (!isBeginning) {
+      setPrevNavButtonDisabled(false);
+    }
+    if (!isEnd) {
+      setNextNavButtonDisabled(false);
+    }
+  };
+
+  const handleSlideNavButtonClick = (instance: any, target: string) => {
+    return target === "prev" ? instance.slidePrev() : instance.slideNext();
+  };
+
   return (
     <Container>
       <Summary>
@@ -46,8 +64,29 @@ const GalleryItem: React.FC<Props> = ({ title, description, images, tags }) => {
         {tags && <TagsUnordered>{tagsList}</TagsUnordered>}
       </Summary>
 
-      <SlideShow as={Swiper} navigation>
+      <SlideShow
+        as={Swiper}
+        allowTouchMove={allowTouchMove}
+        onSwiper={(instance: any) => setSwiper(instance)}
+        onReachBeginning={() => setPrevNavButtonDisabled(true)}
+        onReachEnd={() => setNextNavButtonDisabled(true)}
+        onSlideChange={() => handleSlideChange(swiper)}
+      >
         {slides}
+        {allowTouchMove && (
+          <>
+            <SlideNavButton
+              target="prev"
+              disabled={prevNavButtonDisabled}
+              onClick={() => handleSlideNavButtonClick(swiper, "prev")}
+            />
+            <SlideNavButton
+              target="next"
+              disabled={nextNavButtonDisabled}
+              onClick={() => handleSlideNavButtonClick(swiper, "next")}
+            />
+          </>
+        )}
       </SlideShow>
     </Container>
   );

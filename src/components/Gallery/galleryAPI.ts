@@ -1,4 +1,4 @@
-import devs01 from "../../images/portfolio/devs-2020-01.jpg";
+// import devs01 from "../../images/portfolio/devs-2020-01.jpg";
 import devs02 from "../../images/portfolio/devs-2020-02.jpg";
 import fulo from "../../images/portfolio/fulo-2020-01.jpg";
 import haulex from "../../images/portfolio/haulex-2021-01.jpg";
@@ -45,7 +45,7 @@ const data: Portfolio[] = [
     description:
       "A work in progress web app. This app will help users on estimating the development cost of their new app project.",
     tags: ["Web", "WIP"],
-    images: [devs01, devs02],
+    images: [devs02],
   },
   {
     title: "Fulo Color Picker",

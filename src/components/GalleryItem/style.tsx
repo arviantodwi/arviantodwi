@@ -1,8 +1,11 @@
 import styled from "styled-components";
+import { ReactComponent as ArrowLeftIcon } from "../../images/icons/arrow-left.svg";
+import { ReactComponent as ArrowRightIcon } from "../../images/icons/arrow-right.svg";
 import {
   COLOR_TEXT,
   COLOR_TEXT_STRONG,
   COLOR_TOMATO,
+  COLOR_WHITE,
 } from "../../app/constants";
 
 export const Container = styled.div`
@@ -75,5 +78,44 @@ export const ImageWrapper = styled.div`
     left: 0;
     right: 0;
     width: 100%;
+  }
+`;
+
+export const SlideNavButton = styled(({ target, ...props }) => (
+  <button {...props}>
+    {target === "prev" ? (
+      <ArrowLeftIcon width={20} height={20} />
+    ) : (
+      <ArrowRightIcon width={20} height={20} />
+    )}
+  </button>
+)).attrs(({ target }) => ({
+  target,
+}))`
+  background: rgb(${COLOR_WHITE.RGB}, 0.75);
+  border: 0;
+  padding: 0;
+  width: 40px;
+  height: 40px;
+  padding: 10px;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  transform: translate(0, -50%) scale(0.9);
+  ${({ target }) => (target === "prev" ? `left: 4px;` : `right: 4px;`)}
+  box-shadow: 0px 14px 24px rgba(61, 43, 35, 0.16);
+  z-index: 2;
+  cursor: pointer;
+  transition: transform 100ms ease-in;
+
+  &:disabled {
+    transform: ${({ target }) =>
+      target === "prev"
+        ? `translate(-44px, -50%) scale(0.9);`
+        : `translate(44px, -50%) scale(0.9);`};
+  }
+
+  &:hover:not(:disabled) {
+    transform: translate(0, -50%) scale(1);
   }
 `;
