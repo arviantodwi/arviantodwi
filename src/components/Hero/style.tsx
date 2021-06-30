@@ -5,11 +5,13 @@ import {
   COLOR_TEXT_STRONG,
   COLOR_TOMATO,
 } from "../../app/constants";
+import bloom from "../../images/bloom.png";
 
 export const Container = styled.div`
   background-color: ${COLOR_TAN.HEX};
-  padding: 40px 16px 72px;
-  margin-top: -48px;
+  padding: 48px 16px 72px;
+  margin-top: -56px;
+  background: url("${bloom}") no-repeat center / cover;
 `;
 
 export const Photo = styled.div`
