@@ -12,7 +12,7 @@ const data: Hero = {
   about:
     "I’m on my way to grow my career in Front End Engineering after successfully worked as a UI Designer for about 8 years. Excited to learn new things like cloud architecture, latest best practice of Software Engineering, and recent start-up culture.",
   resume_link:
-    "https://s3.amazonaws.com/attachments.angel.co/5937021-9df25cfb16ec7a799970938aaa53f850.pdf?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAJS6W3HGZGRJIRBTA%2F20210629%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20210629T064459Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=d065055de750bf277604ec2dd52802629c1f7e0f3a1ea6f2ba6d31608781993e",
+    "https://www.dropbox.com/s/1nx3thy81ihg2bp/Arvianto_Dwi_-_Front_End_Engineer.pdf?dl=0",
   skills: [
     "JavaScript / TypeScript",
     "React.js",
