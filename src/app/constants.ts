@@ -22,4 +22,4 @@ export const COLOR_BROWN = new Color("#735E4C");
 export const COLOR_WHITE = new Color("#FFF", "255,255,255");
 export const COLOR_TOMATO = new Color("#BF584E", "191,88,78");
 export const COLOR_TEXT = new Color("#000", "0,0,0");
-export const COLOR_TEXT_STRONG = new Color("#3D2B23");
+export const COLOR_TEXT_STRONG = new Color("#3D2B23", "61,43,35");

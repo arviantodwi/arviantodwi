@@ -10,6 +10,8 @@ import {
 } from "../../app/constants";
 
 export const Container = styled.div`
+  display: flex;
+  flex-direction: column;
   padding: 24px 16px;
 
   &:first-child {
@@ -18,11 +20,35 @@ export const Container = styled.div`
   &:last-child {
     padding-bottom: 0px;
   }
+
+  @media screen and (min-width: 1025px) {
+    background-color: #fbf5f1;
+    border-radius: 16px;
+    box-shadow: 0px 40px 64px -6px rgba(${COLOR_TEXT_STRONG.RGB}, 0.36);
+    flex-direction: column-reverse;
+    overflow: hidden;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin: 32px 0;
+
+    &:first-child {
+      margin-top: 16px;
+      padding-top: 0;
+    }
+    &:last-child {
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+  }
 `;
 
 export const Summary = styled.div`
   display: flex;
   flex-direction: column;
+
+  @media screen and (min-width: 1025px) {
+    padding: 16px 0;
+  }
 `;
 
 export const Title = styled.h3`
@@ -44,6 +70,10 @@ export const Description = styled.p`
   > a {
     color: ${COLOR_TOMATO.HEX};
     border-bottom: solid 2px ${COLOR_TOMATO.HEX};
+  }
+
+  @media screen and (min-width: 1025px) {
+    margin-bottom: 0;
   }
 `;
 

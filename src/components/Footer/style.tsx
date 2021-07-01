@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { BP_DESKTOP, COLOR_TEXT } from "../../app/constants";
+import { BP_DESKTOP, BP_WIDESCREEN, COLOR_TEXT } from "../../app/constants";
 
 export const Container = styled.footer`
   padding: 24px 16px;
@@ -9,6 +9,12 @@ export const Container = styled.footer`
     padding-right: 32px;
     width: 100%;
     max-width: 720px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  @media screen and (min-width: ${BP_WIDESCREEN}) {
+    width: 1220px;
     margin-left: auto;
     margin-right: auto;
   }
