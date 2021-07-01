@@ -1,8 +1,6 @@
 import styled from "styled-components";
 import {
   BP_DESKTOP,
-  BP_MOBILE,
-  BP_TABLET,
   COLOR_TAN,
   COLOR_TEXT,
   COLOR_TEXT_STRONG,
@@ -17,7 +15,6 @@ export const Container = styled.div`
 
 export const Wrapper = styled.div`
   padding: 48px 16px 72px;
-  margin-top: -56px;
 
   @media screen and (min-width: 576px) and (max-width: ${BP_DESKTOP}) {
     padding-left: 32px;

@@ -5,6 +5,8 @@ export const Container = styled.nav`
   flex-direction: row;
   justify-content: flex-end;
   padding: 12px 16px;
+  position: relative;
+  z-index: 2;
 `;
 
 export const SocialLinksWrapper = styled.div`
