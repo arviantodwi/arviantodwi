@@ -25,17 +25,17 @@ Did I mention that I was looking for a new job? Yes, I am currently looking for 
 
 ## My Stats <img src="https://cdn.joypixels.com/products/previews/O6D7BMG8R2DMMNC4LLZH/3104_JHkrGQkijIv75krokr6AkrF8wlTa4oXL.gif" width="28px" />
 <!--START_SECTION:waka-->
-![Profile Views](http://img.shields.io/badge/Profile%20Views-1-blue)
+![Profile Views](http://img.shields.io/badge/Profile%20Views-9-blue)
 
-![Lines of code](https://img.shields.io/badge/From%20Hello%20World%20I%27ve%20Written-648335%20lines%20of%20code-blue)
+![Lines of code](https://img.shields.io/badge/From%20Hello%20World%20I%27ve%20Written-646698%20lines%20of%20code-blue)
 
 **I'm a Night 🦉** 
 
 ```text
-🌞 Morning    39 commits     ███░░░░░░░░░░░░░░░░░░░░░░   12.15% 
-🌆 Daytime    19 commits     █░░░░░░░░░░░░░░░░░░░░░░░░   5.92% 
-🌃 Evening    75 commits     █████░░░░░░░░░░░░░░░░░░░░   23.36% 
-🌙 Night      188 commits    ██████████████░░░░░░░░░░░   58.57%
+🌞 Morning    35 commits     ██░░░░░░░░░░░░░░░░░░░░░░░   11.4% 
+🌆 Daytime    19 commits     █░░░░░░░░░░░░░░░░░░░░░░░░   6.19% 
+🌃 Evening    72 commits     █████░░░░░░░░░░░░░░░░░░░░   23.45% 
+🌙 Night      181 commits    ██████████████░░░░░░░░░░░   58.96%
 
 ```
 
@@ -52,9 +52,9 @@ No Activity Tracked This Week
 
 ```text
 JavaScript               8 repos             █████████░░░░░░░░░░░░░░░░   38.1% 
-TypeScript               3 repos             ███░░░░░░░░░░░░░░░░░░░░░░   14.29% 
-HTML                     3 repos             ███░░░░░░░░░░░░░░░░░░░░░░   14.29% 
+TypeScript               4 repos             ████░░░░░░░░░░░░░░░░░░░░░   19.05% 
 Vue                      2 repos             ██░░░░░░░░░░░░░░░░░░░░░░░   9.52% 
+HTML                     2 repos             ██░░░░░░░░░░░░░░░░░░░░░░░   9.52% 
 CSS                      1 repo              █░░░░░░░░░░░░░░░░░░░░░░░░   4.76%
 
 ```
