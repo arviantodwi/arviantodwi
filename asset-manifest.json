@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.js": "/arviantodwi/static/js/main.10539be9.chunk.js",
-    "main.js.map": "/arviantodwi/static/js/main.10539be9.chunk.js.map",
+    "main.js": "/arviantodwi/static/js/main.46db0263.chunk.js",
+    "main.js.map": "/arviantodwi/static/js/main.46db0263.chunk.js.map",
     "runtime-main.js": "/arviantodwi/static/js/runtime-main.1e010b6b.js",
     "runtime-main.js.map": "/arviantodwi/static/js/runtime-main.1e010b6b.js.map",
     "static/css/2.ab7c4648.chunk.css": "/arviantodwi/static/css/2.ab7c4648.chunk.css",
@@ -35,6 +35,6 @@
     "static/js/runtime-main.1e010b6b.js",
     "static/css/2.ab7c4648.chunk.css",
     "static/js/2.847feae1.chunk.js",
-    "static/js/main.10539be9.chunk.js"
+    "static/js/main.46db0263.chunk.js"
   ]
 }
