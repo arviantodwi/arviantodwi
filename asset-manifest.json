@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.js": "/arviantodwi/static/js/main.b729015f.chunk.js",
-    "main.js.map": "/arviantodwi/static/js/main.b729015f.chunk.js.map",
+    "main.js": "/arviantodwi/static/js/main.10539be9.chunk.js",
+    "main.js.map": "/arviantodwi/static/js/main.10539be9.chunk.js.map",
     "runtime-main.js": "/arviantodwi/static/js/runtime-main.1e010b6b.js",
     "runtime-main.js.map": "/arviantodwi/static/js/runtime-main.1e010b6b.js.map",
     "static/css/2.ab7c4648.chunk.css": "/arviantodwi/static/css/2.ab7c4648.chunk.css",
@@ -14,6 +14,7 @@
     "static/js/2.847feae1.chunk.js.LICENSE.txt": "/arviantodwi/static/js/2.847feae1.chunk.js.LICENSE.txt",
     "static/media/arrow-left.342c3d65.svg": "/arviantodwi/static/media/arrow-left.342c3d65.svg",
     "static/media/arrow-right.764893d0.svg": "/arviantodwi/static/media/arrow-right.764893d0.svg",
+    "static/media/bloom.be045737.png": "/arviantodwi/static/media/bloom.be045737.png",
     "static/media/brand-github.41946c6a.svg": "/arviantodwi/static/media/brand-github.41946c6a.svg",
     "static/media/brand-linkedin.4dd0f9ef.svg": "/arviantodwi/static/media/brand-linkedin.4dd0f9ef.svg",
     "static/media/devs-2020-02.2f48a7e1.jpg": "/arviantodwi/static/media/devs-2020-02.2f48a7e1.jpg",
@@ -34,6 +35,6 @@
     "static/js/runtime-main.1e010b6b.js",
     "static/css/2.ab7c4648.chunk.css",
     "static/js/2.847feae1.chunk.js",
-    "static/js/main.b729015f.chunk.js"
+    "static/js/main.10539be9.chunk.js"
   ]
 }
