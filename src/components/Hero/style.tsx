@@ -11,6 +11,17 @@ import bloom from "../../images/bloom.png";
 export const Container = styled.div`
   background-color: ${COLOR_TAN.HEX};
   background: url("${bloom}") no-repeat center / cover;
+
+  @media screen and (min-width: 1025px) {
+    width: 50%;
+    max-width: 500px;
+    height: 0;
+    display: flex;
+    flex: 1 0 auto;
+    position: sticky;
+    top: 0;
+    background: none;
+  }
 `;
 
 export const Wrapper = styled.div`
@@ -76,6 +87,11 @@ export const ArticleHeadline = styled(Text).attrs({ as: "h1" })`
   @media screen and (min-width: 576px) and (max-width: ${BP_DESKTOP}) {
     font-size: ${(32 / 16) * 1.25}rem;
     max-width: 576px;
+  }
+
+  @media screen and (min-width: 1025px) {
+    font-size: ${32 / 16}rem;
+    max-width: 100%;
   }
 `;
 
