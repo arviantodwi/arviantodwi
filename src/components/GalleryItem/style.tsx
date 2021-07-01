@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { ReactComponent as ArrowLeftIcon } from "../../images/icons/arrow-left.svg";
 import { ReactComponent as ArrowRightIcon } from "../../images/icons/arrow-right.svg";
 import {
+  BP_DESKTOP,
   COLOR_TEXT,
   COLOR_TEXT_STRONG,
   COLOR_TOMATO,
@@ -64,6 +65,10 @@ export const TagsList = styled.li`
 
 export const SlideShow = styled.div`
   margin: 0 -16px;
+
+  @media screen and (min-width: 576px) and (max-width: ${BP_DESKTOP}) {
+    margin: 0;
+  }
 `;
 
 export const ImageWrapper = styled.div`
