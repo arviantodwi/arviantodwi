@@ -7,6 +7,7 @@ import { ReactComponent as DownloadIcon } from "../../images/icons/download.svg"
 
 import {
   Container,
+  Wrapper,
   Photo,
   Article,
   ArticleSection as Section,
@@ -33,42 +34,44 @@ const Hero = () => {
 
   return (
     <Container>
-      <Photo>
-        <img src={MyPhoto} alt="Arvianto Dwi" />
-      </Photo>
+      <Wrapper>
+        <Photo>
+          <img src={MyPhoto} alt="Arvianto Dwi" />
+        </Photo>
 
-      <Article>
-        <Section>
-          <Headline data-testid="HeroLine1">{data && data.bio}</Headline>
-          <Intro data-testid="HeroLine2">{data && data.intro}</Intro>
-          <Paragraph data-testid="HeroLine3">{data && data.about}</Paragraph>
+        <Article>
+          <Section>
+            <Headline data-testid="HeroLine1">{data && data.bio}</Headline>
+            <Intro data-testid="HeroLine2">{data && data.intro}</Intro>
+            <Paragraph data-testid="HeroLine3">{data && data.about}</Paragraph>
 
-          {data && (
-            <ResumeButtonLink
-              href={data.resume_link}
-              target="_blank"
-              rel="noopener noreferer"
-            >
-              <i>
-                <DownloadIcon width={24} fill={COLOR_TAN.HEX} />
-              </i>
-              Download my résumé
-            </ResumeButtonLink>
-          )}
-        </Section>
+            {data && (
+              <ResumeButtonLink
+                href={data.resume_link}
+                target="_blank"
+                rel="noopener noreferer"
+              >
+                <i>
+                  <DownloadIcon width={24} fill={COLOR_TAN.HEX} />
+                </i>
+                Download my résumé
+              </ResumeButtonLink>
+            )}
+          </Section>
 
-        <Section>
-          <SkillsHeading>Skills &amp; Stack</SkillsHeading>
-          <SkillsUnordered>
-            {data &&
-              data.skills.map((skill, i) => (
-                <SkillsList key={`skill-${i}`}>
-                  <Pill label={skill} />
-                </SkillsList>
-              ))}
-          </SkillsUnordered>
-        </Section>
-      </Article>
+          <Section>
+            <SkillsHeading>Skills &amp; Stack</SkillsHeading>
+            <SkillsUnordered>
+              {data &&
+                data.skills.map((skill, i) => (
+                  <SkillsList key={`skill-${i}`}>
+                    <Pill label={skill} />
+                  </SkillsList>
+                ))}
+            </SkillsUnordered>
+          </Section>
+        </Article>
+      </Wrapper>
     </Container>
   );
 };

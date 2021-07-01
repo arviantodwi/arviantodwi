@@ -1,5 +1,8 @@
 import styled from "styled-components";
 import {
+  BP_DESKTOP,
+  BP_MOBILE,
+  BP_TABLET,
   COLOR_TAN,
   COLOR_TEXT,
   COLOR_TEXT_STRONG,
@@ -9,9 +12,21 @@ import bloom from "../../images/bloom.png";
 
 export const Container = styled.div`
   background-color: ${COLOR_TAN.HEX};
+  background: url("${bloom}") no-repeat center / cover;
+`;
+
+export const Wrapper = styled.div`
   padding: 48px 16px 72px;
   margin-top: -56px;
-  background: url("${bloom}") no-repeat center / cover;
+
+  @media screen and (min-width: 576px) and (max-width: ${BP_DESKTOP}) {
+    padding-left: 32px;
+    padding-right: 32px;
+    width: 100%;
+    max-width: 720px;
+    margin-left: auto;
+    margin-right: auto;
+  }
 `;
 
 export const Photo = styled.div`
@@ -60,6 +75,11 @@ export const ArticleHeadline = styled(Text).attrs({ as: "h1" })`
   order: 2;
   margin: 8px 0 12px;
   color: ${COLOR_TEXT_STRONG.HEX};
+
+  @media screen and (min-width: 576px) and (max-width: ${BP_DESKTOP}) {
+    font-size: ${(32 / 16) * 1.25}rem;
+    max-width: 576px;
+  }
 `;
 
 export const ResumeButtonLink = styled.a`

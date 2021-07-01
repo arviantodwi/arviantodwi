@@ -1,8 +1,17 @@
 import styled from "styled-components";
-import { COLOR_TEXT } from "../../app/constants";
+import { BP_DESKTOP, COLOR_TEXT } from "../../app/constants";
 
 export const Container = styled.footer`
   padding: 24px 16px;
+
+  @media screen and (min-width: 576px) and (max-width: ${BP_DESKTOP}) {
+    padding-left: 32px;
+    padding-right: 32px;
+    width: 100%;
+    max-width: 720px;
+    margin-left: auto;
+    margin-right: auto;
+  }
 `;
 
 export const AttributionLine = styled.div`

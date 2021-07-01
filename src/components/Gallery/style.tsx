@@ -1,10 +1,12 @@
 import styled from "styled-components";
+import { BP_DESKTOP } from "../../app/constants";
 
 export const Container = styled.div`
   position: relative;
+  background-color: #fbf5f1;
 
   &::before {
-    content: 'Portfolio';
+    content: "Portfolio";
     z-index: 1;
     position: absolute;
     left: 8px;
@@ -12,13 +14,31 @@ export const Container = styled.div`
     font-weight: 700;
     font-size: ${72 / 16}rem;
     color: rgba(61, 43, 35, 0.08);
+
+    @media screen and (min-width: 576px) and (max-width: ${BP_DESKTOP}) {
+      width: 100%;
+      max-width: 720px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 0 32px 0 24px;
+    }
+  }
 `;
 
 export const Wrapper = styled.div`
   position: relative;
   z-index: 2;
-  background-color: #fbf5f1;
   padding: 40px 16px 24px;
+  background-color: #fbf5f1;
+
+  @media screen and (min-width: 576px) and (max-width: ${BP_DESKTOP}) {
+    padding-left: 32px;
+    padding-right: 32px;
+    width: 100%;
+    max-width: 720px;
+    margin-left: auto;
+    margin-right: auto;
+  }
 `;
 
 export const Heading = styled.h2`
