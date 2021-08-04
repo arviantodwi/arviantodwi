@@ -51,11 +51,11 @@ No Activity Tracked This Week
 **I Mostly Code in JavaScript** 
 
 ```text
-JavaScript               8 repos             █████████░░░░░░░░░░░░░░░░   36.36% 
-TypeScript               5 repos             █████░░░░░░░░░░░░░░░░░░░░   22.73% 
-Vue                      2 repos             ██░░░░░░░░░░░░░░░░░░░░░░░   9.09% 
-HTML                     2 repos             ██░░░░░░░░░░░░░░░░░░░░░░░   9.09% 
-CSS                      1 repo              █░░░░░░░░░░░░░░░░░░░░░░░░   4.55%
+JavaScript               9 repos             █████████░░░░░░░░░░░░░░░░   39.13% 
+TypeScript               5 repos             █████░░░░░░░░░░░░░░░░░░░░   21.74% 
+Vue                      2 repos             ██░░░░░░░░░░░░░░░░░░░░░░░   8.7% 
+HTML                     2 repos             ██░░░░░░░░░░░░░░░░░░░░░░░   8.7% 
+CSS                      1 repo              █░░░░░░░░░░░░░░░░░░░░░░░░   4.35%
 
 ```
 
