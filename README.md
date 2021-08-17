@@ -13,7 +13,7 @@
 
 Call me Arvi 🔊[(/ɑr-viː/)] (he/him). I currently live in Indonesia 🇮🇩. I've been working interchangeably as Front End Engineer & UI Designer for the last 8 years. I also slightly know about Back End Development. I'm not very good at memorizing specific things because my memory is relatively short, but I can quickly learn something new. So, I'm eager to learn more new stuff – ranging from organizational culture to modern technology stacks.
 
-Did I mention that I was looking for a new job? Yes, I am currently looking for a next job where I can shift my career and fully focus on Front End Development.
+<!-- Did I mention that I was looking for a new job? Yes, I am currently looking for a next job where I can shift my career and fully focus on Front End Development. -->
 
 ## My top-notch skills <img src="https://cdn.joypixels.com/products/previews/O6D7BMG8R2DMMNC4LLZH/3077_O2SFhOsxCkfgqyVoBHutvxuoKMEx9XmF.gif" width="28px" />
 | Field        | Skills                                                                               |
