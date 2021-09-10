@@ -52,7 +52,7 @@ No Activity Tracked This Week
 
 ```text
 JavaScript               10 repos            ████████░░░░░░░░░░░░░░░░░   34.48% 
-TypeScript               8 repos             ███████░░░░░░░░░░░░░░░░░░   27.59% 
+TypeScript               9 repos             ███████░░░░░░░░░░░░░░░░░░   31.03% 
 HTML                     3 repos             ██░░░░░░░░░░░░░░░░░░░░░░░   10.34% 
 Vue                      2 repos             █░░░░░░░░░░░░░░░░░░░░░░░░   6.9% 
 CSS                      1 repo              ░░░░░░░░░░░░░░░░░░░░░░░░░   3.45%
