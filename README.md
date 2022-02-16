@@ -25,6 +25,8 @@ Call me Arvi 🔊[(/ɑr-viː/)] (he/him). I currently live in Indonesia 🇮🇩
 
 ## My Stats <img src="https://cdn.joypixels.com/products/previews/O6D7BMG8R2DMMNC4LLZH/3104_JHkrGQkijIv75krokr6AkrF8wlTa4oXL.gif" width="28px" />
 <!--START_SECTION:waka-->
+![Code Time](http://img.shields.io/badge/Code%20Time-0%20secs-blue)
+
 ![Profile Views](http://img.shields.io/badge/Profile%20Views-3-blue)
 
 ![Lines of code](https://img.shields.io/badge/From%20Hello%20World%20I%27ve%20Written-650%20Thousand%20lines%20of%20code-blue)
@@ -51,17 +53,17 @@ No Activity Tracked This Week
 **I Mostly Code in TypeScript** 
 
 ```text
-TypeScript               12 repos            ████████░░░░░░░░░░░░░░░░░   35.29% 
-JavaScript               11 repos            ████████░░░░░░░░░░░░░░░░░   32.35% 
-Vue                      3 repos             ██░░░░░░░░░░░░░░░░░░░░░░░   8.82% 
-HTML                     3 repos             ██░░░░░░░░░░░░░░░░░░░░░░░   8.82% 
-CSS                      1 repo              ░░░░░░░░░░░░░░░░░░░░░░░░░   2.94%
+TypeScript               13 repos            █████████░░░░░░░░░░░░░░░░   37.14% 
+JavaScript               11 repos            ███████░░░░░░░░░░░░░░░░░░   31.43% 
+Vue                      3 repos             ██░░░░░░░░░░░░░░░░░░░░░░░   8.57% 
+HTML                     3 repos             ██░░░░░░░░░░░░░░░░░░░░░░░   8.57% 
+CSS                      1 repo              ░░░░░░░░░░░░░░░░░░░░░░░░░   2.86%
 
 ```
 
 
 
- Last Updated on 15/02/2022 17:08:49 UTC
+ Last Updated on 16/02/2022 05:08:18 UTC
 <!--END_SECTION:waka-->
 
 <!--
