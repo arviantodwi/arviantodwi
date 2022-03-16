@@ -25,8 +25,6 @@ Call me Arvi 🔊[(/ɑr-viː/)] (he/him). I currently live in Indonesia 🇮🇩
 
 ## My Stats <img src="https://cdn.joypixels.com/products/previews/O6D7BMG8R2DMMNC4LLZH/3104_JHkrGQkijIv75krokr6AkrF8wlTa4oXL.gif" width="28px" />
 <!--START_SECTION:waka-->
-![Code Time](http://img.shields.io/badge/Code%20Time-0%20secs-blue)
-
 ![Profile Views](http://img.shields.io/badge/Profile%20Views-0-blue)
 
 ![Lines of code](https://img.shields.io/badge/From%20Hello%20World%20I%27ve%20Written-644%20Thousand%20lines%20of%20code-blue)
@@ -35,8 +33,8 @@ Call me Arvi 🔊[(/ɑr-viː/)] (he/him). I currently live in Indonesia 🇮🇩
 
 ```text
 🌞 Morning    73 commits     ████░░░░░░░░░░░░░░░░░░░░░   16.19% 
-🌆 Daytime    162 commits    █████████░░░░░░░░░░░░░░░░   35.92% 
-🌃 Evening    75 commits     ████░░░░░░░░░░░░░░░░░░░░░   16.63% 
+🌆 Daytime    163 commits    █████████░░░░░░░░░░░░░░░░   36.14% 
+🌃 Evening    74 commits     ████░░░░░░░░░░░░░░░░░░░░░   16.41% 
 🌙 Night      141 commits    ███████░░░░░░░░░░░░░░░░░░   31.26%
 
 ```
@@ -63,7 +61,7 @@ CSS                      1 repo              ░░░░░░░░░░░�
 
 
 
- Last Updated on 16/03/2022 05:08:08 UTC
+ Last Updated on 16/03/2022 17:14:47 UTC
 <!--END_SECTION:waka-->
 
 <!--
