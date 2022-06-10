@@ -1,6 +1,6 @@
 [![badge:twitter]](https://twitter.com/kerimatasih) [![badge:linkedin]](https://www.linkedin.com/in/arviantodwi/) [![badge:resume]](https://my.indeed.com/p/arviantodwiw-hsqsw5x) [![badge:codewar]](https://www.codewars.com/users/arviantodwi)
 
-# TL;DR <img src="https://cdn.joypixels.com/products/previews/O6D7BMG8R2DMMNC4LLZH/3084_vam5PaUBOZubnfnTPYC2Zfj4JaiicECV.gif" width="32px" height="32px" />
+# TL;DR <img src="https://cdn.joypixels.com/products/previews/O6D7BMG8R2DMMNC4LLZH/3084_vam5PaUBOZubnfnTPYC2Zfj4JaiicECV.gif" width="32" />
 <!-- - 🔭 &nbsp; I’m currently looking for a new job in Front End role – preferably remote worldwide. -->
 - 🌱 &nbsp; I’m currently learning React and Unit Testing.
 - 💬 &nbsp; I speak in English 🏴󠁧󠁢󠁥󠁮󠁧󠁿 and Bahasa Indonesia 🇮🇩. Ask me anything you like!
@@ -9,13 +9,13 @@
 
 ---
 
-# Hello, hello! <img src="https://cdn.joypixels.com/products/previews/O6D7BMG8R2DMMNC4LLZH/2411_HZWARHWk0TImR0UBwvuHRUXPorcBwWs1.gif" width="32px" />
+# Hello, hello! <img src="https://cdn.joypixels.com/products/previews/O6D7BMG8R2DMMNC4LLZH/2411_HZWARHWk0TImR0UBwvuHRUXPorcBwWs1.gif" width="32" />
 
 Call me Arvi 🔊[(/ɑr-viː/)] (he/him). I currently live in Indonesia 🇮🇩. I've been working interchangeably as Front End Engineer & UI Designer for the last 9 years. I also slightly know about Back End Development. I'm not very good at memorizing specific things because my memory is relatively short, but I can quickly learn something new. So, I'm eager to learn more new stuff – ranging from organizational culture to modern technology stacks.
 
 <!-- Did I mention that I was looking for a new job? Yes, I am currently looking for a next job where I can shift my career and fully focus on Front End Development. -->
 
-## My top-notch skills <img src="https://cdn.joypixels.com/products/previews/O6D7BMG8R2DMMNC4LLZH/3077_O2SFhOsxCkfgqyVoBHutvxuoKMEx9XmF.gif" width="28px" />
+## My top-notch skills <img src="https://cdn.joypixels.com/products/previews/O6D7BMG8R2DMMNC4LLZH/3077_O2SFhOsxCkfgqyVoBHutvxuoKMEx9XmF.gif" width="28" />
 | Field        | Skills                                                                               |
 |:-------------|:-------------------------------------------------------------------------------------|
 | Front End ✨  | `HTML` `(S)CSS` `JavaScript` `React` `Vue` `Bootstrap` `Bulma` `Tailwind`           |
@@ -23,7 +23,7 @@ Call me Arvi 🔊[(/ɑr-viː/)] (he/him). I currently live in Indonesia 🇮🇩
 | UI Design 🎨  | `Figma` `Sketch` `Adobe Photoshop` `Adobe Illustrator`                              |
 | Generalist 🛠 | `Git` `Docker` `VSCode` `NPM` `Yarn` `Parcel Bundler` `Webpack` `Kanban` `CI/CD`    |
 
-## My Stats <img src="https://cdn.joypixels.com/products/previews/O6D7BMG8R2DMMNC4LLZH/3104_JHkrGQkijIv75krokr6AkrF8wlTa4oXL.gif" width="28px" />
+## My Stats <img src="https://cdn.joypixels.com/products/previews/O6D7BMG8R2DMMNC4LLZH/3104_JHkrGQkijIv75krokr6AkrF8wlTa4oXL.gif" width="28" />
 <!--START_SECTION:waka-->
 ![Code Time](http://img.shields.io/badge/Code%20Time-0%20secs-blue)
 
