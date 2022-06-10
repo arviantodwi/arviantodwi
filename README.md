@@ -1,6 +1,6 @@
 [![badge:twitter]](https://twitter.com/kerimatasih) [![badge:linkedin]](https://www.linkedin.com/in/arviantodwi/) [![badge:resume]](https://my.indeed.com/p/arviantodwiw-hsqsw5x) [![badge:codewar]](https://www.codewars.com/users/arviantodwi)
 
-# TL;DR <img src="https://cdn.joypixels.com/products/previews/O6D7BMG8R2DMMNC4LLZH/3084_vam5PaUBOZubnfnTPYC2Zfj4JaiicECV.gif" width="32px" />
+# TL;DR <img src="https://cdn.joypixels.com/products/previews/O6D7BMG8R2DMMNC4LLZH/3084_vam5PaUBOZubnfnTPYC2Zfj4JaiicECV.gif" width="32px" height="32px" />
 <!-- - 🔭 &nbsp; I’m currently looking for a new job in Front End role – preferably remote worldwide. -->
 - 🌱 &nbsp; I’m currently learning React and Unit Testing.
 - 💬 &nbsp; I speak in English 🏴󠁧󠁢󠁥󠁮󠁧󠁿 and Bahasa Indonesia 🇮🇩. Ask me anything you like!
