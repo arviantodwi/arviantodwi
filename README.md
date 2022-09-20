@@ -30,15 +30,15 @@ Call me Arvi 🔊[(/ɑr-viː/)] (he/him). I currently live in Indonesia 🇮🇩
 
 ![Profile Views](http://img.shields.io/badge/Profile%20Views-1-blue)
 
-![Lines of code](https://img.shields.io/badge/From%20Hello%20World%20I%27ve%20Written-696%20Thousand%20lines%20of%20code-blue)
+![Lines of code](https://img.shields.io/badge/From%20Hello%20World%20I%27ve%20Written-763%20Thousand%20lines%20of%20code-blue)
 
 **I'm an Early 🐤** 
 
 ```text
-🌞 Morning    57 commits     ██░░░░░░░░░░░░░░░░░░░░░░░   11.49% 
-🌆 Daytime    233 commits    ███████████░░░░░░░░░░░░░░   46.98% 
-🌃 Evening    82 commits     ████░░░░░░░░░░░░░░░░░░░░░   16.53% 
-🌙 Night      124 commits    ██████░░░░░░░░░░░░░░░░░░░   25.0%
+🌞 Morning    58 commits     ███░░░░░░░░░░░░░░░░░░░░░░   11.6% 
+🌆 Daytime    235 commits    ███████████░░░░░░░░░░░░░░   47.0% 
+🌃 Evening    83 commits     ████░░░░░░░░░░░░░░░░░░░░░   16.6% 
+🌙 Night      124 commits    ██████░░░░░░░░░░░░░░░░░░░   24.8%
 
 ```
 
@@ -64,7 +64,7 @@ CSS                      2 repos             █░░░░░░░░░░�
 
 
 
- Last Updated on 19/09/2022 17:30:55 UTC
+ Last Updated on 20/09/2022 06:04:58 UTC
 <!--END_SECTION:waka-->
 
 <!--
