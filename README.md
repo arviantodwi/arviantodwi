@@ -30,7 +30,7 @@ Call me Arvi 🔊[(/ɑr-viː/)] (he/him). I currently live in Indonesia 🇮🇩
 
 ![Profile Views](http://img.shields.io/badge/Profile%20Views-5-blue)
 
-![Lines of code](https://img.shields.io/badge/From%20Hello%20World%20I%27ve%20Written-777%20Thousand%20lines%20of%20code-blue)
+![Lines of code](https://img.shields.io/badge/From%20Hello%20World%20I%27ve%20Written-767%20Thousand%20lines%20of%20code-blue)
 
 **I'm an Early 🐤** 
 
@@ -64,7 +64,7 @@ CSS                      2 repos             █░░░░░░░░░░�
 
 
 
- Last Updated on 26/10/2022 17:20:35 UTC
+ Last Updated on 27/10/2022 05:24:54 UTC
 <!--END_SECTION:waka-->
 
 <!--
