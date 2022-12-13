@@ -32,6 +32,25 @@ Call me Arvi 🔊[(/ɑr-viː/)] (he/him). I currently live in Indonesia 🇮🇩
 
 ![Lines of code](https://img.shields.io/badge/From%20Hello%20World%20I%27ve%20Written-716%20Thousand%20lines%20of%20code-blue)
 
+**I'm an Early 🐤** 
+
+```text
+🌞 Morning    80 commits     ████░░░░░░░░░░░░░░░░░░░░░   17.39% 
+🌆 Daytime    183 commits    ██████████░░░░░░░░░░░░░░░   39.78% 
+🌃 Evening    81 commits     ████░░░░░░░░░░░░░░░░░░░░░   17.61% 
+🌙 Night      116 commits    ██████░░░░░░░░░░░░░░░░░░░   25.22%
+
+```
+
+
+📊 **This Week I Spent My Time On** 
+
+```text
+🐱‍💻 Projects: 
+No Activity Tracked This Week
+
+```
+
 **I Mostly Code in TypeScript** 
 
 ```text
@@ -45,7 +64,7 @@ CSS                      2 repos             █░░░░░░░░░░�
 
 
 
- Last Updated on 12/12/2022 17:09:15 UTC
+ Last Updated on 13/12/2022 05:09:47 UTC
 <!--END_SECTION:waka-->
 
 <!--
