@@ -30,15 +30,15 @@ Call me Arvi 🔊[(/ɑr-viː/)] (he/him). I currently live in Indonesia 🇮🇩
 
 ![Profile Views](http://img.shields.io/badge/Profile%20Views-4-blue)
 
-![Lines of code](https://img.shields.io/badge/From%20Hello%20World%20I%27ve%20Written-5.3%20million%20lines%20of%20code-blue)
+![Lines of code](https://img.shields.io/badge/From%20Hello%20World%20I%27ve%20Written-5.2%20million%20lines%20of%20code-blue)
 
-**I'm a Night 🦉** 
+**I'm an Early 🐤** 
 
 ```text
-🌞 Morning                1266 commits        ███░░░░░░░░░░░░░░░░░░░░░░   10.07 % 
-🌆 Daytime                5012 commits        ██████████░░░░░░░░░░░░░░░   39.88 % 
-🌃 Evening                3076 commits        ██████░░░░░░░░░░░░░░░░░░░   24.47 % 
-🌙 Night                  3215 commits        ██████░░░░░░░░░░░░░░░░░░░   25.58 % 
+🌞 Morning                1147 commits        ██░░░░░░░░░░░░░░░░░░░░░░░   09.95 % 
+🌆 Daytime                4651 commits        ██████████░░░░░░░░░░░░░░░   40.36 % 
+🌃 Evening                2797 commits        ██████░░░░░░░░░░░░░░░░░░░   24.27 % 
+🌙 Night                  2928 commits        ██████░░░░░░░░░░░░░░░░░░░   25.41 % 
 ```
 
 
@@ -62,7 +62,7 @@ Python                   1 repo              ░░░░░░░░░░░�
 
 
 
- Last Updated on 23/04/2023 17:07:43 UTC
+ Last Updated on 24/04/2023 05:08:30 UTC
 <!--END_SECTION:waka-->
 
 <!--
