@@ -26,6 +26,8 @@ Call me Arvi 🔊[(/ɑr-viː/)] (he/him). I currently live in Indonesia 🇮🇩
 
 ## My Stats <img src="https://cdn.joypixels.com/products/previews/O6D7BMG8R2DMMNC4LLZH/3104_JHkrGQkijIv75krokr6AkrF8wlTa4oXL.gif" width="28" />
 <!--START_SECTION:waka-->
+![Code Time](http://img.shields.io/badge/Code%20Time-0%20secs-blue)
+
 ![Profile Views](http://img.shields.io/badge/Profile%20Views-2-blue)
 
 ![Lines of code](https://img.shields.io/badge/From%20Hello%20World%20I%27ve%20Written-5.0%20million%20lines%20of%20code-blue)
@@ -50,8 +52,8 @@ No Activity Tracked This Week
 **I Mostly Code in TypeScript** 
 
 ```text
-TypeScript               22 repos            ██████████░░░░░░░░░░░░░░░   41.51 % 
-JavaScript               14 repos            ███████░░░░░░░░░░░░░░░░░░   26.42 % 
+TypeScript               23 repos            ███████████░░░░░░░░░░░░░░   43.40 % 
+JavaScript               13 repos            ██████░░░░░░░░░░░░░░░░░░░   24.53 % 
 CSS                      4 repos             ██░░░░░░░░░░░░░░░░░░░░░░░   07.55 % 
 Shell                    1 repo              ░░░░░░░░░░░░░░░░░░░░░░░░░   01.89 % 
 Python                   1 repo              ░░░░░░░░░░░░░░░░░░░░░░░░░   01.89 % 
@@ -60,7 +62,7 @@ Python                   1 repo              ░░░░░░░░░░░�
 
 
 
- Last Updated on 12/12/2023 17:18:47 UTC
+ Last Updated on 13/12/2023 05:18:57 UTC
 <!--END_SECTION:waka-->
 
 <!--
