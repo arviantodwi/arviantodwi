@@ -30,15 +30,15 @@ Call me Arvi 🔊[(/ɑr-viː/)] (he/him). I currently live in Indonesia 🇮🇩
 
 ![Profile Views](http://img.shields.io/badge/Profile%20Views-2-blue)
 
-![Lines of code](https://img.shields.io/badge/From%20Hello%20World%20I%27ve%20Written-5.5%20million%20lines%20of%20code-blue)
+![Lines of code](https://img.shields.io/badge/From%20Hello%20World%20I%27ve%20Written-5.1%20million%20lines%20of%20code-blue)
 
 **I'm an Early 🐤** 
 
 ```text
-🌞 Morning                3662 commits        ████░░░░░░░░░░░░░░░░░░░░░   17.00 % 
-🌆 Daytime                12306 commits       ██████████████░░░░░░░░░░░   57.12 % 
-🌃 Evening                3184 commits        ████░░░░░░░░░░░░░░░░░░░░░   14.78 % 
-🌙 Night                  2394 commits        ███░░░░░░░░░░░░░░░░░░░░░░   11.11 % 
+🌞 Morning                2671 commits        ████░░░░░░░░░░░░░░░░░░░░░   16.77 % 
+🌆 Daytime                8161 commits        █████████████░░░░░░░░░░░░   51.24 % 
+🌃 Evening                2712 commits        ████░░░░░░░░░░░░░░░░░░░░░   17.03 % 
+🌙 Night                  2384 commits        ████░░░░░░░░░░░░░░░░░░░░░   14.97 % 
 ```
 
 
@@ -62,7 +62,7 @@ Python                   1 repo              ░░░░░░░░░░░�
 
 
 
- Last Updated on 19/02/2024 05:21:00 UTC
+ Last Updated on 19/02/2024 17:18:18 UTC
 <!--END_SECTION:waka-->
 
 <!--
