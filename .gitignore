@@ -19,6 +19,7 @@
 # misc
 .DS_Store
 *.pem
+*.bak
 
 # debug
 npm-debug.log*
@@ -26,7 +27,8 @@ yarn-debug.log*
 yarn-error.log*
 
 # local env files
-.env*.local
+.env*
+!.env.example
 
 # vercel
 .vercel
@@ -38,3 +40,6 @@ next-env.d.ts
 # Panda
 styled-system
 styled-system-studio
+
+# cache
+.cache
