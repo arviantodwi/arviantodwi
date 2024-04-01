@@ -3,3 +3,21 @@
 
 name: Deploy to GitHub Pages
 
+on:
+  push:
+    branches: ['master', 'feat/deploy-workflow']
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+
+  deploy:
+    needs: build
