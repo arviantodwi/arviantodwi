@@ -26,9 +26,28 @@ Call me Arvi 🔊[(/ɑr-viː/)] (he/him). I currently live in Indonesia 🇮🇩
 
 ## My Stats <img src="https://cdn.joypixels.com/products/previews/O6D7BMG8R2DMMNC4LLZH/3104_JHkrGQkijIv75krokr6AkrF8wlTa4oXL.gif" width="28" />
 <!--START_SECTION:waka-->
+![Code Time](http://img.shields.io/badge/Code%20Time-0%20secs-blue)
+
 ![Profile Views](http://img.shields.io/badge/Profile%20Views-2-blue)
 
 ![Lines of code](https://img.shields.io/badge/From%20Hello%20World%20I%27ve%20Written-5.2%20million%20lines%20of%20code-blue)
+
+**I'm an Early 🐤** 
+
+```text
+🌞 Morning                2970 commits        ████░░░░░░░░░░░░░░░░░░░░░   17.42 % 
+🌆 Daytime                8756 commits        █████████████░░░░░░░░░░░░   51.35 % 
+🌃 Evening                2831 commits        ████░░░░░░░░░░░░░░░░░░░░░   16.60 % 
+🌙 Night                  2494 commits        ████░░░░░░░░░░░░░░░░░░░░░   14.63 % 
+```
+
+
+📊 **This Week I Spent My Time On** 
+
+```text
+🐱‍💻 Projects: 
+No Activity Tracked This Week
+```
 
 **I Mostly Code in TypeScript** 
 
@@ -43,7 +62,7 @@ Shell                    1 repo              ░░░░░░░░░░░�
 
 
 
- Last Updated on 11/04/2024 17:23:20 UTC
+ Last Updated on 12/04/2024 05:24:08 UTC
 <!--END_SECTION:waka-->
 
 <!--
