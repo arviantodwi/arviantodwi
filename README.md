@@ -30,15 +30,15 @@ Call me Arvi 🔊[(/ɑr-viː/)] (he/him). I currently live in Indonesia 🇮🇩
 
 ![Profile Views](http://img.shields.io/badge/Profile%20Views-3-blue)
 
-![Lines of code](https://img.shields.io/badge/From%20Hello%20World%20I%27ve%20Written-6.3%20million%20lines%20of%20code-blue)
+![Lines of code](https://img.shields.io/badge/From%20Hello%20World%20I%27ve%20Written-5.6%20million%20lines%20of%20code-blue)
 
 **I'm an Early 🐤** 
 
 ```text
-🌞 Morning                7267 commits        ███████░░░░░░░░░░░░░░░░░░   26.78 % 
-🌆 Daytime                13723 commits       █████████████░░░░░░░░░░░░   50.58 % 
-🌃 Evening                3558 commits        ███░░░░░░░░░░░░░░░░░░░░░░   13.11 % 
-🌙 Night                  2584 commits        ██░░░░░░░░░░░░░░░░░░░░░░░   09.52 % 
+🌞 Morning                5143 commits        ██████░░░░░░░░░░░░░░░░░░░   22.96 % 
+🌆 Daytime                11684 commits       █████████████░░░░░░░░░░░░   52.15 % 
+🌃 Evening                3184 commits        ████░░░░░░░░░░░░░░░░░░░░░   14.21 % 
+🌙 Night                  2393 commits        ███░░░░░░░░░░░░░░░░░░░░░░   10.68 % 
 ```
 
 
@@ -62,7 +62,7 @@ Rust                     1 repo              ░░░░░░░░░░░�
 
 
 
- Last Updated on 09/09/2024 05:20:15 UTC
+ Last Updated on 10/09/2024 05:21:32 UTC
 <!--END_SECTION:waka-->
 
 <!--
