@@ -26,17 +26,19 @@ Call me Arvi 🔊[(/ɑr-viː/)] (he/him). I currently live in Indonesia 🇮🇩
 
 ## My Stats <img src="https://cdn.joypixels.com/products/previews/O6D7BMG8R2DMMNC4LLZH/3104_JHkrGQkijIv75krokr6AkrF8wlTa4oXL.gif" width="28" />
 <!--START_SECTION:waka-->
+![Code Time](http://img.shields.io/badge/Code%20Time-0%20secs-blue)
+
 ![Profile Views](http://img.shields.io/badge/Profile%20Views-1-blue)
 
-![Lines of code](https://img.shields.io/badge/From%20Hello%20World%20I%27ve%20Written-6.6%20million%20lines%20of%20code-blue)
+![Lines of code](https://img.shields.io/badge/From%20Hello%20World%20I%27ve%20Written-6.8%20million%20lines%20of%20code-blue)
 
 **I'm an Early 🐤** 
 
 ```text
-🌞 Morning                6815 commits        ██████░░░░░░░░░░░░░░░░░░░   25.23 % 
-🌆 Daytime                14090 commits       █████████████░░░░░░░░░░░░   52.17 % 
-🌃 Evening                3561 commits        ███░░░░░░░░░░░░░░░░░░░░░░   13.18 % 
-🌙 Night                  2542 commits        ██░░░░░░░░░░░░░░░░░░░░░░░   09.41 % 
+🌞 Morning                7344 commits        ██████░░░░░░░░░░░░░░░░░░░   25.71 % 
+🌆 Daytime                14950 commits       █████████████░░░░░░░░░░░░   52.34 % 
+🌃 Evening                3682 commits        ███░░░░░░░░░░░░░░░░░░░░░░   12.89 % 
+🌙 Night                  2586 commits        ██░░░░░░░░░░░░░░░░░░░░░░░   09.05 % 
 ```
 
 
@@ -60,7 +62,7 @@ Rust                     1 repo              ░░░░░░░░░░░�
 
 
 
- Last Updated on 05/11/2024 05:20:49 UTC
+ Last Updated on 05/11/2024 17:20:57 UTC
 <!--END_SECTION:waka-->
 
 <!--
