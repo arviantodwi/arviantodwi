@@ -28,7 +28,7 @@ Call me Arvi 🔊[(/ɑr-viː/)] (he/him). I currently live in Indonesia 🇮🇩
 <!--START_SECTION:waka-->
 ![Code Time](http://img.shields.io/badge/Code%20Time-0%20secs-blue)
 
-![Profile Views](http://img.shields.io/badge/Profile%20Views-8-blue)
+![Profile Views](http://img.shields.io/badge/Profile%20Views-11-blue)
 
 ![Lines of code](https://img.shields.io/badge/From%20Hello%20World%20I%27ve%20Written-7.0%20million%20lines%20of%20code-blue)
 
@@ -52,17 +52,17 @@ No Activity Tracked This Week
 **I Mostly Code in TypeScript** 
 
 ```text
-TypeScript               36 repos            █████████████░░░░░░░░░░░░   51.43 % 
-HTML                     5 repos             ██░░░░░░░░░░░░░░░░░░░░░░░   07.14 % 
-Python                   2 repos             █░░░░░░░░░░░░░░░░░░░░░░░░   02.86 % 
-Dockerfile               2 repos             █░░░░░░░░░░░░░░░░░░░░░░░░   02.86 % 
-Rust                     1 repo              ░░░░░░░░░░░░░░░░░░░░░░░░░   01.43 % 
+TypeScript               36 repos            █████████████░░░░░░░░░░░░   50.70 % 
+HTML                     5 repos             ██░░░░░░░░░░░░░░░░░░░░░░░   07.04 % 
+Python                   3 repos             █░░░░░░░░░░░░░░░░░░░░░░░░   04.23 % 
+Dockerfile               2 repos             █░░░░░░░░░░░░░░░░░░░░░░░░   02.82 % 
+Rust                     1 repo              ░░░░░░░░░░░░░░░░░░░░░░░░░   01.41 % 
 ```
 
 
 
 
- Last Updated on 22/03/2025 17:15:28 UTC
+ Last Updated on 23/03/2025 17:15:17 UTC
 <!--END_SECTION:waka-->
 
 <!--
