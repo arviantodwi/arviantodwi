@@ -30,15 +30,15 @@ Call me Arvi 🔊[(/ɑr-viː/)] (he/him). I currently live in Indonesia 🇮🇩
 
 ![Profile Views](http://img.shields.io/badge/Profile%20Views-2-blue)
 
-![Lines of code](https://img.shields.io/badge/From%20Hello%20World%20I%27ve%20Written-1.8%20million%20lines%20of%20code-blue)
+![Lines of code](https://img.shields.io/badge/From%20Hello%20World%20I%27ve%20Written-2.0%20million%20lines%20of%20code-blue)
 
 **I'm a Night 🦉** 
 
 ```text
-🌞 Morning                89 commits          ███░░░░░░░░░░░░░░░░░░░░░░   12.11 % 
-🌆 Daytime                180 commits         ██████░░░░░░░░░░░░░░░░░░░   24.49 % 
-🌃 Evening                166 commits         ██████░░░░░░░░░░░░░░░░░░░   22.59 % 
-🌙 Night                  300 commits         ██████████░░░░░░░░░░░░░░░   40.82 % 
+🌞 Morning                99 commits          ███░░░░░░░░░░░░░░░░░░░░░░   12.64 % 
+🌆 Daytime                180 commits         ██████░░░░░░░░░░░░░░░░░░░   22.99 % 
+🌃 Evening                166 commits         █████░░░░░░░░░░░░░░░░░░░░   21.20 % 
+🌙 Night                  338 commits         ███████████░░░░░░░░░░░░░░   43.17 % 
 ```
 
 
@@ -62,7 +62,7 @@ Dockerfile               2 repos             █░░░░░░░░░░�
 
 
 
- Last Updated on 23/04/2025 05:11:13 UTC
+ Last Updated on 23/04/2025 17:09:46 UTC
 <!--END_SECTION:waka-->
 
 <!--
