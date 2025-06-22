@@ -1,8 +1,0 @@
-# Directories
-.next
-node_modules
-out
-styled-system
-
-# Files
-next-env.d.ts

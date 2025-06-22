@@ -1,33 +1,29 @@
 {
-  "name": "arvianto",
+  "name": "personal-site.git",
   "version": "1.0.0",
   "private": true,
-  "homepage": "https://arvian.to",
   "scripts": {
-    "clean": "rm -rf .next",
-    "clean:build": "npm run clean -- out",
-    "dev": "npm run clean; next dev",
-    "build": "npm run clean:build; next build",
+    "dev": "next dev --turbopack",
+    "build": "next build",
     "start": "next start",
-    "prepare": "panda codegen; husky"
+    "lint": "next lint"
   },
   "dependencies": {
-    "next": "14.1.4",
-    "react": "^18",
-    "react-dom": "^18"
+    "next": "15.3.2",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
   },
   "devDependencies": {
-    "@pandacss/dev": "^0.36.1",
-    "@types/lint-staged": "^13.3.0",
+    "@eslint/eslintrc": "^3",
+    "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
-    "eslint": "^8",
-    "eslint-config-next": "14.1.4",
-    "eslint-config-prettier": "^9.1.0",
-    "husky": "^9.0.11",
-    "lint-staged": "^15.2.2",
-    "prettier": "^3.2.5",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "15.3.2",
+    "prettier": "^3.5.3",
+    "prettier-plugin-tailwindcss": "^0.6.11",
+    "tailwindcss": "^4",
     "typescript": "^5"
   }
 }
