@@ -1,26 +1,69 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #040404;
+  --foreground: #ffffff;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-gold: oklch(79.48% 0.1624 90.32);
+  --color-neutral-900: oklch(22.21% 0.0000 0.00);
+  --color-emerald-600: oklch(80.28% 0.2227 149.71);
+  --color-rose-600: oklch(65.32% 0.2427 8.87);
+  --font-headline: var(--font-antonio);
+  --font-general: var(--font-plus-jakarta);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #040404;
+    --foreground: #ffffff;
   }
 }
 
 body {
-  background: var(--background);
+  background: var(--color-neutral-900);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+.blurred-circle-accent::before {
+  content: "";
+  position: fixed;
+  z-index: 0;
+  width: 1974px;
+  height: 1974px;
+  left: 50%;
+  top: -1076px;
+  transform: translateX(-50%);
+  background: var(--color-gold);
+  opacity: 0.05;
+  filter: blur(200px);
+  border-radius: 50%;
+}
+
+.status-dot-ripple::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: inherit;
+  border-radius: 50%;
+  z-index: -1;
+  animation: ripple 1.6s ease-out infinite;
+  animation-delay: 0.4s;
+}
+
+@keyframes ripple {
+  from {
+    opacity: 0.75;
+    transform: scale(0);
+  }
+
+  to {
+    opacity: 0;
+    transform: scale(4);
+  }
 }
