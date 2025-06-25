@@ -67,3 +67,14 @@ body {
     transform: scale(4);
   }
 }
+
+.about-box-accent::before {
+  content: "";
+  width: 181px;
+  height: 155px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  border: solid 2px var(--color-gold);
+  z-index: 1;
+}

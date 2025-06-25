@@ -1,6 +1,8 @@
+import { About } from './components/About';
 import { Footer } from './components/Footer';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
+import { TechStack } from './components/TechStack';
 
 export default function Home() {
   return (
@@ -8,6 +10,8 @@ export default function Home() {
       <div className="blurred-circle-accent bg-background">
         <Header />
         <Hero />
+        <About />
+        <TechStack />
       </div>
       <Footer />
     </main>
