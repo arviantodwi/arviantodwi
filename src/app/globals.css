@@ -78,3 +78,19 @@ body {
   border: solid 2px var(--color-gold);
   z-index: 1;
 }
+
+.people-carousel .swiper-slide {
+  opacity: 0.33;
+}
+
+.people-carousel .swiper-slide.swiper-slide-active {
+  opacity: 1;
+}
+
+.people-carousel .swiper-slide img {
+  transition: transform .125s ease-in;
+}
+
+.people-carousel .swiper-slide:not(.swiper-slide-active) img {
+  transform: scale(0.6);
+}

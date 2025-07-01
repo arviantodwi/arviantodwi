@@ -10,7 +10,7 @@ const antonioSans = Antonio({
 
 const jakartaSans = Plus_Jakarta_Sans({
   variable: '--font-plus-jakarta',
-  weight: ['400', '500', '600', '700'],
+  weight: ['300', '400', '500', '600', '700'],
   subsets: ['latin'],
 });
 
