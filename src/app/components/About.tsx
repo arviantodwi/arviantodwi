@@ -2,7 +2,7 @@ import { FC } from 'react';
 
 export const About: FC = () => {
   return (
-    <section className="-mt-[240px] mb-20 px-6">
+    <section className="relative z-10 -mt-[240px] mb-20 px-6">
       <article className="flex flex-col gap-10 font-general">
         <div className="about-box-accent relative pt-[51px] text-4xl font-bold">
           <p className="relative z-[2]">Hi, guest.</p>

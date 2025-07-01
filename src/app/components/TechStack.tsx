@@ -5,7 +5,7 @@ const ToolsMarquee = dynamic(() => import('./ui/ToolsMarquee').then((mod) => mod
 
 export const TechStack: FC = () => {
   return (
-    <section className="py-20">
+    <section className="relative z-10 mb-20 py-20">
       <div className="flex flex-col gap-4 px-6 text-center">
         <h2 className="font-general text-4xl font-bold">
           I build{' '}

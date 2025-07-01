@@ -9,7 +9,7 @@ const Statistic = dynamic(() => import('./ui/Statistic').then((mod) => mod.Stati
 
 export const Hero: FC = () => {
   return (
-    <section className="relative overflow-hidden px-6 pt-6 pb-[656.234px]">
+    <section className="relative z-10 mb-20 overflow-hidden px-6 pt-6 pb-[656.234px]">
       <div className="flex flex-col gap-6">
         <h1>
           <span className="font-headline text-[76px] leading-[1.0657894737] font-bold text-white uppercase">

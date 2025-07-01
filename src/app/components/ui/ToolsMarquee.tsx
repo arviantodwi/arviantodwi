@@ -18,7 +18,7 @@ export const ToolsMarquee = () => {
             alt={`${item.name} logo`}
             height={48}
             width={0}
-            className="mx-4 w-auto"
+            className="mx-4 w-auto select-none"
             key={item.name}
             loading="eager"
           />
@@ -32,7 +32,7 @@ export const ToolsMarquee = () => {
             alt={`${item.name} logo`}
             height={48}
             width={0}
-            className="mx-4 w-auto"
+            className="mx-4 w-auto select-none"
             key={item.name}
             loading="eager"
           />
