@@ -71,6 +71,14 @@ export const TECH_STACK: TechStack[] = [
     name: 'PHP',
   },
   {
+    image: '/techstack/Prisma.svg',
+    name: 'Prisma',
+  },
+  {
+    image: '/techstack/Railway.svg',
+    name: 'Railway',
+  },
+  {
     image: '/techstack/React Router.svg',
     name: 'React Router',
   },
@@ -95,6 +103,10 @@ export const TECH_STACK: TechStack[] = [
     name: 'TailwindCSS',
   },
   {
+    image: '/techstack/Turborepo.svg',
+    name: 'Turborepo',
+  },
+  {
     image: '/techstack/TypeScript.svg',
     name: 'TypeScript',
   },
@@ -105,6 +117,14 @@ export const TECH_STACK: TechStack[] = [
   {
     image: '/techstack/Visual Studio Code.svg',
     name: 'Visual Studio Code',
+  },
+  {
+    image: '/techstack/Vite.svg',
+    name: 'Vite',
+  },
+  {
+    image: '/techstack/Vitest.svg',
+    name: 'Vitest',
   },
   {
     image: '/techstack/Zustand.svg',
