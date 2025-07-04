@@ -1,11 +1,11 @@
 'use client';
 
 import { cx } from '@/app/libs/utils';
-import { FC } from 'react';
+import { FC, ReactNode } from 'react';
 import CountUp from 'react-countup';
 
 interface Props {
-  text: string;
+  text: ReactNode;
   value: number;
   className?: string;
 }

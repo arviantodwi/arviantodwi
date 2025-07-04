@@ -28,9 +28,26 @@ export const Hero: FC = () => {
       </div>
 
       <div className="mt-12 flex items-start gap-8">
-        <Statistic text="Projects done" value={128} className="max-w-[93px]" />
-        <Statistic text="Dev tools" value={32} className="max-w-[85px]" />
-        <Statistic text="Years of exp." value={12} className="max-w-[85px]" />
+        <Statistic text="Projects done" value={128} className="max-w-[93px] lg:max-w-[120px]" />
+        <Statistic
+          text={
+            <>
+              Dev<span className="hidden lg:inline-block">eloper</span> tools
+            </>
+          }
+          value={32}
+          className="max-w-[85px] lg:max-w-[122px]"
+        />
+        <Statistic
+          text=<>
+            Years of{' '}
+            <span className="after:inline-block after:content-['.'] lg:after:hidden">
+              exp<span className="hidden lg:inline-block">erience</span>
+            </span>
+          </>
+          value={12}
+          className="max-w-[85px] lg:max-w-[150px]"
+        />
       </div>
 
       <div className="absolute bottom-0 left-1/2 aspect-[0.6659047619] w-[437px] -translate-x-1/2">

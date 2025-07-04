@@ -9,7 +9,7 @@ export const Portfolio: FC = () => {
           <h2 className="mb-4 font-general text-4xl font-bold">
             Take a look at my{' '}
             <span className="underline decoration-gold decoration-1 underline-offset-[5px]">
-              best projects!
+              past projects!
             </span>
           </h2>
           <div className="font-general">

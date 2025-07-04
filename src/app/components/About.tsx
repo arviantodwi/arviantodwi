@@ -21,10 +21,12 @@ export const About: FC = () => {
           </p>
           <p>
             <span className="opacity-75">
-              I primarily work remotely from my home in Indonesia, which has enabled me to build a
-              strong portfolio of{' '}
-              <strong>50+ projects with clients/companies around the world</strong>. Outside of
-              work, I&apos;m a full-time dad and husband, and also day-trade crypto.
+              I primarily work remotely at my home in Indonesia, which has enabled me to build a
+              strong portfolio of
+            </span>{' '}
+            <strong>50+ projects with clients/companies around the world</strong>.{' '}
+            <span className="opacity-75">
+              Outside of work, I&apos;m a full-time dad and husband, and also crypto day-trader.
             </span>
           </p>
         </div>
