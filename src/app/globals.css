@@ -44,6 +44,14 @@ body {
   border-radius: 50%;
 }
 
+@media (width >=1024) {
+  .blurred-circle-accent::before {
+    width: 1440px;
+    height: 1440px;
+    top: -720px;
+  }
+}
+
 .status-dot-ripple::before {
   content: "";
   position: absolute;
@@ -73,10 +81,24 @@ body {
   width: 181px;
   height: 155px;
   position: absolute;
-  right: 0;
+  right: -19px;
   top: 0;
   border: solid 2px var(--color-gold);
   z-index: 1;
+}
+
+@media (width >=40rem) {
+  .about-box-accent::before {
+    right: -37px;
+  }
+}
+
+@media (width >=64rem) {
+  .about-box-accent::before {
+    width: 161px;
+    height: 155px;
+    right: 19px;
+  }
 }
 
 .people-carousel .swiper-slide {

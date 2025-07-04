@@ -8,7 +8,7 @@ const TestimonyCarousel = dynamic(() =>
 
 export const Testimonial: FC = () => {
   return (
-    <section className="relative z-10 mb-20 flex flex-col gap-12 px-6 pt-20">
+    <section className="relative z-10 mb-20 flex flex-col gap-12 px-6 pt-20 md:mx-auto md:max-w-2xl xl:px-18 xl:max-w-5xl">
       <div className="flex flex-col gap-7">
         <div className="text-center">
           <Image src="/quote.svg" width={48} height={48} alt="" className="mx-auto mb-4" />

@@ -165,36 +165,41 @@ export const TestimonyCarousel = () => {
 
   return (
     <div className="flex flex-col gap-12">
-      <p className="text-center font-general font-light">
+      <p className="text-center font-general font-light lg:text-[18px]">
         &quot;{testimony[activeTestimony].testimony}&quot;
       </p>
 
       <div className="flex flex-col gap-6">
-        <div className="relative">
+        <div className="relative sm:mx-auto sm:w-[330px]">
           {showLeftNavigator && (
             <PiCaretLeftBold
-              className="absolute top-1/2 left-0 -translate-y-1/2 text-2xl opacity-66"
+              className="absolute top-1/2 left-0 xl:-left-8 -translate-y-1/2 cursor-pointer text-2xl opacity-66"
               role="button"
               onClick={handleNavigatePrev}
             />
           )}
           {showRightNavigator && (
             <PiCaretRightBold
-              className="absolute top-1/2 right-0 -translate-y-1/2 text-2xl opacity-66"
+              className="absolute top-1/2 right-0 xl:-right-8 -translate-y-1/2 cursor-pointer text-2xl opacity-66"
               role="button"
               onClick={handleNavigateNext}
             />
           )}
 
           <Swiper
-            spaceBetween={8}
+            spaceBetween={32}
             slidesPerView={3}
             centeredSlides
             centerInsufficientSlides
-            className="people-carousel h-[80px] w-[256px]"
+            className="people-carousel h-[80px] w-[256px] cursor-grab select-none active:cursor-grabbing xl:w-[336px]"
             initialSlide={activeTestimony}
             onSwiper={(swiper) => (swiperRef.current = swiper)}
             onSlideChange={handleSlideChange}
+            breakpoints={{
+              1280: {
+                spaceBetween: 32,
+              },
+            }}
           >
             {testimony.map(({ name, photo }, i) => (
               <SwiperSlide key={`testimony-people-${i}`}>
