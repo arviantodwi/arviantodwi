@@ -40,6 +40,23 @@ const testimony: Testimony[] = [
     ),
   },
   {
+    photo: '/people/1744129672250.jpeg',
+    name: 'Lucas Brancher',
+    org: 'Automata Network',
+    role: 'Core UI/UX Designer',
+    testimony: (
+      <>
+        <b className="font-medium text-gold">
+          Throughout the years, I had the pleasure of working with Arvianto,
+        </b>{' '}
+        <span className="opacity-75">
+          and the joy of sharing my designs, ideas, and concepts with someone who really cared a lot
+          about it all, always giving his best to achieve maximum quality of the final product!
+        </span>
+      </>
+    ),
+  },
+  {
     photo: '/people/1516639420540.jpeg',
     name: 'Putra R. Mahardhika',
     role: 'Blockchain & Web3 Analyst',
@@ -91,23 +108,6 @@ const testimony: Testimony[] = [
         </b>{' '}
         <span className="opacity-75">
           He did an awesome job, as usual. Will keep working with him in my next projects.
-        </span>
-      </>
-    ),
-  },
-  {
-    photo: '/people/1744129672250.jpeg',
-    name: 'Lucas Brancher',
-    org: 'Automata Network',
-    role: 'Core UI/UX Designer',
-    testimony: (
-      <>
-        <b className="font-medium text-gold">
-          Throughout the years, I had the pleasure of working with Arvianto,
-        </b>{' '}
-        <span className="opacity-75">
-          and the joy of sharing my designs, ideas, and concepts with someone who really cared a lot
-          about it all, always giving his best to achieve maximum quality of the final product!
         </span>
       </>
     ),
