@@ -1,6 +1,6 @@
-import { cx } from '@/app/libs/utils';
-import { FC, HTMLAttributes } from 'react';
+import type { FC, HTMLAttributes } from 'react';
 import { AiFillGithub, AiFillLinkedin } from 'react-icons/ai';
+import { cx } from '@/app/libs/utils';
 import { GITHUB_URL, LINKEDIN_URL } from '../../libs/constants';
 
 export const SocialNav: FC<HTMLAttributes<HTMLDivElement>> = ({ className, ...props }) => {

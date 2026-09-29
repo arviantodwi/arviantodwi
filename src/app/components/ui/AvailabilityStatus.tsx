@@ -1,5 +1,5 @@
+import type { FC } from 'react';
 import { cx } from '@/app/libs/utils';
-import { FC } from 'react';
 
 export enum Status {
   AVAILABLE,

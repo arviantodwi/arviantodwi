@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { FC } from 'react';
+import type { FC } from 'react';
 import { AvailabilityStatus, Status } from './ui/AvailabilityStatus';
 import { SocialNav } from './ui/SocialNav';
 

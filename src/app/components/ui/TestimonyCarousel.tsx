@@ -1,9 +1,9 @@
 'use client';
 
 import Image from 'next/image';
-import { ReactNode, useMemo, useRef, useState } from 'react';
+import { type ReactNode, useMemo, useRef, useState } from 'react';
 import { PiCaretLeftBold, PiCaretRightBold } from 'react-icons/pi';
-import { Swiper, SwiperClass, SwiperSlide } from 'swiper/react';
+import { Swiper, type SwiperClass, SwiperSlide } from 'swiper/react';
 
 import 'swiper/css';
 
@@ -173,14 +173,14 @@ export const TestimonyCarousel = () => {
         <div className="relative sm:mx-auto sm:w-[330px]">
           {showLeftNavigator && (
             <PiCaretLeftBold
-              className="absolute top-1/2 left-0 xl:-left-8 -translate-y-1/2 cursor-pointer text-2xl opacity-66"
+              className="absolute top-1/2 left-0 -translate-y-1/2 cursor-pointer text-2xl opacity-66 xl:-left-8"
               role="button"
               onClick={handleNavigatePrev}
             />
           )}
           {showRightNavigator && (
             <PiCaretRightBold
-              className="absolute top-1/2 right-0 xl:-right-8 -translate-y-1/2 cursor-pointer text-2xl opacity-66"
+              className="absolute top-1/2 right-0 -translate-y-1/2 cursor-pointer text-2xl opacity-66 xl:-right-8"
               role="button"
               onClick={handleNavigateNext}
             />
@@ -201,8 +201,8 @@ export const TestimonyCarousel = () => {
               },
             }}
           >
-            {testimony.map(({ name, photo }, i) => (
-              <SwiperSlide key={`testimony-people-${i}`}>
+            {testimony.map(({ name, photo }) => (
+              <SwiperSlide key={name}>
                 <Image
                   className="mx-auto rounded-full"
                   src={photo}
@@ -216,7 +216,7 @@ export const TestimonyCarousel = () => {
         </div>
 
         <div className="text-center font-general">
-          <div className="mb-2 text-xl font-medium opacity-75">
+          <div className="mb-2 font-medium text-xl opacity-75">
             {testimony[activeTestimony].name}
           </div>
           <div className="opacity-60">

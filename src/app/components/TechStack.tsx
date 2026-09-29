@@ -1,5 +1,5 @@
 import dynamic from 'next/dynamic';
-import { FC } from 'react';
+import type { FC } from 'react';
 
 const ToolsMarquee = dynamic(() => import('./ui/ToolsMarquee').then((mod) => mod.ToolsMarquee));
 
@@ -7,9 +7,9 @@ export const TechStack: FC = () => {
   return (
     <section className="relative z-10 mb-20 py-20 lg:mb-[120px]">
       <div className="flex flex-col gap-4 px-6 text-center md:mx-auto md:max-w-2xl lg:max-w-4xl lg:gap-3 xl:max-w-7xl xl:px-18">
-        <h2 className="font-general text-4xl font-bold">
+        <h2 className="font-bold font-general text-4xl">
           I build{' '}
-          <span className="underline decoration-gold decoration-1 underline-offset-[5px]">
+          <span className="underline decoration-1 decoration-gold underline-offset-[5px]">
             awesome
           </span>{' '}
           experiences on the internet!
