@@ -19,8 +19,9 @@ export const Header: FC<Props> = ({ dict, locale }) => {
           <SocialNav className="hidden sm:flex" />
         </div>
         <div className="flex items-center gap-5">
-          <LangSwitcher locale={locale} />
           <AvailabilityStatus variant={Status.AVAILABLE} labels={dict.header.status} />
+          <span aria-hidden="true" className="h-4 w-px bg-white/15" />
+          <LangSwitcher locale={locale} />
         </div>
       </div>
     </header>

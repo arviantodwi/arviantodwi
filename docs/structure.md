@@ -32,7 +32,8 @@ src/
       Footer.tsx    # Copyright + SocialNav (mobile only)
       ui/           # Client islands ('use client'), all loaded via next/dynamic:
         AvailabilityStatus.tsx  # Status enum; label text passed via `labels` prop
-        LangSwitcher.tsx        # EN/ID links (/, /id); server component, no dict
+        LangSwitcher.tsx        # Client dropdown (TbLanguage + active code + TbSelector);
+                                # options EN->'/', ID->'/id' full-name labels, gold active
         SegmentedText.tsx       # Renders Segment[] (tone: dim/gold/strong/goldUnderline)
         SocialNav.tsx           # GitHub + LinkedIn icon links
         Statistic.tsx           # react-countup number
