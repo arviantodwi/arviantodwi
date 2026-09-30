@@ -10,16 +10,16 @@ export const enDictionary: Dictionary = {
     status: {
       available: 'Available for hire',
       open: 'Open to offers',
-      unavailable: 'Unavailable for hire',
+      unavailable: 'Closed to offers',
     },
   },
   hero: {
     rolePrefix: 'Front End Developer &',
-    roles: ['TypeScript Enthusiast', 'Wizard of Screens', 'Crypto Day-Trader', 'Humorous Dad'],
-    location: 'Bandung, Indonesia',
+    roles: ['TypeScript Enthusiast', 'Wizard of Screens', 'Intraday Trader', 'Humorous Dad'],
+    location: 'Yogyakarta, Indonesia',
     stats: {
-      projects: { short: 'Projects', long: 'Projects done' },
-      tools: { short: 'Dev', long: 'Developer tools' },
+      projects: { short: 'Projects done', long: 'Projects done' },
+      tools: { short: 'Dev tools', long: 'Developer tools' },
       years: { short: 'Years of exp.', long: 'Years of experience' },
     },
     photoAlt: "Arvianto's photo",
@@ -31,7 +31,9 @@ export const enDictionary: Dictionary = {
         { text: "I'm a software developer currently seeking a new adventure in my next role. " },
         { text: 'I specialize in Front End development and bring over ' },
         { text: '12+ years of experience', tone: 'strong' },
-        { text: ' in the industry; 8 years as UI Designer and 4 years as Front End Developer.' },
+        {
+          text: ' in the tech industry; 8 years as UI Designer and 6 years as Front End Developer.',
+        },
       ],
       [
         {
@@ -43,7 +45,7 @@ export const enDictionary: Dictionary = {
         },
         { text: '. ' },
         {
-          text: "Outside of work, I'm a full-time dad and husband, and also crypto day-trader.",
+          text: "Outside of work, I'm a full-time dad and husband, and also an intraday trader on commodity market.",
         },
       ],
     ],
@@ -125,7 +127,7 @@ export const enDictionary: Dictionary = {
           {
             text: 'Exceptional! Creativity, design, vision or understanding Arvianto is outstanding in any way! ',
           },
-          { text: 'I rate him as "A Class" developer.', tone: 'gold' },
+          { text: "I rate him as 'A Class' developer.", tone: 'gold' },
           {
             text: ' Being a project manager I wish to have such a gem in my team. For quality work I highly recommend him.',
           },

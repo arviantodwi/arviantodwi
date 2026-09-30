@@ -3,48 +3,48 @@ import type { Dictionary } from './types';
 export const idDictionary: Dictionary = {
   metadata: {
     description:
-      'Developer UI dan front-end papan atas yang dikenal lewat desain presisi piksel, kode yang bersih, visi kreatif, dan kolaborasi yang luar biasa. Dipercaya oleh tim dan manajer proyek untuk menghadirkan antarmuka berkualitas tinggi yang memukau dan meningkatkan pengalaman pengguna.',
+      'Developer UI dan front-end papan atas yang dikenal lewat desain dengan piksel yang presisi, kode yang bersih, visi kreatif, dan kolaborasi yang luar biasa. Dipercaya oleh tim dan manajer proyek untuk menghadirkan antarmuka berkualitas tinggi yang memukau dan meningkatkan pengalaman pengguna.',
     ogLocale: 'id_ID',
   },
   header: {
     status: {
-      available: 'Tersedia untuk dipekerjakan',
+      available: 'Siap untuk dipekerjakan',
       open: 'Terbuka untuk penawaran',
-      unavailable: 'Tidak tersedia untuk dipekerjakan',
+      unavailable: 'Tidak tersedia untuk penawaran',
     },
   },
   hero: {
     rolePrefix: 'Front End Developer &',
-    roles: ['Penggemar TypeScript', 'Penyihir Layar', 'Trader Kripto Harian', 'Ayah Humoris'],
-    location: 'Bandung, Indonesia',
+    roles: ['Penggemar TypeScript', 'Ahli Visual', 'Trader Harian', 'Bapak-bapak Kocak'],
+    location: 'Yogyakarta, Indonesia',
     stats: {
-      projects: { short: 'Proyek', long: 'Proyek selesai' },
-      tools: { short: 'Dev', long: 'Tools developer' },
-      years: { short: 'Thn pengalaman', long: 'Tahun pengalaman' },
+      projects: { short: 'Proyek selesai', long: 'Proyek selesai' },
+      tools: { short: 'Tools dikuasai', long: 'Tools dikuasai' },
+      years: { short: 'Tahun pengalaman', long: 'Tahun pengalaman' },
     },
     photoAlt: 'Foto Arvianto',
   },
   about: {
-    headline: ['Hai, sobat.', 'Senang berjumpa denganmu!'],
+    headline: ['Hai, sobat.', 'Salam kenal ya!'],
     bio: [
       [
         {
-          text: 'Saya seorang software developer yang saat ini mencari petualangan baru di peran berikutnya. ',
+          text: 'Saya seorang pengembang software yang saat ini mencari petualangan baru di pekerjaan berikutnya. ',
         },
         { text: 'Saya berspesialisasi di pengembangan Front End dengan ' },
         { text: 'pengalaman lebih dari 12+ tahun', tone: 'strong' },
         {
-          text: ' di industri; 8 tahun sebagai UI Designer dan 4 tahun sebagai Front End Developer.',
+          text: ' di industri teknologi; 8 tahun sebagai UI Designer dan 6 tahun sebagai Front End Developer.',
         },
       ],
       [
         {
-          text: 'Saya umumnya bekerja remote dari rumah saya di Indonesia, yang memungkinkan saya membangun portofolio kuat berupa ',
+          text: 'Saya umumnya bekerja remote dari tempat tinggal saya di Indonesia, yang memungkinkan saya membangun portofolio kuat berupa ',
         },
         { text: '50+ proyek dengan klien/perusahaan di seluruh dunia', tone: 'strong' },
         { text: '. ' },
         {
-          text: 'Di luar pekerjaan, saya ayah dan suami sepenuh waktu, sekaligus trader kripto harian.',
+          text: 'Di luar pekerjaan, saya sepenuhnya menghabiskan waktu sebagai ayah dan suami, sekaligus trader harian di pasar komoditas.',
         },
       ],
     ],
@@ -56,9 +56,9 @@ export const idDictionary: Dictionary = {
       { text: ' di internet!' },
     ],
     subline: [
-      { text: 'Minimalisme akan selalu menjadi inti saya, dan saya memanfaatkan ' },
-      { text: '32+ tools', tone: 'gold' },
-      { text: ' serta teknologi untuk mencapai hasil harian yang luar biasa.' },
+      { text: 'Minimalis selalu menjadi inti dari karya-karya saya, dan saya memanfaatkan ' },
+      { text: '32+ alat pengembangan', tone: 'gold' },
+      { text: ' serta teknologi untuk mencapai hasil pekerjaan yang luar biasa.' },
     ],
   },
   portfolio: {
@@ -84,7 +84,7 @@ export const idDictionary: Dictionary = {
             text: 'Arvi adalah desainer paling berbakat yang pernah saya lihat. Saya sudah bekerja dengan dia di beberapa proyek dan dia ',
           },
           {
-            text: ' terus bertumbuh mengikuti kebutuhan. Dia memiliki mata untuk detail dan presisi hingga piksel.',
+            text: ' terus bertumbuh mengikuti kebutuhan. Dia memiliki mata yang jeli untuk detail dan kepresisian piksel.',
             tone: 'gold',
           },
           {
@@ -126,9 +126,9 @@ export const idDictionary: Dictionary = {
           {
             text: 'Luar biasa! Kreativitas, desain, visi, atau pemahaman — Arvianto unggul dalam segala hal! ',
           },
-          { text: 'Saya menilai dia developer "Kelas A".', tone: 'gold' },
+          { text: "Saya menilai dia sebagai developer 'Kelas A'.", tone: 'gold' },
           {
-            text: ' Sebagai manajer proyek saya berharap memiliki permata seperti dia di tim saya. Untuk hasil berkualitas, saya sangat merekomendasikannya.',
+            text: " Sebagai manajer proyek saya berharap memiliki 'permata' seperti dia di tim saya. Untuk hasil berkualitas, saya sangat merekomendasikannya.",
           },
         ],
       },
@@ -136,7 +136,7 @@ export const idDictionary: Dictionary = {
         photo: '/people/1656478335697.jpeg',
         name: 'Irsam S. Gana',
         title: 'Senior System Analyst di Agronum Tech',
-        quotes: [{ text: 'Desain UI yang menarik dan mencolok mata!' }],
+        quotes: [{ text: 'Desain UI yang menarik dan memukau mata!' }],
       },
       {
         photo: '/people/1740735553903.jpeg',
@@ -146,7 +146,7 @@ export const idDictionary: Dictionary = {
           { text: 'Arvi adalah ' },
           { text: 'salah satu freelancer terbaik yang pernah saya ajak bekerja.', tone: 'gold' },
           {
-            text: ' Dia melakukan pekerjaan yang hebat, seperti biasa. Akan terus bekerja bersama dia di proyek saya berikutnya.',
+            text: ' Dia melakukan pekerjaan dengan hebat. Akan terus bekerja bersama dia di proyek saya berikutnya.',
           },
         ],
       },
@@ -155,16 +155,16 @@ export const idDictionary: Dictionary = {
         name: 'Steven M. Carlson',
         title: 'Co-Founder di AutoCorner',
         quotes: [
-          { text: 'Kerja mengagumkan. Programmer yang hebat. ' },
+          { text: 'Kerja yang mengagumkan. Programmer yang hebat. ' },
           { text: 'Pekerja yang sangat keras!', tone: 'gold' },
-          { text: ' SAYA AKAN MENYEWANYA LAGI!' },
+          { text: ' SAYA AKAN MEMPEKERJAKANNYA LAGI!' },
         ],
       },
       {
         photo: '/people/profile_logo_32764036.jpg.webp',
         name: 'Theo Hannisse',
         title: 'Founder di RLLY NaviGames',
-        quotes: [{ text: 'Menyenangkan diajak bekerja. Pekerja yang kreatif.' }],
+        quotes: [{ text: 'Menyenangkan untuk diajak bekerja. Pekerja yang kreatif.' }],
       },
     ],
   },
