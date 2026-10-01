@@ -44,7 +44,7 @@ export async function generateMetadata({ params }: LayoutProps<'/[lang]'>): Prom
       type: 'website',
       title: SITE_NAME,
       description,
-      url: SITE_URL,
+      url: canonical,
       siteName: SITE_NAME,
       images: [
         {
