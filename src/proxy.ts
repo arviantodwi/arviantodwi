@@ -1,6 +1,6 @@
 import { type NextRequest, NextResponse } from 'next/server';
-import { locales } from './app/libs/i18n';
 import { NEXT_LOCALE_COOKIE } from './app/libs/constants';
+import { locales } from './app/libs/i18n';
 
 const DEFAULT_LOCALE = 'en';
 

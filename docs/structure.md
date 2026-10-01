@@ -25,12 +25,15 @@ src/
     components/     # Sections (server components), all receive `dict: Dictionary`
       Header.tsx    # Sticky, logo + SocialNav + LangSwitcher + AvailabilityStatus
       Hero.tsx      # Name, TypeAnimation, Statistic row, portrait Image
-      About.tsx     # Bio paragraphs via SegmentedText, .about-box-accent headline
+      About.tsx     # Bio paragraphs via SegmentedText, .about-box-accent headline,
+                    # centered CV CTA button (ui/Button + TbArrowUpRight)
       TechStack.tsx # Heading + subline via SegmentedText + ToolsMarquee
       Portfolio.tsx # Heading + subline + 4 project Images in hand-tuned CSS grid
       Testimonial.tsx # Heading + TestimonyCarousel
       Footer.tsx    # Copyright + SocialNav (mobile only)
-      ui/           # Client islands ('use client'), all loaded via next/dynamic:
+      ui/           # Shared UI primitives & client islands:
+        Button.tsx              # Server-compatible button/<a> hybrid; variant 'primary' = gold fill,
+                                # dark text; children compose label + trailing icon
         AvailabilityStatus.tsx  # Status enum; label text passed via `labels` prop
         LangSwitcher.tsx        # Client dropdown (TbLanguage + active code + TbSelector);
                                 # options EN->'/', ID->'/id' full-name labels, gold active

@@ -32,6 +32,7 @@ Theme tokens, custom CSS, layout patterns. Source of truth: `src/app/globals.css
 - **Containers per breakpoint**: content sections follow `px-6 md:mx-auto md:max-w-2xl lg:max-w-4xl xl:max-w-7xl xl:px-18` (varies slightly per section — copy nearest sibling).
 - **Muted body text**: `opacity-75` on regular copy, `opacity-60` for tertiary, gold `text-gold` / `<strong>` for emphasis.
 - **Numbers**: `tabular-nums` on `Statistic` count-up.
+- **Buttons**: `ui/Button.tsx` — neo-brutalism: sharp corners, `border-2 border-black`, offset solid black shadow that presses in on hover (`transition-all`). `<a>` when `href` passed, `<button>` otherwise. `primary` variant = gold fill + `text-background` dark label; sizes `md` (4px shadow) / `lg` (6px shadow, larger padding + text). Icons placed as trailing children (e.g. `TbArrowUpRight size={18}`).
 - Hero portrait + project images: `next/image` with `fill` + explicit `sizes` prop. Exception: ToolsMarquee uses raw `<img>` (Biome override, see tooling.md).
 
 ## Class merging

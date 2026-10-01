@@ -18,10 +18,14 @@ export const Footer: FC<Props> = ({ dict, locale }) => {
       <div className="mx-auto flex max-w-7xl flex-col text-left text-white sm:text-center">
         <p className="opacity-60">
           {before}
-          <a href={LUCAS_LINKEDIN_URL} target="_blank" rel="noopener noreferrer" className="underline transition-opacity hover:opacity-80">
+          <a
+            href={LUCAS_LINKEDIN_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline transition-opacity hover:opacity-80"
+          >
             {name ?? 'Lucas Brancher'}
-          </a>
-          {' '}
+          </a>{' '}
           {after.trim()}
         </p>
       </div>

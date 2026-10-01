@@ -26,6 +26,7 @@ export const enDictionary: Dictionary = {
   },
   about: {
     headline: ['Hi, guest.', 'Nice to meet you!'],
+    cta: 'Download my Resume/CV',
     bio: [
       [
         { text: "I'm a software developer currently seeking a new adventure in my next role. " },
