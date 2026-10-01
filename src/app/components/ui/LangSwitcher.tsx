@@ -1,6 +1,5 @@
 'use client';
 
-import Link from 'next/link';
 import { type FC, useEffect, useRef, useState } from 'react';
 import { TbLanguage, TbSelector } from 'react-icons/tb';
 import { NEXT_LOCALE_COOKIE } from '@/app/libs/constants';
@@ -80,7 +79,8 @@ export const LangSwitcher: FC<Props> = ({ locale, className }) => {
           <ul>
             {OPTIONS.map(({ href, label, locale: optionLocale }) => (
               <li key={optionLocale}>
-                <Link
+                {/* Full navigation so the locale-persisting request flows through the proxy. */}
+                <a
                   href={href}
                   aria-current={optionLocale === locale ? 'true' : undefined}
                   onClick={() => {
@@ -93,7 +93,7 @@ export const LangSwitcher: FC<Props> = ({ locale, className }) => {
                   )}
                 >
                   {label}
-                </Link>
+                </a>
               </li>
             ))}
           </ul>
