@@ -16,7 +16,9 @@ function detectLocale(request: NextRequest): string {
     })
     .sort((a, b) => b.quality - a.quality);
 
-  for (const { tag } of preferences) {
+  for (const { tag, quality } of preferences) {
+    // RFC 7231: q=0 marks a language as not acceptable.
+    if (quality <= 0) continue;
     for (const locale of locales) {
       if (tag === locale || tag.startsWith(`${locale}-`)) return locale;
     }
