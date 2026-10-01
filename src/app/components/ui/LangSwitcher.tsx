@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { type FC, useEffect, useRef, useState } from 'react';
 import { TbLanguage, TbSelector } from 'react-icons/tb';
+import { NEXT_LOCALE_COOKIE } from '@/app/libs/constants';
 import type { Locale } from '@/app/libs/i18n/types';
 import { cx } from '@/app/libs/utils';
 
@@ -14,6 +15,10 @@ const OPTIONS: { locale: Locale; href: string; label: string }[] = [
 interface Props {
   locale: Locale;
   className?: string;
+}
+
+function persistLocale(locale: Locale) {
+  document.cookie = `${NEXT_LOCALE_COOKIE}=${locale};path=/;max-age=31536000;samesite=lax`;
 }
 
 export const LangSwitcher: FC<Props> = ({ locale, className }) => {
@@ -78,7 +83,10 @@ export const LangSwitcher: FC<Props> = ({ locale, className }) => {
                 <Link
                   href={href}
                   aria-current={optionLocale === locale ? 'true' : undefined}
-                  onClick={() => setOpen(false)}
+                  onClick={() => {
+                    persistLocale(optionLocale);
+                    setOpen(false);
+                  }}
                   className={cx(
                     'block text-nowrap px-4 py-1.5 font-general text-sm transition-opacity',
                     optionLocale === locale ? 'text-gold' : 'opacity-75 hover:opacity-100',

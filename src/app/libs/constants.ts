@@ -1,6 +1,9 @@
 export const GITHUB_URL = 'https://github.com/arviantodwi';
 export const LINKEDIN_URL = 'https://www.linkedin.com/in/arviantodwi/';
 
+/** Cookie storing the visitor's explicitly chosen locale. */
+export const NEXT_LOCALE_COOKIE = 'NEXT_LOCALE';
+
 interface TechStack {
   name: string;
   image: string;

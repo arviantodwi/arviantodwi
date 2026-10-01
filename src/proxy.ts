@@ -1,5 +1,6 @@
 import { type NextRequest, NextResponse } from 'next/server';
 import { locales } from './app/libs/i18n';
+import { NEXT_LOCALE_COOKIE } from './app/libs/constants';
 
 const DEFAULT_LOCALE = 'en';
 
@@ -24,6 +25,12 @@ function detectLocale(request: NextRequest): string {
   return DEFAULT_LOCALE;
 }
 
+/** Locale the visitor explicitly picked, when it's still a supported one. */
+function getSelectedLocale(request: NextRequest): string | undefined {
+  const selected = request.cookies.get(NEXT_LOCALE_COOKIE)?.value;
+  return locales.includes(selected as (typeof locales)[number]) ? selected : undefined;
+}
+
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
@@ -40,8 +47,14 @@ export function proxy(request: NextRequest) {
   }
 
   if (pathname === '/') {
-    // Browser language points at a non-default locale → redirect to its prefix.
-    if (detectLocale(request) !== DEFAULT_LOCALE) {
+    const selected = getSelectedLocale(request);
+
+    // Visitor explicitly picked a non-default locale → redirect to its prefix.
+    if (selected && selected !== DEFAULT_LOCALE) {
+      return NextResponse.redirect(new URL(`/${selected}`, request.url));
+    }
+    // Explicit default choice or no valid selection: fall back to browser language.
+    if (!selected && detectLocale(request) !== DEFAULT_LOCALE) {
       return NextResponse.redirect(new URL('/id', request.url));
     }
     // Otherwise render the default locale content on the unprefixed URL.
