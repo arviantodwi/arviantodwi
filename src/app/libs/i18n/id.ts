@@ -78,7 +78,7 @@ export const idDictionary: Dictionary = {
       {
         photo: '/people/profile_logo_24449541.jpg.webp',
         name: 'David Seek',
-        title: 'Senior SDE di Amazon',
+        title: 'Mantan Software Engineer di Amazon',
         quotes: [
           {
             text: 'Arvi adalah desainer paling berbakat yang pernah saya lihat. Saya sudah bekerja dengan dia di beberapa proyek dan dia ',

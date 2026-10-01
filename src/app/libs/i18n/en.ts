@@ -79,7 +79,7 @@ export const enDictionary: Dictionary = {
       {
         photo: '/people/profile_logo_24449541.jpg.webp',
         name: 'David Seek',
-        title: 'Senior SDE at Amazon',
+        title: 'Ex-Amazon Senior Software Engineer',
         quotes: [
           {
             text: 'Arvi is the most talented designer I have ever seen. I have now worked with him on several projects and he ',
@@ -170,6 +170,7 @@ export const enDictionary: Dictionary = {
     ],
   },
   footer: {
-    copyright: 'Trademarks and brands are the property of their respective owners. Designed in collaboration with <link>Lucas Brancher</link> 🇧🇷 in 2025.',
+    copyright:
+      'Trademarks and brands are the property of their respective owners. Designed in collaboration with <link>Lucas Brancher</link> 🇧🇷 in 2025.',
   },
 };
