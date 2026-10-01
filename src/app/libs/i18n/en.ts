@@ -170,6 +170,6 @@ export const enDictionary: Dictionary = {
     ],
   },
   footer: {
-    copyright: '© 2025. Trademarks and brands are the property of their respective owners.',
+    copyright: 'Trademarks and brands are the property of their respective owners. Designed in collaboration with <link>Lucas Brancher</link> 🇧🇷 in 2025.',
   },
 };

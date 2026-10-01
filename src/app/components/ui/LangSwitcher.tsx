@@ -13,9 +13,10 @@ const OPTIONS: { locale: Locale; href: string; label: string }[] = [
 
 interface Props {
   locale: Locale;
+  className?: string;
 }
 
-export const LangSwitcher: FC<Props> = ({ locale }) => {
+export const LangSwitcher: FC<Props> = ({ locale, className }) => {
   const rootRef = useRef<HTMLDivElement>(null);
   const [open, setOpen] = useState(false);
 
@@ -38,7 +39,7 @@ export const LangSwitcher: FC<Props> = ({ locale }) => {
   }, [open]);
 
   return (
-    <div ref={rootRef} className="relative">
+    <div ref={rootRef} className={cx('relative', className)}>
       <button
         type="button"
         aria-haspopup="true"

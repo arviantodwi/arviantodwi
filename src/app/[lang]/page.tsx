@@ -25,7 +25,7 @@ export default async function Home({ params }: PageProps<'/[lang]'>) {
         <Portfolio dict={dict} />
         <Testimonial dict={dict} />
       </div>
-      <Footer dict={dict} />
+      <Footer dict={dict} locale={lang} />
     </main>
   );
 }

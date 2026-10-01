@@ -20,8 +20,9 @@ export const Header: FC<Props> = ({ dict, locale }) => {
         </div>
         <div className="flex items-center gap-5">
           <AvailabilityStatus variant={Status.AVAILABLE} labels={dict.header.status} />
-          <span aria-hidden="true" className="h-4 w-px bg-white/15" />
-          <LangSwitcher locale={locale} />
+          <span aria-hidden="true" className="hidden h-4 w-px bg-white/15 sm:block" />
+
+          <LangSwitcher className="hidden sm:block" locale={locale} />
         </div>
       </div>
     </header>
