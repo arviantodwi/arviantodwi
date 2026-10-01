@@ -15,8 +15,9 @@ interface Props {
 /** Renders a list of tone-tagged text segments with the right styled wrapper. */
 export const SegmentedText: FC<Props> = ({ segments }) => (
   <>
-    {segments.map((segment) => {
-      const key = `${segment.tone ?? 'plain'}:${segment.text}`;
+    {segments.map((segment, index) => {
+      // Static list (no reorder): index keeps repeated segments collision-free.
+      const key = `${index}:${segment.tone ?? 'plain'}:${segment.text}`;
       if (!segment.tone) {
         return <Fragment key={key}>{segment.text}</Fragment>;
       }
