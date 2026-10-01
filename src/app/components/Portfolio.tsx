@@ -1,21 +1,23 @@
 import Image from 'next/image';
 import type { FC } from 'react';
+import type { Dictionary } from '@/app/libs/i18n/types';
+import { SegmentedText } from './ui/SegmentedText';
 
-export const Portfolio: FC = () => {
+interface Props {
+  dict: Dictionary;
+}
+
+export const Portfolio: FC<Props> = ({ dict }) => {
+  const { portfolio } = dict;
   return (
     <section className="relative z-10 mb-20 px-6 md:mx-auto md:max-w-2xl lg:mb-[120px] lg:max-w-4xl xl:max-w-7xl xl:px-18">
       <div className="grid grid-cols-1 grid-rows-7 gap-6 sm:max-lg:grid-cols-2 sm:max-lg:grid-rows-5 lg:grid-cols-5 lg:grid-rows-7 xl:grid-rows-9">
         <div className="h-[207px] content-center text-center sm:text-left lg:col-span-2 xl:h-[198px]">
           <h2 className="mb-4 font-bold font-general text-4xl">
-            Take a look at my{' '}
-            <span className="underline decoration-1 decoration-gold underline-offset-[5px]">
-              past projects!
-            </span>
+            <SegmentedText segments={portfolio.heading} />
           </h2>
           <div className="font-general">
-            <span className="opacity-75">Selected amidst</span>{' '}
-            <span className="font-medium text-gold">100+ projects</span>{' '}
-            <span className="opacity-75">delivered!</span>
+            <SegmentedText segments={portfolio.subline} />
           </div>
         </div>
         <div className="relative row-span-2 lg:col-span-3 lg:row-span-2 xl:row-span-3">

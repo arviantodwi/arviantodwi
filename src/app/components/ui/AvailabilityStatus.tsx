@@ -7,17 +7,25 @@ export enum Status {
   UNAVAILABLE,
 }
 
-interface Props {
-  variant: Status;
+interface StatusLabels {
+  available: string;
+  open: string;
+  unavailable: string;
 }
 
-export const AvailabilityStatus: FC<Props> = ({ variant }) => {
-  const statusText =
-    variant === Status.OPEN
-      ? 'Open to offers'
-      : variant === Status.UNAVAILABLE
-        ? 'Unavailable for hire'
-        : 'Available for hire';
+interface Props {
+  variant: Status;
+  labels: StatusLabels;
+}
+
+const STATUS_KEY: Record<Status, keyof StatusLabels> = {
+  [Status.AVAILABLE]: 'available',
+  [Status.OPEN]: 'open',
+  [Status.UNAVAILABLE]: 'unavailable',
+};
+
+export const AvailabilityStatus: FC<Props> = ({ variant, labels }) => {
+  const statusText = labels[STATUS_KEY[variant]];
 
   const statusDotClassName =
     variant === Status.OPEN

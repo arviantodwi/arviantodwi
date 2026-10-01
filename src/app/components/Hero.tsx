@@ -1,13 +1,28 @@
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import type { FC } from 'react';
+import type { Dictionary } from '@/app/libs/i18n/types';
 
 const TypeAnimation = dynamic(() =>
   import('./ui/TypeAnimation').then((mod) => mod.ClientTypeAnimation),
 );
 const Statistic = dynamic(() => import('./ui/Statistic').then((mod) => mod.Statistic));
 
-export const Hero: FC = () => {
+interface Props {
+  dict: Dictionary;
+}
+
+/** Statistic label with small/large variants (mirrors the original breakpoint tricks). */
+const statText = (label: { short: string; long: string }) => (
+  <>
+    <span className="lg:hidden">{label.short}</span>
+    <span className="hidden lg:inline-block">{label.long}</span>
+  </>
+);
+
+export const Hero: FC<Props> = ({ dict }) => {
+  const { hero } = dict;
+
   return (
     <section className="relative z-10 mb-20 overflow-hidden px-6 pt-6 pb-[656.234px] sm:pb-[256px] md:mx-auto md:max-w-2xl lg:max-w-4xl lg:pt-0 lg:pb-[177px] xl:max-w-7xl xl:px-18">
       <div className="flex flex-col gap-6 sm:max-w-3/4 lg:pt-[72px] xl:pt-[121px]">
@@ -21,30 +36,26 @@ export const Hero: FC = () => {
         </h1>
         <div className="flex flex-col gap-2 font-general text-white lg:text-[20px]">
           <div className="text-nowrap font-medium">
-            <span className="opacity-75">Front End Developer &</span> <TypeAnimation />
+            <span className="opacity-75">{hero.rolePrefix}</span>{' '}
+            <TypeAnimation roles={hero.roles} />
           </div>
-          <div className="font-normal opacity-60">Bandung, Indonesia</div>
+          <div className="font-normal opacity-60">{hero.location}</div>
         </div>
       </div>
 
       <div className="mt-12 flex items-start gap-8 lg:pb-[98px] xl:pb-[121px]">
-        <Statistic text="Projects done" value={128} className="max-w-[93px] lg:max-w-[120px]" />
         <Statistic
-          text={
-            <>
-              Dev<span className="hidden lg:inline-block">eloper</span> tools
-            </>
-          }
+          text={statText(hero.stats.projects)}
+          value={128}
+          className="max-w-[93px] lg:max-w-[120px]"
+        />
+        <Statistic
+          text={statText(hero.stats.tools)}
           value={32}
           className="max-w-[85px] lg:max-w-[122px]"
         />
         <Statistic
-          text=<>
-            Years of{' '}
-            <span className="after:inline-block after:content-['.'] lg:after:hidden">
-              exp<span className="hidden lg:inline-block">erience</span>
-            </span>
-          </>
+          text={statText(hero.stats.years)}
           value={12}
           className="max-w-[85px] lg:max-w-[150px]"
         />
@@ -56,7 +67,7 @@ export const Hero: FC = () => {
           fill
           priority
           sizes="(max-width: 1023px) 437px, 584px"
-          alt="Arvianto's photo"
+          alt={hero.photoAlt}
         />
       </div>
     </section>

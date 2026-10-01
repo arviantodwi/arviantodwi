@@ -76,28 +76,91 @@ body {
   }
 }
 
+.about-box-accent {
+  /* Single source of truth for the gold square's geometry;
+     ::before and the frosted strips both derive from these. */
+  --sq-right: -19px;
+  --sq-width: 181px;
+  --sq-height: 155px;
+}
+
 .about-box-accent::before {
   content: "";
-  width: 181px;
-  height: 155px;
+  width: var(--sq-width);
+  height: var(--sq-height);
   position: absolute;
-  right: -19px;
+  right: var(--sq-right);
   top: 0;
   border: solid 2px var(--color-gold);
   z-index: 1;
 }
 
+/* Frosted-glass strips over the square border, one per headline row.
+   A vertical gradient fade-in/out of the body background color mimics
+   the dimming/fogging a real backdrop-blur would produce over the border,
+   sized 1ex wide × 1.5em tall, vertically centered on the text row.
+   Horizontal: derived from the square's left/right border position.
+   Square left border's distance (inward) from parent right edge:
+   sq-right + sq-width. Strip is centered on it, so
+   right = border-distance − half strip width. */
+.about-row-blur {
+  position: absolute;
+  width: 1ex;
+  height: 1.5em;
+  z-index: 1;
+  pointer-events: none;
+  backdrop-filter: blur(0.4px);
+  background: linear-gradient(
+    0deg,
+    color-mix(in oklab, var(--background) 0%, transparent) 0%,
+    var(--background) 33%,
+    var(--background) 66%,
+    color-mix(in oklab, var(--background) 0%, transparent) 100%
+  );
+}
+
+.about-row-blur--left-row1,
+.about-row-blur--left-row2 {
+  right: calc(var(--sq-right) + var(--sq-width) - 0.5ex);
+}
+
+.about-row-blur--right-row2 {
+  right: calc(var(--sq-right) - 0.5ex);
+}
+
+/* Row tops: padding-top 51px, line box 1.15em, strip centered per row. */
+.about-row-blur--left-row1 {
+  top: calc(51px + 1.15em / 2 - 1.5em / 2);
+}
+
+.about-row-blur--left-row2,
+.about-row-blur--right-row2 {
+  top: calc(51px + 1.15em * 1.5 - 1.5em / 2);
+}
+
+/* Mobile: row 2 shows left strip only */
+@media (width < 40rem) {
+  .about-row-blur--right-row2 {
+    display: none;
+  }
+}
+
 @media (width >= 40rem) {
-  .about-box-accent::before {
-    right: -37px;
+  .about-box-accent {
+    --sq-right: -37px;
   }
 }
 
 @media (width >= 64rem) {
-  .about-box-accent::before {
-    width: 161px;
-    height: 155px;
-    right: 19px;
+  .about-box-accent {
+    --sq-right: 19px;
+    --sq-width: 161px;
+  }
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .about-headline-glass {
+    display: none;
   }
 }
 

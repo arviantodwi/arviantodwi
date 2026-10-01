@@ -1,25 +1,25 @@
 import dynamic from 'next/dynamic';
 import type { FC } from 'react';
+import type { Dictionary } from '@/app/libs/i18n/types';
+import { SegmentedText } from './ui/SegmentedText';
 
 const ToolsMarquee = dynamic(() => import('./ui/ToolsMarquee').then((mod) => mod.ToolsMarquee));
 
-export const TechStack: FC = () => {
+interface Props {
+  dict: Dictionary;
+}
+
+export const TechStack: FC<Props> = ({ dict }) => {
+  const { techStack } = dict;
+
   return (
     <section className="relative z-10 mb-20 py-20 lg:mb-[120px]">
       <div className="flex flex-col gap-4 px-6 text-center md:mx-auto md:max-w-2xl lg:max-w-4xl lg:gap-3 xl:max-w-7xl xl:px-18">
         <h2 className="font-bold font-general text-4xl">
-          I build{' '}
-          <span className="underline decoration-1 decoration-gold underline-offset-[5px]">
-            awesome
-          </span>{' '}
-          experiences on the internet!
+          <SegmentedText segments={techStack.heading} />
         </h2>
         <p className="font-general leading-[1.4375]">
-          <span className="opacity-75">Minimalism will always be my core, and I leverage</span>{' '}
-          <span className="text-gold">32+ tools</span>{' '}
-          <span className="opacity-75">
-            and technologies to achieve exceptional day-to-day results.
-          </span>
+          <SegmentedText segments={techStack.subline} />
         </p>
       </div>
 
