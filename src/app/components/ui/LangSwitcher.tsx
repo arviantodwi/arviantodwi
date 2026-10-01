@@ -19,6 +19,18 @@ interface Props {
 export const LangSwitcher: FC<Props> = ({ locale, className }) => {
   const rootRef = useRef<HTMLDivElement>(null);
   const [open, setOpen] = useState(false);
+  const [upward, setUpward] = useState(false);
+
+  // Rough height of the popover panel (2 items + padding + border) including its margin.
+  const POPOVER_HEIGHT = 96;
+
+  function handleToggle() {
+    if (!open && rootRef.current) {
+      const { bottom } = rootRef.current.getBoundingClientRect();
+      setUpward(window.innerHeight - bottom < POPOVER_HEIGHT);
+    }
+    setOpen(!open);
+  }
 
   useEffect(() => {
     if (!open) return;
@@ -45,7 +57,7 @@ export const LangSwitcher: FC<Props> = ({ locale, className }) => {
         aria-haspopup="true"
         aria-expanded={open}
         aria-label="Language"
-        onClick={() => setOpen((value) => !value)}
+        onClick={handleToggle}
         className="flex cursor-pointer items-center gap-1.5 font-general text-sm text-white"
       >
         <TbLanguage size={18} />
@@ -54,7 +66,12 @@ export const LangSwitcher: FC<Props> = ({ locale, className }) => {
       </button>
 
       {open && (
-        <div className="absolute top-full right-0 z-30 mt-2 min-w-[160px] rounded-md border border-white/10 bg-neutral-900 py-1.5 shadow-lg">
+        <div
+          className={cx(
+            'absolute right-0 z-30 min-w-[160px] rounded-md border border-white/10 bg-neutral-900 py-1.5 shadow-lg',
+            upward ? 'bottom-full mb-2' : 'top-full mt-2',
+          )}
+        >
           <ul>
             {OPTIONS.map(({ href, label, locale: optionLocale }) => (
               <li key={optionLocale}>
