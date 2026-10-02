@@ -17,7 +17,8 @@ export default async function Home({ params }: PageProps<'/[lang]'>) {
 
   return (
     <main className="flex min-h-screen w-screen flex-col">
-      <div className="blurred-circle-accent bg-background">
+      {/* Padding-top clears the fixed topbar (its pre-collapse height per breakpoint). */}
+      <div className="blurred-circle-accent bg-background pt-[92px] md:pt-[100px] xl:pt-[108px]">
         <Header dict={dict} locale={lang} />
         <Hero dict={dict} />
         <About dict={dict} />

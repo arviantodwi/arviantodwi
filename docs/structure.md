@@ -23,7 +23,9 @@ src/
       i18n/         # Locale infra: index.ts (hasLocale/getDictionary/locales),
                     # types.ts (Segment, Dictionary), en.ts + id.ts (dictionaries)
     components/     # Sections (server components), all receive `dict: Dictionary`
-      Header.tsx    # Sticky, logo + SocialNav + LangSwitcher + AvailabilityStatus
+      Header.tsx    # Sticky topbar (client): logo + SocialNav + LangSwitcher +
+                    # AvailabilityStatus; bg-background/70 + backdrop-blur; scrolled
+                    # state shrinks padding (py-6→py-2) and fades in 1px bottom line
       Hero.tsx      # Name, TypeAnimation, Statistic row, portrait Image
       About.tsx     # Bio paragraphs via SegmentedText, .about-box-accent headline,
                     # centered CV CTA button (ui/Button + TbArrowUpRight)
