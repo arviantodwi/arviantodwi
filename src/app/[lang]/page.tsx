@@ -23,7 +23,7 @@ export default async function Home({ params }: PageProps<'/[lang]'>) {
         <Hero dict={dict} />
         <About dict={dict} />
         <TechStack dict={dict} />
-        <Portfolio dict={dict} />
+        <Portfolio locale={lang} />
         <Testimonial dict={dict} />
       </div>
       <Footer dict={dict} locale={lang} />

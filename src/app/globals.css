@@ -164,6 +164,28 @@ body {
   }
 }
 
+/* Portfolio section heading offset: how far the PORTFOLIO wordmark + gold bar
+   hang past the section's left content edge on large screens. */
+.portfolio-section {
+  --portfolio-heading-offset: 24px;
+  /* Gap between the collapsed topbar and the pinned PORTFOLIO heading. */
+  --portfolio-title-gap: 40px;
+}
+
+@media (width >= 80rem) {
+  .portfolio-section {
+    --portfolio-heading-offset: 48px;
+  }
+}
+
+/* Portfolio rows scrolling behind the sticky PORTFOLIO heading fade out via
+   JS (ui/PortfolioItemFade.tsx): opacity is computed per scroll frame so the
+   fade starts exactly when a row's top edge crosses the heading's bottom edge.
+   Only `will-change` lives here. */
+.portfolio-item {
+  will-change: opacity;
+}
+
 .people-carousel .swiper-slide {
   opacity: 0.33;
 }
