@@ -28,7 +28,13 @@ const SIZE: Record<'md' | 'lg', string> = {
 };
 
 /** Renders an `<a>` when `href` is set, otherwise a native `<button>`. */
-export const Button: FC<ButtonProps> = ({ children, className, variant = 'primary', size = 'md', ...props }) => {
+export const Button: FC<ButtonProps> = ({
+  children,
+  className,
+  variant = 'primary',
+  size = 'md',
+  ...props
+}) => {
   const classes = cx(BASE, VARIANT[variant], SIZE[size], className);
 
   if ('href' in props && props.href) {
