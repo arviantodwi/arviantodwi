@@ -15,3 +15,7 @@ Read `docs/index.md` before making changes. It routes to `docs/structure.md`, `d
 When your changes touch anything documented there (components, content locations, theme, tooling config), update the related doc in the same task. Move the doc's `verified against` comment to the new commit SHA and date.
 
 When there is a need to run the dev server, always use port 3001 instead of 3000 so local dev server won't be killed.
+
+## Git policy
+
+Never commit after every change. Commit only when the user explicitly instructed.

@@ -15,6 +15,10 @@ Commands, lint rules, config pointers.
 
 No test runner, no CI config.
 
+## Git workflow rules
+
+- **Never commit unless the user explicitly instructs it.** No auto-commit after each change, no batch commits at task end, no "I'll commit for you" — leave changes uncommitted in the working tree and wait for the user's instruction.
+
 ## Biome (`biome.json`, Biome 2.5) — sole linter+formatter
 
 - Style: 2-space, width 100, LF, single quotes, semicolons, trailing commas all, JSX double quotes.
