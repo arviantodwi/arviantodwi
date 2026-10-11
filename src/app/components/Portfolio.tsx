@@ -1,4 +1,4 @@
-import Image from 'next/image';
+import { getImageProps } from 'next/image';
 import type { FC } from 'react';
 import type { Locale } from '@/app/libs/i18n/types';
 import { PortfolioItemFade } from './ui/PortfolioItemFade';
@@ -11,39 +11,49 @@ interface Props {
  * Project entries are proper nouns, kept identical across locales.
  * Titles are one word per line (mirrors the Figma 3-line title block) with a
  * per-line opacity ramp (75% → 85% → 100%).
- * Images are flattened exports of the Figma media panels ("Project Hover"
- * inner frames, 850×540) — currently placeholders pending real exports.
+ * Images: flattened exports of the Figma media panels ("Project Hover" inner
+ * frames, 850×540). `image` is the WebP primary source, `imageFallback` the
+ * PNG served to browsers without WebP support.
  */
 const PROJECTS = [
   {
     lines: ['Tours', 'Reality', 'Game'],
     tags: ['UI/X Design', 'iOS App'],
-    image: '/projects/tours-reality-game.png',
+    image: '/projects/tours-reality-game.webp',
+    imageFallback: '/projects/tours-reality-game.png',
   },
   {
     lines: ['Sports', 'Content', 'Hub'],
     tags: ['Front End Development', 'UI/X Design', 'Responsive Web App'],
-    image: '/projects/sports-content-hub.png',
+    image: '/projects/sports-content-hub.webp',
+    imageFallback: '/projects/sports-content-hub.png',
   },
   {
     lines: ['Voice', 'Pitch', 'Analyzer'],
     tags: ['UI/X Design', 'iOS App'],
-    image: '/projects/voice-pitch-analyzer.png',
+    image: '/projects/voice-pitch-analyzer.webp',
+    imageFallback: '/projects/voice-pitch-analyzer.png',
   },
   {
     lines: ['Vehicle', 'Delivery', 'Service'],
     tags: ['UI/X Design', 'Mobile Web App', 'PWA'],
-    image: '/projects/vehicle-delivery-service.png',
+    image: '/projects/vehicle-delivery.webp',
+    imageFallback: '/projects/vehicle-delivery.png',
   },
   {
     lines: ['Social', 'Charity', 'Platform'],
     tags: ['UI/X Design', 'Web App'],
-    image: '/projects/social-charity-platform.png',
+    image: '/projects/social-charity-platform.webp',
+    imageFallback: '/projects/social-charity-platform.png',
   },
 ];
 
 /** Per-line opacity ramp for the 3-line title block. */
-const LINE_OPACITY = ['opacity-75', 'opacity-85', 'opacity-100'];
+const LINE_OPACITY = ['opacity-50', 'opacity-75', 'opacity-100'];
+
+/** Responsive media-panel sizes, shared by the webp source and png fallback. */
+const IMAGE_SIZES =
+  '(max-width: 639px) calc(100vw - 48px), (max-width: 767px) calc(100vw - 80px), (max-width: 1023px) 640px, (max-width: 1279px) 848px, 1208px';
 
 const SECTION_TITLE: Record<Locale, string> = {
   en: 'Portfolio',
@@ -52,9 +62,9 @@ const SECTION_TITLE: Record<Locale, string> = {
 
 export const Portfolio: FC<Props> = ({ locale }) => {
   const headingBand = (
-    <div className="portfolio-heading relative z-[1] flex w-full flex-col lg:ml-[calc(50%-50vw)] lg:w-screen lg:items-center lg:backdrop-blur-[8px] lg:pt-[var(--portfolio-title-gap)] lg:sticky lg:top-[68px] xl:top-[76px]">
+    <div className="portfolio-heading relative z-1 flex w-full flex-col lg:sticky lg:top-[68px] lg:ml-[calc(50%-50vw)] lg:w-screen lg:items-center lg:pt-[var(--portfolio-title-gap)] lg:backdrop-blur-[8px] xl:top-[76px]">
       <div className="mx-auto flex w-full flex-col px-6 md:mx-auto md:max-w-2xl lg:max-w-4xl xl:max-w-7xl xl:px-18">
-        <div className="flex items-center gap-6 self-start lg:ml-[calc(var(--portfolio-heading-offset)*-1)]">
+        <div className="flex items-center gap-6 self-start lg:-ml-(--portfolio-heading-offset)">
           <h2 className="font-bold font-headline text-[76px] text-white uppercase leading-[1.0657894737] lg:text-[116px]">
             {SECTION_TITLE[locale]}
           </h2>
@@ -64,7 +74,10 @@ export const Portfolio: FC<Props> = ({ locale }) => {
     </div>
   );
 
-  const row = ({ lines, tags, image }: (typeof PROJECTS)[number], fading: boolean) => (
+  const row = (
+    { lines, tags, image, imageFallback }: (typeof PROJECTS)[number],
+    fading: boolean,
+  ) => (
     <div
       key={lines[0]}
       className={`flex flex-col gap-6 sm:flex-row sm:items-center${fading ? ' portfolio-item' : ''}`}
@@ -91,13 +104,32 @@ export const Portfolio: FC<Props> = ({ locale }) => {
 
       <div className="w-full border border-gold p-3">
         <div className="relative aspect-[850/540]">
-          <Image
-            className="object-cover"
-            src={image}
-            fill
-            sizes="(max-width: 639px) calc(100vw - 48px), (max-width: 767px) calc(100vw - 80px), (max-width: 1023px) 640px, (max-width: 1279px) 848px, 1208px"
-            alt={lines[0]}
-          />
+          {/* Explicit webp→png fallback chain built from getImageProps: both
+              variants flow through the Next image optimizer, modern browsers
+              pick the webp source, legacy browsers get the optimized png. */}
+          <picture>
+            <source
+              srcSet={
+                getImageProps({
+                  src: image,
+                  alt: '',
+                  fill: true,
+                  sizes: IMAGE_SIZES,
+                }).props.srcSet
+              }
+              type="image/webp"
+              sizes={IMAGE_SIZES}
+            />
+            <img
+              {...getImageProps({
+                src: imageFallback,
+                alt: lines.join(' '),
+                fill: true,
+                sizes: IMAGE_SIZES,
+              }).props}
+              alt={lines.join(' ')}
+            />
+          </picture>
         </div>
       </div>
     </div>
