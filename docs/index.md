@@ -11,6 +11,7 @@ Personal portfolio site (arvian.to). Single page: Header → Hero → About → 
 | Add/edit content (any section)  | [structure.md](./structure.md)                                                    |
 | Styling, theme, layout patterns | [design.md](./design.md)                                                          |
 | Commands, lint, config          | [tooling.md](./tooling.md)                                                        |
+| Figma → Code via MCP            | [figma.md](./figma.md)                                                            |
 | Next.js 16 API specifics        | `node_modules/next/dist/docs/` (breaking vs. training data — check before coding) |
 
 ## Where content lives (truth table)
