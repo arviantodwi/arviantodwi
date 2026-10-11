@@ -23,14 +23,24 @@ src/
       i18n/         # Locale infra: index.ts (hasLocale/getDictionary/locales),
                     # types.ts (Segment, Dictionary), en.ts + id.ts (dictionaries)
     components/     # Sections (server components), all receive `dict: Dictionary`
-      Header.tsx    # Sticky, logo + SocialNav + LangSwitcher + AvailabilityStatus
+      Header.tsx    # Sticky topbar (client): logo + SocialNav + LangSwitcher +
+                    # AvailabilityStatus; bg-background/70 + backdrop-blur; scrolled
+                    # state shrinks padding (py-6→py-2) and fades in 1px bottom line
       Hero.tsx      # Name, TypeAnimation, Statistic row, portrait Image
-      About.tsx     # Bio paragraphs via SegmentedText, .about-box-accent headline
+      About.tsx     # Bio paragraphs via SegmentedText, .about-box-accent headline,
+                    # centered CV CTA button (ui/Button + TbArrowUpRight)
       TechStack.tsx # Heading + subline via SegmentedText + ToolsMarquee
-      Portfolio.tsx # Heading + subline + 4 project Images in hand-tuned CSS grid
+      Portfolio.tsx # Redesigned per Figma node 487-67: PORTFOLIO wordmark (Antonio, per-
+                    # locale) + gold bar; 5 project rows — title/tags column (300px) +
+                    # gold-bordered 850:540 media panel; data in PROJECTS const (proper
+                    # nouns, locale-independent); takes `locale`, not `dict`
+      Portfolio.legacy.tsx # Pre-redesign portfolio (CSS grid + weight-graded experiment);
+                           # not imported anywhere — kept as reference only
       Testimonial.tsx # Heading + TestimonyCarousel
       Footer.tsx    # Copyright + SocialNav (mobile only)
-      ui/           # Client islands ('use client'), all loaded via next/dynamic:
+      ui/           # Shared UI primitives & client islands:
+        Button.tsx              # Server-compatible button/<a> hybrid; variant 'primary' = gold fill,
+                                # dark text; children compose label + trailing icon
         AvailabilityStatus.tsx  # Status enum; label text passed via `labels` prop
         LangSwitcher.tsx        # Client dropdown (TbLanguage + active code + TbSelector);
                                 # options EN->'/', ID->'/id' full-name labels, gold active

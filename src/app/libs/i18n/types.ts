@@ -52,6 +52,7 @@ export interface Dictionary {
   };
   about: {
     headline: [string, string];
+    cta: string;
     bio: Segment[][];
   };
   techStack: {

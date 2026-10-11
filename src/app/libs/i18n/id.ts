@@ -26,6 +26,7 @@ export const idDictionary: Dictionary = {
   },
   about: {
     headline: ['Hai, sobat.', 'Salam kenal ya!'],
+    cta: 'Unduh Resume/CV saya',
     bio: [
       [
         {

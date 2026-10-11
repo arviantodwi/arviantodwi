@@ -1,5 +1,8 @@
 import type { FC } from 'react';
+import { TbArrowUpRight } from 'react-icons/tb';
 import type { Dictionary } from '@/app/libs/i18n/types';
+import { CV_URL } from '../libs/constants';
+import { Button } from './ui/Button';
 import { SegmentedText } from './ui/SegmentedText';
 
 interface Props {
@@ -28,6 +31,12 @@ export const About: FC<Props> = ({ dict }) => {
               <SegmentedText segments={paragraph} />
             </p>
           ))}
+          <div className="mt-8 flex justify-center sm:justify-start">
+            <Button href={CV_URL} target="_blank" rel="noopener noreferrer" size="lg">
+              {about.cta}
+              <TbArrowUpRight size={18} />
+            </Button>
+          </div>
         </div>
       </article>
     </section>
