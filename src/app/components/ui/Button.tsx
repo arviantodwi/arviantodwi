@@ -37,7 +37,7 @@ export const Button: FC<ButtonProps> = ({
 }) => {
   const classes = cx(BASE, VARIANT[variant], SIZE[size], className);
 
-  if ('href' in props && props.href) {
+  if ('href' in props) {
     return (
       <a {...(props as AnchorHTMLAttributes<HTMLAnchorElement>)} className={classes}>
         {children}
