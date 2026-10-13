@@ -53,7 +53,7 @@ const LINE_OPACITY = ['opacity-50', 'opacity-75', 'opacity-100'];
 
 /** Responsive media-panel sizes, shared by the webp source and png fallback. */
 const IMAGE_SIZES =
-  '(max-width: 639px) calc(100vw - 48px), (max-width: 767px) calc(100vw - 80px), (max-width: 1023px) 640px, (max-width: 1279px) 848px, 1208px';
+  '(max-width: 639px) calc(100vw - 48px), (max-width: 767px) calc(100vw - 80px), (max-width: 1023px) 640px, (max-width: 1279px) 848px, (max-width: 1439px) calc(100vw - 240px), 1200px';
 
 const SECTION_TITLE: Record<Locale, string> = {
   en: 'Portfolio',
@@ -63,12 +63,12 @@ const SECTION_TITLE: Record<Locale, string> = {
 export const Portfolio: FC<Props> = ({ locale }) => {
   const headingBand = (
     <div className="portfolio-heading relative z-1 flex w-full flex-col lg:sticky lg:top-[68px] lg:ml-[calc(50%-50vw)] lg:w-screen lg:items-center lg:pt-[var(--portfolio-title-gap)] lg:backdrop-blur-[8px] xl:top-[76px]">
-      <div className="mx-auto flex w-full flex-col px-6 md:mx-auto md:max-w-2xl lg:max-w-4xl xl:max-w-7xl xl:px-18">
-        <div className="flex items-center gap-6 self-start lg:-ml-(--portfolio-heading-offset)">
-          <h2 className="font-bold font-headline text-[76px] text-white uppercase leading-[1.0657894737] lg:text-[116px]">
+      <div className="mx-auto flex w-full flex-col px-6 md:px-18 xl:max-w-[1440px] xl:px-30">
+        <div className="flex items-center gap-6 self-start xl:-ml-(--portfolio-heading-offset)">
+          <h2 className="font-bold font-headline text-[76px] text-white uppercase leading-[1.0657894737] md:text-[84px] xl:text-[116px]">
             {SECTION_TITLE[locale]}
           </h2>
-          <span aria-hidden="true" className="h-[6px] w-[220px] bg-gold lg:h-[10px] lg:w-[440px]" />
+          <span aria-hidden="true" className="h-[6px] w-[220px] bg-gold md:h-[8px] md:w-[260px] xl:h-[10px] xl:w-[440px]" />
         </div>
       </div>
     </div>
@@ -83,7 +83,7 @@ export const Portfolio: FC<Props> = ({ locale }) => {
       className={`flex flex-col gap-6 sm:flex-row sm:items-center${fading ? ' portfolio-item' : ''}`}
     >
       <div className="flex w-full flex-col justify-center gap-6 sm:w-[300px] sm:shrink-0">
-        <h3 className="font-bold font-general text-3xl text-white italic lg:text-[60px]">
+        <h3 className="font-bold font-general text-3xl text-white italic lg:text-[clamp(48px,4.6875vw,60px)]">
           {lines.map((line, index) => (
             <span key={line} className={`block ${LINE_OPACITY[index] ?? 'opacity-100'}`}>
               {line}
@@ -136,7 +136,7 @@ export const Portfolio: FC<Props> = ({ locale }) => {
   );
 
   return (
-    <section className="portfolio-section relative z-10 mb-20 px-6 md:mx-auto md:max-w-2xl lg:mb-[120px] lg:max-w-4xl xl:max-w-7xl xl:px-18">
+    <section className="portfolio-section relative z-10 mx-auto mb-20 px-6 md:px-18 lg:mb-[120px] xl:max-w-[1440px] xl:px-30">
       <PortfolioItemFade />
       {/* Sticky containing block: ends with the second-to-last row, so the
           band releases and scrolls away naturally once that row is fully

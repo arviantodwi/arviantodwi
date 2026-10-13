@@ -11,7 +11,7 @@ export const Portfolio: FC<Props> = ({ dict }) => {
   const { portfolio } = dict;
   return (
     <>
-      <section className="relative z-10 mb-20 px-6 md:mx-auto md:max-w-2xl lg:mb-[120px] lg:max-w-4xl xl:max-w-7xl xl:px-18">
+      <section className="relative z-10 mb-20 px-6 md:mx-auto md:max-w-2xl lg:mb-[120px] lg:max-w-4xl xl:max-w-[1440px] xl:px-30">
         <div className="grid grid-cols-1 grid-rows-7 gap-6 sm:max-lg:grid-cols-2 sm:max-lg:grid-rows-5 lg:grid-cols-5 lg:grid-rows-7 xl:grid-rows-9">
           <div className="h-[207px] content-center text-center sm:text-left lg:col-span-2 xl:h-[198px]">
             <h2 className="mb-4 font-bold font-general text-4xl">
@@ -44,7 +44,7 @@ export const Portfolio: FC<Props> = ({ dict }) => {
               className="object-cover"
               src="/projects/social-events.webp"
               fill
-              sizes="(max-width: 767px) calc(100vw - 48px), (max-width: 1023px) 624px, (max-width: 1279px) 848px, 1208px"
+              sizes="(max-width: 767px) calc(100vw - 48px), (max-width: 1023px) 624px, (max-width: 1279px) 848px, (max-width: 1439px) calc(100vw - 240px), 1200px"
               alt=""
             />
           </div>

@@ -6,6 +6,14 @@
         "type": "local",
         "cwd": ".",
         "command": ["npx", "-y", "github:Shivam990q/open-figma-mcp#v1.4.0", "--stdio"]
+      },
+      "stitch": {
+        "type": "remote",
+        "url": "https://stitch.googleapis.com/mcp",
+        "oauth": false,
+        "headers": {
+          "X-Goog-Api-Key": "{env:STITCH_API_KEY}"
+        }
       }
     }
   }
