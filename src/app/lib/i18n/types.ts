@@ -77,8 +77,19 @@ export interface Dictionary {
     toolkit: Segment[];
   };
   portfolio: {
-    heading: Segment[];
-    subline: Segment[];
+    /** Section tagline pair: first line muted, second full white. */
+    tagline: {
+      muted: string;
+      plain: string;
+    };
+    /** Per-project descriptions, keyed by the PROJECTS const in Portfolio.tsx. */
+    projects: {
+      tours: { description: string };
+      sports: { description: string };
+      voice: { description: string };
+      vehicle: { description: string };
+      charity: { description: string };
+    };
   };
   testimonial: {
     heading: Segment[];

@@ -49,4 +49,4 @@ Theme tokens, custom CSS, layout patterns. Source of truth: `src/app/globals.css
 
 `cx()` in `src/app/lib/utils.ts` (clsx + tailwind-merge). Use it for conditional classes, e.g. `cx('base', conditional && 'extra')`.
 
-<!-- verified against: 28d8aec, 2026-09-30 (AiWorkflow rows above verified in-session; move SHA on next commit) -->
+<!-- verified against: 619635d, 2026-10-15 (Portfolio sticky-heading knife edges above verified in-session; move SHA on next commit) -->

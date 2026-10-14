@@ -100,12 +100,32 @@ export const idDictionary: Dictionary = {
     ],
   },
   portfolio: {
-    heading: [{ text: 'Mari lihat ' }, { text: 'proyek-proyek saya!', tone: 'goldUnderline' }],
-    subline: [
-      { text: 'Dipilih dari ' },
-      { text: '100+ proyek', tone: 'gold' },
-      { text: ' yang telah diselesaikan!' },
-    ],
+    tagline: {
+      muted: 'Tantangan yang berbeda-beda.',
+      plain: 'Perhatian yang sama pada pengalaman.',
+    },
+    projects: {
+      tours: {
+        description:
+          'Eksplorasi, kompetisi, dan penemuan. Pengalaman yang benar-benar mengajak berkarya melampaui layar.',
+      },
+      sports: {
+        description:
+          'Rumah bagi pelajaran, podcast, dan webinar. Konten yang kaya, tersaji ramah di setiap layar.',
+      },
+      voice: {
+        description:
+          'Mengubah suaramu menjadi sesuatu yang bisa dianalisis. Panduan yang menyenangkan dengan umpan balik yang jelas dan ekspresif.',
+      },
+      vehicle: {
+        description:
+          'Dari ringkasan rute sampai detail pengiriman, pengalaman terhubung untuk memantau perjalanan setiap kendaraan.',
+      },
+      charity: {
+        description:
+          'Platform dengan manusia di pusatnya. Menghubungkan berbagai tujuan bermakna dengan komunitas yang mendukungnya.',
+      },
+    },
   },
   testimonial: {
     heading: [

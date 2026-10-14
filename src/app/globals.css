@@ -164,18 +164,10 @@ body {
   }
 }
 
-/* Portfolio section heading offset: how far the PORTFOLIO wordmark + gold bar
-   hang past the section's left content edge on large screens. */
+/* Portfolio section: gap between the collapsed topbar and the pinned
+   sticky heading band on large screens. */
 .portfolio-section {
-  --portfolio-heading-offset: 24px;
-  /* Gap between the collapsed topbar and the pinned PORTFOLIO heading. */
   --portfolio-title-gap: 40px;
-}
-
-@media (width >= 80rem) {
-  .portfolio-section {
-    --portfolio-heading-offset: 48px;
-  }
 }
 
 /* Portfolio rows scrolling behind the sticky PORTFOLIO heading fade out via

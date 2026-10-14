@@ -41,10 +41,13 @@ src/
                      # caret on line 03 only (owner verdict: heavy text animation too
                      # fussy). Logo row: public/techstack/ai/*.svg. Copy in
                      # dictionaries (aiWorkflow key); stage shells/icons/images in STAGES const
-      Portfolio.tsx # Redesigned per Figma node 487-67: PORTFOLIO wordmark (Antonio, per-
-                    # locale) + gold bar; 5 project rows — title/tags column (300px) +
-                    # gold-bordered 850:540 media panel; data in PROJECTS const (proper
-                    # nouns, locale-independent); takes `locale`, not `dict`
+      Portfolio.tsx # Redesigned per Figma node 681-441: heading band (wordmark +
+                    # two-line dict tagline + 1px white/15 divider, still lg:sticky
+                    # with scroll-fade) → one featured `wide` ProjectCard + two
+                    # rows × 2 `compact` cards; per-project data in PROJECTS const
+                    # (titles/tags/surface/image locale-independent), descriptions
+                    # + tagline in dictionaries (dict.portfolio); takes `locale`
+                    # AND `dict`
       Portfolio.legacy.tsx # Pre-redesign portfolio (CSS grid + weight-graded experiment);
                            # not imported anywhere — kept as reference only
       Testimonial.tsx # Heading + TestimonyCarousel
@@ -58,9 +61,18 @@ src/
         SegmentedText.tsx       # Renders Segment[] (tone: dim/gold/strong/goldUnderline)
         SocialNav.tsx           # GitHub + LinkedIn icon links
         Statistic.tsx           # react-countup number
-        icons.tsx               # Custom inline icons (Tabler conventions: 24×24, 2px
+        icons.tsx               # Custom inline icons (Tabler conventions: 24×24,
                                 # round-cap stroke, currentColor) — IconPolygon,
-                                # IconCircleSquare, IconIcosahedron (AI workflow stages)
+                                # IconCircleSquare, IconIcosahedron (AI workflow
+                                # stages, 2px stroke), IconHash (portfolio tags,
+                                # 1.25px stroke)
+        ProjectCard.tsx         # Reusable portfolio item (server): `wide` (featured,
+                                # full-width 510px preview) / `compact` (half-column,
+                                # 360px preview) variants; mobile renders both the
+                                # same size with edge-to-edge preview; `href?` —
+                                # circular arrow link hidden when omitted; image =
+                                # webp→png optimized <picture> chain (image +
+                                # imageFallback props, explicit per-variant sizes)
         TypeAnimation.tsx       # exports ClientTypeAnimation (takes `roles` prop)
         ToolsMarquee.tsx        # react-fast-marquee, 2 rows from TECH_STACK split in half
         TestimonyCarousel.tsx   # Swiper carousel; testimony data via `testimonies` prop
@@ -124,7 +136,14 @@ public/
   nodes 699:459 / 699:489 / 699:534); PNG variants kept as backup. When re-exporting,
   update the Image `width`/`height` to the new intrinsic size (display is
   `h-auto w-full`).
-- **Swap/add project image**: webp in `public/projects/`, add `<Image>` cell in `Portfolio.tsx` grid (grid spans are hand-tuned per breakpoint — follow existing pattern).
+- **Edit portfolio copy**: `portfolio.tagline` + `portfolio.projects.*` in `en.ts`/`id.ts`
+  (keys must match the `key` fields in `Portfolio.tsx` `PROJECTS`). Titles/tags stay in
+  `PROJECTS` (proper nouns, locale-independent).
+- **Swap/add project image**: replace webp/png pair under `public/projects/` keeping the
+  filename (flat single-image export of the full preview panel). `ProjectCard` re-imports
+  them by path — no code change. Per-variant `sizes` live in `ui/ProjectCard.tsx`.
+- **Add project link**: pass `href` to the `card` call in `Portfolio.tsx`; without a link
+  the circular arrow button is hidden.
 - **Change hero stats**: numbers in `Hero.tsx` (`value`), labels in dictionaries (`hero.stats`).
 - **Change availability**: `variant={Status.X}` in `Header.tsx`; statuses defined in `ui/AvailabilityStatus.tsx`, labels in dictionaries (`header.status`).
 - **Change typed roles / location**: `hero.roles` / `hero.location` in dictionaries.
@@ -136,4 +155,4 @@ public/
 - Techstack SVG filenames are lowercase, `-` for non-alphanumeric characters (`react-router.svg`, `next-js.svg`).
 - Projects are webp, `object-cover`, `fill` + explicit `sizes`.
 
-<!-- verified against: 28d8aec, 2026-09-30 (AiWorkflow section added in-session; move SHA on next commit) -->
+<!-- verified against: 619635d, 2026-10-15 (Portfolio/ProjectCard entries above verified in-session; move SHA on next commit) -->

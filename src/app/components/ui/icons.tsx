@@ -37,6 +37,29 @@ export const IconPolygon: FC<IconProps> = ({ size = 24, ...props }) => (
   </svg>
 );
 
+/** Four hash strokes — used as the prefix glyph of portfolio item tags. */
+export const IconHash: FC<IconProps> = ({ size = 24, ...props }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    /* Lighter than the set default — the # prefix reads as a quiet
+       marker next to the tag label, not a full-strength glyph. */
+    strokeWidth={1.25}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden="true"
+    {...props}
+  >
+    <path d="M5 9L19 9" />
+    <path d="M5 15L19 15" />
+    <path d="M11 4L7 20" />
+    <path d="M17 4L13 20" />
+  </svg>
+);
 /** Quarter-circle overlapping a rounded square — used for the DESIGN stage. */
 export const IconCircleSquare: FC<IconProps> = ({ size = 24, ...props }) => (
   <svg

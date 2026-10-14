@@ -96,12 +96,32 @@ export const enDictionary: Dictionary = {
     ],
   },
   portfolio: {
-    heading: [{ text: 'Take a look at my ' }, { text: 'past projects!', tone: 'goldUnderline' }],
-    subline: [
-      { text: 'Selected amidst ' },
-      { text: '100+ projects', tone: 'gold' },
-      { text: ' delivered!' },
-    ],
+    tagline: {
+      muted: 'Different challenges.',
+      plain: 'The same attention to experience.',
+    },
+    projects: {
+      tours: {
+        description:
+          'Exploration, competition and discovery. A truly experience designed to move beyond the screen.',
+      },
+      sports: {
+        description:
+          'A home for lessons, podcasts and webinars. Rich content, made approachable on every screen.',
+      },
+      voice: {
+        description:
+          'Turning your voice into something you can analyse. Playful guidance meets clear, expressive feedback.',
+      },
+      vehicle: {
+        description:
+          'From route overview to delivery details, a connected experience for keeping every vehicle’s journey in view.',
+      },
+      charity: {
+        description:
+          'A platform with people at its heart. Connecting meaningful causes with the communities that support them.',
+      },
+    },
   },
   testimonial: {
     heading: [
