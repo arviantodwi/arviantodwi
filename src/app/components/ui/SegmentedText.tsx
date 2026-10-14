@@ -1,5 +1,5 @@
 import { type FC, Fragment } from 'react';
-import type { Segment, SegmentTone } from '@/app/libs/i18n/types';
+import type { Segment, SegmentTone } from '@/app/lib/i18n/types';
 
 const toneClassName: Record<SegmentTone, string> = {
   dim: 'opacity-75',

@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import type { FC } from 'react';
-import type { Dictionary } from '@/app/libs/i18n/types';
+import type { Dictionary } from '@/app/lib/i18n/types';
 import { SegmentedText } from './ui/SegmentedText';
 
 interface Props {

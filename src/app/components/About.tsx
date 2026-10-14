@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import { TbArrowUpRight } from 'react-icons/tb';
-import type { Dictionary } from '@/app/libs/i18n/types';
-import { CV_URL } from '../libs/constants';
+import type { Dictionary } from '@/app/lib/i18n/types';
+import { CV_URL } from '../lib/constants';
 import { Button } from './ui/Button';
 import { SegmentedText } from './ui/SegmentedText';
 

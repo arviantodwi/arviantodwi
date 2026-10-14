@@ -1,7 +1,7 @@
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import type { FC } from 'react';
-import type { Dictionary } from '@/app/libs/i18n/types';
+import type { Dictionary } from '@/app/lib/i18n/types';
 
 const TypeAnimation = dynamic(() =>
   import('./ui/TypeAnimation').then((mod) => mod.ClientTypeAnimation),

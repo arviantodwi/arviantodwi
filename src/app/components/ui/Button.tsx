@@ -1,5 +1,5 @@
 import type { AnchorHTMLAttributes, ButtonHTMLAttributes, FC, ReactNode } from 'react';
-import { cx } from '@/app/libs/utils';
+import { cx } from '@/app/lib/utils';
 
 interface CommonProps {
   children: ReactNode;

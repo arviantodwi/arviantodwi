@@ -2,8 +2,8 @@
 
 import Image from 'next/image';
 import { type FC, useEffect, useState } from 'react';
-import type { Dictionary, Locale } from '@/app/libs/i18n/types';
-import { cx } from '@/app/libs/utils';
+import type { Dictionary, Locale } from '@/app/lib/i18n/types';
+import { cx } from '@/app/lib/utils';
 import { AvailabilityStatus, Status } from './ui/AvailabilityStatus';
 import { LangSwitcher } from './ui/LangSwitcher';
 import { SocialNav } from './ui/SocialNav';

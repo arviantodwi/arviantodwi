@@ -1,6 +1,6 @@
 import dynamic from 'next/dynamic';
 import type { FC } from 'react';
-import type { Dictionary } from '@/app/libs/i18n/types';
+import type { Dictionary } from '@/app/lib/i18n/types';
 import { SegmentedText } from './ui/SegmentedText';
 
 const ToolsMarquee = dynamic(() => import('./ui/ToolsMarquee').then((mod) => mod.ToolsMarquee));

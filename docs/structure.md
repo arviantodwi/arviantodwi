@@ -17,10 +17,12 @@ src/
       page.tsx      # Loads dict for lang, passes it to every section
     globals.css     # Tailwind import, theme tokens, custom utilities (see design.md)
     icon.png        # Favicon
-    libs/
-      constants.ts  # GITHUB_URL, LINKEDIN_URL, TECH_STACK (32 items, sorted by name)
-      utils.ts      # cx() = clsx + tailwind-merge
-      i18n/         # Locale infra: index.ts (hasLocale/getDictionary/locales),
+    lib/
+      constants/   # index.ts (GITHUB_URL, LINKEDIN_URL, CV_URL, NEXT_LOCALE_COOKIE —
+                   # barrel, re-exports stack.ts), stack.ts (TECH_STACK, 30 items,
+                   # sorted by name)
+      utils.ts     # cx() = clsx + tailwind-merge
+      i18n/        # Locale infra: index.ts (hasLocale/getDictionary/locales),
                     # types.ts (Segment, Dictionary), en.ts + id.ts (dictionaries)
     components/     # Sections (server components), all receive `dict: Dictionary`
       Header.tsx    # Sticky topbar (client): logo + SocialNav + LangSwitcher +
@@ -54,7 +56,7 @@ public/
   photo.png logo.svg quote.svg opengraph-card.png twitter-card.png
   projects/  *.webp
   people/    *.jpeg / *.jpg.webp
-  techstack/ *.svg (names may contain spaces, e.g. "Next.js.svg")
+  techstack/ *.svg (lowercase, dashes for non-alphanumerics, e.g. "next-js.svg")
 ```
 
 ## Render pipeline
@@ -73,7 +75,7 @@ public/
 ## i18n
 
 - Locales: `en` (canonical `/`), `id` (`/id`). Language switcher: Header only (`LangSwitcher`, labels `EN` / `ID`).
-- Dictionaries live in `libs/i18n/en.ts` + `id.ts`; both typed as `Dictionary` from
+- Dictionaries live in `lib/i18n/en.ts` + `id.ts`; both typed as `Dictionary` from
   `types.ts`, so the ID file must stay structurally complete. Copy is plain data —
   strings + `Segment[]` (`tone`: `dim` / `gold` / `strong` / `goldUnderline`) rendered by
   `SegmentedText`; styling stays in components. Spacing between segments is part of the
@@ -85,15 +87,17 @@ public/
 
 ## Update recipes
 
-- **Edit any visible copy**: `libs/i18n/en.ts` and `id.ts` (keep both in sync — the
+- **Edit any visible copy**: `lib/i18n/en.ts` and `id.ts` (keep both in sync — the
   `Dictionary` type enforces shape, not wording). Translations are drafts; owner revises.
-- **Add a locale**: add dictionary file + entry in `libs/i18n/index.ts`, prefix rule in
+- **Add a locale**: add dictionary file + entry in `lib/i18n/index.ts`, prefix rule in
   `src/proxy.ts`, hreflang pair in `[lang]/layout.tsx`, link in `ui/LangSwitcher.tsx`.
 - **Add/edit testimonial**: `testimonial.testimonies` in `en.ts`/`id.ts`. Requires
   `photo` (exact path under `public/people/`), `name`, `title` (role + org combined),
   `quotes` (`Segment[]`, gold `<b>` emphasis via `tone: 'gold'`). Both dictionaries must
   contain the person in the same order (array order = carousel order).
-- **Add tool to marquee**: add `{ name, image }` to `TECH_STACK` in `libs/constants.ts` (keep name-sorted) + SVG in `public/techstack/`. Marquee rows split list in half automatically.
+- **Add tool to marquee**: add `{ name, image }` to `TECH_STACK` in `lib/constants/stack.ts`
+  (keep name-sorted) + lowercase-dashed SVG in `public/techstack/`. Marquee rows split list
+  in half automatically.
 - **Swap/add project image**: webp in `public/projects/`, add `<Image>` cell in `Portfolio.tsx` grid (grid spans are hand-tuned per breakpoint — follow existing pattern).
 - **Change hero stats**: numbers in `Hero.tsx` (`value`), labels in dictionaries (`hero.stats`).
 - **Change availability**: `variant={Status.X}` in `Header.tsx`; statuses defined in `ui/AvailabilityStatus.tsx`, labels in dictionaries (`header.status`).
@@ -103,7 +107,7 @@ public/
 ## Asset conventions
 
 - People photos referenced by exact filename — mixed formats (`*.jpeg`, `*.jpg.webp`), no rename guarantees. Copy filename exactly.
-- Techstack SVG filenames contain dots and spaces (`React Router.svg`, `Next.js.svg`) — quote in paths.
+- Techstack SVG filenames are lowercase, `-` for non-alphanumeric characters (`react-router.svg`, `next-js.svg`).
 - Projects are webp, `object-cover`, `fill` + explicit `sizes`.
 
 <!-- verified against: 28d8aec, 2026-09-30 -->

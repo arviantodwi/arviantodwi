@@ -1,6 +1,6 @@
 import { getImageProps } from 'next/image';
 import type { FC } from 'react';
-import type { Locale } from '@/app/libs/i18n/types';
+import type { Locale } from '@/app/lib/i18n/types';
 import { PortfolioItemFade } from './ui/PortfolioItemFade';
 
 interface Props {

@@ -1,7 +1,7 @@
 'use client';
 
 import Marquee from 'react-fast-marquee';
-import { TECH_STACK } from '@/app/libs/constants';
+import { TECH_STACK } from '@/app/lib/constants';
 
 export const ToolsMarquee = () => {
   const stackMiddleIndex = Math.ceil(TECH_STACK.length / 2);

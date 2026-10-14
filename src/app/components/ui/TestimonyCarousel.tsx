@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { useMemo, useRef, useState } from 'react';
 import { PiCaretLeftBold, PiCaretRightBold } from 'react-icons/pi';
 import { Swiper, type SwiperClass, SwiperSlide } from 'swiper/react';
-import type { PersonTestimony } from '@/app/libs/i18n/types';
+import type { PersonTestimony } from '@/app/lib/i18n/types';
 import { SegmentedText } from './SegmentedText';
 
 import 'swiper/css';

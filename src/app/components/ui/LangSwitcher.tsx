@@ -2,9 +2,9 @@
 
 import { type FC, useEffect, useRef, useState } from 'react';
 import { TbLanguage, TbSelector } from 'react-icons/tb';
-import { NEXT_LOCALE_COOKIE } from '@/app/libs/constants';
-import type { Locale } from '@/app/libs/i18n/types';
-import { cx } from '@/app/libs/utils';
+import { NEXT_LOCALE_COOKIE } from '@/app/lib/constants';
+import type { Locale } from '@/app/lib/i18n/types';
+import { cx } from '@/app/lib/utils';
 
 const OPTIONS: { locale: Locale; href: string; label: string }[] = [
   { locale: 'en', href: '/', label: 'English' },

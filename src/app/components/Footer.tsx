@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import type { Dictionary, Locale } from '@/app/libs/i18n/types';
+import type { Dictionary, Locale } from '@/app/lib/i18n/types';
 import { LangSwitcher } from './ui/LangSwitcher';
 import { SocialNav } from './ui/SocialNav';
 
