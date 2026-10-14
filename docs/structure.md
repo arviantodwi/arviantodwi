@@ -32,6 +32,15 @@ src/
       About.tsx     # Bio paragraphs via SegmentedText, .about-box-accent headline,
                     # centered CV CTA button (ui/Button + TbArrowUpRight)
       TechStack.tsx # Heading + subline via SegmentedText + ToolsMarquee
+      AiWorkflow.tsx # AI-native — Connected Workflow (Figma node 699-419): 48px two-tone
+                     # headline + intro; 3 stage cols (PLAN/DESIGN/DEVELOP, Antonio 26px
+                     # + 24px custom icon from ui/icons.tsx) — card shells are code (bg/border
+                     # per design); PLAN + DESIGN render animated inline SVG via
+                     # ui/PlanIllustration / ui/DesignIllustration (7.2s scenery loops);
+                     # DEVELOP via ui/DevelopIllustration — static composition + blinking
+                     # caret on line 03 only (owner verdict: heavy text animation too
+                     # fussy). Logo row: public/techstack/ai/*.svg. Copy in
+                     # dictionaries (aiWorkflow key); stage shells/icons/images in STAGES const
       Portfolio.tsx # Redesigned per Figma node 487-67: PORTFOLIO wordmark (Antonio, per-
                     # locale) + gold bar; 5 project rows — title/tags column (300px) +
                     # gold-bordered 850:540 media panel; data in PROJECTS const (proper
@@ -49,14 +58,22 @@ src/
         SegmentedText.tsx       # Renders Segment[] (tone: dim/gold/strong/goldUnderline)
         SocialNav.tsx           # GitHub + LinkedIn icon links
         Statistic.tsx           # react-countup number
+        icons.tsx               # Custom inline icons (Tabler conventions: 24×24, 2px
+                                # round-cap stroke, currentColor) — IconPolygon,
+                                # IconCircleSquare, IconIcosahedron (AI workflow stages)
         TypeAnimation.tsx       # exports ClientTypeAnimation (takes `roles` prop)
         ToolsMarquee.tsx        # react-fast-marquee, 2 rows from TECH_STACK split in half
         TestimonyCarousel.tsx   # Swiper carousel; testimony data via `testimonies` prop
 public/
   photo.png logo.svg quote.svg opengraph-card.png twitter-card.png
+  ai-native-plan.{png,svg} ai-native-design.{png,svg} ai-native-dev.{png,svg}
+                                                             # svg = vector card exports
+                                                             # (374×132, owner-provided),
+                                                             # png = @4x fallback/backup
   projects/  *.webp
   people/    *.jpeg / *.jpg.webp
   techstack/ *.svg (lowercase, dashes for non-alphanumerics, e.g. "next-js.svg")
+  techstack/ai/  opencode.svg figma.svg openai.svg gemini.svg (196×60 pre-composed cells)
 ```
 
 ## Render pipeline
@@ -98,6 +115,15 @@ public/
 - **Add tool to marquee**: add `{ name, image }` to `TECH_STACK` in `lib/constants/stack.ts`
   (keep name-sorted) + lowercase-dashed SVG in `public/techstack/`. Marquee rows split list
   in half automatically.
+- **Edit AI workflow copy**: `aiWorkflow.*` in `en.ts`/`id.ts` (headline pair rendered by
+  the component: line 1 plain, line 2 gold+bold; intro/toolkit are `Segment[]`; stage
+  descriptions + their illustration alts in `aiWorkflow.stages.*`). Stage card visuals
+  (shell bg/border, icon component, SVG paths) live in the `STAGES` const in
+  `AiWorkflow.tsx`.
+  Card illustrations are vector `public/ai-native-*.svg` exports (374×132, from Figma
+  nodes 699:459 / 699:489 / 699:534); PNG variants kept as backup. When re-exporting,
+  update the Image `width`/`height` to the new intrinsic size (display is
+  `h-auto w-full`).
 - **Swap/add project image**: webp in `public/projects/`, add `<Image>` cell in `Portfolio.tsx` grid (grid spans are hand-tuned per breakpoint — follow existing pattern).
 - **Change hero stats**: numbers in `Hero.tsx` (`value`), labels in dictionaries (`hero.stats`).
 - **Change availability**: `variant={Status.X}` in `Header.tsx`; statuses defined in `ui/AvailabilityStatus.tsx`, labels in dictionaries (`header.status`).
@@ -110,4 +136,4 @@ public/
 - Techstack SVG filenames are lowercase, `-` for non-alphanumeric characters (`react-router.svg`, `next-js.svg`).
 - Projects are webp, `object-cover`, `fill` + explicit `sizes`.
 
-<!-- verified against: 28d8aec, 2026-09-30 -->
+<!-- verified against: 28d8aec, 2026-09-30 (AiWorkflow section added in-session; move SHA on next commit) -->

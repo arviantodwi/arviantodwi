@@ -201,3 +201,430 @@ body {
 .people-carousel .swiper-slide:not(.swiper-slide-active) img {
   transform: scale(0.6);
 }
+
+/* PLAN card ("Brief study" illustration) draw loop, 7.2s cycle.
+   Marker + brief question live outside the animated elements — visible from
+   frame 0 and through the pause between cycles. Sequence: marker blinks 3×
+   (0–20%, ~288ms per state), bar 1 grows 0→1 (20–24%), bar 2 (25.3–28.7%),
+   bar 3 (30.7–34.7%), direction note fades in + rises (36–42%), everything
+   holds (42–90%), bars/note wipe out (90–93%), then ~0.5s pause showing
+   only marker + brief question before the loop restarts. All percentages
+   share the 7.2s duration — no delays, stays in lockstep. */
+.plan-marker {
+  animation-name: plan-marker;
+  animation-duration: 7.2s;
+  animation-iteration-count: infinite;
+  /* Discrete on/off blink: each stop holds its value (~288ms). */
+  animation-timing-function: steps(1, end);
+}
+
+.plan-line-1,
+.plan-line-2,
+.plan-line-3 {
+  transform-box: fill-box;
+  transform-origin: left center;
+  transform: scaleX(0);
+  animation-duration: 7.2s;
+  animation-iteration-count: infinite;
+  animation-fill-mode: both;
+}
+
+.plan-line-1 {
+  animation-name: plan-line-1;
+}
+
+.plan-line-2 {
+  animation-name: plan-line-2;
+}
+
+.plan-line-3 {
+  animation-name: plan-line-3;
+}
+
+.plan-note {
+  animation-name: plan-note;
+  animation-duration: 7.2s;
+  animation-iteration-count: infinite;
+  animation-fill-mode: both;
+  /* Animated via opacity/translate; isolate so translate doesn't hit blur. */
+  will-change: opacity, transform;
+}
+
+@keyframes plan-marker {
+  0%,
+  3.32% {
+    opacity: 1;
+  }
+
+  3.33%,
+  6.65% {
+    opacity: 0.12;
+  }
+
+  6.66%,
+  9.99% {
+    opacity: 1;
+  }
+
+  10%,
+  13.32% {
+    opacity: 0.12;
+  }
+
+  13.33%,
+  16.65% {
+    opacity: 1;
+  }
+
+  16.66%,
+  19.99% {
+    opacity: 0.12;
+  }
+
+  20%,
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes plan-line-1 {
+  0%,
+  20% {
+    transform: scaleX(0);
+    animation-timing-function: cubic-bezier(0.25, 1, 0.35, 1); /* ease-out draw */
+  }
+
+  24%,
+  90% {
+    transform: scaleX(1);
+  }
+
+  93%,
+  100% {
+    transform: scaleX(0);
+  }
+}
+
+@keyframes plan-line-2 {
+  0%,
+  25.33% {
+    transform: scaleX(0);
+    animation-timing-function: cubic-bezier(0.25, 1, 0.35, 1);
+  }
+
+  28.67%,
+  90% {
+    transform: scaleX(1);
+  }
+
+  93%,
+  100% {
+    transform: scaleX(0);
+  }
+}
+
+@keyframes plan-line-3 {
+  0%,
+  30.67% {
+    transform: scaleX(0);
+    animation-timing-function: cubic-bezier(0.25, 1, 0.35, 1);
+  }
+
+  34.67%,
+  90% {
+    transform: scaleX(1);
+  }
+
+  93%,
+  100% {
+    transform: scaleX(0);
+  }
+}
+
+@keyframes plan-note {
+  0%,
+  36% {
+    opacity: 0;
+    transform: translateY(4px);
+    animation-timing-function: cubic-bezier(0.25, 1, 0.35, 1);
+  }
+
+  42%,
+  90% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  93%,
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Reduced motion: show the finished composition statically. */
+@media (prefers-reduced-motion: reduce) {
+  .plan-line-1,
+  .plan-line-2,
+  .plan-line-3,
+  .plan-marker,
+  .plan-note {
+    animation: none;
+  }
+
+  .plan-line-1,
+  .plan-line-2,
+  .plan-line-3 {
+    transform: scaleX(1);
+  }
+}
+
+/* DESIGN card ("Composition study" illustration) reveal loop, 7.2s cycle.
+   The tagline is outside the cycle — visible from frame 0 and through the
+   pause. Sequence per cycle: palette dots fade+scale in (gold 0–5%, cream
+   3–8%, grey 6–11%), the supporting line grows from dot 2's start (3–12%),
+   the gradient square rises (14–20%), the gold ring draws itself (18–30%)
+   and the center dot pops (26–32%), everything holds (32–90%), the whole
+   transient set fades out (.design-seq, 90–93%) and the loop restarts.
+   All percentages share the 7.2s duration — no delays, stays in lockstep. */
+.design-dot-1,
+.design-dot-2,
+.design-dot-3,
+.design-line {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation-duration: 7.2s;
+  animation-iteration-count: infinite;
+  animation-fill-mode: both;
+  animation-timing-function: cubic-bezier(0.25, 1, 0.35, 1); /* ease-out draw */
+}
+
+.design-dot-1 {
+  animation-name: design-dot-1;
+}
+
+.design-dot-2 {
+  animation-name: design-dot-2;
+}
+
+.design-dot-3 {
+  animation-name: design-dot-3;
+}
+
+.design-line {
+  transform-origin: left center;
+  animation-name: design-line;
+}
+
+.design-panel {
+  animation-name: design-panel;
+  animation-duration: 7.2s;
+  animation-iteration-count: infinite;
+  animation-fill-mode: both;
+  /* Keep any transform isolated from the gradient paint. */
+  will-change: opacity, transform;
+}
+
+.design-ring {
+  /* Draw the stroke from the top of the circle. */
+  transform-box: fill-box;
+  transform-origin: center;
+  transform: rotate(-90deg);
+  stroke-dasharray: 186;
+  stroke-dashoffset: 186;
+  animation-name: design-ring;
+  animation-duration: 7.2s;
+  animation-iteration-count: infinite;
+  animation-fill-mode: both;
+  animation-timing-function: cubic-bezier(0.45, 0.05, 0.55, 0.95); /* ease-in-out draw */
+}
+
+.design-core {
+  transform-box: fill-box;
+  transform-origin: center;
+  transform: scale(0);
+  animation-name: design-core;
+  animation-duration: 7.2s;
+  animation-iteration-count: infinite;
+  animation-fill-mode: both;
+}
+
+.design-seq {
+  animation-name: design-seq;
+  animation-duration: 7.2s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes design-dot-1 {
+  0% {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+
+  5%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes design-dot-2 {
+  0%,
+  3% {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+
+  8%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes design-dot-3 {
+  0%,
+  6% {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+
+  11%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes design-line {
+  0%,
+  3% {
+    transform: scaleX(0);
+  }
+
+  12%,
+  100% {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes design-panel {
+  0%,
+  14% {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  20%,
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes design-ring {
+  0%,
+  18% {
+    stroke-dashoffset: 186;
+  }
+
+  30%,
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes design-core {
+  0%,
+  26% {
+    transform: scale(0);
+  }
+
+  30% {
+    transform: scale(1.05);
+  }
+
+  32%,
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes design-seq {
+  0%,
+  90% {
+    opacity: 1;
+  }
+
+  93%,
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Reduced motion: show the finished composition statically. */
+@media (prefers-reduced-motion: reduce) {
+  .design-dot-1,
+  .design-dot-2,
+  .design-dot-3,
+  .design-line,
+  .design-panel,
+  .design-ring,
+  .design-core,
+  .design-seq {
+    animation: none;
+  }
+
+  .design-dot-1,
+  .design-dot-2,
+  .design-dot-3,
+  .design-core {
+    transform: none;
+    opacity: 1;
+  }
+
+  .design-line {
+    transform: scaleX(1);
+  }
+
+  .design-panel {
+    transform: none;
+    opacity: 1;
+  }
+
+  .design-ring {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* DEVELOP card ("Process artifact") — static composition except the caret:
+   a gold cursor blinking on the 03 `connection="human"` line (~530ms
+   cadence, steps(1, end) so it toggles discretely like a real editor). */
+.dev-caret {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation-name: dev-caret;
+  animation-duration: 1.06s;
+  animation-iteration-count: infinite;
+  animation-timing-function: steps(1, end);
+  will-change: opacity;
+}
+
+@keyframes dev-caret {
+  0%,
+  49.99% {
+    opacity: 1;
+  }
+
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+/* DEVELOP card reduced motion: the design's resting look — caret hidden. */
+@media (prefers-reduced-motion: reduce) {
+  .dev-caret {
+    animation: none;
+    opacity: 0;
+  }
+}

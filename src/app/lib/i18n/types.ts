@@ -27,6 +27,12 @@ export interface PersonTestimony {
   quotes: Segment[];
 }
 
+/** Copy for one AI-workflow stage: stage description + its illustration alt text. */
+export interface StageCopy {
+  description: string;
+  imageAlt: string;
+}
+
 export interface Dictionary {
   metadata: {
     description: string;
@@ -58,6 +64,17 @@ export interface Dictionary {
   techStack: {
     heading: Segment[];
     subline: Segment[];
+  };
+  aiWorkflow: {
+    /** Headline pair: first line plain, second line rendered gold + bold in the component. */
+    headline: [string, string];
+    intro: Segment[];
+    stages: {
+      plan: StageCopy;
+      design: StageCopy;
+      develop: StageCopy;
+    };
+    toolkit: Segment[];
   };
   portfolio: {
     heading: Segment[];

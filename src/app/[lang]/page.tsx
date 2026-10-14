@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation';
 import { About } from '../components/About';
+import { AiWorkflow } from '../components/AiWorkflow';
 import { Footer } from '../components/Footer';
 import { Header } from '../components/Header';
 import { Hero } from '../components/Hero';
@@ -23,6 +24,7 @@ export default async function Home({ params }: PageProps<'/[lang]'>) {
         <Hero dict={dict} />
         <About dict={dict} />
         <TechStack dict={dict} />
+        <AiWorkflow dict={dict} />
         <Portfolio locale={lang} />
         <Testimonial dict={dict} />
       </div>

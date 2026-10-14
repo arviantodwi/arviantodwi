@@ -8,6 +8,10 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 <!-- END:nextjs-agent-rules -->
 
+## Agents language
+
+Always give response in English. Sometimes I see a Chinese/Mandarin response, and I don't understand it. Keep it clear by using only English on every response.
+
 ## Project docs (progressive disclosure)
 
 Read `docs/index.md` before making changes. It routes to `docs/structure.md`, `docs/design.md`, and `docs/tooling.md` — load only the doc your task needs.

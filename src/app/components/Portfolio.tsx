@@ -68,7 +68,10 @@ export const Portfolio: FC<Props> = ({ locale }) => {
           <h2 className="font-bold font-headline text-[76px] text-white uppercase leading-[1.0657894737] md:text-[84px] xl:text-[116px]">
             {SECTION_TITLE[locale]}
           </h2>
-          <span aria-hidden="true" className="h-[6px] w-[220px] bg-gold md:h-[8px] md:w-[260px] xl:h-[10px] xl:w-[440px]" />
+          <span
+            aria-hidden="true"
+            className="h-[6px] w-[220px] bg-gold md:h-[8px] md:w-[260px] xl:h-[10px] xl:w-[440px]"
+          />
         </div>
       </div>
     </div>

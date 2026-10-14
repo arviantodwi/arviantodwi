@@ -63,6 +63,38 @@ export const enDictionary: Dictionary = {
       { text: ' and technologies to achieve exceptional day-to-day results.' },
     ],
   },
+  aiWorkflow: {
+    headline: ['Human intention.', 'AI momentum.'],
+    intro: [
+      {
+        text: 'As an AI-native designer and developer, I bring AI into every stage of my process. From the very first question to the final polish, ',
+        tone: 'dim',
+      },
+      { text: 'I set the direction', tone: 'gold' },
+      { text: '. The results are magnificent, human-directed products.', tone: 'dim' },
+    ],
+    stages: {
+      plan: {
+        description: 'I shape the brief, discover possibilities, and map a clear direction.',
+        imageAlt: 'Planning brief illustration',
+      },
+      design: {
+        description:
+          'I explore visual directions, refine interactions, and keep the experience coherent.',
+        imageAlt: 'Design composition study illustration',
+      },
+      develop: {
+        description: 'I accelerate implementation, iterate thoughtfully, and polish the details.',
+        imageAlt: 'Development process artifact illustration',
+      },
+    },
+    toolkit: [
+      { text: 'These AI tools give me ', tone: 'dim' },
+      { text: 'less repetitive work ' },
+      { text: 'and ', tone: 'dim' },
+      { text: 'more room for craft!' },
+    ],
+  },
   portfolio: {
     heading: [{ text: 'Take a look at my ' }, { text: 'past projects!', tone: 'goldUnderline' }],
     subline: [
