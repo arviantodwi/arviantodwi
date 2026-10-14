@@ -2,7 +2,7 @@
 
 import type { FC, ReactNode } from 'react';
 import CountUp from 'react-countup';
-import { cx } from '@/app/libs/utils';
+import { cx } from '@/app/lib/utils';
 
 interface Props {
   text: ReactNode;

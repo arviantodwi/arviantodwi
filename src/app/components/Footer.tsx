@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import type { Dictionary, Locale } from '@/app/libs/i18n/types';
+import type { Dictionary, Locale } from '@/app/lib/i18n/types';
 import { LangSwitcher } from './ui/LangSwitcher';
 import { SocialNav } from './ui/SocialNav';
 
@@ -14,8 +14,8 @@ export const Footer: FC<Props> = ({ dict, locale }) => {
   const [before, name, after] = dict.footer.copyright.split(/<\/?link>/);
 
   return (
-    <footer className="relative z-10 mt-auto bg-neutral-900 px-6 py-8 font-general text-sm md:px-12 lg:px-24">
-      <div className="mx-auto flex max-w-7xl flex-col text-left text-white sm:text-center">
+    <footer className="relative z-10 mt-auto bg-neutral-900 px-6 py-8 font-general text-sm md:px-12 lg:px-24 xl:px-[120px]">
+      <div className="mx-auto flex max-w-7xl flex-col text-left text-white sm:text-center xl:max-w-[1440px]">
         <p className="opacity-60">
           {before}
           <a
@@ -29,7 +29,7 @@ export const Footer: FC<Props> = ({ dict, locale }) => {
           {after.trim()}
         </p>
       </div>
-      <div className="mx-auto mt-6 flex max-w-7xl items-center justify-between text-white sm:hidden">
+      <div className="mx-auto mt-6 flex max-w-7xl items-center justify-between text-white sm:hidden xl:max-w-[1440px]">
         <SocialNav />
         <LangSwitcher locale={locale} />
       </div>

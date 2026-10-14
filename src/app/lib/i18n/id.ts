@@ -62,13 +62,70 @@ export const idDictionary: Dictionary = {
       { text: ' serta teknologi untuk mencapai hasil pekerjaan yang luar biasa.' },
     ],
   },
-  portfolio: {
-    heading: [{ text: 'Mari lihat ' }, { text: 'proyek-proyek saya!', tone: 'goldUnderline' }],
-    subline: [
-      { text: 'Dipilih dari ' },
-      { text: '100+ proyek', tone: 'gold' },
-      { text: ' yang telah diselesaikan!' },
+  aiWorkflow: {
+    headline: ['Intensi pada manusia.', 'Momentum dengan AI.'],
+    intro: [
+      {
+        text: 'Sebagai desainer dan developer yang AI-native, saya membawa AI ke setiap tahapan proses kreatif saya. Dari pertanyaan pertama hingga sentuhan akhir, ',
+        tone: 'dim',
+      },
+      { text: 'saya yang menentukan arahnya', tone: 'gold' },
+      {
+        text: '. Hasilnya adalah produk-produk luar biasa yang diarahkan oleh manusia.',
+        tone: 'dim',
+      },
     ],
+    stages: {
+      plan: {
+        description:
+          'Saya merumuskan rencana, menemukan berbagai kemungkinan, dan memetakan arah yang jelas.',
+        imageAlt: 'Ilustrasi brief perencanaan',
+      },
+      design: {
+        description:
+          'Saya mengeksplorasi arah visual, menyempurnakan interaksi, dan menjaga pengalaman tetap berpadu.',
+        imageAlt: 'Ilustrasi studi komposisi desain',
+      },
+      develop: {
+        description:
+          'Saya mempercepat implementasi, melakukan iterasi dengan cermat, dan menghaluskan detilnya.',
+        imageAlt: 'Ilustrasi artefak proses pengembangan',
+      },
+    },
+    toolkit: [
+      { text: 'Kumpulan perangkat AI ini membantu saya ', tone: 'dim' },
+      { text: 'mengurangi pekerjaan repetitif ' },
+      { text: 'dan ', tone: 'dim' },
+      { text: 'lebih banyak ruang untuk berkarya!' },
+    ],
+  },
+  portfolio: {
+    tagline: {
+      muted: 'Tantangan yang berbeda-beda.',
+      plain: 'Perhatian yang sama pada pengalaman.',
+    },
+    projects: {
+      tours: {
+        description:
+          'Eksplorasi, kompetisi, dan penemuan. Pengalaman yang benar-benar mengajak berkarya melampaui layar.',
+      },
+      sports: {
+        description:
+          'Rumah bagi pelajaran, podcast, dan webinar. Konten yang kaya, tersaji ramah di setiap layar.',
+      },
+      voice: {
+        description:
+          'Mengubah suaramu menjadi sesuatu yang bisa dianalisis. Panduan yang menyenangkan dengan umpan balik yang jelas dan ekspresif.',
+      },
+      vehicle: {
+        description:
+          'Dari ringkasan rute sampai detail pengiriman, pengalaman terhubung untuk memantau perjalanan setiap kendaraan.',
+      },
+      charity: {
+        description:
+          'Platform dengan manusia di pusatnya. Menghubungkan berbagai tujuan bermakna dengan komunitas yang mendukungnya.',
+      },
+    },
   },
   testimonial: {
     heading: [

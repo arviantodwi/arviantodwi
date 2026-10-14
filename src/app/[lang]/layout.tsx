@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { Antonio, Plus_Jakarta_Sans } from 'next/font/google';
 import { notFound } from 'next/navigation';
-import { getDictionary, hasLocale, locales } from '../libs/i18n';
+import { getDictionary, hasLocale, locales } from '../lib/i18n';
 import '../globals.css';
 
 const antonioSans = Antonio({

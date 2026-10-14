@@ -63,13 +63,65 @@ export const enDictionary: Dictionary = {
       { text: ' and technologies to achieve exceptional day-to-day results.' },
     ],
   },
-  portfolio: {
-    heading: [{ text: 'Take a look at my ' }, { text: 'past projects!', tone: 'goldUnderline' }],
-    subline: [
-      { text: 'Selected amidst ' },
-      { text: '100+ projects', tone: 'gold' },
-      { text: ' delivered!' },
+  aiWorkflow: {
+    headline: ['Human intention.', 'AI momentum.'],
+    intro: [
+      {
+        text: 'As an AI-native designer and developer, I bring AI into every stage of my process. From the very first question to the final polish, ',
+        tone: 'dim',
+      },
+      { text: 'I set the direction', tone: 'gold' },
+      { text: '. The results are magnificent, human-directed products.', tone: 'dim' },
     ],
+    stages: {
+      plan: {
+        description: 'I shape the brief, discover possibilities, and map a clear direction.',
+        imageAlt: 'Planning brief illustration',
+      },
+      design: {
+        description:
+          'I explore visual directions, refine interactions, and keep the experience coherent.',
+        imageAlt: 'Design composition study illustration',
+      },
+      develop: {
+        description: 'I accelerate implementation, iterate thoughtfully, and polish the details.',
+        imageAlt: 'Development process artifact illustration',
+      },
+    },
+    toolkit: [
+      { text: 'These AI tools give me ', tone: 'dim' },
+      { text: 'less repetitive work ' },
+      { text: 'and ', tone: 'dim' },
+      { text: 'more room for craft!' },
+    ],
+  },
+  portfolio: {
+    tagline: {
+      muted: 'Different challenges.',
+      plain: 'The same attention to experience.',
+    },
+    projects: {
+      tours: {
+        description:
+          'Exploration, competition and discovery. A truly experience designed to move beyond the screen.',
+      },
+      sports: {
+        description:
+          'A home for lessons, podcasts and webinars. Rich content, made approachable on every screen.',
+      },
+      voice: {
+        description:
+          'Turning your voice into something you can analyse. Playful guidance meets clear, expressive feedback.',
+      },
+      vehicle: {
+        description:
+          'From route overview to delivery details, a connected experience for keeping every vehicle’s journey in view.',
+      },
+      charity: {
+        description:
+          'A platform with people at its heart. Connecting meaningful causes with the communities that support them.',
+      },
+    },
   },
   testimonial: {
     heading: [

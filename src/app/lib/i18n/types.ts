@@ -27,6 +27,12 @@ export interface PersonTestimony {
   quotes: Segment[];
 }
 
+/** Copy for one AI-workflow stage: stage description + its illustration alt text. */
+export interface StageCopy {
+  description: string;
+  imageAlt: string;
+}
+
 export interface Dictionary {
   metadata: {
     description: string;
@@ -59,9 +65,31 @@ export interface Dictionary {
     heading: Segment[];
     subline: Segment[];
   };
+  aiWorkflow: {
+    /** Headline pair: first line plain, second line rendered gold + bold in the component. */
+    headline: [string, string];
+    intro: Segment[];
+    stages: {
+      plan: StageCopy;
+      design: StageCopy;
+      develop: StageCopy;
+    };
+    toolkit: Segment[];
+  };
   portfolio: {
-    heading: Segment[];
-    subline: Segment[];
+    /** Section tagline pair: first line muted, second full white. */
+    tagline: {
+      muted: string;
+      plain: string;
+    };
+    /** Per-project descriptions, keyed by the PROJECTS const in Portfolio.tsx. */
+    projects: {
+      tours: { description: string };
+      sports: { description: string };
+      voice: { description: string };
+      vehicle: { description: string };
+      charity: { description: string };
+    };
   };
   testimonial: {
     heading: Segment[];

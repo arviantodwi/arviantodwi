@@ -1,7 +1,7 @@
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import type { FC } from 'react';
-import type { Dictionary } from '@/app/libs/i18n/types';
+import type { Dictionary } from '@/app/lib/i18n/types';
 
 const TypeAnimation = dynamic(() =>
   import('./ui/TypeAnimation').then((mod) => mod.ClientTypeAnimation),
@@ -24,7 +24,7 @@ export const Hero: FC<Props> = ({ dict }) => {
   const { hero } = dict;
 
   return (
-    <section className="relative z-10 mb-20 overflow-hidden px-6 pt-6 pb-[656.234px] sm:pb-[256px] md:mx-auto md:max-w-2xl lg:max-w-4xl lg:pt-0 lg:pb-[177px] xl:max-w-7xl xl:px-18">
+    <section className="relative z-10 mb-20 overflow-hidden px-6 pt-6 pb-[656.234px] sm:pb-[256px] md:mx-auto md:max-w-2xl lg:max-w-4xl lg:pt-0 lg:pb-[177px] xl:max-w-[1440px] xl:px-30">
       <div className="flex flex-col gap-6 sm:max-w-3/4 lg:pt-[72px] xl:pt-[121px]">
         <h1 className="sm:w-[333px] lg:w-[400px]">
           <span className="font-bold font-headline text-[76px] text-white uppercase leading-[1.0657894737] lg:text-[116px]">
@@ -61,7 +61,7 @@ export const Hero: FC<Props> = ({ dict }) => {
         />
       </div>
 
-      <div className="absolute bottom-0 left-1/2 aspect-[0.6659047619] w-[437px] -translate-x-1/2 sm:top-0 sm:bottom-auto sm:left-[286px] sm:-translate-x-0 lg:-right-24 lg:left-auto lg:w-[584px] xl:-right-12">
+      <div className="absolute bottom-0 left-1/2 aspect-[0.6659047619] w-[437px] -translate-x-1/2 sm:top-0 sm:bottom-auto sm:left-[286px] sm:-translate-x-0 lg:-right-24 lg:left-auto lg:w-[584px] xl:right-[58px]">
         <Image
           src="/photo.png"
           fill

@@ -1,7 +1,7 @@
 'use client';
 
 import Marquee from 'react-fast-marquee';
-import { TECH_STACK } from '@/app/libs/constants';
+import { TECH_STACK } from '@/app/lib/constants';
 
 export const ToolsMarquee = () => {
   const stackMiddleIndex = Math.ceil(TECH_STACK.length / 2);
@@ -9,7 +9,7 @@ export const ToolsMarquee = () => {
   const bottomRowStack = TECH_STACK.slice(stackMiddleIndex);
 
   return (
-    <div className="flex flex-col gap-7 pt-12 md:mx-auto md:max-w-3xl lg:max-w-5xl lg:pt-20 xl:max-w-6xl">
+    <div className="flex flex-col gap-7 pt-12 md:mx-auto md:max-w-3xl lg:max-w-5xl lg:pt-20 xl:max-w-[1200px]">
       <Marquee direction="right" gradient gradientColor="#040404" gradientWidth={24}>
         {topRowStack.map((item) => (
           <img

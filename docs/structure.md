@@ -17,10 +17,12 @@ src/
       page.tsx      # Loads dict for lang, passes it to every section
     globals.css     # Tailwind import, theme tokens, custom utilities (see design.md)
     icon.png        # Favicon
-    libs/
-      constants.ts  # GITHUB_URL, LINKEDIN_URL, TECH_STACK (32 items, sorted by name)
-      utils.ts      # cx() = clsx + tailwind-merge
-      i18n/         # Locale infra: index.ts (hasLocale/getDictionary/locales),
+    lib/
+      constants/   # index.ts (GITHUB_URL, LINKEDIN_URL, CV_URL, NEXT_LOCALE_COOKIE —
+                   # barrel, re-exports stack.ts), stack.ts (TECH_STACK, 30 items,
+                   # sorted by name)
+      utils.ts     # cx() = clsx + tailwind-merge
+      i18n/        # Locale infra: index.ts (hasLocale/getDictionary/locales),
                     # types.ts (Segment, Dictionary), en.ts + id.ts (dictionaries)
     components/     # Sections (server components), all receive `dict: Dictionary`
       Header.tsx    # Sticky topbar (client): logo + SocialNav + LangSwitcher +
@@ -30,10 +32,22 @@ src/
       About.tsx     # Bio paragraphs via SegmentedText, .about-box-accent headline,
                     # centered CV CTA button (ui/Button + TbArrowUpRight)
       TechStack.tsx # Heading + subline via SegmentedText + ToolsMarquee
-      Portfolio.tsx # Redesigned per Figma node 487-67: PORTFOLIO wordmark (Antonio, per-
-                    # locale) + gold bar; 5 project rows — title/tags column (300px) +
-                    # gold-bordered 850:540 media panel; data in PROJECTS const (proper
-                    # nouns, locale-independent); takes `locale`, not `dict`
+      AiWorkflow.tsx # AI-native — Connected Workflow (Figma node 699-419): 48px two-tone
+                     # headline + intro; 3 stage cols (PLAN/DESIGN/DEVELOP, Antonio 26px
+                     # + 24px custom icon from ui/icons.tsx) — card shells are code (bg/border
+                     # per design); PLAN + DESIGN render animated inline SVG via
+                     # ui/PlanIllustration / ui/DesignIllustration (7.2s scenery loops);
+                     # DEVELOP via ui/DevelopIllustration — static composition + blinking
+                     # caret on line 03 only (owner verdict: heavy text animation too
+                     # fussy). Logo row: public/techstack/ai/*.svg. Copy in
+                     # dictionaries (aiWorkflow key); stage shells/icons/images in STAGES const
+      Portfolio.tsx # Redesigned per Figma node 681-441: heading band (wordmark +
+                    # two-line dict tagline + 1px white/15 divider, still lg:sticky
+                    # with scroll-fade) → one featured `wide` ProjectCard + two
+                    # rows × 2 `compact` cards; per-project data in PROJECTS const
+                    # (titles/tags/surface/image locale-independent), descriptions
+                    # + tagline in dictionaries (dict.portfolio); takes `locale`
+                    # AND `dict`
       Portfolio.legacy.tsx # Pre-redesign portfolio (CSS grid + weight-graded experiment);
                            # not imported anywhere — kept as reference only
       Testimonial.tsx # Heading + TestimonyCarousel
@@ -47,14 +61,31 @@ src/
         SegmentedText.tsx       # Renders Segment[] (tone: dim/gold/strong/goldUnderline)
         SocialNav.tsx           # GitHub + LinkedIn icon links
         Statistic.tsx           # react-countup number
+        icons.tsx               # Custom inline icons (Tabler conventions: 24×24,
+                                # round-cap stroke, currentColor) — IconPolygon,
+                                # IconCircleSquare, IconIcosahedron (AI workflow
+                                # stages, 2px stroke), IconHash (portfolio tags,
+                                # 1.25px stroke)
+        ProjectCard.tsx         # Reusable portfolio item (server): `wide` (featured,
+                                # full-width 510px preview) / `compact` (half-column,
+                                # 360px preview) variants; mobile renders both the
+                                # same size with edge-to-edge preview; `href?` —
+                                # circular arrow link hidden when omitted; image =
+                                # webp→png optimized <picture> chain (image +
+                                # imageFallback props, explicit per-variant sizes)
         TypeAnimation.tsx       # exports ClientTypeAnimation (takes `roles` prop)
         ToolsMarquee.tsx        # react-fast-marquee, 2 rows from TECH_STACK split in half
         TestimonyCarousel.tsx   # Swiper carousel; testimony data via `testimonies` prop
 public/
   photo.png logo.svg quote.svg opengraph-card.png twitter-card.png
+  ai-native-plan.{png,svg} ai-native-design.{png,svg} ai-native-dev.{png,svg}
+                                                             # svg = vector card exports
+                                                             # (374×132, owner-provided),
+                                                             # png = @4x fallback/backup
   projects/  *.webp
   people/    *.jpeg / *.jpg.webp
-  techstack/ *.svg (names may contain spaces, e.g. "Next.js.svg")
+  techstack/ *.svg (lowercase, dashes for non-alphanumerics, e.g. "next-js.svg")
+  techstack/ai/  opencode.svg figma.svg openai.svg gemini.svg (196×60 pre-composed cells)
 ```
 
 ## Render pipeline
@@ -73,7 +104,7 @@ public/
 ## i18n
 
 - Locales: `en` (canonical `/`), `id` (`/id`). Language switcher: Header only (`LangSwitcher`, labels `EN` / `ID`).
-- Dictionaries live in `libs/i18n/en.ts` + `id.ts`; both typed as `Dictionary` from
+- Dictionaries live in `lib/i18n/en.ts` + `id.ts`; both typed as `Dictionary` from
   `types.ts`, so the ID file must stay structurally complete. Copy is plain data —
   strings + `Segment[]` (`tone`: `dim` / `gold` / `strong` / `goldUnderline`) rendered by
   `SegmentedText`; styling stays in components. Spacing between segments is part of the
@@ -85,16 +116,34 @@ public/
 
 ## Update recipes
 
-- **Edit any visible copy**: `libs/i18n/en.ts` and `id.ts` (keep both in sync — the
+- **Edit any visible copy**: `lib/i18n/en.ts` and `id.ts` (keep both in sync — the
   `Dictionary` type enforces shape, not wording). Translations are drafts; owner revises.
-- **Add a locale**: add dictionary file + entry in `libs/i18n/index.ts`, prefix rule in
+- **Add a locale**: add dictionary file + entry in `lib/i18n/index.ts`, prefix rule in
   `src/proxy.ts`, hreflang pair in `[lang]/layout.tsx`, link in `ui/LangSwitcher.tsx`.
 - **Add/edit testimonial**: `testimonial.testimonies` in `en.ts`/`id.ts`. Requires
   `photo` (exact path under `public/people/`), `name`, `title` (role + org combined),
   `quotes` (`Segment[]`, gold `<b>` emphasis via `tone: 'gold'`). Both dictionaries must
   contain the person in the same order (array order = carousel order).
-- **Add tool to marquee**: add `{ name, image }` to `TECH_STACK` in `libs/constants.ts` (keep name-sorted) + SVG in `public/techstack/`. Marquee rows split list in half automatically.
-- **Swap/add project image**: webp in `public/projects/`, add `<Image>` cell in `Portfolio.tsx` grid (grid spans are hand-tuned per breakpoint — follow existing pattern).
+- **Add tool to marquee**: add `{ name, image }` to `TECH_STACK` in `lib/constants/stack.ts`
+  (keep name-sorted) + lowercase-dashed SVG in `public/techstack/`. Marquee rows split list
+  in half automatically.
+- **Edit AI workflow copy**: `aiWorkflow.*` in `en.ts`/`id.ts` (headline pair rendered by
+  the component: line 1 plain, line 2 gold+bold; intro/toolkit are `Segment[]`; stage
+  descriptions + their illustration alts in `aiWorkflow.stages.*`). Stage card visuals
+  (shell bg/border, icon component, SVG paths) live in the `STAGES` const in
+  `AiWorkflow.tsx`.
+  Card illustrations are vector `public/ai-native-*.svg` exports (374×132, from Figma
+  nodes 699:459 / 699:489 / 699:534); PNG variants kept as backup. When re-exporting,
+  update the Image `width`/`height` to the new intrinsic size (display is
+  `h-auto w-full`).
+- **Edit portfolio copy**: `portfolio.tagline` + `portfolio.projects.*` in `en.ts`/`id.ts`
+  (keys must match the `key` fields in `Portfolio.tsx` `PROJECTS`). Titles/tags stay in
+  `PROJECTS` (proper nouns, locale-independent).
+- **Swap/add project image**: replace webp/png pair under `public/projects/` keeping the
+  filename (flat single-image export of the full preview panel). `ProjectCard` re-imports
+  them by path — no code change. Per-variant `sizes` live in `ui/ProjectCard.tsx`.
+- **Add project link**: pass `href` to the `card` call in `Portfolio.tsx`; without a link
+  the circular arrow button is hidden.
 - **Change hero stats**: numbers in `Hero.tsx` (`value`), labels in dictionaries (`hero.stats`).
 - **Change availability**: `variant={Status.X}` in `Header.tsx`; statuses defined in `ui/AvailabilityStatus.tsx`, labels in dictionaries (`header.status`).
 - **Change typed roles / location**: `hero.roles` / `hero.location` in dictionaries.
@@ -103,7 +152,7 @@ public/
 ## Asset conventions
 
 - People photos referenced by exact filename — mixed formats (`*.jpeg`, `*.jpg.webp`), no rename guarantees. Copy filename exactly.
-- Techstack SVG filenames contain dots and spaces (`React Router.svg`, `Next.js.svg`) — quote in paths.
+- Techstack SVG filenames are lowercase, `-` for non-alphanumeric characters (`react-router.svg`, `next-js.svg`).
 - Projects are webp, `object-cover`, `fill` + explicit `sizes`.
 
-<!-- verified against: 28d8aec, 2026-09-30 -->
+<!-- verified against: 619635d, 2026-10-15 (Portfolio/ProjectCard entries above verified in-session; move SHA on next commit) -->

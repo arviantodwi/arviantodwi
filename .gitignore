@@ -20,6 +20,11 @@
 # production
 /build
 
+# design & ide
+.cursorrules
+LOVABLE.md
+.figma-cache/*
+
 # misc
 .DS_Store
 *.pem

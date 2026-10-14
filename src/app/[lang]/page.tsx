@@ -1,12 +1,13 @@
 import { notFound } from 'next/navigation';
 import { About } from '../components/About';
+import { AiWorkflow } from '../components/AiWorkflow';
 import { Footer } from '../components/Footer';
 import { Header } from '../components/Header';
 import { Hero } from '../components/Hero';
 import { Portfolio } from '../components/Portfolio';
 import { TechStack } from '../components/TechStack';
 import { Testimonial } from '../components/Testimonial';
-import { getDictionary, hasLocale } from '../libs/i18n';
+import { getDictionary, hasLocale } from '../lib/i18n';
 
 export default async function Home({ params }: PageProps<'/[lang]'>) {
   const { lang } = await params;
@@ -23,7 +24,8 @@ export default async function Home({ params }: PageProps<'/[lang]'>) {
         <Hero dict={dict} />
         <About dict={dict} />
         <TechStack dict={dict} />
-        <Portfolio locale={lang} />
+        <AiWorkflow dict={dict} />
+        <Portfolio locale={lang} dict={dict} />
         <Testimonial dict={dict} />
       </div>
       <Footer dict={dict} locale={lang} />

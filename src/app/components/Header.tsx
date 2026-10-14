@@ -2,8 +2,8 @@
 
 import Image from 'next/image';
 import { type FC, useEffect, useState } from 'react';
-import type { Dictionary, Locale } from '@/app/libs/i18n/types';
-import { cx } from '@/app/libs/utils';
+import type { Dictionary, Locale } from '@/app/lib/i18n/types';
+import { cx } from '@/app/lib/utils';
 import { AvailabilityStatus, Status } from './ui/AvailabilityStatus';
 import { LangSwitcher } from './ui/LangSwitcher';
 import { SocialNav } from './ui/SocialNav';
@@ -49,7 +49,7 @@ export const Header: FC<Props> = ({ dict, locale }) => {
           : 'h-[92px] bg-transparent py-6 after:opacity-0 md:h-[100px] xl:h-[108px]',
       )}
     >
-      <div className="flex h-full items-center justify-between md:mx-auto md:max-w-2xl md:px-6 lg:max-w-4xl xl:max-w-7xl xl:px-18">
+      <div className="mx-auto flex h-full items-center justify-between md:px-6 xl:max-w-[1440px] xl:px-30">
         <div className="flex items-center gap-3">
           <Image src="/logo.svg" width={133} height={36} alt="logo" />
           <SocialNav className="hidden sm:flex" />

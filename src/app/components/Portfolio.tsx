@@ -1,155 +1,136 @@
-import { getImageProps } from 'next/image';
 import type { FC } from 'react';
-import type { Locale } from '@/app/libs/i18n/types';
+import type { Dictionary, Locale } from '@/app/lib/i18n/types';
 import { PortfolioItemFade } from './ui/PortfolioItemFade';
+import { ProjectCard } from './ui/ProjectCard';
 
 interface Props {
   locale: Locale;
+  dict: Dictionary;
 }
 
 /**
  * Project entries are proper nouns, kept identical across locales.
- * Titles are one word per line (mirrors the Figma 3-line title block) with a
- * per-line opacity ramp (75% → 85% → 100%).
- * Images: flattened exports of the Figma media panels ("Project Hover" inner
- * frames, 850×540). `image` is the WebP primary source, `imageFallback` the
- * PNG served to browsers without WebP support.
+ * Descriptions + tagline live in the dictionaries (see dict.portfolio).
+ * Images: flattened exports of the Figma media panels. `image` is the
+ * WebP primary source, `imageFallback` the PNG served to browsers without
+ * WebP support — both are placeholders awaiting the owner's exports
+ * (same paths, zero code change). `surface` paints the Figma preview
+ * surface behind/around the flat image export.
+ * Layout per Figma node 681-441: one featured `wide` project, then two
+ * rows of two `compact` cards. Links: TBD per project (none shipped yet —
+ * pass a `href` to light up the arrow button).
  */
 const PROJECTS = [
   {
-    lines: ['Tours', 'Reality', 'Game'],
+    key: 'tours',
+    title: 'Tours Reality Game',
     tags: ['UI/X Design', 'iOS App'],
     image: '/projects/tours-reality-game.webp',
     imageFallback: '/projects/tours-reality-game.png',
+    surface: 'bg-[#003748]',
   },
   {
-    lines: ['Sports', 'Content', 'Hub'],
+    key: 'sports',
+    title: 'Sports Content Hub',
     tags: ['Front End Development', 'UI/X Design', 'Responsive Web App'],
     image: '/projects/sports-content-hub.webp',
     imageFallback: '/projects/sports-content-hub.png',
+    surface: 'bg-[#f8d178]',
   },
   {
-    lines: ['Voice', 'Pitch', 'Analyzer'],
+    key: 'voice',
+    title: 'Voice Pitch Analyzer',
     tags: ['UI/X Design', 'iOS App'],
     image: '/projects/voice-pitch-analyzer.webp',
     imageFallback: '/projects/voice-pitch-analyzer.png',
+    surface: 'bg-gradient-to-b from-[#fd65a5] to-[#fd8769]',
   },
   {
-    lines: ['Vehicle', 'Delivery', 'Service'],
+    key: 'vehicle',
+    title: 'Vehicle Delivery Service',
     tags: ['UI/X Design', 'Mobile Web App', 'PWA'],
     image: '/projects/vehicle-delivery.webp',
     imageFallback: '/projects/vehicle-delivery.png',
+    surface: 'bg-[#231f20]',
   },
   {
-    lines: ['Social', 'Charity', 'Platform'],
+    key: 'charity',
+    title: 'Social Charity Platform',
     tags: ['UI/X Design', 'Web App'],
     image: '/projects/social-charity-platform.webp',
     imageFallback: '/projects/social-charity-platform.png',
+    surface: 'bg-[linear-gradient(115deg,#95eff1_0%,#f3b957_32%,#f2df98_59%,#ef798a_100%)]',
   },
-];
-
-/** Per-line opacity ramp for the 3-line title block. */
-const LINE_OPACITY = ['opacity-50', 'opacity-75', 'opacity-100'];
-
-/** Responsive media-panel sizes, shared by the webp source and png fallback. */
-const IMAGE_SIZES =
-  '(max-width: 639px) calc(100vw - 48px), (max-width: 767px) calc(100vw - 80px), (max-width: 1023px) 640px, (max-width: 1279px) 848px, 1208px';
+] as const;
 
 const SECTION_TITLE: Record<Locale, string> = {
   en: 'Portfolio',
   id: 'Portofolio',
 };
 
-export const Portfolio: FC<Props> = ({ locale }) => {
+export const Portfolio: FC<Props> = ({ locale, dict }) => {
   const headingBand = (
     <div className="portfolio-heading relative z-1 flex w-full flex-col lg:sticky lg:top-[68px] lg:ml-[calc(50%-50vw)] lg:w-screen lg:items-center lg:pt-[var(--portfolio-title-gap)] lg:backdrop-blur-[8px] xl:top-[76px]">
-      <div className="mx-auto flex w-full flex-col px-6 md:mx-auto md:max-w-2xl lg:max-w-4xl xl:max-w-7xl xl:px-18">
-        <div className="flex items-center gap-6 self-start lg:-ml-(--portfolio-heading-offset)">
-          <h2 className="font-bold font-headline text-[76px] text-white uppercase leading-[1.0657894737] lg:text-[116px]">
-            {SECTION_TITLE[locale]}
-          </h2>
-          <span aria-hidden="true" className="h-[6px] w-[220px] bg-gold lg:h-[10px] lg:w-[440px]" />
+      <div className="mx-auto flex w-full flex-col px-6 md:px-18 xl:max-w-[1440px] xl:px-30">
+        <div className="flex w-full flex-col gap-[24px]">
+          {/* Heading row: wordmark left, two-line tagline hung off its
+              bottom 24px to its right (first muted, second full white),
+              per Figma 681:443. */}
+          <div className="flex flex-col gap-4 md:flex-row md:items-end md:gap-[24px] md:self-stretch">
+            <h2 className="font-bold font-headline text-[76px] text-white uppercase leading-[1.08] md:text-[84px] xl:text-[112px]">
+              {SECTION_TITLE[locale]}
+            </h2>
+            <p className="font-general text-[16px] text-white/75 leading-[1.6] md:w-[420px] md:shrink-0">
+              <span className="block">{dict.portfolio.tagline.muted}</span>
+              <span className="block text-white">{dict.portfolio.tagline.plain}</span>
+            </p>
+          </div>
+          {/* Section divider */}
+          <div aria-hidden="true" className="h-px w-full bg-white/15" />
         </div>
       </div>
     </div>
   );
 
-  const row = (
-    { lines, tags, image, imageFallback }: (typeof PROJECTS)[number],
-    fading: boolean,
-  ) => (
-    <div
-      key={lines[0]}
-      className={`flex flex-col gap-6 sm:flex-row sm:items-center${fading ? ' portfolio-item' : ''}`}
-    >
-      <div className="flex w-full flex-col justify-center gap-6 sm:w-[300px] sm:shrink-0">
-        <h3 className="font-bold font-general text-3xl text-white italic lg:text-[60px]">
-          {lines.map((line, index) => (
-            <span key={line} className={`block ${LINE_OPACITY[index] ?? 'opacity-100'}`}>
-              {line}
-            </span>
-          ))}
-        </h3>
-        <div className="flex flex-wrap justify-start gap-3">
-          {tags.map((tag) => (
-            <span
-              key={tag}
-              className="border border-gold bg-gold/16 px-1.5 py-1.5 font-general font-medium text-[#f6edcc] text-sm"
-            >
-              {tag}
-            </span>
-          ))}
-        </div>
-      </div>
-
-      <div className="w-full border border-gold p-3">
-        <div className="relative aspect-[850/540]">
-          {/* Explicit webp→png fallback chain built from getImageProps: both
-              variants flow through the Next image optimizer, modern browsers
-              pick the webp source, legacy browsers get the optimized png. */}
-          <picture>
-            <source
-              srcSet={
-                getImageProps({
-                  src: image,
-                  alt: '',
-                  fill: true,
-                  sizes: IMAGE_SIZES,
-                }).props.srcSet
-              }
-              type="image/webp"
-              sizes={IMAGE_SIZES}
-            />
-            <img
-              {...getImageProps({
-                src: imageFallback,
-                alt: lines.join(' '),
-                fill: true,
-                sizes: IMAGE_SIZES,
-              }).props}
-              alt={lines.join(' ')}
-            />
-          </picture>
-        </div>
-      </div>
-    </div>
+  const card = (project: (typeof PROJECTS)[number], fading: boolean) => (
+    <ProjectCard
+      key={project.key}
+      variant={project.key === 'tours' ? 'wide' : 'compact'}
+      title={project.title}
+      tags={[...project.tags]}
+      description={dict.portfolio.projects[project.key].description}
+      image={project.image}
+      imageFallback={project.imageFallback}
+      surface={project.surface}
+      alt={project.title}
+      className={fading ? 'portfolio-item' : undefined}
+    />
   );
 
   return (
-    <section className="portfolio-section relative z-10 mb-20 px-6 md:mx-auto md:max-w-2xl lg:mb-[120px] lg:max-w-4xl xl:max-w-7xl xl:px-18">
+    <section className="portfolio-section relative z-10 mx-auto mb-20 px-6 md:px-18 lg:mb-[120px] xl:max-w-[1440px] xl:px-30">
       <PortfolioItemFade />
-      {/* Sticky containing block: ends with the second-to-last row, so the
-          band releases and scrolls away naturally once that row is fully
-          behind the title. The last row lives outside — regular element,
-          no fade. */}
+      {/* The fade hook (.portfolio-item, ui/PortfolioItemFade.tsx) sits on
+          every card. Rows 1–2 are inside the sticky band's containing block
+          — their exit fade is driven by the pinned title. The last row
+          lives outside (the band has already released by then, so its exit
+          factor never engages) but still gets the same scroll-in entry
+          fade as every other row. */}
       <div>
         {headingBand}
-        <div className="mt-16 flex flex-col gap-16">
-          {PROJECTS.slice(0, -1).map((project) => row(project, true))}
+        <div className="mt-12 flex flex-col gap-12 md:gap-[48px]">
+          {card(PROJECTS[0], true)}
+          <div className="flex flex-col gap-12 md:grid md:grid-cols-2 md:gap-x-[32px] md:gap-y-[48px]">
+            {card(PROJECTS[1], true)}
+            {card(PROJECTS[2], true)}
+          </div>
         </div>
       </div>
 
-      <div className="mt-16 flex flex-col gap-16">{row(PROJECTS[PROJECTS.length - 1], false)}</div>
+      <div className="mt-12 flex flex-col gap-12 md:flex-row md:items-start md:gap-[32px]">
+        {card(PROJECTS[3], true)}
+        {card(PROJECTS[4], true)}
+      </div>
     </section>
   );
 };
