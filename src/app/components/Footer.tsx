@@ -32,8 +32,8 @@ export const Footer: FC<Props> = ({ dict, locale }) => {
     { label: mast.links.message, href: '#contact' },
   ];
   const socialLinks = [
-    { label: mast.socialLinks.github, href: GITHUB_URL },
-    { label: mast.socialLinks.linkedin, href: LINKEDIN_URL },
+    { label: mast.socialLinks.github, href: GITHUB_URL, external: true },
+    { label: mast.socialLinks.linkedin, href: LINKEDIN_URL, external: true },
   ];
 
   const mastRow = (link: { label: string; href: string; external?: boolean }) => (
