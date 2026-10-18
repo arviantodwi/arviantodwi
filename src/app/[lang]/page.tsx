@@ -18,8 +18,11 @@ export default async function Home({ params }: PageProps<'/[lang]'>) {
 
   return (
     <main className="flex min-h-screen w-screen flex-col">
-      {/* Padding-top clears the fixed topbar (its pre-collapse height per breakpoint). */}
-      <div className="blurred-circle-accent bg-background pt-[92px] md:pt-[100px] xl:pt-[108px]">
+      {/* Body shell per the Figma Main artboard: uniform rhythm between
+          sections (80px mobile, 120px from lg up) and a 120px close before
+          the footer. Padding-top clears the fixed topbar (its pre-collapse
+          height per breakpoint). */}
+      <div className="blurred-circle-accent flex flex-col gap-20 bg-background pt-[92px] pb-20 md:pt-[100px] lg:gap-[120px] lg:pb-[120px] xl:pt-[108px]">
         <Header dict={dict} locale={lang} />
         <Hero dict={dict} />
         <About dict={dict} />

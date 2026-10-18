@@ -1,6 +1,6 @@
 # Index
 
-Personal portfolio site (arvian.to). Single page: Header → Hero → About → TechStack → Portfolio → Testimonial → Footer. Next.js 16, React 19, Tailwind 4, TypeScript. No CMS, no DB, no tests — all content hardcoded in components/data. Dark theme, gold accent. Bilingual (en at `/`, id at `/id`, dictionaries in `src/app/lib/i18n/`).
+Personal portfolio site (arvian.to). Single page: Header → Hero → About → TechStack → AiWorkflow → Portfolio → Testimonial → Footer (band + contact scaffold). Next.js 16, React 19, Tailwind 4, TypeScript. No CMS, no DB, no tests — all content hardcoded in components/data. Dark theme, gold accent. Bilingual (en at `/`, id at `/id`, dictionaries in `src/app/lib/i18n/`).
 
 **Read this file first. Read only the doc your task needs.**
 
@@ -27,4 +27,4 @@ Personal portfolio site (arvian.to). Single page: Header → Hero → About → 
 | Page composition                | `src/app/[lang]/page.tsx`                                                                            |
 | Portrait, logo                  | `public/photo.png`, `public/logo.svg`                                                                |
 
-<!-- verified against: 28d8aec, 2026-09-30 -->
+<!-- verified against: working tree, 2026-10-18 (layout/container pass per .pen Main artboard; move SHA on next commit) -->

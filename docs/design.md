@@ -39,7 +39,8 @@ Theme tokens, custom CSS, layout patterns. Source of truth: `src/app/globals.css
 ## Recurring visual conventions
 
 - **Gold underline headline pattern**: `<span className="underline decoration-1 decoration-gold underline-offset-[5px]">` on highlighted h1/h2 phrase (Hero, TechStack, Portfolio, Testimonial).
-- **Containers per breakpoint**: content sections follow `px-6 md:mx-auto md:max-w-2xl lg:max-w-4xl xl:max-w-[1440px] xl:px-30` — 1440px shell, 120px gutters, content caps at 1200px (matches Figma desktop artboard; varies slightly per section — copy nearest sibling).
+- **Section shell**: shared `ui/Section.tsx` — `px-6 md:mx-auto md:max-w-2xl lg:max-w-4xl xl:max-w-[1440px] xl:px-30` (1440px shell, 120px gutters, content caps at 1200px; matches the .pen Main artboard). Render with `as="div"` for inner containers. Per-section overrides go through `className` (tailwind-merge resolves tiers — e.g. Portfolio passes `md:max-w-none md:px-18 lg:max-w-none xl:pb-20` for its full-bleed grid).
+- **Vertical rhythm**: sections get their spacing from the `page.tsx` Body wrapper (`gap-20 lg:gap-[120px]`, `pb-20 lg:pb-[120px]` before the footer) — per-section `mb-*` is gone. Sections keep their own design pad-y (`py-20` on TechStack/AiWorkflow, `pt-20` Testimonial) so xl totals match the artboard's 120px section gap + 80px inner padding.
 - **Muted body text**: `opacity-75` on regular copy, `opacity-60` for tertiary, gold `text-gold` / `<strong>` for emphasis.
 - **Numbers**: `tabular-nums` on `Statistic` count-up.
 - **Buttons**: `ui/Button.tsx` — neo-brutalism: sharp corners, `border-2 border-black`, offset solid black shadow that presses in on hover (`transition-all`). `<a>` when `href` passed, `<button>` otherwise. `primary` variant = gold fill + `text-background` dark label; sizes `md` (4px shadow) / `lg` (6px shadow, larger padding + text). Icons placed as trailing children (e.g. `TbArrowUpRight size={18}`).
@@ -49,4 +50,4 @@ Theme tokens, custom CSS, layout patterns. Source of truth: `src/app/globals.css
 
 `cx()` in `src/app/lib/utils.ts` (clsx + tailwind-merge). Use it for conditional classes, e.g. `cx('base', conditional && 'extra')`.
 
-<!-- verified against: 619635d, 2026-10-15 (Portfolio sticky-heading knife edges above verified in-session; move SHA on next commit) -->
+<!-- verified against: working tree, 2026-10-18 (Section shell + page rhythm per .pen Main artboard; move SHA on next commit) -->

@@ -14,7 +14,9 @@ src/
       layout.tsx    # Root layout: fonts (Antonio, Plus Jakarta Sans) via CSS vars,
                     # <html lang={lang}>; generateStaticParams (en, id);
                     # generateMetadata per locale from dict.metadata (images unchanged)
-      page.tsx      # Loads dict for lang, passes it to every section
+      page.tsx      # Loads dict for lang, passes it to every section. Body wrapper
+                    # owns the vertical rhythm (gap-20 / lg:gap-[120px], pb before
+                    # footer) per the .pen Main artboard; sections carry no mb-*
     globals.css     # Tailwind import, theme tokens, custom utilities (see design.md)
     icon.png        # Favicon
     lib/
@@ -28,7 +30,11 @@ src/
       Header.tsx    # Sticky topbar (client): logo + SocialNav + LangSwitcher +
                     # AvailabilityStatus; bg-background/70 + backdrop-blur; scrolled
                     # state shrinks padding (py-6→py-2) and fades in 1px bottom line
-      Hero.tsx      # Name, TypeAnimation, Statistic row, portrait Image
+      Hero.tsx      # Name, TypeAnimation, Statistic row, portrait Image.
+                    # xl: two-col row per Figma Main artboard — 478px copy col
+                    # (centered, gap 56) | 200px gap | 584px photo that hangs
+                    # 177px below the 700px hero; below xl photo stays absolute
+                    # with the long pb-* reservations
       About.tsx     # Bio paragraphs via SegmentedText, .about-box-accent headline,
                     # centered CV CTA button (ui/Button + TbArrowUpRight)
       TechStack.tsx # Heading + subline via SegmentedText + ToolsMarquee
@@ -51,8 +57,13 @@ src/
       Portfolio.legacy.tsx # Pre-redesign portfolio (CSS grid + weight-graded experiment);
                            # not imported anywhere — kept as reference only
       Testimonial.tsx # Heading + TestimonyCarousel
-      Footer.tsx    # Copyright + SocialNav (mobile only)
+      Footer.tsx    # Footer skeleton per the .pen Main artboard: aurora backdrop
+                    # slot + 1200px contact panel scaffold (both empty — content
+                    # lands in a later pass) + footer band (brand column:
+                    # copyright + LangSwitcher | social mast: SocialNav)
       ui/           # Shared UI primitives & client islands:
+        Section.tsx             # Shared section shell (docs/design.md): 1440 shell,
+                                # 120px xl gutters; `as` + className overrides
         Button.tsx              # Server-compatible button/<a> hybrid; variant 'primary' = gold fill,
                                 # dark text; children compose label + trailing icon
         AvailabilityStatus.tsx  # Status enum; label text passed via `labels` prop
@@ -155,4 +166,4 @@ public/
 - Techstack SVG filenames are lowercase, `-` for non-alphanumeric characters (`react-router.svg`, `next-js.svg`).
 - Projects are webp, `object-cover`, `fill` + explicit `sizes`.
 
-<!-- verified against: 619635d, 2026-10-15 (Portfolio/ProjectCard entries above verified in-session; move SHA on next commit) -->
+<!-- verified against: working tree, 2026-10-18 (layout/container pass per .pen Main artboard; move SHA on next commit) -->

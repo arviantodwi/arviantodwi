@@ -2,6 +2,7 @@ import type { FC } from 'react';
 import type { Dictionary, Locale } from '@/app/lib/i18n/types';
 import { PortfolioItemFade } from './ui/PortfolioItemFade';
 import { ProjectCard } from './ui/ProjectCard';
+import { Section } from './ui/Section';
 
 interface Props {
   locale: Locale;
@@ -108,7 +109,7 @@ export const Portfolio: FC<Props> = ({ locale, dict }) => {
   );
 
   return (
-    <section className="portfolio-section relative z-10 mx-auto mb-20 px-6 md:px-18 lg:mb-[120px] xl:max-w-[1440px] xl:px-30">
+    <Section className="portfolio-section md:max-w-none md:px-18 lg:max-w-none xl:pb-20">
       <PortfolioItemFade />
       {/* The fade hook (.portfolio-item, ui/PortfolioItemFade.tsx) sits on
           every card. Rows 1–2 are inside the sticky band's containing block
@@ -131,6 +132,6 @@ export const Portfolio: FC<Props> = ({ locale, dict }) => {
         {card(PROJECTS[3], true)}
         {card(PROJECTS[4], true)}
       </div>
-    </section>
+    </Section>
   );
 };
