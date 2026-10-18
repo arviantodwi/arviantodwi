@@ -229,5 +229,21 @@ export const idDictionary: Dictionary = {
   footer: {
     copyright:
       'Merek dagang dan merek adalah milik pemiliknya masing-masing. Desain berkolaborasi dengan <link>Lucas Brancher</link> 🇧🇷 pada 2025.',
+    mast: {
+      inPage: 'Di halaman',
+      social: 'Sosial',
+      links: {
+        about: 'Tentang',
+        cv: 'CV/Resume saya',
+        humanAi: 'Manusia + AI',
+        portfolio: 'Galeri portofolio',
+        testimonials: 'Testimoni',
+        message: 'Kirim saya pesan',
+      },
+      socialLinks: {
+        github: 'GitHub',
+        linkedin: 'LinkedIn',
+      },
+    },
   },
 };

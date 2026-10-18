@@ -225,5 +225,21 @@ export const enDictionary: Dictionary = {
   footer: {
     copyright:
       'Trademarks and brands are the property of their respective owners. Designed in collaboration with <link>Lucas Brancher</link> 🇧🇷 in 2025.',
+    mast: {
+      inPage: 'In page',
+      social: 'Social',
+      links: {
+        about: 'About',
+        cv: 'My CV/Resume',
+        humanAi: 'Human + AI',
+        portfolio: 'Portfolio gallery',
+        testimonials: 'Testimonials',
+        message: 'Send me a message',
+      },
+      socialLinks: {
+        github: 'GitHub',
+        linkedin: 'LinkedIn',
+      },
+    },
   },
 };

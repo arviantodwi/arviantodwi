@@ -1,8 +1,10 @@
+import Image from 'next/image';
 import type { FC } from 'react';
+import { TbArrowUpRight } from 'react-icons/tb';
 import type { Dictionary, Locale } from '@/app/lib/i18n/types';
+import { CV_URL, GITHUB_URL, LINKEDIN_URL } from '../lib/constants';
 import { LangSwitcher } from './ui/LangSwitcher';
 import { Section } from './ui/Section';
-import { SocialNav } from './ui/SocialNav';
 
 const LUCAS_LINKEDIN_URL = 'https://www.linkedin.com/in/lucas-brancher/';
 
@@ -12,33 +14,83 @@ interface Props {
 }
 
 /**
- * Footer skeleton per the Figma Main artboard: aurora ambience backdrop,
- * a 1200px contact panel scaffold, then the footer band — brand column
- * left, link masts right, aligned to the end. Existing content only;
- * empty slots (aurora art, contact panel, in-page links mast) land in a
- * later content pass.
+ * Footer band per the .pen Main artboard (node x2r6j): brand column left,
+ * two link masts right, end-aligned. Masts are hairline-separated rows —
+ * up-right arrow on external links only, gold 11px mast labels. The aurora
+ * backdrop art and the contact panel content land in a later pass.
  */
 export const Footer: FC<Props> = ({ dict, locale }) => {
   const [before, name, after] = dict.footer.copyright.split(/<\/?link>/);
+  const { mast } = dict.footer;
+
+  const inPageLinks = [
+    { label: mast.links.about, href: '#about' },
+    { label: mast.links.cv, href: CV_URL, external: true },
+    { label: mast.links.humanAi, href: '#human-ai' },
+    { label: mast.links.portfolio, href: '#portfolio' },
+    { label: mast.links.testimonials, href: '#testimonials' },
+    { label: mast.links.message, href: '#contact' },
+  ];
+  const socialLinks = [
+    { label: mast.socialLinks.github, href: GITHUB_URL },
+    { label: mast.socialLinks.linkedin, href: LINKEDIN_URL },
+  ];
+
+  const mastRow = (link: { label: string; href: string; external?: boolean }) => (
+    <div key={link.href + link.label}>
+      <a
+        href={link.href}
+        {...(link.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+        className="flex h-[37px] items-center justify-between font-semibold text-base text-white/75 transition-colors hover:text-white"
+      >
+        {link.label}
+        {link.external && <TbArrowUpRight size={16} aria-hidden="true" />}
+      </a>
+      <div aria-hidden="true" className="h-px bg-white/10" />
+    </div>
+  );
 
   return (
-    <footer className="relative z-10 mt-auto overflow-hidden bg-neutral-900 font-general text-sm">
+    <footer className="relative z-10 mt-auto overflow-hidden bg-background font-general text-sm">
+      {/* Footer root sits straight on the #040404 page base (no fill in the
+          design); the glass treatment lives on the band section below. */}
       {/* Aurora ambience backdrop slot (Figma: "Golden ambience — neon aurora"). */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0" />
 
       {/* Contact scaffold (Figma: 1200px Contact panel — invitation + inquiry form). */}
-      <Section as="div" className="pt-16">
+      <Section as="div" id="contact" className="pt-16">
         <div className="mx-auto w-full xl:max-w-[1200px]">
           <div className="xl:p-12">{/* Contact panel slot */}</div>
         </div>
       </Section>
 
-      {/* Footer band (Figma: brand column / link masts, space-between, end-aligned). */}
-      <Section as="div" className="pt-20 pb-16">
-        <div className="flex flex-col items-center gap-8 text-center md:flex-row md:items-end md:justify-between md:gap-16 md:text-left">
-          {/* Brand column (Figma: logo + copy + language switcher; logo lands later). */}
-          <div className="flex flex-col items-center gap-3 md:items-start">
-            <p className="opacity-60">
+      {/* Footer band (Figma node x2r6j: glass root — bg 40% + backdrop blur over
+          the aurora; pad 220/64 around the py-56 band). */}
+      <Section as="div" className="bg-background/40 pt-20 pb-16 backdrop-blur-md xl:pt-[220px]">
+        {/* Neon aurora glow hugging the band's top edge (design stretches the
+            1886×672 art into 1445×231). */}
+        <div aria-hidden="true" className="absolute inset-x-0 bottom-full h-[231px]">
+          <Image
+            src="/footer-aurora.png"
+            width={1886}
+            height={672}
+            alt=""
+            className="h-full w-full object-fill"
+          />
+        </div>
+        <div className="relative flex flex-col gap-14 py-14 md:flex-row md:items-end md:justify-between md:gap-16">
+          {/* Brand column (Figma: 435×80 wordmark at white/15, copy, language switcher). */}
+          <div className="flex max-w-[550px] flex-col gap-3">
+            {/* Footer wordmark: the design's tight SVG at its natural 435×80
+                (h-20, no extra wrapping); white/15 via opacity. */}
+            <Image
+              src="/logo.svg"
+              width={118.54}
+              height={21.8}
+              alt="logo"
+              className="h-20 w-auto self-start opacity-15"
+            />
+            <p className="font-medium text-base text-white/75">
               {before}
               <a
                 href={LUCAS_LINKEDIN_URL}
@@ -53,9 +105,26 @@ export const Footer: FC<Props> = ({ dict, locale }) => {
             <LangSwitcher locale={locale} />
           </div>
 
-          {/* Link masts (Figma: in-page links mast + social mast; in-page links land later). */}
-          <div className="flex items-center gap-16">
-            <SocialNav />
+          {/* Link masts (Figma: 200px wide, gold label, hairline rows). */}
+          <div className="flex flex-col gap-14 md:flex-row md:gap-16">
+            <nav
+              aria-label={mast.inPage}
+              className="flex w-[200px] shrink-0 flex-col gap-3 pt-[22px]"
+            >
+              <p className="font-bold text-[11px] text-gold uppercase tracking-[2.4px]">
+                {mast.inPage}
+              </p>
+              <div className="flex flex-col">{inPageLinks.map(mastRow)}</div>
+            </nav>
+            <nav
+              aria-label={mast.social}
+              className="flex w-[200px] shrink-0 flex-col gap-3 pt-[22px]"
+            >
+              <p className="font-bold text-[11px] text-gold uppercase tracking-[2.4px]">
+                {mast.social}
+              </p>
+              <div className="flex flex-col">{socialLinks.map(mastRow)}</div>
+            </nav>
           </div>
         </div>
       </Section>

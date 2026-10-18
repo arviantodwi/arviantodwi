@@ -97,5 +97,21 @@ export interface Dictionary {
   };
   footer: {
     copyright: string;
+    mast: {
+      inPage: string;
+      social: string;
+      links: {
+        about: string;
+        cv: string;
+        humanAi: string;
+        portfolio: string;
+        testimonials: string;
+        message: string;
+      };
+      socialLinks: {
+        github: string;
+        linkedin: string;
+      };
+    };
   };
 }

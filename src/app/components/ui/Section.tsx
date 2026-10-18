@@ -15,8 +15,11 @@ interface Props {
   as?: ElementType;
   children: ReactNode;
   className?: string;
+  id?: string;
 }
 
-export const Section: FC<Props> = ({ as: Tag = 'section', className, children }) => (
-  <Tag className={cx(BASE, className)}>{children}</Tag>
+export const Section: FC<Props> = ({ as: Tag = 'section', className, children, id }) => (
+  <Tag className={cx(BASE, className)} id={id}>
+    {children}
+  </Tag>
 );

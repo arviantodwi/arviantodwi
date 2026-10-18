@@ -109,7 +109,10 @@ export const Portfolio: FC<Props> = ({ locale, dict }) => {
   );
 
   return (
-    <Section className="portfolio-section md:max-w-none md:px-18 lg:max-w-none xl:pb-20">
+    <Section
+      id="portfolio"
+      className="portfolio-section md:max-w-none md:px-18 lg:max-w-none xl:pb-20"
+    >
       <PortfolioItemFade />
       {/* The fade hook (.portfolio-item, ui/PortfolioItemFade.tsx) sits on
           every card. Rows 1–2 are inside the sticky band's containing block

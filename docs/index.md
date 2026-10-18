@@ -23,8 +23,9 @@ Personal portfolio site (arvian.to). Single page: Header → Hero → About → 
 | Social links, tech tools        | `src/app/lib/constants/` (`index.ts` URLs/cookie, `stack.ts` `TECH_STACK` — barrel re-export)        |
 | Page title / SEO / OG cards     | `src/app/[lang]/layout.tsx` `generateMetadata` (text per locale from dicts; images unchanged)        |
 | Availability badge              | variant in `Header.tsx` (currently `Status.AVAILABLE`); label text in dictionaries (`header.status`) |
+| Footer mast links/labels        | labels in dictionaries (`footer.mast.*`); hrefs/anchors composed in `Footer.tsx` (section ids `#about`, `#human-ai`, `#portfolio`, `#testimonials`, `#contact`) |
 | Theme tokens, custom CSS        | `src/app/globals.css`                                                                                |
 | Page composition                | `src/app/[lang]/page.tsx`                                                                            |
-| Portrait, logo                  | `public/photo.png`, `public/logo.svg`                                                                |
+| Portrait, logo                  | `public/photo.png`, `public/logo.svg` (header + footer — footer at `h-20 opacity-15`); `public/footer-aurora.png` (footer band, exported from the .pen Main artboard) |
 
-<!-- verified against: working tree, 2026-10-18 (layout/container pass per .pen Main artboard; move SHA on next commit) -->
+<!-- verified against: working tree, 2026-10-19 (footer band content + aurora/glass; move SHA on next commit) -->

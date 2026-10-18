@@ -77,7 +77,7 @@ export const AiWorkflow: FC<Props> = ({ dict }) => {
   const { headline, intro, stages, toolkit } = aiWorkflow;
 
   return (
-    <Section className="py-20">
+    <Section id="human-ai" className="py-20">
       <Section as="div" className="flex flex-col gap-14">
         {/* Headline + intro */}
         <div className="flex flex-col gap-4">

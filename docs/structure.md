@@ -27,7 +27,9 @@ src/
       i18n/        # Locale infra: index.ts (hasLocale/getDictionary/locales),
                     # types.ts (Segment, Dictionary), en.ts + id.ts (dictionaries)
     components/     # Sections (server components), all receive `dict: Dictionary`
-      Header.tsx    # Sticky topbar (client): logo + SocialNav + LangSwitcher +
+      Header.tsx    # Sticky topbar (client): logo (tight 118.54×21.8 SVG in a
+                    # p-[7.2px] container = the design's 133×36 logo slot) +
+                    # SocialNav + LangSwitcher +
                     # AvailabilityStatus; bg-background/70 + backdrop-blur; scrolled
                     # state shrinks padding (py-6→py-2) and fades in 1px bottom line
       Hero.tsx      # Name, TypeAnimation, Statistic row, portrait Image.
@@ -57,10 +59,18 @@ src/
       Portfolio.legacy.tsx # Pre-redesign portfolio (CSS grid + weight-graded experiment);
                            # not imported anywhere — kept as reference only
       Testimonial.tsx # Heading + TestimonyCarousel
-      Footer.tsx    # Footer skeleton per the .pen Main artboard: aurora backdrop
-                    # slot + 1200px contact panel scaffold (both empty — content
-                    # lands in a later pass) + footer band (brand column:
-                    # copyright + LangSwitcher | social mast: SocialNav)
+      Footer.tsx    # Footer per the .pen Main artboard: root sits on bg-background
+                    # with public/footer-aurora.png (neon wave, stretched
+                    # 1886×672 → 1445×231) hugging the band's top edge + 1200px
+                    # contact panel scaffold (still empty — later pass,
+                    # `id="contact"`) + glass band section (bg-background/40 +
+                    # backdrop-blur): brand column (logo.svg at h-20 white/15 via
+                    # opacity — design's wordmark is a wider cut, reuse approved,
+                    # copyright, LangSwitcher) | IN PAGE + SOCIAL link
+                    # masts (hairline rows, ↗ on external links only; anchors
+                    # #about/#human-ai/#portfolio/#testimonials/#contact, section
+                    # ids set on each section). Labels in dictionaries
+                    # (dict.footer.mast); hrefs composed here from constants.
       ui/           # Shared UI primitives & client islands:
         Section.tsx             # Shared section shell (docs/design.md): 1440 shell,
                                 # 120px xl gutters; `as` + className overrides
@@ -88,7 +98,7 @@ src/
         ToolsMarquee.tsx        # react-fast-marquee, 2 rows from TECH_STACK split in half
         TestimonyCarousel.tsx   # Swiper carousel; testimony data via `testimonies` prop
 public/
-  photo.png logo.svg quote.svg opengraph-card.png twitter-card.png
+  photo.png logo.svg footer-aurora.png quote.svg opengraph-card.png twitter-card.png
   ai-native-plan.{png,svg} ai-native-design.{png,svg} ai-native-dev.{png,svg}
                                                              # svg = vector card exports
                                                              # (374×132, owner-provided),
@@ -155,6 +165,7 @@ public/
   them by path — no code change. Per-variant `sizes` live in `ui/ProjectCard.tsx`.
 - **Add project link**: pass `href` to the `card` call in `Portfolio.tsx`; without a link
   the circular arrow button is hidden.
+- **Add/edit footer mast link**: label in `footer.mast.links.*` / `footer.mast.socialLinks.*` (en + id); target/external flag composed in `Footer.tsx` (`inPageLinks` / `socialLinks` arrays). In-page links need a matching section `id`.
 - **Change hero stats**: numbers in `Hero.tsx` (`value`), labels in dictionaries (`hero.stats`).
 - **Change availability**: `variant={Status.X}` in `Header.tsx`; statuses defined in `ui/AvailabilityStatus.tsx`, labels in dictionaries (`header.status`).
 - **Change typed roles / location**: `hero.roles` / `hero.location` in dictionaries.
@@ -162,8 +173,14 @@ public/
 
 ## Asset conventions
 
+- `logo.svg` is the tight wordmark (118.54×21.8, paths white) traced from the .pen
+  Main artboard (node o2Uk3m). Header wraps it in `p-[7.2px]` to reproduce the
+  design's 133×36 logo slot; footer renders it at `h-20` (natural 435×80) with
+  `opacity-15` for the design's white/15. `footer-aurora.png` is the "Golden
+  ambience — neon aurora" export (stretched 1886×672 → 1445×231 in the design).
+
 - People photos referenced by exact filename — mixed formats (`*.jpeg`, `*.jpg.webp`), no rename guarantees. Copy filename exactly.
 - Techstack SVG filenames are lowercase, `-` for non-alphanumeric characters (`react-router.svg`, `next-js.svg`).
 - Projects are webp, `object-cover`, `fill` + explicit `sizes`.
 
-<!-- verified against: working tree, 2026-10-18 (layout/container pass per .pen Main artboard; move SHA on next commit) -->
+<!-- verified against: working tree, 2026-10-19 (footer band content + aurora/glass; move SHA on next commit) -->
