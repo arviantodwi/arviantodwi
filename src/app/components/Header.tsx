@@ -41,7 +41,7 @@ export const Header: FC<Props> = ({ dict, locale }) => {
     <header
       className={cx(
         // Fixed to the viewport edges; collapses once scrolled past its initial height.
-        'fixed top-0 right-0 left-0 z-20 px-6 backdrop-blur-md transition-[height,padding] duration-300 md:px-12 xl:px-0',
+        'fixed top-0 right-0 left-0 z-30 px-6 backdrop-blur-md transition-[height,padding] duration-300 md:px-12 xl:px-0',
         // 1px bottom line, fades in with the collapse.
         'after:absolute after:inset-x-0 after:bottom-0 after:h-px after:bg-white/15 after:transition-opacity after:duration-300',
         scrolled

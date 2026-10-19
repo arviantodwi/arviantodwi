@@ -19,13 +19,29 @@ src/
                     # footer) per the .pen Main artboard; sections carry no mb-*
     globals.css     # Tailwind import, theme tokens, custom utilities (see design.md)
     icon.png        # Favicon
+    actions/
+      contact.ts    # 'use server' sendContactMessage(prev, formData) — contact form
+                    # endpoint: rate limit → time trap → honeypot → sanitize →
+                    # validate → config check → owner mail (reply_to = visitor) →
+                    # auto-reply (best effort). Returns i18n error KEYS, never raw
+                    # errors; env vars read inside functions, literal key names.
     lib/
       constants/   # index.ts (GITHUB_URL, LINKEDIN_URL, CV_URL, NEXT_LOCALE_COOKIE —
                    # barrel, re-exports stack.ts), stack.ts (TECH_STACK, 30 items,
                    # sorted by name)
+      contact/     # Contact form helpers (no deps, no I/O in validate.ts):
+                   # validate.ts (LIMITS, INTERESTS, validateContact, isValidEmail,
+                   # sanitizeText) + rate-limit.ts (in-memory fixed-window IP
+                   # limiter; env-driven via readRateLimitConfig, clamped 1..∞,
+                   # resets per cold start)
+      mail/        # Resend plumbing (server-only): resend.ts (lazy getResend()
+                   # singleton, null when RESEND_API_KEY unset) + templates.ts
+                   # (minimal inline-styled owner notification + visitor auto-reply
+                   # builders, escapeHtml on all user input, en/id copy colocated)
       utils.ts     # cx() = clsx + tailwind-merge
       i18n/        # Locale infra: index.ts (hasLocale/getDictionary/locales),
-                    # types.ts (Segment, Dictionary), en.ts + id.ts (dictionaries)
+                    # types.ts (Segment, Dictionary, ContactLabels), en.ts + id.ts
+                    # (dictionaries)
     components/     # Sections (server components), all receive `dict: Dictionary`
       Header.tsx    # Sticky topbar (client): logo (tight 118.54×21.8 SVG in a
                     # p-[7.2px] container = the design's 133×36 logo slot) +
@@ -59,11 +75,22 @@ src/
       Portfolio.legacy.tsx # Pre-redesign portfolio (CSS grid + weight-graded experiment);
                            # not imported anywhere — kept as reference only
       Testimonial.tsx # Heading + TestimonyCarousel
+      Contact.tsx   # Contact panel (server) per the .pen "Precision Panel" frame:
+                    # glass panel shell, gold ambient glows/pulses (aria-hidden +
+                    # pointer-events-none), invitation heading + gold rule,
+                    # two-col layout (interests | form) with hairline divider;
+                    # renders ContactForm
+      ContactForm.tsx # Client island: interest radio group (hidden `interest`
+                    # input), name/email/message fields wired to
+                    # sendContactMessage via useActionState; honeypot `company`,
+                    # time-trap `startedAt`, `locale` hidden fields; formError
+                    # resolved from i18n keys into an aria-live region; keyed
+                    # remount clears the form on success
       Footer.tsx    # Footer per the .pen Main artboard: root sits on bg-background
                     # with public/footer-aurora.png (neon wave, stretched
                     # 1886×672 → 1445×231) hugging the band's top edge + 1200px
-                    # contact panel scaffold (still empty — later pass,
-                    # `id="contact"`) + glass band section (bg-background/40 +
+                    # contact panel slot (renders `<Contact>`, `id="contact"`)
+                    # + glass band section (bg-background/40 +
                     # backdrop-blur): brand column (logo.svg at h-20 white/15 via
                     # opacity — design's wordmark is a wider cut, reuse approved,
                     # copyright, LangSwitcher) | IN PAGE + SOCIAL link
@@ -117,7 +144,10 @@ public/
 2. `page.tsx` resolves `lang`, `getDictionary(lang)`, and renders sections in order,
    passing `dict` to each. Sections are server components; interactive bits are client
    islands loaded with `next/dynamic` + `'use client'` (TypeAnimation, Statistic,
-   ToolsMarquee, TestimonyCarousel) that receive translated text via props.
+   ToolsMarquee, TestimonyCarousel) that receive translated text via props. The contact
+   form is a client island too (`ContactForm`), but it submits through the
+   `sendContactMessage` Server Action (`actions/contact.ts`) via `useActionState` —
+   no route handler, no `src/app/api/`.
 3. Styling is Tailwind-4-only via `globals.css` — no `tailwind.config` file. Class order enforced by Biome (`useSortedClasses`).
 4. Path alias: `@/*` → `src/*`.
 5. Both locales are statically prerendered (`generateStaticParams` on the layout).
@@ -170,6 +200,23 @@ public/
 - **Change availability**: `variant={Status.X}` in `Header.tsx`; statuses defined in `ui/AvailabilityStatus.tsx`, labels in dictionaries (`header.status`).
 - **Change typed roles / location**: `hero.roles` / `hero.location` in dictionaries.
 - **Change bio**: `about.bio` segments in dictionaries.
+- **Edit contact form copy**: `contact.*` in `en.ts`/`id.ts` (heading, prompt, choice
+  labels, field labels/placeholders, submit/success, error texts). The server action
+  returns error KEYS (`contact.errors.*`) that the client resolves — keep those key
+  names stable. Email copy (subject + body of both messages) is colocated in
+  `lib/mail/templates.ts` with an en/id branch, not in the dictionaries.
+- **Change contact sender/recipient**: root `.env` — `CONTACT_FROM`
+  (`"Display Name <address>"` or bare address; malformed → friendly
+  `missingConfig` error, no crash) and `CONTACT_TO` (owner inbox). Resend requires
+  the sending domain to be verified in the Resend dashboard.
+- **Tune abuse throttling**: root `.env` — `CONTACT_RATE_LIMIT` (submissions per
+  window) and `CONTACT_RATE_WINDOW_MIN` (window in **minutes**). Optional; invalid
+  or 0 values fall back to defaults (5 / 10 min), clamped to a minimum of 1 — never
+  disables the limiter. In-memory per process (resets on cold start); no Redis.
+- **Change contact rate-limit or mail behavior**: `lib/contact/rate-limit.ts`
+  (limiter + env parsing), `lib/contact/validate.ts` (field limits, sanitization),
+  `lib/mail/` (Resend client + email builders), `actions/contact.ts` (submission
+  flow). Env vars must be read inside functions with literal key names.
 
 ## Asset conventions
 
@@ -177,10 +224,17 @@ public/
   Main artboard (node o2Uk3m). Header wraps it in `p-[7.2px]` to reproduce the
   design's 133×36 logo slot; footer renders it at `h-20` (natural 435×80) with
   `opacity-15` for the design's white/15. `footer-aurora.png` is the "Golden
-  ambience — neon aurora" export (stretched 1886×672 → 1445×231 in the design).
+  ambience — neon aurora" export (1886×672; rendered at its natural aspect
+  ratio with `object-cover` — full width, no distortion, no clipping).
+  In `Footer.tsx` the aurora layer lives in the band's `z-10` wrapper as an
+  absolute `bottom-full` sibling BEFORE the band glass, so it paints behind
+  BOTH footer content sections (the contact `Section` runs `z-20`); the band's
+  `backdrop-blur-md` reads it through the glass, per the .pen Footer root
+  (node lze4B, aurora spans mid-contact-section → band top). The `<footer>`
+  root crops its bottom 216px via `mb-[-216px]`.
 
 - People photos referenced by exact filename — mixed formats (`*.jpeg`, `*.jpg.webp`), no rename guarantees. Copy filename exactly.
 - Techstack SVG filenames are lowercase, `-` for non-alphanumeric characters (`react-router.svg`, `next-js.svg`).
 - Projects are webp, `object-cover`, `fill` + explicit `sizes`.
 
-<!-- verified against: working tree, 2026-10-19 (footer band content + aurora/glass; move SHA on next commit) -->
+<!-- verified against: working tree, 2026-10-20 (contact feature: actions/contact.ts, lib/contact/, lib/mail/, Contact panel + form, env recipes; move SHA on next commit) -->

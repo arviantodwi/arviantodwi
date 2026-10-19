@@ -33,6 +33,38 @@ export interface StageCopy {
   imageAlt: string;
 }
 
+/** One selectable "I'm interested in..." option on the contact form. */
+export interface ContactChoice {
+  id: 'design' | 'frontend' | 'sme' | 'hello';
+  label: string;
+}
+
+/**
+ * Contact section copy. The server action returns error KEYS
+ * (e.g. 'contact.errors.rateLimited') that the client resolves
+ * against `contact.errors` — keep those key names stable.
+ */
+export interface ContactLabels {
+  heading: string;
+  prompt: string;
+  choices: ContactChoice[];
+  fields: { name: string; email: string; message: string };
+  placeholders: { name: string; email: string; message: string };
+  submit: string;
+  submitting: string;
+  success: string;
+  errors: {
+    name: string;
+    email: string;
+    emailInvalid: string;
+    message: string;
+    tooFast: string;
+    rateLimited: string;
+    sendFailed: string;
+    missingConfig: string;
+  };
+}
+
 export interface Dictionary {
   metadata: {
     description: string;
@@ -114,4 +146,5 @@ export interface Dictionary {
       };
     };
   };
+  contact: ContactLabels;
 }

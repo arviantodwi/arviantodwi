@@ -246,4 +246,33 @@ export const idDictionary: Dictionary = {
       },
     },
   },
+  contact: {
+    heading: 'Mari wujudkan proyek impian Anda!',
+    prompt: 'Saya tertarik dengan...',
+    choices: [
+      { id: 'design', label: 'Desain UI/UX' },
+      { id: 'frontend', label: 'Pengembangan Front End' },
+      { id: 'sme', label: 'Proyek UMKM' },
+      { id: 'hello', label: 'Sapaan singkat!' },
+    ],
+    fields: { name: 'Nama', email: 'Email', message: 'Pesan' },
+    placeholders: {
+      name: 'Lucas Brancher',
+      email: 'you@email.com',
+      message: 'Tulis pesan untuk saya...',
+    },
+    submit: 'Kirim Pesan',
+    submitting: 'Mengirim...',
+    success: 'Pesan terkirim! Saya akan segera membalas.',
+    errors: {
+      name: 'Mohon isi nama Anda (2–100 karakter).',
+      email: 'Mohon isi alamat email Anda.',
+      emailInvalid: 'Mohon isi alamat email yang valid.',
+      message: 'Mohon tulis pesan Anda (10–5000 karakter).',
+      tooFast: 'Terlalu cepat! Mohon sejenak dan coba lagi.',
+      rateLimited: 'Terlalu banyak pesan dari pihak Anda. Mohon coba lagi nanti.',
+      sendFailed: 'Terjadi kesalahan saat mengirim pesan Anda. Mohon coba lagi.',
+      missingConfig: 'Formulir belum dikonfigurasi. Silakan hubungi saya langsung melalui email.',
+    },
+  },
 };
