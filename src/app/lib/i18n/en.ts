@@ -253,9 +253,10 @@ export const enDictionary: Dictionary = {
     ],
     fields: { name: 'Name', email: 'Email', message: 'Message' },
     placeholders: {
-      name: 'Lucas Brancher',
-      email: 'you@email.com',
-      message: 'Write me a message...',
+      name: 'Your name',
+      email: 'Your email or WhatsApp number',
+      message:
+        'Write whatever you want to tell me. I read 100% of messages to keep our conversation going.',
     },
     submit: 'Send Message',
     submitting: 'Sending...',

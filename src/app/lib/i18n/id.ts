@@ -257,9 +257,10 @@ export const idDictionary: Dictionary = {
     ],
     fields: { name: 'Nama', email: 'Email', message: 'Pesan' },
     placeholders: {
-      name: 'Lucas Brancher',
-      email: 'you@email.com',
-      message: 'Tulis pesan untuk saya...',
+      name: 'Nama Anda',
+      email: 'Email atau nomor WhatsApp Anda',
+      message:
+        'Tulis apa pun yang Anda ingin sampaikan. Saya membaca 100% pesan yang masuk agar percakapan kita berlanjut.',
     },
     submit: 'Kirim Pesan',
     submitting: 'Mengirim...',
