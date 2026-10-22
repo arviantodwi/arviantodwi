@@ -1,7 +1,6 @@
 'use client';
 
 import { type FC, useActionState, useEffect, useRef, useState } from 'react';
-import { TbBrandTelegram } from 'react-icons/tb';
 import { type ContactFormState, sendContactMessage } from '@/app/actions/contact';
 import type { Dictionary, Locale } from '@/app/lib/i18n/types';
 import { cx } from '@/app/lib/utils';
@@ -200,9 +199,11 @@ const InterestSelector: FC<InterestSelectorProps> = ({ dict }) => {
  * keyed form so the message survives the remount.
  */
 export const ContactForm: FC<Props> = ({ dict, locale }) => {
-  const [state, formAction, pending] = useActionState(sendContactMessage, INITIAL_STATE);
+  const [state, formAction, _pending] = useActionState(sendContactMessage, INITIAL_STATE);
   const startedAt = useRef(Date.now()).current;
   const [formKey, setFormKey] = useState(0);
+  /* Test-only: 4th button's loading state (click sets it, no submit yet). */
+  const [testLoading, setTestLoading] = useState(false);
 
   useEffect(() => {
     if (state.status === 'success') setFormKey((key) => key + 1);
@@ -235,15 +236,60 @@ export const ContactForm: FC<Props> = ({ dict, locale }) => {
           {/* Submit row (design: flat gold pill-less button, flush right in a
               70px row). No neo-brutal border/shadow — that's the ui/Button
               idiom, not this frame. */}
-          <div className="flex min-h-[70px] items-start justify-end">
-            <button
-              type="submit"
-              disabled={pending}
-              className="inline-flex cursor-pointer items-center gap-2 bg-gold px-[18px] py-3 font-bold font-general text-background text-base transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-gold focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-60"
-            >
-              {pending ? dict.contact.submitting : dict.contact.submit}
-              <TbBrandTelegram size={24} aria-hidden="true" />
-            </button>
+          {/* Send button: idle → (hover) plane bottom-left → (click) loading
+              with plane top-right, flight bob, and trails drawing 2→1→3.
+              type=button so it never submits the form while wiring the real
+              action is pending; reset link shows only while loading. */}
+          <div className="flex min-h-[70px] flex-col items-end justify-end gap-6">
+            <div className="flex items-center gap-4">
+              {testLoading && (
+                <button
+                  type="button"
+                  onClick={() => setTestLoading(false)}
+                  className="cursor-pointer font-bold font-general text-base text-foreground/70 underline underline-offset-4 transition-colors hover:text-foreground focus-visible:outline-2 focus-visible:outline-gold focus-visible:outline-offset-2"
+                >
+                  reset
+                </button>
+              )}
+              <button
+                type="button"
+                onClick={() => setTestLoading(true)}
+                className={cx(
+                  'send-btn group inline-flex h-12 cursor-pointer items-center gap-2 bg-gold px-[18px] font-bold font-general text-background text-base transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-gold focus-visible:outline-offset-2',
+                  testLoading && 'send-btn--loading',
+                )}
+              >
+                {testLoading ? dict.contact.submitting : dict.contact.submit}
+                <svg
+                  width={32}
+                  height={32}
+                  viewBox="0 0 32 32"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                >
+                  <g className="send-fly">
+                    <path className="send-plane" d="M12 6l-4 4 6 6 4-16-18 7 4 2 2 6 3-4" />
+                  </g>
+                  <g transform="translate(7 19.3)">
+                    <path
+                      className="send-trail send-trail--1"
+                      pathLength={1}
+                      d="M5.3 -2.6L1.1 1.7"
+                    />
+                    <path className="send-trail send-trail--2" pathLength={1} d="M8 0L0.4 8.4" />
+                    <path
+                      className="send-trail send-trail--3"
+                      pathLength={1}
+                      d="M12.5 1.3L7.6 6.6"
+                    />
+                  </g>
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
 
