@@ -2,6 +2,8 @@
 
 import { type FC, useActionState, useEffect, useRef, useState } from 'react';
 import { type ContactFormState, sendContactMessage } from '@/app/actions/contact';
+import { Input } from '@/app/components/ui/Input';
+import { Textarea } from '@/app/components/ui/Textarea';
 import type { Dictionary, Locale } from '@/app/lib/i18n/types';
 import { cx } from '@/app/lib/utils';
 
@@ -20,13 +22,10 @@ const INITIAL_STATE: ContactFormState = {
   values: { name: '', email: '', message: '', interest: '' },
 };
 
-/* Field styling per the .pen frame: ALL fields are underline inputs (idle
-   #ffffffa8 → border-white/65, message idle #292929 → border-white/15,
-   placeholder #ffffff54 → white/35, gold focus border, pad 8/0/12/0). */
-const FIELD =
-  'w-full bg-transparent font-general text-base text-white placeholder:text-white/35 transition-colors focus:border-gold focus:outline-none';
-const INPUT = cx(FIELD, 'h-11 border-b border-white/65 px-0 pt-2 pb-3');
-const TEXTAREA = cx(FIELD, 'min-h-[150px] resize-y border-b border-white/15 px-0 pt-2 pb-3');
+/* Field styling lives in ui/Input + ui/Textarea per the .pen
+   "Drawer — Input fields" (uKTB8) / "Drawer — Text areas" (azLph) state
+   system: idle #292929, focus-empty white/65, typed value → gold line,
+   error #ed5440. */
 
 /** Resolve a server-returned i18n key (`contact.errors.*`) to localized copy. */
 const formErrorText = (key: string, dict: Dictionary): string | null => {
@@ -68,79 +67,53 @@ const ContactFields: FC<ContactFieldsProps> = ({ state, dict }) => {
       : { name: '', email: '', message: '' },
   );
 
-  const field = (name: FieldName, id: string, error: string | null, node: React.ReactNode) => (
-    <div className="flex flex-col gap-1">
-      <label htmlFor={id} className="sr-only">
-        {dict.contact.fields[name]}
-      </label>
-      {node}
-      {error && (
-        <p id={`${id}-error`} className="text-rose-600 text-sm">
-          {error}
-        </p>
-      )}
-    </div>
-  );
-
   const nameError = fieldErrorText('name', state, dict);
   const emailError = fieldErrorText('email', state, dict);
   const messageError = fieldErrorText('message', state, dict);
 
   return (
     <div className="flex flex-col gap-4">
-      {field(
-        'name',
-        'contact-name',
-        nameError,
-        <input
-          id="contact-name"
-          name="name"
-          type="text"
-          required
-          autoComplete="name"
-          placeholder={dict.contact.placeholders.name}
-          value={values.name}
-          onChange={(event) => setValues((prev) => ({ ...prev, name: event.target.value }))}
-          aria-invalid={Boolean(nameError)}
-          aria-describedby={nameError ? 'contact-name-error' : undefined}
-          className={INPUT}
-        />,
-      )}
-      {field(
-        'email',
-        'contact-email',
-        emailError,
-        <input
-          id="contact-email"
-          name="email"
-          type="email"
-          required
-          autoComplete="email"
-          placeholder={dict.contact.placeholders.email}
-          value={values.email}
-          onChange={(event) => setValues((prev) => ({ ...prev, email: event.target.value }))}
-          aria-invalid={Boolean(emailError)}
-          aria-describedby={emailError ? 'contact-email-error' : undefined}
-          className={INPUT}
-        />,
-      )}
-      {field(
-        'message',
-        'contact-message',
-        messageError,
-        <textarea
-          id="contact-message"
-          name="message"
-          rows={5}
-          required
-          placeholder={dict.contact.placeholders.message}
-          value={values.message}
-          onChange={(event) => setValues((prev) => ({ ...prev, message: event.target.value }))}
-          aria-invalid={Boolean(messageError)}
-          aria-describedby={messageError ? 'contact-message-error' : undefined}
-          className={TEXTAREA}
-        />,
-      )}
+      <label htmlFor="contact-name" className="sr-only">
+        {dict.contact.fields.name}
+      </label>
+      <Input
+        id="contact-name"
+        name="name"
+        type="text"
+        required
+        autoComplete="name"
+        placeholder={dict.contact.placeholders.name}
+        value={values.name}
+        onChange={(event) => setValues((prev) => ({ ...prev, name: event.target.value }))}
+        error={nameError}
+      />
+      <label htmlFor="contact-email" className="sr-only">
+        {dict.contact.fields.email}
+      </label>
+      <Input
+        id="contact-email"
+        name="email"
+        type="email"
+        required
+        autoComplete="email"
+        placeholder={dict.contact.placeholders.email}
+        value={values.email}
+        onChange={(event) => setValues((prev) => ({ ...prev, email: event.target.value }))}
+        error={emailError}
+      />
+      <label htmlFor="contact-message" className="sr-only">
+        {dict.contact.fields.message}
+      </label>
+      <Textarea
+        id="contact-message"
+        name="message"
+        rows={5}
+        required
+        placeholder={dict.contact.placeholders.message}
+        value={values.message}
+        onChange={(event) => setValues((prev) => ({ ...prev, message: event.target.value }))}
+        error={messageError}
+      />
     </div>
   );
 };
@@ -315,7 +288,7 @@ export const ContactForm: FC<Props> = ({ dict, locale }) => {
           <p
             className={cx(
               'pt-6 text-sm',
-              state.status === 'success' ? 'text-gold' : 'text-rose-600',
+              state.status === 'success' ? 'text-gold' : 'text-[#ed5440]',
             )}
           >
             {statusText}

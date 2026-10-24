@@ -81,8 +81,8 @@ src/
                     # two-col layout (interests | form) with hairline divider;
                     # renders ContactForm
       ContactForm.tsx # Client island: interest radio group (hidden `interest`
-                    # input), name/email/message fields wired to
-                    # sendContactMessage via useActionState; honeypot `company`,
+                    # input), name/email/message via ui/Input + ui/Textarea wired
+                    # to sendContactMessage via useActionState; honeypot `company`,
                     # time-trap `startedAt`, `locale` hidden fields; formError
                     # resolved from i18n keys into an aria-live region; keyed
                     # remount clears the form on success
@@ -103,6 +103,12 @@ src/
                                 # 120px xl gutters; `as` + className overrides
         Button.tsx              # Server-compatible button/<a> hybrid; variant 'primary' = gold fill,
                                 # dark text; children compose label + trailing icon
+        Input.tsx               # Underline text field (server-compatible): full native input
+                                # passthrough (text/email/number/password/…); idle #292929,
+                                # focus-empty white/65, typed → gold line, error #ed5440
+                                # (docs/design.md); error?: string renders message row + aria wiring
+        Textarea.tsx            # Underline textarea, same state mapping as ui/Input;
+                                # min-h-[150px] resize-y
         AvailabilityStatus.tsx  # Status enum; label text passed via `labels` prop
         LangSwitcher.tsx        # Client dropdown (TbLanguage + active code + TbSelector);
                                 # options EN->'/', ID->'/id' full-name labels, gold active
@@ -237,4 +243,4 @@ public/
 - Techstack SVG filenames are lowercase, `-` for non-alphanumeric characters (`react-router.svg`, `next-js.svg`).
 - Projects are webp, `object-cover`, `fill` + explicit `sizes`.
 
-<!-- verified against: working tree, 2026-10-20 (contact feature: actions/contact.ts, lib/contact/, lib/mail/, Contact panel + form, env recipes; move SHA on next commit) -->
+<!-- verified against: working tree, 2026-10-25 (ui/Input + ui/Textarea from .pen drawers uKTB8/azLph; move SHA on next commit) -->
