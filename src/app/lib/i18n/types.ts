@@ -58,6 +58,8 @@ export interface ContactLabels {
   };
   submit: string;
   submitting: string;
+  /** Cancel trigger inside the 3s send window. */
+  cancel: string;
   success: string;
   errors: {
     name: string;

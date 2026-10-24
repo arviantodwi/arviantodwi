@@ -262,6 +262,7 @@ export const enDictionary: Dictionary = {
     },
     submit: 'Send Message',
     submitting: 'Sending...',
+    cancel: 'Cancel',
     success: "Message sent! I'll get back to you soon.",
     errors: {
       name: 'Please enter your name.',

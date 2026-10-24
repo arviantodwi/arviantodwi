@@ -3,6 +3,7 @@
 import {
   type BaseSyntheticEvent,
   type FC,
+  startTransition,
   useActionState,
   useEffect,
   useRef,
@@ -51,6 +52,9 @@ const INITIAL_STATE: ContactFormState = {
   formError: null,
   values: { name: '', email: '', message: '', interest: '' },
 };
+
+/** Cancel window: a valid submit is held this long before dispatching. */
+const CANCEL_WINDOW_MS = 3000;
 
 /* Field styling lives in ui/Input + ui/Textarea per the .pen
    "Drawer — Input fields" (uKTB8) / "Drawer — Text areas" (azLph) state
@@ -253,10 +257,20 @@ const InterestSelector: FC<InterestSelectorProps> = ({ dict, register }) => {
  * region sits outside the form so the message survives the reset.
  */
 export const ContactForm: FC<Props> = ({ dict, locale }) => {
-  const [state, formAction, _pending] = useActionState(sendContactMessage, INITIAL_STATE);
+  const [state, formAction, pending] = useActionState(sendContactMessage, INITIAL_STATE);
   const startedAt = useRef(Date.now()).current;
-  /* Test-only: 4th button's loading state (click sets it, no submit yet). */
-  const [testLoading, setTestLoading] = useState(false);
+
+  /* 3-second cancel window: a valid submit is held before dispatching so the
+     user can abort with the Cancel trigger; the fuchsia progress bar and the
+     trigger live only inside the window. */
+  const [counting, setCounting] = useState(false);
+  const windowTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  useEffect(
+    () => () => {
+      if (windowTimer.current) clearTimeout(windowTimer.current);
+    },
+    [],
+  );
 
   const {
     register,
@@ -288,9 +302,27 @@ export const ContactForm: FC<Props> = ({ dict, locale }) => {
     }
   }, [state, dict, locale, reset, setError]);
 
+  /* Valid submit → 3s window → dispatch. The FormData snapshot is captured at
+     validation time; canceling restores idle without ever dispatching. The
+     timer guard makes double submits (Enter while counting) a no-op. */
   const onValid = (_data: ContactInput, event?: BaseSyntheticEvent) => {
     const form = event?.target;
-    if (form instanceof HTMLFormElement) formAction(new FormData(form));
+    if (!(form instanceof HTMLFormElement) || windowTimer.current) return;
+    const formData = new FormData(form);
+    setCounting(true);
+    windowTimer.current = setTimeout(() => {
+      windowTimer.current = null;
+      setCounting(false);
+      /* Manual dispatch must run inside a transition (React 19 useActionState
+         contract) — otherwise isPending never flips on. */
+      startTransition(() => formAction(formData));
+    }, CANCEL_WINDOW_MS);
+  };
+
+  const cancelSend = () => {
+    if (windowTimer.current) clearTimeout(windowTimer.current);
+    windowTimer.current = null;
+    setCounting(false);
   };
 
   const statusText =
@@ -319,59 +351,71 @@ export const ContactForm: FC<Props> = ({ dict, locale }) => {
           {/* Submit row (design: flat gold pill-less button, flush right in a
               70px row). No neo-brutal border/shadow — that's the ui/Button
               idiom, not this frame. */}
-          {/* Send button: idle → (hover) plane bottom-left → (click) loading
-              with plane top-right, flight bob, and trails drawing 2→1→3.
-              type=button so it never submits the form while wiring the real
-              action is pending; reset link shows only while loading. */}
+          {/* Send button: idle → (hover) plane bottom-left → counting/submitting
+              with plane top-right, flight bob, and trails drawing 2→1→3. Valid
+              submit opens the 3s cancel window (bar + Cancel below/behind);
+              dispatch happens only when the window elapses. */}
           <div className="flex min-h-[70px] flex-col items-end justify-end gap-6">
             <div className="flex items-center gap-4">
-              {testLoading && (
+              {counting && (
                 <button
                   type="button"
-                  onClick={() => setTestLoading(false)}
-                  className="cursor-pointer font-bold font-general text-base text-foreground/70 underline underline-offset-4 transition-colors hover:text-foreground focus-visible:outline-2 focus-visible:outline-gold focus-visible:outline-offset-2"
+                  onClick={cancelSend}
+                  className="flex h-12 cursor-pointer items-center border border-foreground/70 px-4 font-bold font-general text-base text-foreground/70 transition-colors hover:border-foreground hover:text-foreground focus-visible:outline-2 focus-visible:outline-gold focus-visible:outline-offset-2"
                 >
-                  reset
+                  {dict.contact.cancel}
                 </button>
               )}
-              <button
-                type="button"
-                onClick={() => setTestLoading(true)}
-                className={cx(
-                  'send-btn group inline-flex h-12 cursor-pointer items-center gap-2 bg-gold px-[18px] font-bold font-general text-background text-base transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-gold focus-visible:outline-offset-2',
-                  testLoading && 'send-btn--loading',
-                )}
-              >
-                {testLoading ? dict.contact.submitting : dict.contact.submit}
-                <svg
-                  width={32}
-                  height={32}
-                  viewBox="0 0 32 32"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  aria-hidden="true"
+              <div className="relative">
+                <button
+                  type="submit"
+                  disabled={counting || pending}
+                  className={cx(
+                    'send-btn group inline-flex h-12 items-center gap-2 bg-gold px-[18px] font-bold font-general text-background text-base transition-opacity focus-visible:outline-2 focus-visible:outline-gold focus-visible:outline-offset-2',
+                    counting || pending ? 'cursor-not-allowed' : 'cursor-pointer hover:opacity-90',
+                    (counting || pending) && 'send-btn--loading',
+                  )}
                 >
-                  <g className="send-fly">
-                    <path className="send-plane" d="M12 6l-4 4 6 6 4-16-18 7 4 2 2 6 3-4" />
-                  </g>
-                  <g transform="translate(7 19.3)">
-                    <path
-                      className="send-trail send-trail--1"
-                      pathLength={1}
-                      d="M5.3 -2.6L1.1 1.7"
-                    />
-                    <path className="send-trail send-trail--2" pathLength={1} d="M8 0L0.4 8.4" />
-                    <path
-                      className="send-trail send-trail--3"
-                      pathLength={1}
-                      d="M12.5 1.3L7.6 6.6"
-                    />
-                  </g>
-                </svg>
-              </button>
+                  {counting || pending ? dict.contact.submitting : dict.contact.submit}
+                  <svg
+                    width={32}
+                    height={32}
+                    viewBox="0 0 32 32"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    aria-hidden="true"
+                  >
+                    <g className="send-fly">
+                      <path className="send-plane" d="M12 6l-4 4 6 6 4-16-18 7 4 2 2 6 3-4" />
+                    </g>
+                    <g transform="translate(7 19.3)">
+                      <path
+                        className="send-trail send-trail--1"
+                        pathLength={1}
+                        d="M5.3 -2.6L1.1 1.7"
+                      />
+                      <path className="send-trail send-trail--2" pathLength={1} d="M8 0L0.4 8.4" />
+                      <path
+                        className="send-trail send-trail--3"
+                        pathLength={1}
+                        d="M12.5 1.3L7.6 6.6"
+                      />
+                    </g>
+                  </svg>
+                </button>
+                {/* 3s cancel-window progress: flat 3px bar, no track, sweeps
+                    left→right below the button; gone once dispatch begins. */}
+                {counting && (
+                  <span
+                    aria-hidden="true"
+                    className="send-progress-bar absolute inset-x-0 -bottom-1.5 h-[3px] origin-left bg-[#9747FF]"
+                    style={{ animation: 'send-progress 3000ms linear forwards' }}
+                  />
+                )}
+              </div>
             </div>
           </div>
         </div>

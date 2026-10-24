@@ -80,14 +80,15 @@ src/
                     # pointer-events-none), invitation heading + gold rule,
                     # two-col layout (interests | form) with hairline divider;
                     # renders ContactForm
-      ContactForm.tsx # Client island: RHF v7 validation (blur-first + live revalidate;
+      ContactForm.tsx # Client island: RHF v7 validation (onTouched + live revalidate;
                     # rules shared with lib/contact/validate.ts), interest radio group
                     # (hidden `interest` input), name/email/message via ui/Input +
-                    # ui/Textarea wired to sendContactMessage via useActionState
-                    # (dispatch on valid submit; server fieldErrors → setError,
-                    # success → reset()); honeypot `company`, time-trap `startedAt`,
-                    # `locale` hidden fields; formError resolved from i18n keys
-                    # into an aria-live region
+                    # ui/Textarea; valid submit opens a 3s cancel window (Cancel
+                    # trigger + #9747FF progress bar) before dispatching to
+                    # sendContactMessage via useActionState (server fieldErrors →
+                    # setError, success → reset()); honeypot `company`, time-trap
+                    # `startedAt`, `locale` hidden fields; formError resolved
+                    # from i18n keys into an aria-live region
       Footer.tsx    # Footer per the .pen Main artboard: root sits on bg-background
                     # with public/footer-aurora.png (neon wave, stretched
                     # 1886×672 → 1445×231) hugging the band's top edge + 1200px

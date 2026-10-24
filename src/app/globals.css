@@ -700,10 +700,21 @@ body {
     stroke-dashoffset: 0;
     opacity: 1;
   }
-
   100% {
     stroke-dashoffset: 0;
     opacity: 0;
+  }
+}
+
+/* 3s cancel-window progress bar under the send button: scaleX 0→1 (origin
+   set by .origin-left on the element itself). */
+@keyframes send-progress {
+  from {
+    transform: scaleX(0);
+  }
+
+  to {
+    transform: scaleX(1);
   }
 }
 
@@ -720,5 +731,11 @@ body {
     animation: none;
     stroke-dashoffset: 0;
     opacity: 1;
+  }
+
+  /* Progress is redundant when motion is off — the Cancel trigger + button
+     label carry the state. */
+  .send-progress-bar {
+    display: none;
   }
 }
