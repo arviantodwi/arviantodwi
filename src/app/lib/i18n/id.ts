@@ -247,7 +247,7 @@ export const idDictionary: Dictionary = {
     },
   },
   contact: {
-    heading: 'Mari wujudkan proyek impian Anda!',
+    heading: 'Mari wujudkan proyek impian kamu!',
     prompt: 'Saya tertarik dengan...',
     choices: [
       { id: 'design', label: 'Desain UI/UX' },
@@ -257,22 +257,26 @@ export const idDictionary: Dictionary = {
     ],
     fields: { name: 'Nama', email: 'Email', message: 'Pesan' },
     placeholders: {
-      name: 'Nama Anda',
-      email: 'Email atau nomor WhatsApp Anda',
+      name: 'Nama kamu',
+      /** {min}/{max} diisi dari LIMITS saat render (mis. "(2–100 karakter)"). */
+      nameRange: '({min}–{max} karakter)',
+      email: 'Email kamu',
       message:
-        'Tulis apa pun yang Anda ingin sampaikan. Saya membaca 100% pesan yang masuk agar percakapan kita berlanjut.',
+        'Tulis apa pun yang ingin kamu sampaikan. Saya membaca 100% pesan yang masuk agar percakapan kita berlanjut.',
     },
     submit: 'Kirim Pesan',
     submitting: 'Mengirim...',
     success: 'Pesan terkirim! Saya akan segera membalas.',
     errors: {
-      name: 'Mohon isi nama Anda (2–100 karakter).',
-      email: 'Mohon isi alamat email Anda.',
+      name: 'Mohon isi nama kamu.',
+      email: 'Mohon isi alamat email kamu.',
       emailInvalid: 'Mohon isi alamat email yang valid.',
-      message: 'Mohon tulis pesan Anda (10–5000 karakter).',
+      message: 'Mohon tulis pesan kamu.',
+      messageTooShort: 'Pesan terlalu pendek, minimal {min} karakter.',
+      messageTooLong: 'Pesan tidak bisa lebih dari {max} karakter.',
       tooFast: 'Terlalu cepat! Mohon sejenak dan coba lagi.',
-      rateLimited: 'Terlalu banyak pesan dari pihak Anda. Mohon coba lagi nanti.',
-      sendFailed: 'Terjadi kesalahan saat mengirim pesan Anda. Mohon coba lagi.',
+      rateLimited: 'Terlalu banyak pesan dari pihak kamu. Mohon coba lagi nanti.',
+      sendFailed: 'Terjadi kesalahan saat mengirim pesan kamu. Mohon coba lagi.',
       missingConfig: 'Formulir belum dikonfigurasi. Silakan hubungi saya langsung melalui email.',
     },
   },

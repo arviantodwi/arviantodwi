@@ -133,9 +133,9 @@ export function buildVisitorAutoReply(args: VisitorAutoReplyArgs): EmailContent 
   const t =
     locale === 'id'
       ? {
-          subject: 'Pesan Anda sudah diterima',
+          subject: 'Pesan kamu sudah diterima',
           thanks: `Hai ${name},`,
-          body: 'Terima kasih sudah menghubungi saya. Pesan Anda sudah masuk, dan saya akan membalas segera setelah bisa.',
+          body: 'Terima kasih sudah menghubungi saya. Pesan kamu sudah masuk, dan saya akan membalas segera setelah bisa.',
           signature: 'Salam,\nArvianto',
         }
       : {

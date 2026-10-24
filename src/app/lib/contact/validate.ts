@@ -20,7 +20,7 @@ export type ContactErrors = Partial<
 export const LIMITS = {
   name: { min: 2, max: 100 },
   email: { max: 254 },
-  message: { min: 10, max: 5000 },
+  message: { min: 10, max: 1000 },
 } as const;
 
 export const INTERESTS = ['design', 'frontend', 'sme', 'hello'] as const;

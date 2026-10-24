@@ -254,7 +254,9 @@ export const enDictionary: Dictionary = {
     fields: { name: 'Name', email: 'Email', message: 'Message' },
     placeholders: {
       name: 'Your name',
-      email: 'Your email or WhatsApp number',
+      /** {min}/{max} filled from LIMITS at render (e.g. "(2–100 characters)"). */
+      nameRange: '({min}–{max} characters)',
+      email: 'Your email',
       message:
         'Write whatever you want to tell me. I read 100% of messages to keep our conversation going.',
     },
@@ -262,10 +264,12 @@ export const enDictionary: Dictionary = {
     submitting: 'Sending...',
     success: "Message sent! I'll get back to you soon.",
     errors: {
-      name: 'Please enter your name (2–100 characters).',
+      name: 'Please enter your name.',
       email: 'Please enter your email address.',
       emailInvalid: 'Please enter a valid email address.',
-      message: 'Please write a message (10–5000 characters).',
+      message: 'Please write a message.',
+      messageTooShort: 'Message is too short, at least {min} characters.',
+      messageTooLong: 'Message cannot be more than {max} characters.',
       tooFast: 'Too fast! Please take a moment and try again.',
       rateLimited: 'Too many messages from your side. Please try again later.',
       sendFailed: 'Something went wrong sending your message. Please try again.',

@@ -1,11 +1,41 @@
 'use client';
 
-import { type FC, useActionState, useEffect, useRef, useState } from 'react';
+import {
+  type BaseSyntheticEvent,
+  type FC,
+  useActionState,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
+import {
+  type FieldError,
+  type RegisterOptions,
+  type UseFormRegister,
+  useForm,
+} from 'react-hook-form';
 import { type ContactFormState, sendContactMessage } from '@/app/actions/contact';
 import { Input } from '@/app/components/ui/Input';
 import { Textarea } from '@/app/components/ui/Textarea';
+import { type ContactInput, isValidEmail, LIMITS } from '@/app/lib/contact/validate';
 import type { Dictionary, Locale } from '@/app/lib/i18n/types';
 import { cx } from '@/app/lib/utils';
+
+/** Fill a copy template's {min}/{max}; numbers get the locale's thousand separator. */
+const fillLimits = (
+  template: string,
+  locale: Locale,
+  limits: { min?: number; max?: number },
+): string => {
+  let out = template;
+  if (limits.min !== undefined) {
+    out = out.replaceAll('{min}', new Intl.NumberFormat(locale).format(limits.min));
+  }
+  if (limits.max !== undefined) {
+    out = out.replaceAll('{max}', new Intl.NumberFormat(locale).format(limits.max));
+  }
+  return out;
+};
 
 interface Props {
   dict: Dictionary;
@@ -13,7 +43,7 @@ interface Props {
 }
 
 type FieldName = 'name' | 'email' | 'message';
-type FieldValues = Pick<ContactFormState['values'], FieldName>;
+type FieldErrors = Partial<Record<FieldName, FieldError>>;
 
 const INITIAL_STATE: ContactFormState = {
   status: 'idle',
@@ -38,38 +68,89 @@ const formErrorText = (key: string, dict: Dictionary): string | null => {
   return messages[key] ?? null;
 };
 
-/** Map a field error code to its localized copy ('invalid' on email → the dedicated key). */
+/** Map a server field-error code to its localized copy — same strings the
+    client rules render, so both paths look identical. */
 const fieldErrorText = (
   field: FieldName,
   state: ContactFormState,
   dict: Dictionary,
+  locale: Locale,
 ): string | null => {
   const error = state.fieldErrors[field];
   if (!error) return null;
-  if (field === 'email' && error === 'invalid') return dict.contact.errors.emailInvalid;
-  return dict.contact.errors[field];
+  const e = dict.contact.errors;
+  if (field === 'email') {
+    return error === 'invalid' ? e.emailInvalid : e.email;
+  }
+  if (field === 'message') {
+    if (error === 'tooLong') {
+      return fillLimits(e.messageTooLong, locale, { max: LIMITS.message.max });
+    }
+    if (error === 'tooShort') {
+      return fillLimits(e.messageTooShort, locale, { min: LIMITS.message.min });
+    }
+    return e.message;
+  }
+  return e.name;
+};
+
+/**
+ * Client validation rules mirroring the server's `validateContact` exactly —
+ * same limits from `lib/contact/validate.ts`, same trim semantics, messages
+ * from the dictionaries ({min}/{max} filled with Intl-formatted numbers).
+ * RHF runs them per `useForm` mode (blur first, then live re-validation).
+ */
+const fieldRules = (
+  dict: Dictionary,
+  locale: Locale,
+): Record<FieldName, RegisterOptions<ContactInput>> => {
+  const e = dict.contact.errors;
+  return {
+    name: {
+      validate: (value) => {
+        const t = value.trim();
+        if (!t || t.length < LIMITS.name.min || t.length > LIMITS.name.max) return e.name;
+        return true;
+      },
+    },
+    email: {
+      validate: (value) => {
+        const t = value.trim();
+        if (!t || t.length > LIMITS.email.max) return e.email;
+        return isValidEmail(t) || e.emailInvalid;
+      },
+    },
+    message: {
+      validate: (value) => {
+        const t = value.trim();
+        if (!t) return e.message;
+        if (t.length < LIMITS.message.min) {
+          return fillLimits(e.messageTooShort, locale, { min: LIMITS.message.min });
+        }
+        if (t.length > LIMITS.message.max) {
+          return fillLimits(e.messageTooLong, locale, { max: LIMITS.message.max });
+        }
+        return true;
+      },
+    },
+  };
 };
 
 interface ContactFieldsProps {
-  state: ContactFormState;
   dict: Dictionary;
+  locale: Locale;
+  register: UseFormRegister<ContactInput>;
+  errors: FieldErrors;
 }
 
-/**
- * Name / email / message fields. Lives under the keyed <form> so a success
- * remount clears the controlled values; on an error mount it seeds from the
- * action's echoed values.
- */
-const ContactFields: FC<ContactFieldsProps> = ({ state, dict }) => {
-  const [values, setValues] = useState<FieldValues>(() =>
-    state.status === 'error'
-      ? { name: state.values.name, email: state.values.email, message: state.values.message }
-      : { name: '', email: '', message: '' },
-  );
-
-  const nameError = fieldErrorText('name', state, dict);
-  const emailError = fieldErrorText('email', state, dict);
-  const messageError = fieldErrorText('message', state, dict);
+/** Name / email / message fields, uncontrolled via RHF `register`. */
+const ContactFields: FC<ContactFieldsProps> = ({ dict, locale, register, errors }) => {
+  const rules = fieldRules(dict, locale);
+  const { placeholders } = dict.contact;
+  const namePlaceholder = `${placeholders.name} ${fillLimits(placeholders.nameRange, locale, {
+    min: LIMITS.name.min,
+    max: LIMITS.name.max,
+  })}`;
 
   return (
     <div className="flex flex-col gap-4">
@@ -78,41 +159,35 @@ const ContactFields: FC<ContactFieldsProps> = ({ state, dict }) => {
       </label>
       <Input
         id="contact-name"
-        name="name"
         type="text"
         required
         autoComplete="name"
-        placeholder={dict.contact.placeholders.name}
-        value={values.name}
-        onChange={(event) => setValues((prev) => ({ ...prev, name: event.target.value }))}
-        error={nameError}
+        placeholder={namePlaceholder}
+        error={errors.name?.message ?? null}
+        {...register('name', rules.name)}
       />
       <label htmlFor="contact-email" className="sr-only">
         {dict.contact.fields.email}
       </label>
       <Input
         id="contact-email"
-        name="email"
         type="email"
         required
         autoComplete="email"
         placeholder={dict.contact.placeholders.email}
-        value={values.email}
-        onChange={(event) => setValues((prev) => ({ ...prev, email: event.target.value }))}
-        error={emailError}
+        error={errors.email?.message ?? null}
+        {...register('email', rules.email)}
       />
       <label htmlFor="contact-message" className="sr-only">
         {dict.contact.fields.message}
       </label>
       <Textarea
         id="contact-message"
-        name="message"
         rows={5}
         required
         placeholder={dict.contact.placeholders.message}
-        value={values.message}
-        onChange={(event) => setValues((prev) => ({ ...prev, message: event.target.value }))}
-        error={messageError}
+        error={errors.message?.message ?? null}
+        {...register('message', rules.message)}
       />
     </div>
   );
@@ -120,13 +195,16 @@ const ContactFields: FC<ContactFieldsProps> = ({ state, dict }) => {
 
 interface InterestSelectorProps {
   dict: Dictionary;
+  register: UseFormRegister<ContactInput>;
 }
 
 /**
  * Radiogroup of 4 toggle options as a native fieldset of radio inputs
  * (arrow-key navigation free); the checked radio submits as `interest`.
+ * No client rule — the server's INTERESTS whitelist is the authority, and
+ * the design has no error slot for the group.
  */
-const InterestSelector: FC<InterestSelectorProps> = ({ dict }) => {
+const InterestSelector: FC<InterestSelectorProps> = ({ dict, register }) => {
   return (
     <fieldset className="flex w-full flex-col lg:w-[252px] lg:shrink-0">
       <legend
@@ -147,10 +225,10 @@ const InterestSelector: FC<InterestSelectorProps> = ({ dict }) => {
           >
             <input
               type="radio"
-              name="interest"
               value={choice.id}
               defaultChecked={index === 0}
               className="peer sr-only"
+              {...register('interest')}
             />
             <span>{choice.label}</span>
             <span
@@ -166,21 +244,54 @@ const InterestSelector: FC<InterestSelectorProps> = ({ dict }) => {
 
 /**
  * Project inquiry row (client island): interest selector — hairline divider —
- * form fields, wired to the `sendContactMessage` server action via
- * `useActionState`. Success remounts the form subtree (incremented `key`) so
- * every controlled input clears; the live status region sits outside the
- * keyed form so the message survives the remount.
+ * form fields. RHF v7 owns client validation (blur first, then live);
+ * a valid submit dispatches the FormData through the `sendContactMessage`
+ * server action via `useActionState`, which stays authoritative (rate limit,
+ * honeypot, sanitization, mail, revalidation). Server field errors merge
+ * back through `setError`; a successful send calls `reset()` (the RHF
+ * way — no remount) so registered inputs and errors clear. The live status
+ * region sits outside the form so the message survives the reset.
  */
 export const ContactForm: FC<Props> = ({ dict, locale }) => {
   const [state, formAction, _pending] = useActionState(sendContactMessage, INITIAL_STATE);
   const startedAt = useRef(Date.now()).current;
-  const [formKey, setFormKey] = useState(0);
   /* Test-only: 4th button's loading state (click sets it, no submit yet). */
   const [testLoading, setTestLoading] = useState(false);
 
+  const {
+    register,
+    handleSubmit,
+    setError,
+    reset,
+    formState: { errors },
+  } = useForm<ContactInput>({
+    /* onTouched = the official "blur first, then live" mode: first validation
+       on blur, re-validation on every change after that. reValidateMode
+       governs post-submit events. */
+    mode: 'onTouched',
+    reValidateMode: 'onChange',
+    defaultValues: { name: '', email: '', message: '', interest: 'design' },
+  });
+
+  /* Server round-trip feedback: field errors merge into RHF so they render
+     through the same `error` prop; a successful send clears the form. */
   useEffect(() => {
-    if (state.status === 'success') setFormKey((key) => key + 1);
-  }, [state]);
+    if (state.status === 'success') {
+      reset();
+      return;
+    }
+    if (state.status === 'error') {
+      for (const field of ['name', 'email', 'message'] as const) {
+        const message = fieldErrorText(field, state, dict, locale);
+        if (message) setError(field, { type: 'server', message });
+      }
+    }
+  }, [state, dict, locale, reset, setError]);
+
+  const onValid = (_data: ContactInput, event?: BaseSyntheticEvent) => {
+    const form = event?.target;
+    if (form instanceof HTMLFormElement) formAction(new FormData(form));
+  };
 
   const statusText =
     state.status === 'success'
@@ -192,12 +303,11 @@ export const ContactForm: FC<Props> = ({ dict, locale }) => {
   return (
     <div className="relative p-8 md:p-12">
       <form
-        key={formKey}
-        action={formAction}
         noValidate
         className="flex flex-col gap-12 lg:flex-row"
+        onSubmit={handleSubmit(onValid)}
       >
-        <InterestSelector dict={dict} />
+        <InterestSelector dict={dict} register={register} />
 
         {/* Group divider (design: 1px #292929 column, desktop only).
             self-stretch, not h-full — h-full computes 0 against the form's
@@ -205,7 +315,7 @@ export const ContactForm: FC<Props> = ({ dict, locale }) => {
         <div aria-hidden="true" className="hidden w-px self-stretch bg-white/15 lg:block" />
 
         <div className="flex flex-1 flex-col gap-8">
-          <ContactFields state={state} dict={dict} />
+          <ContactFields dict={dict} locale={locale} register={register} errors={errors} />
           {/* Submit row (design: flat gold pill-less button, flush right in a
               70px row). No neo-brutal border/shadow — that's the ui/Button
               idiom, not this frame. */}

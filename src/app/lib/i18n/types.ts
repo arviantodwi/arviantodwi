@@ -49,7 +49,13 @@ export interface ContactLabels {
   prompt: string;
   choices: ContactChoice[];
   fields: { name: string; email: string; message: string };
-  placeholders: { name: string; email: string; message: string };
+  placeholders: {
+    name: string;
+    email: string;
+    message: string;
+    /** Range hint appended to the name placeholder, {min}/{max} filled from LIMITS. */
+    nameRange: string;
+  };
   submit: string;
   submitting: string;
   success: string;
@@ -57,7 +63,12 @@ export interface ContactLabels {
     name: string;
     email: string;
     emailInvalid: string;
+    /** Empty message only. */
     message: string;
+    /** {min} filled from LIMITS.message.min, Intl-formatted. */
+    messageTooShort: string;
+    /** {max} filled from LIMITS.message.max, Intl-formatted. */
+    messageTooLong: string;
     tooFast: string;
     rateLimited: string;
     sendFailed: string;
