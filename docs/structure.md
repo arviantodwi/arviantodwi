@@ -119,8 +119,16 @@ src/
         Textarea.tsx            # Underline textarea, same state mapping as ui/Input;
                                 # min-h-[150px] resize-y
         AvailabilityStatus.tsx  # Status enum; label text passed via `labels` prop
-        LangSwitcher.tsx        # Client dropdown (TbLanguage + active code + TbSelector);
-                                # options EN->'/', ID->'/id' full-name labels, gold active
+        LangSwitcher.tsx        # Client dropdown (IconLanguage + active code + IconSelector);
+                                # options EN->'/', ID->'/id' full-name labels, gold active.
+                                # Popover portals to <body>: both usages sit inside a backdrop-filter
+                                # ancestor (fixed topbar / footer band), whose backdrop-root boundary
+                                # would kill the popover's own frosted blur. Anchor mode is detected
+                                # at open: a position:fixed trigger (topbar) gets a viewport-fixed
+                                # panel that never repositions during scroll; a document-flow trigger
+                                # (footer) gets document-coords, left/right-anchored by viewport half,
+                                # glued to the trigger and flipping sides only when placement nears a
+                                # viewport edge; closes once the trigger leaves the fold
         SegmentedText.tsx       # Renders Segment[] (tone: dim/gold/strong/goldUnderline)
         SocialNav.tsx           # GitHub + LinkedIn icon links (ui/icons brand marks)
         Statistic.tsx           # react-countup number
@@ -259,4 +267,4 @@ public/
 - Techstack SVG filenames are lowercase, `-` for non-alphanumeric characters (`react-router.svg`, `next-js.svg`).
 - Projects are webp, `object-cover`, `fill` + explicit `sizes`.
 
-<!-- verified against: working tree, 2026-10-25 (mail/ tree row + copy recipes for the branded builders; move SHA on next commit) -->
+<!-- verified against: working tree, 2026-10-26 (LangSwitcher popover portaled to body — backdrop-root blur fix) -->
