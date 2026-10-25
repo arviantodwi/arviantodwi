@@ -45,7 +45,9 @@ export const Contact: FC<Props> = ({ dict, locale }) => {
           <h2 className="font-bold font-general text-4xl text-white tracking-[-0.01em]">
             {dict.contact.heading}
           </h2>
-          <div aria-hidden="true" className="h-[3px] flex-1 bg-gold" />
+          {/* Gold rule: hidden on small screens — the wrapped heading leaves
+              it zero width. */}
+          <div aria-hidden="true" className="hidden h-[3px] flex-1 bg-gold md:block" />
         </div>
       </div>
 

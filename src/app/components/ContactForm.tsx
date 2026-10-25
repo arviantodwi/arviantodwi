@@ -121,7 +121,8 @@ const fieldRules = (
     email: {
       validate: (value) => {
         const t = value.trim();
-        if (!t || t.length > LIMITS.email.max) return e.email;
+        if (!t) return e.email;
+        if (t.length > LIMITS.email.max) return e.emailInvalid;
         return isValidEmail(t) || e.emailInvalid;
       },
     },
@@ -146,16 +147,23 @@ interface ContactFieldsProps {
   locale: Locale;
   register: UseFormRegister<ContactInput>;
   errors: FieldErrors;
+  /** Locked during the 3s cancel window — no edits unless cancelled first. */
+  readOnly: boolean;
 }
 
 /** Name / email / message fields, uncontrolled via RHF `register`. */
-const ContactFields: FC<ContactFieldsProps> = ({ dict, locale, register, errors }) => {
+const ContactFields: FC<ContactFieldsProps> = ({ dict, locale, register, errors, readOnly }) => {
   const rules = fieldRules(dict, locale);
   const { placeholders } = dict.contact;
   const namePlaceholder = `${placeholders.name} ${fillLimits(placeholders.nameRange, locale, {
     min: LIMITS.name.min,
     max: LIMITS.name.max,
   })}`;
+  /* Locked-window styling: progress cursor + greyed value text (placeholder
+     keeps its own tint; twMerge resolves the text-color conflict). */
+  const lockedClass = readOnly
+    ? 'cursor-progress text-white/60 not-placeholder-shown:text-white/60'
+    : '';
 
   return (
     <div className="flex flex-col gap-4">
@@ -167,8 +175,10 @@ const ContactFields: FC<ContactFieldsProps> = ({ dict, locale, register, errors 
         type="text"
         required
         autoComplete="name"
+        readOnly={readOnly}
         placeholder={namePlaceholder}
         error={errors.name?.message ?? null}
+        className={lockedClass}
         {...register('name', rules.name)}
       />
       <label htmlFor="contact-email" className="sr-only">
@@ -179,8 +189,10 @@ const ContactFields: FC<ContactFieldsProps> = ({ dict, locale, register, errors 
         type="email"
         required
         autoComplete="email"
+        readOnly={readOnly}
         placeholder={dict.contact.placeholders.email}
         error={errors.email?.message ?? null}
+        className={lockedClass}
         {...register('email', rules.email)}
       />
       <label htmlFor="contact-message" className="sr-only">
@@ -189,9 +201,11 @@ const ContactFields: FC<ContactFieldsProps> = ({ dict, locale, register, errors 
       <Textarea
         id="contact-message"
         rows={5}
+        readOnly={readOnly}
         required
         placeholder={dict.contact.placeholders.message}
         error={errors.message?.message ?? null}
+        className={lockedClass}
         {...register('message', rules.message)}
       />
     </div>
@@ -201,6 +215,9 @@ const ContactFields: FC<ContactFieldsProps> = ({ dict, locale, register, errors 
 interface InterestSelectorProps {
   dict: Dictionary;
   register: UseFormRegister<ContactInput>;
+  /** Locked during the 3s cancel window: inert (no pointer/keyboard/focus
+      changes — checked state still submits) at 80% opacity. */
+  locked: boolean;
 }
 
 /**
@@ -209,9 +226,15 @@ interface InterestSelectorProps {
  * No client rule — the server's INTERESTS whitelist is the authority, and
  * the design has no error slot for the group.
  */
-const InterestSelector: FC<InterestSelectorProps> = ({ dict, register }) => {
+const InterestSelector: FC<InterestSelectorProps> = ({ dict, register, locked }) => {
   return (
-    <fieldset className="flex w-full flex-col lg:w-[252px] lg:shrink-0">
+    <fieldset
+      inert={locked}
+      className={cx(
+        'flex w-full flex-col transition-opacity lg:w-[252px] lg:shrink-0',
+        locked ? 'opacity-80' : 'opacity-100',
+      )}
+    >
       <legend
         id="contact-interests-prompt"
         className="font-general font-semibold text-base text-white tracking-[0.01em]"
@@ -334,20 +357,20 @@ export const ContactForm: FC<Props> = ({ dict, locale }) => {
     }
   }, [state, dict, locale, reset, setError]);
 
-  /* Valid submit → 3s window → dispatch. The FormData snapshot is captured at
-     validation time; canceling restores idle without ever dispatching. The
-     timer guard makes double submits (Enter while counting) a no-op. */
+  /* Valid submit → 3s window → dispatch. Fields go readOnly for the window;
+     the FormData is re-read at dispatch time so the screen and the payload
+     stay identical (radios stay interactive — whatever is on screen wins).
+     The timer guard makes double submits (Enter while counting) a no-op. */
   const onValid = (_data: ContactInput, event?: BaseSyntheticEvent) => {
     const form = event?.target;
     if (!(form instanceof HTMLFormElement) || windowTimer.current) return;
-    const formData = new FormData(form);
     setCounting(true);
     windowTimer.current = setTimeout(() => {
       windowTimer.current = null;
       setCounting(false);
       /* Manual dispatch must run inside a transition (React 19 useActionState
          contract) — otherwise isPending never flips on. */
-      startTransition(() => formAction(formData));
+      startTransition(() => formAction(new FormData(form)));
     }, CANCEL_WINDOW_MS);
   };
 
@@ -361,7 +384,7 @@ export const ContactForm: FC<Props> = ({ dict, locale }) => {
     state.status === 'error' && state.formError ? formErrorText(state.formError, dict) : null;
 
   return (
-    <div className="relative p-8 md:p-12">
+    <div className={cx('relative p-8 md:p-12', counting && 'cursor-progress')}>
       {sentPhase === 'sent' ? (
         <SentView dict={dict} />
       ) : (
@@ -373,7 +396,7 @@ export const ContactForm: FC<Props> = ({ dict, locale }) => {
           )}
           onSubmit={sentPhase === 'form' ? handleSubmit(onValid) : (e) => e.preventDefault()}
         >
-          <InterestSelector dict={dict} register={register} />
+          <InterestSelector dict={dict} locked={counting} register={register} />
 
           {/* Group divider (design: 1px #292929 column, desktop only).
               self-stretch, not h-full — h-full computes 0 against the form's
@@ -381,7 +404,13 @@ export const ContactForm: FC<Props> = ({ dict, locale }) => {
           <div aria-hidden="true" className="hidden w-px self-stretch bg-white/15 lg:block" />
 
           <div className="flex flex-1 flex-col gap-8">
-            <ContactFields dict={dict} locale={locale} register={register} errors={errors} />
+            <ContactFields
+              dict={dict}
+              locale={locale}
+              register={register}
+              errors={errors}
+              readOnly={counting}
+            />
             {/* Submit row (design: flat gold pill-less button, flush right in a
               70px row). No neo-brutal border/shadow — that's the ui/Button
               idiom, not this frame. */}
@@ -406,9 +435,11 @@ export const ContactForm: FC<Props> = ({ dict, locale }) => {
                     disabled={counting || pending}
                     className={cx(
                       'send-btn group inline-flex h-12 items-center gap-2 bg-gold px-[18px] font-bold font-general text-background text-base transition-opacity focus-visible:outline-2 focus-visible:outline-gold focus-visible:outline-offset-2',
-                      counting || pending
-                        ? 'cursor-not-allowed'
-                        : 'cursor-pointer hover:opacity-90',
+                      counting
+                        ? 'cursor-progress'
+                        : pending
+                          ? 'cursor-not-allowed'
+                          : 'cursor-pointer hover:opacity-90',
                       (counting || pending) && 'send-btn--loading',
                     )}
                   >
