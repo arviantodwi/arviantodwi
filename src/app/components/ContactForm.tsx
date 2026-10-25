@@ -15,13 +15,13 @@ import {
   type UseFormRegister,
   useForm,
 } from 'react-hook-form';
-import { TbCheck } from 'react-icons/tb';
 import { type ContactFormState, sendContactMessage } from '@/app/actions/contact';
 import { Input } from '@/app/components/ui/Input';
 import { Textarea } from '@/app/components/ui/Textarea';
 import { type ContactInput, isValidEmail, LIMITS } from '@/app/lib/contact/validate';
 import type { Dictionary, Locale } from '@/app/lib/i18n/types';
 import { cx } from '@/app/lib/utils';
+import { IconCheck } from './ui/icons';
 
 /** Fill a copy template's {min}/{max}; numbers get the locale's thousand separator. */
 const fillLimits = (
@@ -282,7 +282,7 @@ const SentView: FC<{ dict: Dictionary }> = ({ dict }) => (
     className="contact-sent-enter flex h-[372px] w-full flex-col items-center justify-center gap-5"
   >
     <div className="bg-gold flex h-10 w-10 items-center justify-center rounded-full">
-      <TbCheck aria-hidden="true" size={20} className="text-background" />
+      <IconCheck aria-hidden="true" size={20} className="text-background" />
     </div>
     <p className="font-general text-4xl font-bold tracking-[-0.01em] text-white">
       {dict.contact.successHeading}

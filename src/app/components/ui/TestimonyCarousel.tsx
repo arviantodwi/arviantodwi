@@ -2,9 +2,9 @@
 
 import Image from 'next/image';
 import { useMemo, useRef, useState } from 'react';
-import { PiCaretLeftBold, PiCaretRightBold } from 'react-icons/pi';
 import { Swiper, type SwiperClass, SwiperSlide } from 'swiper/react';
 import type { PersonTestimony } from '@/app/lib/i18n/types';
+import { IconCaretLeft, IconCaretRight } from './icons';
 import { SegmentedText } from './SegmentedText';
 
 import 'swiper/css';
@@ -53,14 +53,14 @@ export const TestimonyCarousel = ({ testimonies }: Props) => {
       <div className="flex flex-col gap-6">
         <div className="relative sm:mx-auto sm:w-[330px]">
           {showLeftNavigator && (
-            <PiCaretLeftBold
+            <IconCaretLeft
               className="absolute top-1/2 left-0 -translate-y-1/2 cursor-pointer text-2xl opacity-66 xl:-left-8"
               role="button"
               onClick={handleNavigatePrev}
             />
           )}
           {showRightNavigator && (
-            <PiCaretRightBold
+            <IconCaretRight
               className="absolute top-1/2 right-0 -translate-y-1/2 cursor-pointer text-2xl opacity-66 xl:-right-8"
               role="button"
               onClick={handleNavigateNext}

@@ -33,12 +33,16 @@ No test runner, no CI config.
 - Strict, bundler resolution, ES2017 target.
 - Alias: `@/*` → `./src/*`.
 - Includes `.next/types` + `.next/dev/types` (generated).
-- TS 7 (Go-based compiler) is stricter about asset side-effect imports: `src/swiper-css.d.ts` declares `swiper/css` (TS2882 otherwise).
+- TS 7: stricter types (compile-time only); asset side-effect imports still need declarations — Swiper ships its own for `swiper/css`, no local shim required.
 
-## Next.js 16
+## Swiper
+
+`TestimonyCarousel.tsx` uses `swiper/react` with custom caret navigation (no Navigation module); slide dimming via `.swiper-slide`/`.swiper-slide-active` selectors in `globals.css`. Core API is stable across majors (11 → 14 drop-in).
+
+## Next.js 16 Swiper ships its own TS declarations for CSS side-effect imports — no local shim needed.
 
 - `next.config.ts` is minimal; `output: 'export'` commented out (not static-exported currently).
 - **Breaking vs. older Next:** read the relevant guide under `node_modules/next/dist/docs/` before writing Next-specific code. The agent file (`AGENTS.md` Next block) regenerates on `next dev` — never delete it from diffs.
 - React 19. App Router, server components default, `next/dynamic` for client islands.
 
-<!-- verified against: working tree, 2026-10-25 (prettier removed; biome formats md, .agents/skills excluded) -->
+<!-- verified against: working tree, 2026-10-26 (react-icons removed; self-hosted icon library in ui/icons.tsx) -->

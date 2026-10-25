@@ -1,10 +1,10 @@
 'use client';
 
 import { type FC, useEffect, useRef, useState } from 'react';
-import { TbLanguage, TbSelector } from 'react-icons/tb';
 import { NEXT_LOCALE_COOKIE } from '@/app/lib/constants';
 import type { Locale } from '@/app/lib/i18n/types';
 import { cx } from '@/app/lib/utils';
+import { IconLanguage, IconSelector } from './icons';
 
 const OPTIONS: { locale: Locale; href: string; label: string }[] = [
   { locale: 'en', href: '/', label: 'English' },
@@ -64,9 +64,9 @@ export const LangSwitcher: FC<Props> = ({ locale, className }) => {
         onClick={handleToggle}
         className="font-general flex cursor-pointer items-center gap-1.5 text-sm text-white"
       >
-        <TbLanguage size={18} />
+        <IconLanguage size={18} />
         {locale.toUpperCase()}
-        <TbSelector size={14} className="opacity-60" />
+        <IconSelector size={14} className="opacity-60" />
       </button>
 
       {open && (

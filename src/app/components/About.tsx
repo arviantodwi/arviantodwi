@@ -1,8 +1,8 @@
 import type { FC } from 'react';
-import { TbArrowUpRight } from 'react-icons/tb';
 import type { Dictionary } from '@/app/lib/i18n/types';
 import { CV_URL } from '../lib/constants';
 import { Button } from './ui/Button';
+import { IconArrowUpRight } from './ui/icons';
 import { Section } from './ui/Section';
 import { SegmentedText } from './ui/SegmentedText';
 
@@ -35,7 +35,7 @@ export const About: FC<Props> = ({ dict }) => {
           <div className="mt-8 flex justify-center sm:justify-start">
             <Button href={CV_URL} target="_blank" rel="noopener noreferrer" size="lg">
               {about.cta}
-              <TbArrowUpRight size={18} />
+              <IconArrowUpRight size={18} />
             </Button>
           </div>
         </div>

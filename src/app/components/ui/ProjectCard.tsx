@@ -1,8 +1,7 @@
 import { getImageProps } from 'next/image';
 import type { FC } from 'react';
-import { TbArrowUpRight } from 'react-icons/tb';
 import { cx } from '@/app/lib/utils';
-import { IconHash } from './icons';
+import { IconArrowUpRight, IconHash } from './icons';
 
 /**
  * One portfolio item, per Figma node 681-441: full-bleed-scaled preview
@@ -126,7 +125,7 @@ export const ProjectCard: FC<ProjectCardProps> = ({
           aria-label={`Open project: ${title}`}
           className="hover:border-gold hover:text-gold flex size-[40px] shrink-0 items-center justify-center rounded-full border border-white/15 text-white transition-colors duration-150"
         >
-          <TbArrowUpRight size={20} />
+          <IconArrowUpRight size={20} />
         </a>
       )}
     </div>

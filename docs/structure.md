@@ -58,7 +58,7 @@ src/
                     # 177px below the 700px hero; below xl photo stays absolute
                     # with the long pb-* reservations
       About.tsx     # Bio paragraphs via SegmentedText, .about-box-accent headline,
-                    # centered CV CTA button (ui/Button + TbArrowUpRight)
+                    # centered CV CTA button (ui/Button + IconArrowUpRight)
       TechStack.tsx # Heading + subline via SegmentedText + ToolsMarquee
       AiWorkflow.tsx # AI-native — Connected Workflow (Figma node 699-419): 48px two-tone
                      # headline + intro; 3 stage cols (PLAN/DESIGN/DEVELOP, Antonio 26px
@@ -122,13 +122,17 @@ src/
         LangSwitcher.tsx        # Client dropdown (TbLanguage + active code + TbSelector);
                                 # options EN->'/', ID->'/id' full-name labels, gold active
         SegmentedText.tsx       # Renders Segment[] (tone: dim/gold/strong/goldUnderline)
-        SocialNav.tsx           # GitHub + LinkedIn icon links
+        SocialNav.tsx           # GitHub + LinkedIn icon links (ui/icons brand marks)
         Statistic.tsx           # react-countup number
-        icons.tsx               # Custom inline icons (Tabler conventions: 24×24,
-                                # round-cap stroke, currentColor) — IconPolygon,
-                                # IconCircleSquare, IconIcosahedron (AI workflow
-                                # stages, 2px stroke), IconHash (portfolio tags,
-                                # 1.25px stroke)
+        icons.tsx               # Self-hosted inline icon library (no react-icons):
+                                # Tabler-stroke icons (24×24, round-cap, currentColor,
+                                # 2px stroke): IconPolygon, IconCircleSquare,
+                                # IconIcosahedron (AI workflow stages), IconHash
+                                # (portfolio tags, 1.25px stroke), IconLanguage,
+                                # IconSelector, IconArrowUpRight, IconCheck;
+                                # filled marks keep their native viewBox: IconCaretLeft/
+                                # Right (Phosphor 256), IconBrandGithub/Linkedin
+                                # (Ant Design 1024). Add new icons here.
         ProjectCard.tsx         # Reusable portfolio item (server): `wide` (featured,
                                 # full-width 510px preview) / `compact` (half-column,
                                 # 360px preview) variants; mobile renders both the

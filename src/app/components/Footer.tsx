@@ -1,9 +1,9 @@
 import Image from 'next/image';
 import type { FC } from 'react';
-import { TbArrowUpRight } from 'react-icons/tb';
 import type { Dictionary, Locale } from '@/app/lib/i18n/types';
 import { CV_URL, GITHUB_URL, LINKEDIN_URL } from '../lib/constants';
 import { Contact } from './Contact';
+import { IconArrowUpRight } from './ui/icons';
 import { LangSwitcher } from './ui/LangSwitcher';
 import { Section } from './ui/Section';
 
@@ -47,7 +47,7 @@ export const Footer: FC<Props> = ({ dict, locale }) => {
         className="flex h-[37px] items-center justify-between text-base font-semibold text-white/75 transition-colors hover:text-white"
       >
         {link.label}
-        {link.external && <TbArrowUpRight size={16} aria-hidden="true" />}
+        {link.external && <IconArrowUpRight size={16} aria-hidden="true" />}
       </a>
       <div aria-hidden="true" className="h-px bg-white/10" />
     </div>

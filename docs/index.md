@@ -31,4 +31,4 @@ Personal portfolio site (arvian.to). Single page: Header → Hero → About → 
 | Contact abuse throttling        | Root `.env` — `CONTACT_RATE_LIMIT` (per window), `CONTACT_RATE_WINDOW_MIN` (minutes); optional, defaults 5 / 10 min, clamped                                                                                           |
 | Contact mail logic / templates  | `src/app/lib/mail/` (Resend client + branded builders — owner notification EN-only; see design.md "Email templates"), `src/app/lib/contact/` (validate + rate limit), `src/app/actions/contact.ts` (Server Action)     |
 
-<!-- verified against: working tree, 2026-10-25 (contact feature rows: env keys, EN-only mail; move SHA on next commit) -->
+<!-- verified against: working tree, 2026-10-26 (react-icons removed; ui/icons.tsx = full icon library) -->
