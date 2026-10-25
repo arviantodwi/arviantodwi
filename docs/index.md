@@ -16,19 +16,19 @@ Personal portfolio site (arvian.to). Single page: Header → Hero → About → 
 
 ## Where content lives (truth table)
 
-| Content                         | Location                                                                                             |
-| ------------------------------- | ---------------------------------------------------------------------------------------------------- |
-| All visible copy (both locales) | `src/app/lib/i18n/en.ts` + `id.ts` (`Dictionary` shape in `types.ts`)                                |
-| Locale routing / redirects      | `src/proxy.ts` (Accept-Language detect, `/` → `/en` rewrite, `/en` → `/`, `/id` direct)              |
-| Social links, tech tools        | `src/app/lib/constants/` (`index.ts` URLs/cookie, `stack.ts` `TECH_STACK` — barrel re-export)        |
-| Page title / SEO / OG cards     | `src/app/[lang]/layout.tsx` `generateMetadata` (text per locale from dicts; images unchanged)        |
-| Availability badge              | variant in `Header.tsx` (currently `Status.AVAILABLE`); label text in dictionaries (`header.status`) |
-| Footer mast links/labels        | labels in dictionaries (`footer.mast.*`); hrefs/anchors composed in `Footer.tsx` (section ids `#about`, `#human-ai`, `#portfolio`, `#testimonials`, `#contact`) |
-| Theme tokens, custom CSS        | `src/app/globals.css`                                                                                |
-| Page composition                | `src/app/[lang]/page.tsx`                                                                            |
-| Portrait, logo                  | `public/photo.png`, `public/logo.svg` (header + footer — footer at `h-20 opacity-15`); `public/footer-aurora.png` (footer band, exported from the .pen Main artboard) |
+| Content                         | Location                                                                                                                                                                                                               |
+| ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| All visible copy (both locales) | `src/app/lib/i18n/en.ts` + `id.ts` (`Dictionary` shape in `types.ts`)                                                                                                                                                  |
+| Locale routing / redirects      | `src/proxy.ts` (Accept-Language detect, `/` → `/en` rewrite, `/en` → `/`, `/id` direct)                                                                                                                                |
+| Social links, tech tools        | `src/app/lib/constants/` (`index.ts` URLs/cookie, `stack.ts` `TECH_STACK` — barrel re-export)                                                                                                                          |
+| Page title / SEO / OG cards     | `src/app/[lang]/layout.tsx` `generateMetadata` (text per locale from dicts; images unchanged)                                                                                                                          |
+| Availability badge              | variant in `Header.tsx` (currently `Status.AVAILABLE`); label text in dictionaries (`header.status`)                                                                                                                   |
+| Footer mast links/labels        | labels in dictionaries (`footer.mast.*`); hrefs/anchors composed in `Footer.tsx` (section ids `#about`, `#human-ai`, `#portfolio`, `#testimonials`, `#contact`)                                                        |
+| Theme tokens, custom CSS        | `src/app/globals.css`                                                                                                                                                                                                  |
+| Page composition                | `src/app/[lang]/page.tsx`                                                                                                                                                                                              |
+| Portrait, logo                  | `public/photo.png`, `public/logo.svg` (header + footer — footer at `h-20 opacity-15`); `public/footer-aurora.png` (footer band, exported from the .pen Main artboard)                                                  |
 | Contact sender / recipient      | Root `.env` — `CONTACT_FROM_EMAIL` (shared sending address) + optional display names `CONTACT_NOTIFICATION_FROM_NAME` / `CONTACT_AUTO_REPLY_FROM_NAME`, `CONTACT_TO` (owner inbox); Resend API key in `RESEND_API_KEY` |
-| Contact abuse throttling        | Root `.env` — `CONTACT_RATE_LIMIT` (per window), `CONTACT_RATE_WINDOW_MIN` (minutes); optional, defaults 5 / 10 min, clamped |
-| Contact mail logic / templates  | `src/app/lib/mail/` (Resend client + branded builders — owner notification EN-only; see design.md "Email templates"), `src/app/lib/contact/` (validate + rate limit), `src/app/actions/contact.ts` (Server Action) |
+| Contact abuse throttling        | Root `.env` — `CONTACT_RATE_LIMIT` (per window), `CONTACT_RATE_WINDOW_MIN` (minutes); optional, defaults 5 / 10 min, clamped                                                                                           |
+| Contact mail logic / templates  | `src/app/lib/mail/` (Resend client + branded builders — owner notification EN-only; see design.md "Email templates"), `src/app/lib/contact/` (validate + rate limit), `src/app/actions/contact.ts` (Server Action)     |
 
 <!-- verified against: working tree, 2026-10-25 (contact feature rows: env keys, EN-only mail; move SHA on next commit) -->

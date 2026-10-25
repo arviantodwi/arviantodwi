@@ -4,36 +4,35 @@ Theme tokens, custom CSS, layout patterns. Source of truth: `src/app/globals.css
 
 ## Theme (`@theme inline` in globals.css)
 
-| Token                 | Value                                             | Usage                          |
-| --------------------- | ------------------------------------------------- | ------------------------------ |
-| `--color-gold`        | `oklch(79.48% 0.1624 90.32)`                      | Accent (underlines, text, dot) |
-| `--color-neutral-900` | `oklch(22.21% 0 0)`                               | Page background (`body`)       |
-| `--color-emerald-600` | `oklch(80.28% 0.2227 149.71)`                     | "Available" status             |
-| `--color-rose-600`    | `oklch(65.32% 0.2427 8.87)`                       | "Unavailable" status           |
+| Token                 | Value                                             | Usage                            |
+| --------------------- | ------------------------------------------------- | -------------------------------- |
+| `--color-gold`        | `oklch(79.48% 0.1624 90.32)`                      | Accent (underlines, text, dot)   |
+| `--color-neutral-900` | `oklch(22.21% 0 0)`                               | Page background (`body`)         |
+| `--color-emerald-600` | `oklch(80.28% 0.2227 149.71)`                     | "Available" status               |
+| `--color-rose-600`    | `oklch(65.32% 0.2427 8.87)`                       | "Unavailable" status             |
 | `--font-headline`     | Antonio 700 (`--font-antonio`)                    | Hero h1, AiWorkflow stage titles |
-| `--font-general`      | Plus Jakarta Sans 300–700 (`--font-plus-jakarta`) | Everything else                |
-
+| `--font-general`      | Plus Jakarta Sans 300–700 (`--font-plus-jakarta`) | Everything else                  |
 - Fonts loaded in `layout.tsx` via `next/font/google`, injected as CSS vars, mapped in `@theme`.
 - `:root` defines `--background`/`--foreground` (`#040404`/white); dark is the only real theme (`prefers-color-scheme` block is identical defaults). `bg-background` on the page wrapper.
 - Tailwind 4: no config file; tokens above are the config.
 
 ## Custom utilities (globals.css)
 
-| Class                    | Effect                                                               | Used in                  |
-| ------------------------ | -------------------------------------------------------------------- | ------------------------ |
-| `.blurred-circle-accent` | Fixed giant gold blur circle behind content (`::before`)             | `page.tsx` wrapper       |
-| `.about-box-accent`      | Gold corner frame on About headline (`::before`), responsive offsets | `About.tsx`              |
-| `.status-dot-ripple`     | Radiating ping on availability dot (`::before` + `ripple` keyframes) | `AvailabilityStatus.tsx` |
-| `.people-carousel`       | Swiper slide dimming (inactive 0.33 opacity, scaled-down img)        | `TestimonyCarousel.tsx`  |
-| `.plan-marker`           | PLAN card gold dot: 3× discrete blink (~288ms per state) at cycle start | `PlanIllustration.tsx` |
-| `.plan-line-1/2/3`       | PLAN card idea bars: sequential scaleX 0→1 growth, wipe-out at cycle end | `PlanIllustration.tsx` |
-| `.plan-note`             | PLAN card direction note: fade-in + rise after bars, fade-out at cycle end | `PlanIllustration.tsx` |
-| `.design-dot-1/2/3`      | DESIGN card palette dots: staggered fade+scale-in (gold→cream→grey) | `DesignIllustration.tsx` |
-| `.design-line`           | DESIGN card supporting line: scaleX 0→1 growth, starts with dot 2 | `DesignIllustration.tsx` |
-| `.design-panel`          | DESIGN card gradient square: fade + slight rise | `DesignIllustration.tsx` |
-| `.design-ring`           | DESIGN card gold ring: stroke-dashoffset self-draw, rotated -90° | `DesignIllustration.tsx` |
-| `.design-core`           | DESIGN card center dot: soft pop (scale overshoot 1.05) | `DesignIllustration.tsx` |
-| `.design-seq`            | DESIGN card transient set: fade-out wipe at cycle end | `DesignIllustration.tsx` |
+| Class                    | Effect                                                                             | Used in                   |
+| ------------------------ | ---------------------------------------------------------------------------------- | ------------------------- |
+| `.blurred-circle-accent` | Fixed giant gold blur circle behind content (`::before`)                           | `page.tsx` wrapper        |
+| `.about-box-accent`      | Gold corner frame on About headline (`::before`), responsive offsets               | `About.tsx`               |
+| `.status-dot-ripple`     | Radiating ping on availability dot (`::before` + `ripple` keyframes)               | `AvailabilityStatus.tsx`  |
+| `.people-carousel`       | Swiper slide dimming (inactive 0.33 opacity, scaled-down img)                      | `TestimonyCarousel.tsx`   |
+| `.plan-marker`           | PLAN card gold dot: 3× discrete blink (~288ms per state) at cycle start            | `PlanIllustration.tsx`    |
+| `.plan-line-1/2/3`       | PLAN card idea bars: sequential scaleX 0→1 growth, wipe-out at cycle end           | `PlanIllustration.tsx`    |
+| `.plan-note`             | PLAN card direction note: fade-in + rise after bars, fade-out at cycle end         | `PlanIllustration.tsx`    |
+| `.design-dot-1/2/3`      | DESIGN card palette dots: staggered fade+scale-in (gold→cream→grey)                | `DesignIllustration.tsx`  |
+| `.design-line`           | DESIGN card supporting line: scaleX 0→1 growth, starts with dot 2                  | `DesignIllustration.tsx`  |
+| `.design-panel`          | DESIGN card gradient square: fade + slight rise                                    | `DesignIllustration.tsx`  |
+| `.design-ring`           | DESIGN card gold ring: stroke-dashoffset self-draw, rotated -90°                   | `DesignIllustration.tsx`  |
+| `.design-core`           | DESIGN card center dot: soft pop (scale overshoot 1.05)                            | `DesignIllustration.tsx`  |
+| `.design-seq`            | DESIGN card transient set: fade-out wipe at cycle end                              | `DesignIllustration.tsx`  |
 | `.dev-caret`             | DEVELOP card: gold caret, discrete blink (~530ms) on the 03 line; otherwise static | `DevelopIllustration.tsx` |
 
 ## Recurring visual conventions
@@ -60,22 +59,22 @@ transactional emails; validated via the throwaway prototype branch
 `@font-face` (400–700, gstatic woff2; Gmail strips remote fonts → system fallback
 stack) and the scheme `<style>` block; body wraps a fluid full-width table card
 (`width:100%` — spans the reader viewport, Outlook Word-engine safe: `width` attr
-+ `bgcolor` + `td` padding `28px 20px 24px`) with a centered footer note `<p>` below.
+- `bgcolor` + `td` padding `28px 20px 24px`) with a centered footer note `<p>` below.
 
-- **Scheme**: light values inline everywhere as the base (clients without
+* **Scheme**: light values inline everywhere as the base (clients without
   media-query support — Gmail, Outlook desktop — render light); dark overrides in
   `@media (prefers-color-scheme: dark)` via classes `e-page`/`e-card`/`e-text`/
   `e-muted`/`e-rule`/`e-gold`, all `!important` to beat the inline literals.
-- **Palette**: dark `#040404` page / `#1a1a1a` card / white text / gold `#e4b600`;
+* **Palette**: dark `#040404` page / `#1a1a1a` card / white text / gold `#e4b600`;
   light `#ffffff` page / `#fafafa` card / `#171717` text / gold `#8f6f00` (darker
   for contrast on white); hairlines `white/15` dark, `black/12` light — mirrors the
   site's card-on-bg pattern.
-- **Wordmark**: transparent PNG swap pair hosted at arvian.to —
+* **Wordmark**: transparent PNG swap pair hosted at arvian.to —
   `logo-raster-dark.png` (black, shows on light) + `logo-raster-light.png` (white,
   shows on dark), 119×22 display, flipped by the same media query (`logo-on-light`/
   `logo-on-dark` classes). PNG only: WebP breaks Outlook desktop and Gmail flattens
   its transparency to JPG.
-- **Copy**: owner notification EN-only regardless of the visitor's locale
+* **Copy**: owner notification EN-only regardless of the visitor's locale
   (Reply-To = visitor), subject `New: <name> – <interest>`, footer = reply note
   only; auto-reply en/id, greeting `Hi, {name}` / `Hai, {name}`, a no-reply
   `PS:` after the signature (13px italic muted, gold mailto link to the owner

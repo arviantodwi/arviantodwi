@@ -4,14 +4,13 @@ Commands, lint rules, config pointers.
 
 ## Commands
 
-| Cmd                 | What                                                                                                 |
-| ------------------- | ---------------------------------------------------------------------------------------------------- |
-| `npm run dev`       | Dev server — **always use port 3001** (`npm run dev -- -p 3001`). User's local dev server owns 3000. |
-| `npm run build`     | Production build                                                                                     |
-| `npm run start`     | Serve production build                                                                               |
-| `npm run lint`      | Biome check (no write)                                                                               |
-| `npm run format`    | Biome check --write                                                                                  |
-| `npm run format:md` | Prettier for `**/*.md` only                                                                          |
+| Cmd              | What                                                                                                 |
+| ---------------- | ---------------------------------------------------------------------------------------------------- |
+| `npm run dev`    | Dev server — **always use port 3001** (`npm run dev -- -p 3001`). User's local dev server owns 3000. |
+| `npm run build`  | Production build                                                                                     |
+| `npm run start`  | Serve production build                                                                               |
+| `npm run lint`   | Biome check (no write)                                                                               |
+| `npm run format` | Biome check --write                                                                                  |
 
 No test runner, no CI config.
 
@@ -24,7 +23,8 @@ No test runner, no CI config.
 - Style: 2-space, width 100, LF, single quotes, semicolons, trailing commas all, JSX double quotes.
 - Nursery rule `useTailwindSortedClasses: on` (renamed from `useSortedClasses` in Biome 2.6) — Tailwind class order is enforced; run `npm run format` after class edits.
 - Import organizer on; VCS-aware (respects .gitignore).
-- Excludes `.next`, `node_modules`, `public/`, and all `*.md` — Biome 2.6 formats Markdown by default, but Markdown belongs to Prettier here (class sort requires `--unsafe` fixes).
+- Excludes `.next`, `node_modules`, `public/`, `.agents/skills`.
+- Also formats Markdown (Biome 2.6+) — sole Markdown formatter; Prettier removed. One-time reformat realigned table columns in docs/.
 - One override: `ui/ToolsMarquee.tsx` disables `performance/noImgElement` (raw `<img>` needed by marquee).
 - ESLint was replaced by Biome (git history) — no eslint config exists.
 
@@ -41,8 +41,4 @@ No test runner, no CI config.
 - **Breaking vs. older Next:** read the relevant guide under `node_modules/next/dist/docs/` before writing Next-specific code. The agent file (`AGENTS.md` Next block) regenerates on `next dev` — never delete it from diffs.
 - React 19. App Router, server components default, `next/dynamic` for client islands.
 
-## Prettier
-
-Only for Markdown (`format:md` script). Code formatting is Biome's.
-
-<!-- verified against: working tree, 2026-10-25 (deps: next 16.4.3, TS 7, Biome 2.6; rule rename, md exclusion, swiper-css.d.ts) -->
+<!-- verified against: working tree, 2026-10-25 (prettier removed; biome formats md, .agents/skills excluded) -->

@@ -6,7 +6,7 @@
     "useIgnoreFile": true
   },
   "files": {
-    "includes": ["**", "!.next", "!node_modules", "!public", "!**/*.md"]
+    "includes": ["**", "!.next", "!node_modules", "!public", "!.agents/skills"]
   },
   "formatter": {
     "enabled": true,
