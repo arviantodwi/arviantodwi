@@ -44,7 +44,7 @@ export const Footer: FC<Props> = ({ dict, locale }) => {
       <a
         href={link.href}
         {...(link.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-        className="flex h-[37px] items-center justify-between font-semibold text-base text-white/75 transition-colors hover:text-white"
+        className="flex h-[37px] items-center justify-between text-base font-semibold text-white/75 transition-colors hover:text-white"
       >
         {link.label}
         {link.external && <TbArrowUpRight size={16} aria-hidden="true" />}
@@ -59,7 +59,7 @@ export const Footer: FC<Props> = ({ dict, locale }) => {
   // covers the glow and clips it at the footer's top edge). The two
   // content sections carry their own z-layers above the circle.
   return (
-    <footer className="mt-auto overflow-hidden bg-background font-general text-sm">
+    <footer className="bg-background font-general mt-auto overflow-hidden text-sm">
       {/* Footer root sits straight on the #040404 page base (no fill in the
           design); the glass treatment lives on the band section below. */}
       {/* Aurora ambience backdrop slot (Figma: "Golden ambience — neon aurora"). */}
@@ -101,7 +101,7 @@ export const Footer: FC<Props> = ({ dict, locale }) => {
             className="-mb-[212px] h-full w-full object-cover"
           />
         </div>
-        <div className="border-white/15 border-t bg-background/40 backdrop-blur-md">
+        <div className="bg-background/40 border-t border-white/15 backdrop-blur-md">
           <Section as="div" className="pt-20 pb-16 xl:pt-[220px]">
             <div className="relative flex flex-col gap-14 py-14 md:flex-row md:items-end md:justify-between md:gap-16">
               {/* Brand column (Figma: 435×80 wordmark at white/15, copy, language switcher). */}
@@ -115,7 +115,7 @@ export const Footer: FC<Props> = ({ dict, locale }) => {
                   alt="logo"
                   className="h-20 w-auto self-start opacity-15"
                 />
-                <p className="font-medium text-base text-white/75">
+                <p className="text-base font-medium text-white/75">
                   {before}
                   <a
                     href={LUCAS_LINKEDIN_URL}
@@ -136,7 +136,7 @@ export const Footer: FC<Props> = ({ dict, locale }) => {
                   aria-label={mast.inPage}
                   className="flex w-[200px] shrink-0 flex-col gap-3 pt-[22px]"
                 >
-                  <p className="font-bold text-[11px] text-gold uppercase tracking-[2.4px]">
+                  <p className="text-gold text-[11px] font-bold tracking-[2.4px] uppercase">
                     {mast.inPage}
                   </p>
                   <div className="flex flex-col">{inPageLinks.map(mastRow)}</div>
@@ -145,7 +145,7 @@ export const Footer: FC<Props> = ({ dict, locale }) => {
                   aria-label={mast.social}
                   className="flex w-[200px] shrink-0 flex-col gap-3 pt-[22px]"
                 >
-                  <p className="font-bold text-[11px] text-gold uppercase tracking-[2.4px]">
+                  <p className="text-gold text-[11px] font-bold tracking-[2.4px] uppercase">
                     {mast.social}
                   </p>
                   <div className="flex flex-col">{socialLinks.map(mastRow)}</div>

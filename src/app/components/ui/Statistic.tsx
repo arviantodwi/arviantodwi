@@ -17,9 +17,9 @@ export const Statistic: FC<Props> = ({ className, text, value }) => {
         start={0}
         end={value}
         suffix="+"
-        className="self-start border-b-2 border-b-gold font-bold text-4xl tabular-nums lg:pb-1.5 lg:text-5xl"
+        className="border-b-gold self-start border-b-2 text-4xl font-bold tabular-nums lg:pb-1.5 lg:text-5xl"
       />
-      <div className="whitespace-nowrap text-[14px] opacity-60 lg:text-[16px]">{text}</div>
+      <div className="text-[14px] whitespace-nowrap opacity-60 lg:text-[16px]">{text}</div>
     </div>
   );
 };

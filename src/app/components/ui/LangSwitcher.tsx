@@ -62,7 +62,7 @@ export const LangSwitcher: FC<Props> = ({ locale, className }) => {
         aria-expanded={open}
         aria-label="Language"
         onClick={handleToggle}
-        className="flex cursor-pointer items-center gap-1.5 font-general text-sm text-white"
+        className="font-general flex cursor-pointer items-center gap-1.5 text-sm text-white"
       >
         <TbLanguage size={18} />
         {locale.toUpperCase()}

@@ -23,7 +23,7 @@ export default async function Home({ params }: PageProps<'/[lang]'>) {
           sections (80px mobile, 120px from lg up) and a 120px close before
           the footer. Padding-top clears the fixed topbar (its pre-collapse
           height per breakpoint). */}
-      <div className="blurred-circle-accent flex flex-col gap-20 bg-background pt-[92px] pb-20 md:pt-[100px] lg:gap-[120px] lg:pb-[120px] xl:pt-[108px]">
+      <div className="blurred-circle-accent bg-background flex flex-col gap-20 pt-[92px] pb-20 md:pt-[100px] lg:gap-[120px] lg:pb-[120px] xl:pt-[108px]">
         <Hero dict={dict} />
         <About dict={dict} />
         <TechStack dict={dict} />

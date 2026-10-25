@@ -15,8 +15,8 @@ export const About: FC<Props> = ({ dict }) => {
 
   return (
     <Section id="about">
-      <article className="flex flex-col gap-10 font-general xl:flex-row xl:gap-[72px]">
-        <div className="about-box-accent relative max-w-fit pt-[51px] font-bold text-4xl lg:text-[40px] xl:shrink-0">
+      <article className="font-general flex flex-col gap-10 xl:flex-row xl:gap-[72px]">
+        <div className="about-box-accent relative max-w-fit pt-[51px] text-4xl font-bold lg:text-[40px] xl:shrink-0">
           <div aria-hidden="true" className="about-row-blur about-row-blur--left-row1" />
           <div aria-hidden="true" className="about-row-blur about-row-blur--left-row2" />
           <div aria-hidden="true" className="about-row-blur about-row-blur--right-row2" />

@@ -16,7 +16,7 @@ export const TechStack: FC<Props> = ({ dict }) => {
   return (
     <Section className="py-20">
       <Section as="div" className="flex flex-col gap-4 text-center lg:gap-3">
-        <h2 className="font-bold font-general text-4xl">
+        <h2 className="font-general text-4xl font-bold">
           <SegmentedText segments={techStack.heading} />
         </h2>
         <p className="font-general leading-[1.4375]">

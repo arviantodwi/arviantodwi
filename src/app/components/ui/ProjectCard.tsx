@@ -112,11 +112,11 @@ export const ProjectCard: FC<ProjectCardProps> = ({
           {tags.map((tag) => (
             <span key={tag} className="flex items-center gap-[2px]">
               <IconHash size={16} className="text-white/75" />
-              <span className="font-general text-[12px] text-white/75 leading-[1.4]">{tag}</span>
+              <span className="font-general text-[12px] leading-[1.4] text-white/75">{tag}</span>
             </span>
           ))}
         </div>
-        <p className="w-full font-general text-[16px] text-white/75 pl-[24px] leading-[1.5]">
+        <p className="font-general w-full pl-[24px] text-[16px] leading-[1.5] text-white/75">
           {description}
         </p>
       </div>
@@ -124,7 +124,7 @@ export const ProjectCard: FC<ProjectCardProps> = ({
         <a
           href={href}
           aria-label={`Open project: ${title}`}
-          className="flex size-[40px] shrink-0 items-center justify-center rounded-full border border-white/15 text-white transition-colors duration-150 hover:border-gold hover:text-gold"
+          className="hover:border-gold hover:text-gold flex size-[40px] shrink-0 items-center justify-center rounded-full border border-white/15 text-white transition-colors duration-150"
         >
           <TbArrowUpRight size={20} />
         </a>

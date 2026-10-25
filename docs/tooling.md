@@ -19,20 +19,21 @@ No test runner, no CI config.
 
 - **Never commit unless the user explicitly instructs it.** No auto-commit after each change, no batch commits at task end, no "I'll commit for you" — leave changes uncommitted in the working tree and wait for the user's instruction.
 
-## Biome (`biome.json`, Biome 2.5) — sole linter+formatter
+## Biome (`biome.json`, Biome 2.6) — sole linter+formatter
 
 - Style: 2-space, width 100, LF, single quotes, semicolons, trailing commas all, JSX double quotes.
-- Nursery rule `useSortedClasses: on` — Tailwind class order is enforced; run `npm run format` after class edits.
+- Nursery rule `useTailwindSortedClasses: on` (renamed from `useSortedClasses` in Biome 2.6) — Tailwind class order is enforced; run `npm run format` after class edits.
 - Import organizer on; VCS-aware (respects .gitignore).
-- Excludes `.next`, `node_modules`, `public/`.
+- Excludes `.next`, `node_modules`, `public/`, and all `*.md` — Biome 2.6 formats Markdown by default, but Markdown belongs to Prettier here (class sort requires `--unsafe` fixes).
 - One override: `ui/ToolsMarquee.tsx` disables `performance/noImgElement` (raw `<img>` needed by marquee).
 - ESLint was replaced by Biome (git history) — no eslint config exists.
 
-## TypeScript (`tsconfig.json`)
+## TypeScript (`tsconfig.json`, TypeScript 7)
 
 - Strict, bundler resolution, ES2017 target.
 - Alias: `@/*` → `./src/*`.
 - Includes `.next/types` + `.next/dev/types` (generated).
+- TS 7 (Go-based compiler) is stricter about asset side-effect imports: `src/swiper-css.d.ts` declares `swiper/css` (TS2882 otherwise).
 
 ## Next.js 16
 
@@ -44,4 +45,4 @@ No test runner, no CI config.
 
 Only for Markdown (`format:md` script). Code formatting is Biome's.
 
-<!-- verified against: 28d8aec, 2026-09-30 -->
+<!-- verified against: working tree, 2026-10-25 (deps: next 16.4.3, TS 7, Biome 2.6; rule rename, md exclusion, swiper-css.d.ts) -->

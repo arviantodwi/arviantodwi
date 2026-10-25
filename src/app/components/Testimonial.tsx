@@ -22,7 +22,7 @@ export const Testimonial: FC<Props> = ({ dict }) => {
       <div className="mx-auto flex w-full max-w-[1000px] flex-col gap-7">
         <div className="text-center">
           <Image src="/quote.svg" width={48} height={48} alt="" className="mx-auto mb-4" />
-          <h2 className="font-bold font-general text-4xl">
+          <h2 className="font-general text-4xl font-bold">
             <SegmentedText segments={testimonial.heading} />
           </h2>
         </div>

@@ -237,7 +237,7 @@ const InterestSelector: FC<InterestSelectorProps> = ({ dict, register, locked })
     >
       <legend
         id="contact-interests-prompt"
-        className="font-general font-semibold text-base text-white tracking-[0.01em]"
+        className="font-general text-base font-semibold tracking-[0.01em] text-white"
       >
         {dict.contact.prompt}
       </legend>
@@ -261,7 +261,7 @@ const InterestSelector: FC<InterestSelectorProps> = ({ dict, register, locked })
             <span>{choice.label}</span>
             <span
               aria-hidden="true"
-              className="h-[5px] w-[5px] bg-gold opacity-0 peer-checked:opacity-100"
+              className="bg-gold h-[5px] w-[5px] opacity-0 peer-checked:opacity-100"
             />
           </label>
         ))}
@@ -281,13 +281,13 @@ const SentView: FC<{ dict: Dictionary }> = ({ dict }) => (
     role="status"
     className="contact-sent-enter flex h-[372px] w-full flex-col items-center justify-center gap-5"
   >
-    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gold">
+    <div className="bg-gold flex h-10 w-10 items-center justify-center rounded-full">
       <TbCheck aria-hidden="true" size={20} className="text-background" />
     </div>
-    <p className="font-bold font-general text-4xl text-white tracking-[-0.01em]">
+    <p className="font-general text-4xl font-bold tracking-[-0.01em] text-white">
       {dict.contact.successHeading}
     </p>
-    <p className="font-general text-base text-white/75 leading-[1.4375] tracking-[0.01em]">
+    <p className="font-general text-base leading-[1.4375] tracking-[0.01em] text-white/75">
       {dict.contact.successSubtext}
     </p>
   </div>
@@ -424,7 +424,7 @@ export const ContactForm: FC<Props> = ({ dict, locale }) => {
                   <button
                     type="button"
                     onClick={cancelSend}
-                    className="flex h-12 cursor-pointer items-center border border-foreground/70 px-4 font-bold font-general text-base text-foreground/70 transition-colors hover:border-foreground hover:text-foreground focus-visible:outline-2 focus-visible:outline-gold focus-visible:outline-offset-2"
+                    className="border-foreground/70 font-general text-foreground/70 hover:border-foreground hover:text-foreground focus-visible:outline-gold flex h-12 cursor-pointer items-center border px-4 text-base font-bold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2"
                   >
                     {dict.contact.cancel}
                   </button>
@@ -510,7 +510,7 @@ export const ContactForm: FC<Props> = ({ dict, locale }) => {
 
       {/* Form-level errors only — success announces through the SentView. */}
       <div aria-live="polite" role="status">
-        {statusText && <p className="pt-6 text-[#ed5440] text-sm">{statusText}</p>}
+        {statusText && <p className="pt-6 text-sm text-[#ed5440]">{statusText}</p>}
       </div>
     </div>
   );

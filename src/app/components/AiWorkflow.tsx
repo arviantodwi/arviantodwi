@@ -81,10 +81,10 @@ export const AiWorkflow: FC<Props> = ({ dict }) => {
       <Section as="div" className="flex flex-col gap-14">
         {/* Headline + intro */}
         <div className="flex flex-col gap-4">
-          <h2 className="font-general font-semibold text-[40px] leading-[1.125] tracking-[-0.04em] md:text-[48px] md:leading-[60px]">
+          <h2 className="font-general text-[40px] leading-[1.125] font-semibold tracking-[-0.04em] md:text-[48px] md:leading-[60px]">
             {headline[0]}
             <br />
-            <span className="font-bold text-gold">{headline[1]}</span>
+            <span className="text-gold font-bold">{headline[1]}</span>
           </h2>
           <p className="font-general text-base leading-6">
             <SegmentedText segments={intro} />
@@ -97,12 +97,12 @@ export const AiWorkflow: FC<Props> = ({ dict }) => {
             <div className="flex flex-col gap-5" key={stage.key}>
               <div className="flex flex-col gap-3">
                 <div className="flex items-center gap-2">
-                  <h3 className="whitespace-nowrap font-headline font-semibold text-[26px] uppercase tracking-[-0.02em]">
+                  <h3 className="font-headline text-[26px] font-semibold tracking-[-0.02em] whitespace-nowrap uppercase">
                     {stage.title}
                   </h3>
                   {(() => {
                     const StageIcon = stage.icon;
-                    return <StageIcon size={24} className="select-none text-white" />;
+                    return <StageIcon size={24} className="text-white select-none" />;
                   })()}
                 </div>
                 <p className="font-general text-sm opacity-75">{stages[stage.key].description}</p>
@@ -136,7 +136,7 @@ export const AiWorkflow: FC<Props> = ({ dict }) => {
         <div className="flex flex-col gap-7">
           <div className="h-px bg-[#292929]" />
           <div className="flex flex-col gap-6 md:flex-row md:items-center md:gap-[60px]">
-            <p className="w-full font-general font-medium text-base md:w-[320px] md:shrink-0">
+            <p className="font-general w-full text-base font-medium md:w-[320px] md:shrink-0">
               <SegmentedText segments={toolkit} />
             </p>
             <div className="flex flex-1 flex-col gap-3 md:h-[60px] md:flex-row">
@@ -151,7 +151,7 @@ export const AiWorkflow: FC<Props> = ({ dict }) => {
                     width={196}
                     height={60}
                     loading="lazy"
-                    className="select-none opacity-50"
+                    className="opacity-50 select-none"
                   />
                 </div>
               ))}

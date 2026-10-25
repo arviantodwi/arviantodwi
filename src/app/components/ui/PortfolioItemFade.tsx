@@ -25,7 +25,7 @@ export const PortfolioItemFade: FC = () => {
       const headingRect = heading?.getBoundingClientRect();
       if (!headingRect) return;
       const zoneBottom = headingRect.bottom;
-      const zoneTop = headingRect.top;
+      const _zoneTop = headingRect.top;
       const viewportHeight = window.innerHeight;
 
       for (const row of rows) {

@@ -31,15 +31,15 @@ export const Hero: FC<Props> = ({ dict }) => {
       <div className="flex flex-col gap-12 xl:h-full xl:w-[478px] xl:shrink-0 xl:justify-center xl:gap-14">
         <div className="flex flex-col gap-6 sm:max-w-3/4 lg:pt-[72px] xl:pt-0">
           <h1 className="sm:w-[333px] lg:w-[400px]">
-            <span className="font-bold font-headline text-[76px] text-white uppercase leading-[1.0657894737] lg:text-[116px]">
+            <span className="font-headline text-[76px] leading-[1.0657894737] font-bold text-white uppercase lg:text-[116px]">
               Arvianto
             </span>{' '}
-            <span className="font-bold font-headline text-[76px] text-gold uppercase leading-[1.0657894737] lg:text-[116px]">
+            <span className="font-headline text-gold text-[76px] leading-[1.0657894737] font-bold uppercase lg:text-[116px]">
               Wicaksono
             </span>
           </h1>
-          <div className="flex flex-col gap-2 font-general text-white lg:text-[20px]">
-            <div className="text-nowrap font-medium">
+          <div className="font-general flex flex-col gap-2 text-white lg:text-[20px]">
+            <div className="font-medium text-nowrap">
               <span className="opacity-75">{hero.rolePrefix}</span>{' '}
               <TypeAnimation roles={hero.roles} />
             </div>

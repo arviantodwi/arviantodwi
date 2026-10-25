@@ -78,10 +78,10 @@ export const Portfolio: FC<Props> = ({ locale, dict }) => {
               bottom 24px to its right (first muted, second full white),
               per Figma 681:443. */}
           <div className="flex flex-col gap-4 md:flex-row md:items-end md:gap-[24px] md:self-stretch">
-            <h2 className="font-bold font-headline text-[76px] text-white uppercase leading-[1.08] md:text-[84px] xl:text-[112px]">
+            <h2 className="font-headline text-[76px] leading-[1.08] font-bold text-white uppercase md:text-[84px] xl:text-[112px]">
               {SECTION_TITLE[locale]}
             </h2>
-            <p className="font-general text-[16px] text-white/75 leading-[1.6] md:w-[420px] md:shrink-0">
+            <p className="font-general text-[16px] leading-[1.6] text-white/75 md:w-[420px] md:shrink-0">
               <span className="block">{dict.portfolio.tagline.muted}</span>
               <span className="block text-white">{dict.portfolio.tagline.plain}</span>
             </p>

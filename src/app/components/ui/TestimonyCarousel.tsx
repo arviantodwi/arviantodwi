@@ -44,7 +44,7 @@ export const TestimonyCarousel = ({ testimonies }: Props) => {
 
   return (
     <div className="flex flex-col gap-12">
-      <p className="text-center font-general font-light lg:text-[18px]">
+      <p className="font-general text-center font-light lg:text-[18px]">
         &quot;
         <SegmentedText segments={testimonies[activeTestimony].quotes} />
         &quot;
@@ -96,8 +96,8 @@ export const TestimonyCarousel = ({ testimonies }: Props) => {
           </Swiper>
         </div>
 
-        <div className="text-center font-general">
-          <div className="mb-2 font-medium text-xl opacity-75">
+        <div className="font-general text-center">
+          <div className="mb-2 text-xl font-medium opacity-75">
             {testimonies[activeTestimony].name}
           </div>
           <div className="opacity-60">{testimonies[activeTestimony].title}</div>

@@ -18,36 +18,36 @@ interface Props {
  */
 export const Contact: FC<Props> = ({ dict, locale }) => {
   return (
-    <div className="relative overflow-hidden rounded-none border border-white/15 bg-background/80 shadow-[0_24px_42px_rgba(0,0,0,0.4)] backdrop-blur-[21px]">
+    <div className="bg-background/80 relative overflow-hidden rounded-none border border-white/15 shadow-[0_24px_42px_rgba(0,0,0,0.4)] backdrop-blur-[21px]">
       {/* Ambient glows (design: gold ellipses at top-left 320/12%, top-right
           280/10%, bottom-right 240/8%, blur 70/63/56, clipped by the panel).
           Decorative only — must never intercept clicks. */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -top-[80px] -left-[120px] h-80 w-80 rounded-full bg-gold opacity-[0.12] blur-[70px]"
+        className="bg-gold pointer-events-none absolute -top-[80px] -left-[120px] h-80 w-80 rounded-full opacity-[0.12] blur-[70px]"
       />
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -top-[60px] -right-[96px] h-70 w-70 rounded-full bg-gold opacity-[0.1] blur-[63px]"
+        className="bg-gold pointer-events-none absolute -top-[60px] -right-[96px] h-70 w-70 rounded-full opacity-[0.1] blur-[63px]"
       />
       {/* Bottom-right glow: anchored to the container's bottom edge (hangs
           below it, clipped) — follows any height change of the panel. */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -right-9 -bottom-10 h-60 w-60 rounded-full bg-gold opacity-[0.08] blur-[56px]"
+        className="bg-gold pointer-events-none absolute -right-9 -bottom-10 h-60 w-60 rounded-full opacity-[0.08] blur-[56px]"
       />
 
       {/* Invitation header: 36px heading is Plus Jakarta Sans in the design
           (font-general, deliberately NOT font-headline); the gold brand rule
           fills the remaining row width to the panel's right edge. */}
-      <div className="relative flex flex-col gap-8 border-white/15 border-b p-8 md:px-12 md:py-10">
+      <div className="relative flex flex-col gap-8 border-b border-white/15 p-8 md:px-12 md:py-10">
         <div className="flex items-center gap-6">
-          <h2 className="font-bold font-general text-4xl text-white tracking-[-0.01em]">
+          <h2 className="font-general text-4xl font-bold tracking-[-0.01em] text-white">
             {dict.contact.heading}
           </h2>
           {/* Gold rule: hidden on small screens — the wrapped heading leaves
               it zero width. */}
-          <div aria-hidden="true" className="hidden h-[3px] flex-1 bg-gold md:block" />
+          <div aria-hidden="true" className="bg-gold hidden h-[3px] flex-1 md:block" />
         </div>
       </div>
 
