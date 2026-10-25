@@ -7,6 +7,7 @@ import {
   type ContactErrors,
   type ContactInput,
   isValidEmail,
+  sanitizeMessage,
   sanitizeText,
   validateContact,
 } from '@/app/lib/contact/validate';
@@ -15,8 +16,10 @@ import type { Locale } from '@/app/lib/i18n/types';
 import { getResend } from '@/app/lib/mail/resend';
 import { buildOwnerNotification, buildVisitorAutoReply } from '@/app/lib/mail/templates';
 
-/** Minimal sender identity parsed from CONTACT_FROM. */
-type ContactFrom = { address: string; name?: string };
+/** Minimal sender identity: shared address + per-email-type display name. */
+function fromHeader(displayName: string, address: string): string {
+  return displayName ? `${displayName} <${address}>` : address;
+}
 
 export type ContactFormState = {
   status: 'idle' | 'success' | 'error';
@@ -34,7 +37,7 @@ export async function sendContactMessage(
   const values: ContactInput = {
     name: sanitizeText(asString(formData.get('name'))),
     email: sanitizeText(asString(formData.get('email'))),
-    message: sanitizeText(asString(formData.get('message'))),
+    message: sanitizeMessage(asString(formData.get('message'))),
     interest: sanitizeText(asString(formData.get('interest'))),
   };
 
@@ -73,22 +76,24 @@ export async function sendContactMessage(
   const locale: Locale = hasLocale(localeRaw) ? localeRaw : 'en';
 
   // 7. Config check — missing or malformed config must surface as a
-  //    friendly error, never a crash.
+  //    friendly error, never a crash. Display names are optional (header
+  //    falls back to the bare address); the shared address is required.
   const resend = getResend();
-  const from = parseContactFrom(process.env.CONTACT_FROM);
+  const fromEmail = process.env.CONTACT_FROM_EMAIL?.trim() ?? '';
   const to = process.env.CONTACT_TO?.trim() ?? '';
-  if (resend === null || from === null || to.length === 0) {
+  const notificationName = process.env.CONTACT_NOTIFICATION_FROM_NAME?.trim() ?? '';
+  const autoReplyName = process.env.CONTACT_AUTO_REPLY_FROM_NAME?.trim() ?? '';
+  if (resend === null || !isValidEmail(fromEmail) || to.length === 0) {
     return fail('contact.errors.missingConfig');
   }
 
-  const fromHeader = from.name ? `${from.name} <${from.address}>` : from.address;
-
-  // 8. Owner notification — Reply-To is the whole point: replying goes
+  // 8. Owner notification — EN-only regardless of the visitor's locale
+  //    (the owner reads EN). Reply-To is the whole point: replying goes
   //    straight to the visitor.
-  const ownerMail = buildOwnerNotification({ ...values, locale });
+  const ownerMail = buildOwnerNotification(values);
   try {
     const { error } = await resend.emails.send({
-      from: fromHeader,
+      from: fromHeader(notificationName, fromEmail),
       to: [to],
       subject: ownerMail.subject,
       html: ownerMail.html,
@@ -107,10 +112,10 @@ export async function sendContactMessage(
 
   // 9. Visitor auto-reply — best effort. The primary send already
   //    succeeded, so a failure here only logs; still return success.
-  const autoReply = buildVisitorAutoReply({ name: values.name, locale });
+  const autoReply = buildVisitorAutoReply({ name: values.name, locale, ownerEmail: to });
   try {
     const { error } = await resend.emails.send({
-      from: fromHeader,
+      from: fromHeader(autoReplyName, fromEmail),
       to: [values.email],
       subject: autoReply.subject,
       html: autoReply.html,
@@ -131,27 +136,7 @@ function asString(value: FormDataEntryValue | null): string {
   return typeof value === 'string' ? value : '';
 }
 
-/**
- * Sender identity from CONTACT_FROM: accepts
- * `"Display Name <address>"` or a bare address. Returns null (→
- * missingConfig) when no valid address can be extracted. Never crashes.
- */
-function parseContactFrom(raw: string | undefined): ContactFrom | null {
-  const value = raw?.trim();
-  if (!value) return null;
-
-  const match = /^(.*?)\s*<([^<>]+)>$/.exec(value);
-  if (match) {
-    const address = match[2].trim();
-    if (!isValidEmail(address)) return null;
-    const name = match[1].trim().replace(/^"|"$/g, '');
-    return { address, name: name || undefined };
-  }
-
-  return isValidEmail(value) ? { address: value } : null;
-}
-
-/** Fake success for bot traps — indistinguishable from the real thing. */
+/** Fake success for bot traps — indistinguishable from the real thing. */ /** Fake success for bot traps — indistinguishable from the real thing. */
 function fakeSuccess(values: ContactInput): ContactFormState {
   return { status: 'success', fieldErrors: {}, formError: null, values };
 }

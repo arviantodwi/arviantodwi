@@ -91,7 +91,7 @@ export const Footer: FC<Props> = ({ dict, locale }) => {
             footer root where the art ends at the band's top edge). */}
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-x-0 bottom-full z-0 aspect-[1886/672] w-full"
+          className="pointer-events-none absolute inset-x-0 bottom-[69%] z-0 aspect-[1886/672] w-full"
         >
           <Image
             src="/footer-aurora.png"

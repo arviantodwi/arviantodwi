@@ -31,13 +31,17 @@ src/
                    # sorted by name)
       contact/     # Contact form helpers (no deps, no I/O in validate.ts):
                    # validate.ts (LIMITS, INTERESTS, validateContact, isValidEmail,
-                   # sanitizeText) + rate-limit.ts (in-memory fixed-window IP
-                   # limiter; env-driven via readRateLimitConfig, clamped 1..∞,
-                   # resets per cold start)
+                   # sanitizeText for single-line fields, sanitizeMessage — keeps
+                   # \n so the email builders can make <p> per line) + rate-limit.ts
+                   # (in-memory fixed-window IP limiter; env-driven via
+                   # readRateLimitConfig, clamped 1..∞, resets per cold start)
       mail/        # Resend plumbing (server-only): resend.ts (lazy getResend()
                    # singleton, null when RESEND_API_KEY unset) + templates.ts
-                   # (minimal inline-styled owner notification + visitor auto-reply
-                   # builders, escapeHtml on all user input, en/id copy colocated)
+                   # (hand-rolled branded builders — fluid full-width table card, light
+                   # inline base + dark-scheme class overrides, Plus Jakarta
+                   # Sans @font-face (400–700), PNG wordmark swap pair; owner notification
+                   # EN-only, escapeHtml on all user input, auto-reply copy
+                   # has an en/id branch; see docs/design.md "Email templates")
       utils.ts     # cx() = clsx + tailwind-merge
       i18n/        # Locale infra: index.ts (hasLocale/getDictionary/locales),
                     # types.ts (Segment, Dictionary, ContactLabels), en.ts + id.ts
@@ -215,11 +219,14 @@ public/
   labels, field labels/placeholders, submit/success, error texts). The server action
   returns error KEYS (`contact.errors.*`) that the client resolves — keep those key
   names stable. Email copy (subject + body of both messages) is colocated in
-  `lib/mail/templates.ts` with an en/id branch, not in the dictionaries.
-- **Change contact sender/recipient**: root `.env` — `CONTACT_FROM`
-  (`"Display Name <address>"` or bare address; malformed → friendly
-  `missingConfig` error, no crash) and `CONTACT_TO` (owner inbox). Resend requires
-  the sending domain to be verified in the Resend dashboard.
+  `lib/mail/templates.ts` — the owner notification is EN-only regardless of the
+  visitor's locale; the auto-reply has an en/id branch — not in the dictionaries.
+- **Change contact sender/recipient**: root `.env` — `CONTACT_FROM_EMAIL`
+  (shared sending address, required valid email) and per-email-type display
+  names `CONTACT_NOTIFICATION_FROM_NAME` / `CONTACT_AUTO_REPLY_FROM_NAME`
+  (optional; header falls back to the bare address), `CONTACT_TO` (owner
+  inbox). Resend requires the sending domain to be verified in the Resend
+  dashboard.
 - **Tune abuse throttling**: root `.env` — `CONTACT_RATE_LIMIT` (submissions per
   window) and `CONTACT_RATE_WINDOW_MIN` (window in **minutes**). Optional; invalid
   or 0 values fall back to defaults (5 / 10 min), clamped to a minimum of 1 — never
@@ -248,4 +255,4 @@ public/
 - Techstack SVG filenames are lowercase, `-` for non-alphanumeric characters (`react-router.svg`, `next-js.svg`).
 - Projects are webp, `object-cover`, `fill` + explicit `sizes`.
 
-<!-- verified against: working tree, 2026-10-25 (ui/Input + ui/Textarea from .pen drawers uKTB8/azLph; ContactForm on RHF v7 + sent view; move SHA on next commit) -->
+<!-- verified against: working tree, 2026-10-25 (mail/ tree row + copy recipes for the branded builders; move SHA on next commit) -->

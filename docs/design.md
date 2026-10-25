@@ -51,8 +51,42 @@ Theme tokens, custom CSS, layout patterns. Source of truth: `src/app/globals.css
 - **Contact sent state** (pen node `B2C6cA`): on success the whole form subtree (interest radios + divider + fields + send row) animates out (`@keyframes contact-form-exit` — 250ms fade + lift) while keeping its values, then a full-width centered `SentView` (40px gold badge + `TbCheck` in `text-background`, 36px bold heading, 16px `text-white/75` subtext, gap 5, h-372) animates in (`@keyframes contact-sent-enter` — 350ms rise); `reset()` runs when the exit ends so fields never visibly blank mid-animation. `role="status"` on the SentView announces it — the old form-level aria-live region now carries form errors only. Reduced motion: exit hides instantly, enter shows instantly.
 - Hero portrait + project images: `next/image` with `fill` + explicit `sizes` prop. Exception: ToolsMarquee uses raw `<img>` (Biome override, see tooling.md). AiWorkflow illustrations/logos: `next/image` with explicit `width`/`height` + `loading="lazy"` — card shells are code (one-sided border colors per stage), inner composition is a flattened PNG (`public/ai-native-*.png`, exact 2× of the 373×132 design card, so `w-full` reproduces the design height at desktop widths).
 
+## Email templates (`lib/mail/templates.ts`)
+
+Hand-rolled HTML strings — no email framework (deliberately lean: 3 small, stable
+transactional emails; validated via the throwaway prototype branch
+`prototype/branded-emails`). Full document per email: head carries charset/viewport,
+`color-scheme`/`supported-color-schemes` metas, a Plus Jakarta Sans variable
+`@font-face` (400–700, gstatic woff2; Gmail strips remote fonts → system fallback
+stack) and the scheme `<style>` block; body wraps a fluid full-width table card
+(`width:100%` — spans the reader viewport, Outlook Word-engine safe: `width` attr
++ `bgcolor` + `td` padding `28px 20px 24px`) with a centered footer note `<p>` below.
+
+- **Scheme**: light values inline everywhere as the base (clients without
+  media-query support — Gmail, Outlook desktop — render light); dark overrides in
+  `@media (prefers-color-scheme: dark)` via classes `e-page`/`e-card`/`e-text`/
+  `e-muted`/`e-rule`/`e-gold`, all `!important` to beat the inline literals.
+- **Palette**: dark `#040404` page / `#1a1a1a` card / white text / gold `#e4b600`;
+  light `#ffffff` page / `#fafafa` card / `#171717` text / gold `#8f6f00` (darker
+  for contrast on white); hairlines `white/15` dark, `black/12` light — mirrors the
+  site's card-on-bg pattern.
+- **Wordmark**: transparent PNG swap pair hosted at arvian.to —
+  `logo-raster-dark.png` (black, shows on light) + `logo-raster-light.png` (white,
+  shows on dark), 119×22 display, flipped by the same media query (`logo-on-light`/
+  `logo-on-dark` classes). PNG only: WebP breaks Outlook desktop and Gmail flattens
+  its transparency to JPG.
+- **Copy**: owner notification EN-only regardless of the visitor's locale
+  (Reply-To = visitor), subject `New: <name> – <interest>`, footer = reply note
+  only; auto-reply en/id, greeting `Hi, {name}` / `Hai, {name}`, a no-reply
+  `PS:` after the signature (13px italic muted, gold mailto link to the owner
+  inbox — `CONTACT_TO`, passed in as `ownerEmail`), footer = "Arvianto's
+  website" note + social links (GitHub · LinkedIn · Download CV) — owner
+  email has no socials. Message body renders one `<p>` per content line —
+  blank lines collapse (paragraph margins carry the spacing, no `&nbsp;`
+  spacers). All user input passes `escapeHtml()`.
+
 ## Class merging
 
 `cx()` in `src/app/lib/utils.ts` (clsx + tailwind-merge). Use it for conditional classes, e.g. `cx('base', conditional && 'extra')`.
 
-<!-- verified against: working tree, 2026-10-25 (form fields + RHF v7 validation + sent-state row; move SHA on next commit) -->
+<!-- verified against: working tree, 2026-10-25 (form fields + RHF v7 validation + sent-state row + email templates section; move SHA on next commit) -->

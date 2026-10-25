@@ -38,14 +38,32 @@ export function isValidEmail(value: string): boolean {
 
 /**
  * Strips control characters (Unicode category Cc, except \n and \t) and
- * collapses runs of whitespace into single spaces. Applied to every
- * field before it reaches validation or email HTML. This also neutralizes
- * header injection in subject lines (no \r / \n survives).
+ * collapses runs of whitespace into single spaces. Applied to single-line
+ * fields (name/email/interest) before validation or email HTML. This also
+ * neutralizes header injection in subject lines (no \r / \n survives).
  */
 export function sanitizeText(value: string): string {
   return value
     .replace(/[^\P{Cc}\n\t]+/gu, ' ')
     .replace(/\s+/g, ' ')
+    .trim();
+}
+
+/**
+ * Message variant: same stripping, but line breaks SURVIVE — \r\n / \r /
+ * U+2028 / U+2029 normalize to \n and horizontal whitespace (\t, space
+ * runs) collapses. Breaks are trimmed ONLY at the leading/trailing edges
+ * (via trim, covering runs of them); internal runs are kept verbatim.
+ * The email builders turn each surviving \n into its own <p>; the
+ * plain-text part keeps the raw \n. Subject-line injection stays
+ * neutralized: name/email (the only values that reach headers) go
+ * through sanitizeText, never this.
+ */
+export function sanitizeMessage(value: string): string {
+  return value
+    .replace(/\r\n?|[\u2028\u2029]/g, '\n')
+    .replace(/[^\P{Cc}\n\t]+/gu, ' ')
+    .replace(/[^\S\n]+/g, ' ')
     .trim();
 }
 
