@@ -60,7 +60,9 @@ export interface ContactLabels {
   submitting: string;
   /** Cancel trigger inside the 3s send window. */
   cancel: string;
-  success: string;
+  /** Sent-state split copy (B2C6cA): heading + subtext. */
+  successHeading: string;
+  successSubtext: string;
   errors: {
     name: string;
     email: string;

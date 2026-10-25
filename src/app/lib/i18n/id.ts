@@ -267,7 +267,8 @@ export const idDictionary: Dictionary = {
     submit: 'Kirim Pesan',
     submitting: 'Mengirim...',
     cancel: 'Batal',
-    success: 'Pesan terkirim! Saya akan segera membalas.',
+    successHeading: 'Pesan terkirim!',
+    successSubtext: 'Saya akan segera membalas.',
     errors: {
       name: 'Mohon isi nama kamu.',
       email: 'Mohon isi alamat email kamu.',

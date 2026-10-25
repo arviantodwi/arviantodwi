@@ -86,9 +86,11 @@ src/
                     # ui/Textarea; valid submit opens a 3s cancel window (Cancel
                     # trigger + #9747FF progress bar) before dispatching to
                     # sendContactMessage via useActionState (server fieldErrors →
-                    # setError, success → reset()); honeypot `company`, time-trap
-                    # `startedAt`, `locale` hidden fields; formError resolved
-                    # from i18n keys into an aria-live region
+                    # setError); success → form subtree exits (contact-form-exit)
+                    # → full-width SentView (pen B2C6cA) enters; honeypot
+                    # `company`, time-trap `startedAt`, `locale` hidden fields;
+                    # form-level errors resolved from i18n keys into an
+                    # aria-live region
       Footer.tsx    # Footer per the .pen Main artboard: root sits on bg-background
                     # with public/footer-aurora.png (neon wave, stretched
                     # 1886×672 → 1445×231) hugging the band's top edge + 1200px
@@ -246,4 +248,4 @@ public/
 - Techstack SVG filenames are lowercase, `-` for non-alphanumeric characters (`react-router.svg`, `next-js.svg`).
 - Projects are webp, `object-cover`, `fill` + explicit `sizes`.
 
-<!-- verified against: working tree, 2026-10-25 (ui/Input + ui/Textarea from .pen drawers uKTB8/azLph; ContactForm on RHF v7; move SHA on next commit) -->
+<!-- verified against: working tree, 2026-10-25 (ui/Input + ui/Textarea from .pen drawers uKTB8/azLph; ContactForm on RHF v7 + sent view; move SHA on next commit) -->

@@ -718,6 +718,41 @@ body {
   }
 }
 
+/* Contact success transition (pen node B2C6cA): the form subtree (radios,
+   divider, fields, send row) fades out and lifts slightly on success; the
+   sent view (badge + heading + subtext, full panel width) rises in after. */
+@keyframes contact-form-exit {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.99);
+  }
+}
+
+@keyframes contact-sent-enter {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.contact-form-exit {
+  animation: contact-form-exit 250ms ease forwards;
+}
+
+.contact-sent-enter {
+  animation: contact-sent-enter 350ms ease-out forwards;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .send-btn .send-plane {
     transition: none;
@@ -737,5 +772,14 @@ body {
      label carry the state. */
   .send-progress-bar {
     display: none;
+  }
+
+  .contact-form-exit {
+    animation: none;
+    opacity: 0;
+  }
+
+  .contact-sent-enter {
+    animation: none;
   }
 }

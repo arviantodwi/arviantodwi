@@ -30,9 +30,11 @@ export const Contact: FC<Props> = ({ dict, locale }) => {
         aria-hidden="true"
         className="pointer-events-none absolute -top-[60px] -right-[96px] h-70 w-70 rounded-full bg-gold opacity-[0.1] blur-[63px]"
       />
+      {/* Bottom-right glow: anchored to the container's bottom edge (hangs
+          below it, clipped) — follows any height change of the panel. */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -right-9 bottom-8 h-60 w-60 rounded-full bg-gold opacity-[0.08] blur-[56px]"
+        className="pointer-events-none absolute -right-9 -bottom-10 h-60 w-60 rounded-full bg-gold opacity-[0.08] blur-[56px]"
       />
 
       {/* Invitation header: 36px heading is Plus Jakarta Sans in the design

@@ -15,6 +15,7 @@ import {
   type UseFormRegister,
   useForm,
 } from 'react-hook-form';
+import { TbCheck } from 'react-icons/tb';
 import { type ContactFormState, sendContactMessage } from '@/app/actions/contact';
 import { Input } from '@/app/components/ui/Input';
 import { Textarea } from '@/app/components/ui/Textarea';
@@ -247,14 +248,37 @@ const InterestSelector: FC<InterestSelectorProps> = ({ dict, register }) => {
 };
 
 /**
+ * Success state per the .pen "Contact form — Sent" (node B2C6cA): full
+ * form-column width, vertically centered — gold badge with a check, 36px
+ * heading, secondary subtext. role="status" announces it (the old form-level
+ * aria-live region now only carries form errors).
+ */
+const SentView: FC<{ dict: Dictionary }> = ({ dict }) => (
+  <div
+    role="status"
+    className="contact-sent-enter flex h-[372px] w-full flex-col items-center justify-center gap-5"
+  >
+    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gold">
+      <TbCheck aria-hidden="true" size={20} className="text-background" />
+    </div>
+    <p className="font-bold font-general text-4xl text-white tracking-[-0.01em]">
+      {dict.contact.successHeading}
+    </p>
+    <p className="font-general text-base text-white/75 leading-[1.4375] tracking-[0.01em]">
+      {dict.contact.successSubtext}
+    </p>
+  </div>
+);
+
+/**
  * Project inquiry row (client island): interest selector — hairline divider —
  * form fields. RHF v7 owns client validation (blur first, then live);
- * a valid submit dispatches the FormData through the `sendContactMessage`
- * server action via `useActionState`, which stays authoritative (rate limit,
- * honeypot, sanitization, mail, revalidation). Server field errors merge
- * back through `setError`; a successful send calls `reset()` (the RHF
- * way — no remount) so registered inputs and errors clear. The live status
- * region sits outside the form so the message survives the reset.
+ * a valid submit opens the 3s cancel window before dispatching the FormData
+ * through the `sendContactMessage` server action via `useActionState`, which
+ * stays authoritative (rate limit, honeypot, sanitization, mail,
+ * revalidation). Server field errors merge back through `setError`. On
+ * success the form subtree (radios included) animates out and the SentView
+ * takes over the whole row; `reset()` runs once the exit animation ends.
  */
 export const ContactForm: FC<Props> = ({ dict, locale }) => {
   const [state, formAction, pending] = useActionState(sendContactMessage, INITIAL_STATE);
@@ -265,6 +289,9 @@ export const ContactForm: FC<Props> = ({ dict, locale }) => {
      trigger live only inside the window. */
   const [counting, setCounting] = useState(false);
   const windowTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  /* Success hand-off: 'form' → 'exiting' (form animates out, fields keep
+     their values) → 'sent' (fields reset + SentView enters). */
+  const [sentPhase, setSentPhase] = useState<'form' | 'exiting' | 'sent'>('form');
   useEffect(
     () => () => {
       if (windowTimer.current) clearTimeout(windowTimer.current);
@@ -288,11 +315,16 @@ export const ContactForm: FC<Props> = ({ dict, locale }) => {
   });
 
   /* Server round-trip feedback: field errors merge into RHF so they render
-     through the same `error` prop; a successful send clears the form. */
+     through the same `error` prop; on success the form exits before the
+     sent view takes over — fields reset only after the exit animation. */
   useEffect(() => {
     if (state.status === 'success') {
-      reset();
-      return;
+      setSentPhase('exiting');
+      const t = setTimeout(() => {
+        reset();
+        setSentPhase('sent');
+      }, 260);
+      return () => clearTimeout(t);
     }
     if (state.status === 'error') {
       for (const field of ['name', 'email', 'message'] as const) {
@@ -326,128 +358,128 @@ export const ContactForm: FC<Props> = ({ dict, locale }) => {
   };
 
   const statusText =
-    state.status === 'success'
-      ? dict.contact.success
-      : state.status === 'error' && state.formError
-        ? formErrorText(state.formError, dict)
-        : null;
+    state.status === 'error' && state.formError ? formErrorText(state.formError, dict) : null;
 
   return (
     <div className="relative p-8 md:p-12">
-      <form
-        noValidate
-        className="flex flex-col gap-12 lg:flex-row"
-        onSubmit={handleSubmit(onValid)}
-      >
-        <InterestSelector dict={dict} register={register} />
+      {sentPhase === 'sent' ? (
+        <SentView dict={dict} />
+      ) : (
+        <form
+          noValidate
+          className={cx(
+            'flex flex-col gap-12 lg:flex-row',
+            sentPhase === 'exiting' && 'contact-form-exit',
+          )}
+          onSubmit={sentPhase === 'form' ? handleSubmit(onValid) : (e) => e.preventDefault()}
+        >
+          <InterestSelector dict={dict} register={register} />
 
-        {/* Group divider (design: 1px #292929 column, desktop only).
-            self-stretch, not h-full — h-full computes 0 against the form's
-            indefinite height. */}
-        <div aria-hidden="true" className="hidden w-px self-stretch bg-white/15 lg:block" />
+          {/* Group divider (design: 1px #292929 column, desktop only).
+              self-stretch, not h-full — h-full computes 0 against the form's
+              indefinite height. */}
+          <div aria-hidden="true" className="hidden w-px self-stretch bg-white/15 lg:block" />
 
-        <div className="flex flex-1 flex-col gap-8">
-          <ContactFields dict={dict} locale={locale} register={register} errors={errors} />
-          {/* Submit row (design: flat gold pill-less button, flush right in a
+          <div className="flex flex-1 flex-col gap-8">
+            <ContactFields dict={dict} locale={locale} register={register} errors={errors} />
+            {/* Submit row (design: flat gold pill-less button, flush right in a
               70px row). No neo-brutal border/shadow — that's the ui/Button
               idiom, not this frame. */}
-          {/* Send button: idle → (hover) plane bottom-left → counting/submitting
+            {/* Send button: idle → (hover) plane bottom-left → counting/submitting
               with plane top-right, flight bob, and trails drawing 2→1→3. Valid
               submit opens the 3s cancel window (bar + Cancel below/behind);
               dispatch happens only when the window elapses. */}
-          <div className="flex min-h-[70px] flex-col items-end justify-end gap-6">
-            <div className="flex items-center gap-4">
-              {counting && (
-                <button
-                  type="button"
-                  onClick={cancelSend}
-                  className="flex h-12 cursor-pointer items-center border border-foreground/70 px-4 font-bold font-general text-base text-foreground/70 transition-colors hover:border-foreground hover:text-foreground focus-visible:outline-2 focus-visible:outline-gold focus-visible:outline-offset-2"
-                >
-                  {dict.contact.cancel}
-                </button>
-              )}
-              <div className="relative">
-                <button
-                  type="submit"
-                  disabled={counting || pending}
-                  className={cx(
-                    'send-btn group inline-flex h-12 items-center gap-2 bg-gold px-[18px] font-bold font-general text-background text-base transition-opacity focus-visible:outline-2 focus-visible:outline-gold focus-visible:outline-offset-2',
-                    counting || pending ? 'cursor-not-allowed' : 'cursor-pointer hover:opacity-90',
-                    (counting || pending) && 'send-btn--loading',
-                  )}
-                >
-                  {counting || pending ? dict.contact.submitting : dict.contact.submit}
-                  <svg
-                    width={32}
-                    height={32}
-                    viewBox="0 0 32 32"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth={2}
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    aria-hidden="true"
-                  >
-                    <g className="send-fly">
-                      <path className="send-plane" d="M12 6l-4 4 6 6 4-16-18 7 4 2 2 6 3-4" />
-                    </g>
-                    <g transform="translate(7 19.3)">
-                      <path
-                        className="send-trail send-trail--1"
-                        pathLength={1}
-                        d="M5.3 -2.6L1.1 1.7"
-                      />
-                      <path className="send-trail send-trail--2" pathLength={1} d="M8 0L0.4 8.4" />
-                      <path
-                        className="send-trail send-trail--3"
-                        pathLength={1}
-                        d="M12.5 1.3L7.6 6.6"
-                      />
-                    </g>
-                  </svg>
-                </button>
-                {/* 3s cancel-window progress: flat 3px bar, no track, sweeps
-                    left→right below the button; gone once dispatch begins. */}
+            <div className="flex min-h-[70px] flex-col items-end justify-end gap-6">
+              <div className="flex items-center gap-4">
                 {counting && (
-                  <span
-                    aria-hidden="true"
-                    className="send-progress-bar absolute inset-x-0 -bottom-1.5 h-[3px] origin-left bg-[#9747FF]"
-                    style={{ animation: 'send-progress 3000ms linear forwards' }}
-                  />
+                  <button
+                    type="button"
+                    onClick={cancelSend}
+                    className="flex h-12 cursor-pointer items-center border border-foreground/70 px-4 font-bold font-general text-base text-foreground/70 transition-colors hover:border-foreground hover:text-foreground focus-visible:outline-2 focus-visible:outline-gold focus-visible:outline-offset-2"
+                  >
+                    {dict.contact.cancel}
+                  </button>
                 )}
+                <div className="relative">
+                  <button
+                    type="submit"
+                    disabled={counting || pending}
+                    className={cx(
+                      'send-btn group inline-flex h-12 items-center gap-2 bg-gold px-[18px] font-bold font-general text-background text-base transition-opacity focus-visible:outline-2 focus-visible:outline-gold focus-visible:outline-offset-2',
+                      counting || pending
+                        ? 'cursor-not-allowed'
+                        : 'cursor-pointer hover:opacity-90',
+                      (counting || pending) && 'send-btn--loading',
+                    )}
+                  >
+                    {counting || pending ? dict.contact.submitting : dict.contact.submit}
+                    <svg
+                      width={32}
+                      height={32}
+                      viewBox="0 0 32 32"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth={2}
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      aria-hidden="true"
+                    >
+                      <g className="send-fly">
+                        <path className="send-plane" d="M12 6l-4 4 6 6 4-16-18 7 4 2 2 6 3-4" />
+                      </g>
+                      <g transform="translate(7 19.3)">
+                        <path
+                          className="send-trail send-trail--1"
+                          pathLength={1}
+                          d="M5.3 -2.6L1.1 1.7"
+                        />
+                        <path
+                          className="send-trail send-trail--2"
+                          pathLength={1}
+                          d="M8 0L0.4 8.4"
+                        />
+                        <path
+                          className="send-trail send-trail--3"
+                          pathLength={1}
+                          d="M12.5 1.3L7.6 6.6"
+                        />
+                      </g>
+                    </svg>
+                  </button>
+                  {/* 3s cancel-window progress: flat 3px bar, no track, sweeps
+                    left→right below the button; gone once dispatch begins. */}
+                  {counting && (
+                    <span
+                      aria-hidden="true"
+                      className="send-progress-bar absolute inset-x-0 -bottom-1.5 h-[3px] origin-left bg-[#9747FF]"
+                      style={{ animation: 'send-progress 3000ms linear forwards' }}
+                    />
+                  )}
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        {/* Time trap + locale echo for the server action. */}
-        <input type="hidden" name="startedAt" value={startedAt} />
-        <input type="hidden" name="locale" value={locale} />
+          {/* Time trap + locale echo for the server action. */}
+          <input type="hidden" name="startedAt" value={startedAt} />
+          <input type="hidden" name="locale" value={locale} />
 
-        {/* Honeypot — off-canvas, not sr-only (bots read sr-only content). */}
-        <div
-          aria-hidden="true"
-          className="absolute top-auto -left-[9999px] h-px w-px overflow-hidden"
-        >
-          <label>
-            Company
-            <input type="text" name="company" tabIndex={-1} autoComplete="off" />
-          </label>
-        </div>
-      </form>
-
-      {/* Action status (server-returned errors resolve through dict.contact.errors). */}
-      <div aria-live="polite" role="status">
-        {statusText && (
-          <p
-            className={cx(
-              'pt-6 text-sm',
-              state.status === 'success' ? 'text-gold' : 'text-[#ed5440]',
-            )}
+          {/* Honeypot — off-canvas, not sr-only (bots read sr-only content). */}
+          <div
+            aria-hidden="true"
+            className="absolute top-auto -left-[9999px] h-px w-px overflow-hidden"
           >
-            {statusText}
-          </p>
-        )}
+            <label>
+              Company
+              <input type="text" name="company" tabIndex={-1} autoComplete="off" />
+            </label>
+          </div>
+        </form>
+      )}
+
+      {/* Form-level errors only — success announces through the SentView. */}
+      <div aria-live="polite" role="status">
+        {statusText && <p className="pt-6 text-[#ed5440] text-sm">{statusText}</p>}
       </div>
     </div>
   );

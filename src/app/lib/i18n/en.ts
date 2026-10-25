@@ -263,7 +263,8 @@ export const enDictionary: Dictionary = {
     submit: 'Send Message',
     submitting: 'Sending...',
     cancel: 'Cancel',
-    success: "Message sent! I'll get back to you soon.",
+    successHeading: 'Message sent!',
+    successSubtext: "I'll get back to you soon.",
     errors: {
       name: 'Please enter your name.',
       email: 'Please enter your email address.',
