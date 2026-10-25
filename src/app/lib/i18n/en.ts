@@ -225,5 +225,57 @@ export const enDictionary: Dictionary = {
   footer: {
     copyright:
       'Trademarks and brands are the property of their respective owners. Designed in collaboration with <link>Lucas Brancher</link> 🇧🇷 in 2025.',
+    mast: {
+      inPage: 'In page',
+      social: 'Social',
+      links: {
+        about: 'About',
+        cv: 'My CV/Resume',
+        humanAi: 'Human + AI',
+        portfolio: 'Portfolio gallery',
+        testimonials: 'Testimonials',
+        message: 'Send me a message',
+      },
+      socialLinks: {
+        github: 'GitHub',
+        linkedin: 'LinkedIn',
+      },
+    },
+  },
+  contact: {
+    heading: "Let's get your dream project done!",
+    prompt: "I'm interested in...",
+    choices: [
+      { id: 'design', label: 'UI/UX Design' },
+      { id: 'frontend', label: 'Front End Development' },
+      { id: 'sme', label: 'UMKM (SME) Projects' },
+      { id: 'hello', label: 'A quick hello!' },
+    ],
+    fields: { name: 'Name', email: 'Email', message: 'Message' },
+    placeholders: {
+      name: 'Your name',
+      /** {min}/{max} filled from LIMITS at render (e.g. "(2–100 characters)"). */
+      nameRange: '({min}–{max} characters)',
+      email: 'Your email',
+      message:
+        'Write whatever you want to tell me. I read 100% of messages to keep our conversation going.',
+    },
+    submit: 'Send Message',
+    submitting: 'Sending...',
+    cancel: 'Cancel',
+    successHeading: 'Message sent!',
+    successSubtext: "I'll get back to you soon.",
+    errors: {
+      name: 'Please enter your name.',
+      email: 'Please enter your email address.',
+      emailInvalid: 'Please enter a valid email address.',
+      message: 'Please write a message.',
+      messageTooShort: 'Message is too short, at least {min} characters.',
+      messageTooLong: 'Message cannot be more than {max} characters.',
+      tooFast: 'Too fast! Please take a moment and try again.',
+      rateLimited: 'Too many messages from your side. Please try again later.',
+      sendFailed: 'Something went wrong sending your message. Please try again.',
+      missingConfig: 'The form is not configured yet. Please reach me directly by email.',
+    },
   },
 };

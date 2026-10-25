@@ -23,6 +23,30 @@
   }
 }
 
+/* Autofill (Chrome paints a light-blue fill with dark text): keep our
+   design's colors — very light blue background (forced via inset shadow so
+   the UA fill can't win), white value text, white caret. Error state keeps
+   its red value via aria-invalid. Underline/focus/has-value line classes are
+   untouched by autofill and keep working. */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+textarea:-webkit-autofill:active {
+  -webkit-text-fill-color: #ffffff;
+  caret-color: #ffffff;
+  box-shadow: 0 0 0 1000px #e8f0fe inset;
+  transition: background-color 99999s ease-in-out 0s;
+}
+
+input:-webkit-autofill[aria-invalid="true"],
+textarea:-webkit-autofill[aria-invalid="true"] {
+  -webkit-text-fill-color: #ed5440;
+}
+
 body {
   background: var(--color-neutral-900);
   color: var(--foreground);
@@ -618,5 +642,168 @@ body {
   .dev-caret {
     animation: none;
     opacity: 0;
+  }
+}
+
+/* SEND BUTTON icon (ContactForm): plane path bbox is 18×16, stroke adds
+   1px each side → painted box 20×18 (x −1..19, y −1..17 in path space).
+   The button uses a 32px viewBox (icon still paints at the same visual
+   size — 20×18 — because the svg is also 32px, 1 unit = 1px), giving the
+   states more travel room than a tight 24px box:
+   - idle centers:         translate(7, 8)   → painted x 6..26, y 7..25
+   - hover bottom-left:    translate(2, 14)  → painted x 1..21, y 13..31
+   - loading top-right:    translate(12, 2)  → painted x 11..31, y 1..19
+   Position and bob live on separate elements: state `transform` sits on
+   the path (transitioned), the flight bob animates the wrapper <g>. The
+   path's transform is never animated, so every state change — including
+   reset → idle — reliably transitions. (Note: transitioning the
+   individual CSS `translate` property on SVG elements is broken here —
+   it sticks at its start value — hence `transform`.) */
+.send-btn .send-plane {
+  transform: translate(7px, 8px);
+  transition: transform 0.3s cubic-bezier(0.25, 1, 0.35, 1);
+}
+
+.send-btn.send-btn--loading .send-plane {
+  transform: translate(12px, 2px);
+}
+
+.send-btn:hover:not(.send-btn--loading) .send-plane {
+  transform: translate(2px, 14px);
+}
+
+/* Flight bob on the wrapper: the 0.3s slide to top-right finishes exactly
+   when the delayed animation takes over (fill-mode stays none during the
+   delay, so the transition owns the first 0.3s). Bobs straight down, 1px —
+   painted box stays inside the 32px box. Torn down on reset: the wrapper
+   snaps 1px, the path glides home. */
+.send-btn.send-btn--loading .send-fly {
+  animation: send-plane-fly 1s ease-in-out 0.3s infinite;
+}
+
+@keyframes send-plane-fly {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(1px);
+  }
+}
+
+/* Loading trails: each line draws itself (dashoffset 1→0, pathLength=1),
+   holds, then fades; sequence 2nd → 1st → 3rd via staggered delays on a
+   shared 1.2s cycle. Hidden until the button enters loading. */
+.send-trail {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  opacity: 0;
+}
+
+.send-btn--loading .send-trail {
+  animation: send-trail 1.2s cubic-bezier(0.25, 1, 0.35, 1) infinite;
+}
+
+.send-btn--loading .send-trail--1 {
+  animation-delay: 0.15s;
+}
+
+.send-btn--loading .send-trail--3 {
+  animation-delay: 0.3s;
+}
+
+@keyframes send-trail {
+  0% {
+    stroke-dashoffset: 1;
+    opacity: 1;
+  }
+
+  30%,
+  70% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 0;
+  }
+}
+
+/* 3s cancel-window progress bar under the send button: scaleX 0→1 (origin
+   set by .origin-left on the element itself). */
+@keyframes send-progress {
+  from {
+    transform: scaleX(0);
+  }
+
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* Contact success transition (pen node B2C6cA): the form subtree (radios,
+   divider, fields, send row) fades out and lifts slightly on success; the
+   sent view (badge + heading + subtext, full panel width) rises in after. */
+@keyframes contact-form-exit {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.99);
+  }
+}
+
+@keyframes contact-sent-enter {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.contact-form-exit {
+  animation: contact-form-exit 250ms ease forwards;
+}
+
+.contact-sent-enter {
+  animation: contact-sent-enter 350ms ease-out forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .send-btn .send-plane {
+    transition: none;
+  }
+
+  .send-btn.send-btn--loading .send-fly {
+    animation: none;
+  }
+
+  .send-btn--loading .send-trail {
+    animation: none;
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+
+  /* Progress is redundant when motion is off — the Cancel trigger + button
+     label carry the state. */
+  .send-progress-bar {
+    display: none;
+  }
+
+  .contact-form-exit {
+    animation: none;
+    opacity: 0;
+  }
+
+  .contact-sent-enter {
+    animation: none;
   }
 }

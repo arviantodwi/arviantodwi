@@ -229,5 +229,57 @@ export const idDictionary: Dictionary = {
   footer: {
     copyright:
       'Merek dagang dan merek adalah milik pemiliknya masing-masing. Desain berkolaborasi dengan <link>Lucas Brancher</link> 🇧🇷 pada 2025.',
+    mast: {
+      inPage: 'Di halaman',
+      social: 'Sosial',
+      links: {
+        about: 'Tentang',
+        cv: 'CV/Resume saya',
+        humanAi: 'Manusia + AI',
+        portfolio: 'Galeri portofolio',
+        testimonials: 'Testimoni',
+        message: 'Kirim saya pesan',
+      },
+      socialLinks: {
+        github: 'GitHub',
+        linkedin: 'LinkedIn',
+      },
+    },
+  },
+  contact: {
+    heading: 'Mari wujudkan proyek impian kamu!',
+    prompt: 'Saya tertarik dengan...',
+    choices: [
+      { id: 'design', label: 'Desain UI/UX' },
+      { id: 'frontend', label: 'Pengembangan Front End' },
+      { id: 'sme', label: 'Proyek UMKM' },
+      { id: 'hello', label: 'Sapaan singkat!' },
+    ],
+    fields: { name: 'Nama', email: 'Email', message: 'Pesan' },
+    placeholders: {
+      name: 'Nama kamu',
+      /** {min}/{max} diisi dari LIMITS saat render (mis. "(2–100 karakter)"). */
+      nameRange: '({min}–{max} karakter)',
+      email: 'Email kamu',
+      message:
+        'Tulis apa pun yang ingin kamu sampaikan. Saya membaca 100% pesan yang masuk agar percakapan kita berlanjut.',
+    },
+    submit: 'Kirim Pesan',
+    submitting: 'Mengirim...',
+    cancel: 'Batal',
+    successHeading: 'Pesan terkirim!',
+    successSubtext: 'Saya akan segera membalas.',
+    errors: {
+      name: 'Mohon isi nama kamu.',
+      email: 'Mohon isi alamat email kamu.',
+      emailInvalid: 'Mohon isi alamat email yang valid.',
+      message: 'Mohon tulis pesan kamu.',
+      messageTooShort: 'Pesan terlalu pendek, minimal {min} karakter.',
+      messageTooLong: 'Pesan tidak bisa lebih dari {max} karakter.',
+      tooFast: 'Terlalu cepat! Mohon sejenak dan coba lagi.',
+      rateLimited: 'Terlalu banyak pesan dari pihak kamu. Mohon coba lagi nanti.',
+      sendFailed: 'Terjadi kesalahan saat mengirim pesan kamu. Mohon coba lagi.',
+      missingConfig: 'Formulir belum dikonfigurasi. Silakan hubungi saya langsung melalui email.',
+    },
   },
 };

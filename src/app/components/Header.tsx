@@ -41,7 +41,7 @@ export const Header: FC<Props> = ({ dict, locale }) => {
     <header
       className={cx(
         // Fixed to the viewport edges; collapses once scrolled past its initial height.
-        'fixed top-0 right-0 left-0 z-20 px-6 backdrop-blur-md transition-[height,padding] duration-300 md:px-12 xl:px-0',
+        'fixed top-0 right-0 left-0 z-30 px-6 backdrop-blur-md transition-[height,padding] duration-300 md:px-12 xl:px-0',
         // 1px bottom line, fades in with the collapse.
         'after:absolute after:inset-x-0 after:bottom-0 after:h-px after:bg-white/15 after:transition-opacity after:duration-300',
         scrolled
@@ -51,7 +51,12 @@ export const Header: FC<Props> = ({ dict, locale }) => {
     >
       <div className="mx-auto flex h-full items-center justify-between md:px-6 xl:max-w-[1440px] xl:px-30">
         <div className="flex items-center gap-3">
-          <Image src="/logo.svg" width={133} height={36} alt="logo" />
+          {/* Wordmark is the design's tight SVG (118.54×21.8); the top bar's
+              logo container carries the design frame's 7.2px inset as padding
+              to keep the 133×36 footprint. */}
+          <div className="p-[7.2px]">
+            <Image src="/logo.svg" width={118.54} height={21.8} alt="logo" />
+          </div>
           <SocialNav className="hidden sm:flex" />
         </div>
         <div className="flex items-center gap-5">

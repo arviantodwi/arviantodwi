@@ -33,6 +33,53 @@ export interface StageCopy {
   imageAlt: string;
 }
 
+/** One selectable "I'm interested in..." option on the contact form. */
+export interface ContactChoice {
+  id: 'design' | 'frontend' | 'sme' | 'hello';
+  label: string;
+}
+
+/**
+ * Contact section copy. The server action returns error KEYS
+ * (e.g. 'contact.errors.rateLimited') that the client resolves
+ * against `contact.errors` — keep those key names stable.
+ */
+export interface ContactLabels {
+  heading: string;
+  prompt: string;
+  choices: ContactChoice[];
+  fields: { name: string; email: string; message: string };
+  placeholders: {
+    name: string;
+    email: string;
+    message: string;
+    /** Range hint appended to the name placeholder, {min}/{max} filled from LIMITS. */
+    nameRange: string;
+  };
+  submit: string;
+  submitting: string;
+  /** Cancel trigger inside the 3s send window. */
+  cancel: string;
+  /** Sent-state split copy (B2C6cA): heading + subtext. */
+  successHeading: string;
+  successSubtext: string;
+  errors: {
+    name: string;
+    email: string;
+    emailInvalid: string;
+    /** Empty message only. */
+    message: string;
+    /** {min} filled from LIMITS.message.min, Intl-formatted. */
+    messageTooShort: string;
+    /** {max} filled from LIMITS.message.max, Intl-formatted. */
+    messageTooLong: string;
+    tooFast: string;
+    rateLimited: string;
+    sendFailed: string;
+    missingConfig: string;
+  };
+}
+
 export interface Dictionary {
   metadata: {
     description: string;
@@ -97,5 +144,22 @@ export interface Dictionary {
   };
   footer: {
     copyright: string;
+    mast: {
+      inPage: string;
+      social: string;
+      links: {
+        about: string;
+        cv: string;
+        humanAi: string;
+        portfolio: string;
+        testimonials: string;
+        message: string;
+      };
+      socialLinks: {
+        github: string;
+        linkedin: string;
+      };
+    };
   };
+  contact: ContactLabels;
 }

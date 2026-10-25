@@ -5,6 +5,7 @@ import { DesignIllustration } from './ui/DesignIllustration';
 import { DevelopIllustration } from './ui/DevelopIllustration';
 import { IconCircleSquare, IconIcosahedron, IconPolygon, type IconProps } from './ui/icons';
 import { PlanIllustration } from './ui/PlanIllustration';
+import { Section } from './ui/Section';
 import { SegmentedText } from './ui/SegmentedText';
 
 interface Props {
@@ -76,8 +77,8 @@ export const AiWorkflow: FC<Props> = ({ dict }) => {
   const { headline, intro, stages, toolkit } = aiWorkflow;
 
   return (
-    <section className="relative z-10 py-20">
-      <div className="flex flex-col gap-14 px-6 md:mx-auto md:max-w-2xl lg:max-w-4xl xl:max-w-[1440px] xl:px-30">
+    <Section id="human-ai" className="py-20">
+      <Section as="div" className="flex flex-col gap-14">
         {/* Headline + intro */}
         <div className="flex flex-col gap-4">
           <h2 className="font-general font-semibold text-[40px] leading-[1.125] tracking-[-0.04em] md:text-[48px] md:leading-[60px]">
@@ -157,7 +158,7 @@ export const AiWorkflow: FC<Props> = ({ dict }) => {
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </Section>
+    </Section>
   );
 };

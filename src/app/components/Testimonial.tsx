@@ -2,6 +2,7 @@ import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import type { FC } from 'react';
 import type { Dictionary } from '@/app/lib/i18n/types';
+import { Section } from './ui/Section';
 import { SegmentedText } from './ui/SegmentedText';
 
 const TestimonyCarousel = dynamic(() =>
@@ -16,7 +17,7 @@ export const Testimonial: FC<Props> = ({ dict }) => {
   const { testimonial } = dict;
 
   return (
-    <section className="relative z-10 mb-20 flex flex-col gap-12 px-6 pt-20 md:mx-auto md:max-w-2xl xl:max-w-[1440px] xl:px-30">
+    <Section id="testimonials" className="flex flex-col gap-12 pt-20">
       {/* Figma: heading centered, hr 1000px wide, quote 966px — all inside the 1200 container. */}
       <div className="mx-auto flex w-full max-w-[1000px] flex-col gap-7">
         <div className="text-center">
@@ -30,6 +31,6 @@ export const Testimonial: FC<Props> = ({ dict }) => {
 
         <TestimonyCarousel testimonies={testimonial.testimonies} />
       </div>
-    </section>
+    </Section>
   );
 };
