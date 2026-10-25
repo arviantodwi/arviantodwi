@@ -2,6 +2,7 @@ import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import type { FC } from 'react';
 import type { Dictionary } from '@/app/lib/i18n/types';
+import { AvailabilityStatus, Status } from './ui/AvailabilityStatus';
 import { Section } from './ui/Section';
 
 const TypeAnimation = dynamic(() =>
@@ -25,11 +26,19 @@ export const Hero: FC<Props> = ({ dict }) => {
   const { hero } = dict;
 
   return (
-    <Section className="relative overflow-hidden pt-6 pb-[656.234px] sm:pb-[256px] md:pt-0 lg:pb-[177px] xl:flex xl:h-[700px] xl:items-start xl:gap-[200px] xl:overflow-visible xl:pb-0">
+    <Section className="relative overflow-hidden pt-6 pb-[280px] sm:pb-[256px] md:pt-0 lg:pb-[177px] xl:flex xl:h-[700px] xl:items-start xl:gap-[200px] xl:overflow-visible xl:pb-0">
       {/* Copy column: headline block + stats, vertically centered against
           the photo at xl (Figma "Hero Copy": 478px, centered, gap 56). */}
       <div className="flex flex-col gap-12 xl:h-full xl:w-[478px] xl:shrink-0 xl:justify-center xl:gap-14">
         <div className="flex flex-col gap-6 sm:max-w-3/4 lg:pt-[72px] xl:pt-0">
+          {/* Mobile: the topbar has no room for the status pill, so it
+              anchors above the name (sm+ keeps it in the topbar). Variant
+              must stay in sync with Header. */}
+          <AvailabilityStatus
+            variant={Status.UNAVAILABLE}
+            labels={dict.header.status}
+            className="-mb-4 sm:hidden"
+          />
           <h1 className="sm:w-[333px] lg:w-[400px]">
             <span className="font-headline text-[76px] leading-[1.0657894737] font-bold text-white uppercase lg:text-[116px]">
               Arvianto
@@ -47,29 +56,36 @@ export const Hero: FC<Props> = ({ dict }) => {
           </div>
         </div>
 
-        <div className="flex items-start gap-8 lg:pb-[98px] xl:pb-0">
+        {/* Wrap (not shrink) below sm: 3 stats fit 375px exactly; narrower
+            viewports push the last one to its own line. sm+ never hits
+            either condition, so the row renders as today. */}
+        <div className="flex flex-wrap items-start gap-8 lg:pb-[98px] xl:pb-0">
           <Statistic
             text={statText(hero.stats.projects)}
             value={128}
-            className="max-w-[93px] lg:max-w-[120px]"
+            className="max-w-[93px] shrink-0 lg:max-w-[120px]"
           />
+          {/* Mobile shows 2 stats (Projects + Years); Tools rejoins from 600px. */}
           <Statistic
             text={statText(hero.stats.tools)}
             value={32}
-            className="max-w-[85px] lg:max-w-[122px]"
+            className="hidden max-w-[85px] shrink-0 min-[600px]:flex lg:max-w-[122px]"
           />
           <Statistic
             text={statText(hero.stats.years)}
             value={12}
-            className="max-w-[85px] lg:max-w-[150px]"
+            className="max-w-[85px] shrink-0 lg:max-w-[150px]"
           />
         </div>
       </div>
 
-      {/* Photo: absolute below xl (current responsive behavior); in-flow
-          584×877 column at xl, hanging 177px below the 700px hero like the
-          artboard. */}
-      <div className="absolute bottom-0 left-1/2 aspect-[0.6659047619] w-[437px] -translate-x-1/2 sm:top-0 sm:bottom-auto sm:left-[286px] sm:-translate-x-0 lg:-right-24 lg:left-auto lg:w-[584px] xl:static xl:shrink-0">
+      {/* Photo: absolute below xl — dimmed (0.33) backdrop at -z, hung off
+          the right edge (right -10%, bottom -11%); from 600px only the
+          position flips to the sm placement (top-0, left 286px, insets
+          autoed) and opacity returns to 1 — it stays behind the copy
+          (-z) at every absolute width. xl renders it in-flow 584×877,
+          hanging 177px below the 700px hero like the artboard. */}
+      <div className="absolute right-[-10%] bottom-[-11%] left-auto -z-10 aspect-[0.6659047619] w-[437px] opacity-[0.33] min-[600px]:top-0 min-[600px]:right-auto min-[600px]:bottom-auto min-[600px]:left-[286px] min-[600px]:opacity-100 lg:w-[584px] xl:static xl:shrink-0">
         <Image
           src="/photo.png"
           fill

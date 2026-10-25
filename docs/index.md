@@ -22,7 +22,7 @@ Personal portfolio site (arvian.to). Single page: Header → Hero → About → 
 | Locale routing / redirects      | `src/proxy.ts` (Accept-Language detect, `/` → `/en` rewrite, `/en` → `/`, `/id` direct)                                                                                                                                |
 | Social links, tech tools        | `src/app/lib/constants/` (`index.ts` URLs/cookie, `stack.ts` `TECH_STACK` — barrel re-export)                                                                                                                          |
 | Page title / SEO / OG cards     | `src/app/[lang]/layout.tsx` `generateMetadata` (text per locale from dicts; images unchanged)                                                                                                                          |
-| Availability badge              | variant in `Header.tsx` (currently `Status.AVAILABLE`); label text in dictionaries (`header.status`)                                                                                                                   |
+| Availability badge              | variant `Status.UNAVAILABLE`; rendered in `Header.tsx` (sm+ topbar) and `Hero.tsx` (mobile only, `sm:hidden`, above the name); label text in dictionaries (`header.status`)                                            |
 | Footer mast links/labels        | labels in dictionaries (`footer.mast.*`); hrefs/anchors composed in `Footer.tsx` (section ids `#about`, `#human-ai`, `#portfolio`, `#testimonials`, `#contact`)                                                        |
 | Theme tokens, custom CSS        | `src/app/globals.css`                                                                                                                                                                                                  |
 | Page composition                | `src/app/[lang]/page.tsx`                                                                                                                                                                                              |
@@ -31,4 +31,4 @@ Personal portfolio site (arvian.to). Single page: Header → Hero → About → 
 | Contact abuse throttling        | Root `.env` — `CONTACT_RATE_LIMIT` (per window), `CONTACT_RATE_WINDOW_MIN` (minutes); optional, defaults 5 / 10 min, clamped                                                                                           |
 | Contact mail logic / templates  | `src/app/lib/mail/` (Resend client + branded builders — owner notification EN-only; see design.md "Email templates"), `src/app/lib/contact/` (validate + rate limit), `src/app/actions/contact.ts` (Server Action)     |
 
-<!-- verified against: working tree, 2026-10-26 (react-icons removed; ui/icons.tsx = full icon library) -->
+<!-- verified against: working tree, 2026-10-26 (react-icons removed; ui/icons.tsx = full icon library; mobile <sm pass: availability badge now also in Hero) -->

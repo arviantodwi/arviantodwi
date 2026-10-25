@@ -18,28 +18,29 @@ Theme tokens, custom CSS, layout patterns. Source of truth: `src/app/globals.css
 
 ## Custom utilities (globals.css)
 
-| Class                    | Effect                                                                             | Used in                   |
-| ------------------------ | ---------------------------------------------------------------------------------- | ------------------------- |
-| `.blurred-circle-accent` | Fixed giant gold blur circle behind content (`::before`)                           | `page.tsx` wrapper        |
-| `.about-box-accent`      | Gold corner frame on About headline (`::before`), responsive offsets               | `About.tsx`               |
-| `.status-dot-ripple`     | Radiating ping on availability dot (`::before` + `ripple` keyframes)               | `AvailabilityStatus.tsx`  |
-| `.people-carousel`       | Swiper slide dimming (inactive 0.33 opacity, scaled-down img)                      | `TestimonyCarousel.tsx`   |
-| `.plan-marker`           | PLAN card gold dot: 3× discrete blink (~288ms per state) at cycle start            | `PlanIllustration.tsx`    |
-| `.plan-line-1/2/3`       | PLAN card idea bars: sequential scaleX 0→1 growth, wipe-out at cycle end           | `PlanIllustration.tsx`    |
-| `.plan-note`             | PLAN card direction note: fade-in + rise after bars, fade-out at cycle end         | `PlanIllustration.tsx`    |
-| `.design-dot-1/2/3`      | DESIGN card palette dots: staggered fade+scale-in (gold→cream→grey)                | `DesignIllustration.tsx`  |
-| `.design-line`           | DESIGN card supporting line: scaleX 0→1 growth, starts with dot 2                  | `DesignIllustration.tsx`  |
-| `.design-panel`          | DESIGN card gradient square: fade + slight rise                                    | `DesignIllustration.tsx`  |
-| `.design-ring`           | DESIGN card gold ring: stroke-dashoffset self-draw, rotated -90°                   | `DesignIllustration.tsx`  |
-| `.design-core`           | DESIGN card center dot: soft pop (scale overshoot 1.05)                            | `DesignIllustration.tsx`  |
-| `.design-seq`            | DESIGN card transient set: fade-out wipe at cycle end                              | `DesignIllustration.tsx`  |
-| `.dev-caret`             | DEVELOP card: gold caret, discrete blink (~530ms) on the 03 line; otherwise static | `DevelopIllustration.tsx` |
+| Class                    | Effect                                                                                                                                            | Used in                   |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------- |
+| `.blurred-circle-accent` | Fixed giant gold blur circle behind content (`::before`); 1974px base, 640px dome (`top: -320px`, center at viewport top) below sm, 1440px at lg+ | `page.tsx` wrapper        |
+| `.about-box-accent`      | Gold corner frame on About headline (`::before`), responsive offsets                                                                              | `About.tsx`               |
+| `.status-dot-ripple`     | Radiating ping on availability dot (`::before` + `ripple` keyframes)                                                                              | `AvailabilityStatus.tsx`  |
+| `.people-carousel`       | Swiper slide dimming (inactive 0.33 opacity, scaled-down img)                                                                                     | `TestimonyCarousel.tsx`   |
+| `.plan-marker`           | PLAN card gold dot: 3× discrete blink (~288ms per state) at cycle start                                                                           | `PlanIllustration.tsx`    |
+| `.plan-line-1/2/3`       | PLAN card idea bars: sequential scaleX 0→1 growth, wipe-out at cycle end                                                                          | `PlanIllustration.tsx`    |
+| `.plan-note`             | PLAN card direction note: fade-in + rise after bars, fade-out at cycle end                                                                        | `PlanIllustration.tsx`    |
+| `.design-dot-1/2/3`      | DESIGN card palette dots: staggered fade+scale-in (gold→cream→grey)                                                                               | `DesignIllustration.tsx`  |
+| `.design-line`           | DESIGN card supporting line: scaleX 0→1 growth, starts with dot 2                                                                                 | `DesignIllustration.tsx`  |
+| `.design-panel`          | DESIGN card gradient square: fade + slight rise                                                                                                   | `DesignIllustration.tsx`  |
+| `.design-ring`           | DESIGN card gold ring: stroke-dashoffset self-draw, rotated -90°                                                                                  | `DesignIllustration.tsx`  |
+| `.design-core`           | DESIGN card center dot: soft pop (scale overshoot 1.05)                                                                                           | `DesignIllustration.tsx`  |
+| `.design-seq`            | DESIGN card transient set: fade-out wipe at cycle end                                                                                             | `DesignIllustration.tsx`  |
+| `.dev-caret`             | DEVELOP card: gold caret, discrete blink (~530ms) on the 03 line; otherwise static                                                                | `DevelopIllustration.tsx` |
 
 ## Recurring visual conventions
 
 - **Gold underline headline pattern**: `<span className="underline decoration-1 decoration-gold underline-offset-[5px]">` on highlighted h1/h2 phrase (Hero, TechStack, Portfolio, Testimonial).
 - **Section shell**: shared `ui/Section.tsx` — `px-6 md:mx-auto md:max-w-2xl lg:max-w-4xl xl:max-w-[1440px] xl:px-30` (1440px shell, 120px gutters, content caps at 1200px; matches the .pen Main artboard). Render with `as="div"` for inner containers. Per-section overrides go through `className` (tailwind-merge resolves tiers — e.g. Portfolio passes `md:max-w-none md:px-18 lg:max-w-none xl:pb-20` for its full-bleed grid).
 - **Vertical rhythm**: sections get their spacing from the `page.tsx` Body wrapper (`gap-20 lg:gap-[120px]`, `pb-20 lg:pb-[120px]` before the footer) — per-section `mb-*` is gone. Sections keep their own design pad-y (`py-20` on TechStack/AiWorkflow, `pt-20` Testimonial) so xl totals match the artboard's 120px section gap + 80px inner padding.
+- **Below-lg adaptations**: hero `pb-[280px]` (photo bleeds below); availability badge above the hero name (`sm:hidden`, `-mb-4`; variant kept in sync with Header's `Status.UNAVAILABLE`); the topbar's far side shows `SocialNav` · divider · `LangSwitcher` below sm (the badge rejoins from sm, social then hides — one divider serves both layouts, so the desktop artboard arrangement is untouched); the hero photo is a dimmed backdrop (`-z-10 opacity-[0.33]`, hung off `right-[-10%] bottom-[-11%]`, no translate — from 600px only the position flips to the sm placement (`top-0 left-[286px]`, insets autoed) and opacity returns to 1, still `-z` behind the copy; `lg` keeps the 584px width, xl renders it in-flow as the 584×877 artboard column); hero stats `flex-wrap` + `shrink-0` (the Tools stat is `hidden` below 600px — 2 stats on phones, 3 from 600px); TechStack marquee rows bleed edge-to-edge (`-mx-6 sm:mx-0`); AiWorkflow's inner `Section` drops its inline padding below sm (`px-0 sm:px-6` — 24px gutter total) and its AI toolkit logos form a 2-column grid below sm with left-aligned cells (`grid grid-cols-2`, `sm:justify-center` from sm); logos render at natural size, shrinking only to fit a narrower cell (`w-auto max-w-full` below sm; `w-full max-w-[196px]` from sm in the md+ centered row); About pulls up under the hero (`max-lg:-mt-[200px]`).
 - **Muted body text**: `opacity-75` on regular copy, `opacity-60` for tertiary, gold `text-gold` / `<strong>` for emphasis.
 - **Numbers**: `tabular-nums` on `Statistic` count-up.
 - **Buttons**: `ui/Button.tsx` — neo-brutalism: sharp corners, `border-2 border-black`, offset solid black shadow that presses in on hover (`transition-all`). `<a>` when `href` passed, `<button>` otherwise. `primary` variant = gold fill + `text-background` dark label; sizes `md` (4px shadow) / `lg` (6px shadow, larger padding + text). Icons placed as trailing children (e.g. `TbArrowUpRight size={18}`).
@@ -88,4 +89,4 @@ stack) and the scheme `<style>` block; body wraps a fluid full-width table card
 
 `cx()` in `src/app/lib/utils.ts` (clsx + tailwind-merge). Use it for conditional classes, e.g. `cx('base', conditional && 'extra')`.
 
-<!-- verified against: working tree, 2026-10-25 (form fields + RHF v7 validation + sent-state row + email templates section; move SHA on next commit) -->
+<!-- verified against: working tree, 2026-10-26 (mobile <sm pass: hero status badge + dimmed photo backdrop + pb-280 + stats wrap, topbar social far side, 640px glow dome, full-bleed marquee, human-ai inner padding, 2-col AI logos) -->

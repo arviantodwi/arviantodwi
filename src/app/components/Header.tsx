@@ -60,10 +60,19 @@ export const Header: FC<Props> = ({ dict, locale }) => {
           <SocialNav className="hidden sm:flex" />
         </div>
         <div className="flex items-center gap-5">
-          <AvailabilityStatus variant={Status.AVAILABLE} labels={dict.header.status} />
-          <span aria-hidden="true" className="hidden h-4 w-px bg-white/15 sm:block" />
-
-          <LangSwitcher className="hidden sm:block" locale={locale} />
+          {/* Below sm the right side reads: social · divider · language.
+              From sm up the badge rejoins (social hides) — the same divider
+              then separates badge and switcher. */}
+          <SocialNav className="flex sm:hidden" />
+          <AvailabilityStatus
+            variant={Status.UNAVAILABLE}
+            labels={dict.header.status}
+            className="hidden sm:flex"
+          />
+          <span aria-hidden="true" className="h-4 w-px bg-white/15" />
+          {/* self-center overrides the component's footer-oriented
+              self-start so the switcher sits on the row's centerline. */}
+          <LangSwitcher className="self-center" locale={locale} />
         </div>
       </div>
     </header>

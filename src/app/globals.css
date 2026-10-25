@@ -76,6 +76,17 @@ body {
   }
 }
 
+/* Mobile: a 640px dome — circle center at the viewport top edge, so only
+   the bottom half washes over the topbar/hero, mirroring the lg geometry
+   (center exactly at the top edge). */
+@media (width < 40rem) {
+  .blurred-circle-accent::before {
+    width: 640px;
+    height: 640px;
+    top: -320px;
+  }
+}
+
 .status-dot-ripple::before {
   content: "";
   position: absolute;

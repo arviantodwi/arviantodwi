@@ -14,7 +14,7 @@ export const About: FC<Props> = ({ dict }) => {
   const { about } = dict;
 
   return (
-    <Section id="about">
+    <Section id="about" className="max-lg:-mt-[200px]">
       <article className="font-general flex flex-col gap-10 xl:flex-row xl:gap-[72px]">
         <div className="about-box-accent relative max-w-fit pt-[51px] text-4xl font-bold lg:text-[40px] xl:shrink-0">
           <div aria-hidden="true" className="about-row-blur about-row-blur--left-row1" />

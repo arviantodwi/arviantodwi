@@ -78,7 +78,10 @@ export const AiWorkflow: FC<Props> = ({ dict }) => {
 
   return (
     <Section id="human-ai" className="py-20">
-      <Section as="div" className="flex flex-col gap-14">
+      {/* Inner shell: the outer Section already carries the 24px gutter on
+          mobile — no extra inline padding inside it (sm+ keeps the double
+          shell until its own pass). */}
+      <Section as="div" className="flex flex-col gap-14 px-0 sm:px-6">
         {/* Headline + intro */}
         <div className="flex flex-col gap-4">
           <h2 className="font-general text-[40px] leading-[1.125] font-semibold tracking-[-0.04em] md:text-[48px] md:leading-[60px]">
@@ -139,10 +142,14 @@ export const AiWorkflow: FC<Props> = ({ dict }) => {
             <p className="font-general w-full text-base font-medium md:w-[320px] md:shrink-0">
               <SegmentedText segments={toolkit} />
             </p>
-            <div className="flex flex-1 flex-col gap-3 md:h-[60px] md:flex-row">
+            {/* Mobile: 2-column grid, logos left in their cells at natural
+                size, shrinking only when a cell is narrower than the logo
+                (max-w-full); from sm the cells center, and md+ stays a 4-up
+                centered row. */}
+            <div className="grid flex-1 grid-cols-2 gap-3 md:flex md:h-[60px] md:flex-row">
               {TOOL_LOGOS.map((logo) => (
                 <div
-                  className="flex items-center md:h-[60px] md:flex-1 md:justify-center"
+                  className="flex items-center sm:justify-center md:h-[60px] md:flex-1"
                   key={logo.name}
                 >
                   <Image
@@ -151,7 +158,7 @@ export const AiWorkflow: FC<Props> = ({ dict }) => {
                     width={196}
                     height={60}
                     loading="lazy"
-                    className="opacity-50 select-none"
+                    className="h-auto w-auto max-w-full opacity-50 select-none sm:w-full sm:max-w-[196px]"
                   />
                 </div>
               ))}
