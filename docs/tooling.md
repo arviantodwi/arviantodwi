@@ -14,9 +14,14 @@ Commands, lint rules, config pointers.
 
 No test runner, no CI config.
 
+## npm configuration
+
+Root `.npmrc` sets `legacy-peer-deps=false` so npm resolves peer dependencies for this project, overriding any user-level setting. This keeps dependency classification consistent across machines, including `devOptional` for packages shared by development dependencies and optional production peers.
+
 ## Git workflow rules
 
 - **Never commit unless the user explicitly instructs it.** No auto-commit after each change, no batch commits at task end, no "I'll commit for you" — leave changes uncommitted in the working tree and wait for the user's instruction.
+- This checkout uses repository-local `user.name=Arvianto D. Wicaksono` and `user.email=dev@arvian.to`, matching `opencode-discord-bridge`. These overrides live in `.git/config` and must be configured separately in new clones; commit signing inherits the user's global configuration.
 
 ## Biome (`biome.json`, Biome 2.6) — sole linter+formatter
 
@@ -45,4 +50,4 @@ No test runner, no CI config.
 - **Breaking vs. older Next:** read the relevant guide under `node_modules/next/dist/docs/` before writing Next-specific code. The agent file (`AGENTS.md` Next block) regenerates on `next dev` — never delete it from diffs.
 - React 19. App Router, server components default, `next/dynamic` for client islands.
 
-<!-- verified against: working tree, 2026-10-26 (react-icons removed; self-hosted icon library in ui/icons.tsx) -->
+<!-- verified against: fad1627537e746d4446b90e1c5ae40a5b3dcc82a + working tree, 2026-10-26 (project .npmrc overrides legacy-peer-deps; repository-local Git identity configured) -->
