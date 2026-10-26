@@ -200,7 +200,7 @@ body {
 }
 
 /* Portfolio section: gap between the collapsed topbar and the pinned
-   sticky heading band on large screens. */
+   sticky heading band from sm upward. */
 .portfolio-section {
   --portfolio-title-gap: 40px;
 }

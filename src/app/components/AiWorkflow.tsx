@@ -142,14 +142,12 @@ export const AiWorkflow: FC<Props> = ({ dict }) => {
             <p className="font-general w-full text-base font-medium md:w-[320px] md:shrink-0">
               <SegmentedText segments={toolkit} />
             </p>
-            {/* Mobile: 2-column grid, logos left in their cells at natural
-                size, shrinking only when a cell is narrower than the logo
-                (max-w-full); from sm the cells center, and md+ stays a 4-up
-                centered row. */}
-            <div className="grid flex-1 grid-cols-2 gap-3 md:flex md:h-[60px] md:flex-row">
+            {/* Below sm: 2-column grid with left-aligned, natural-size logos.
+                From sm: one centered row with four equal, shrinkable cells. */}
+            <div className="grid min-w-0 flex-1 grid-cols-2 gap-3 sm:flex sm:h-[60px] sm:flex-row">
               {TOOL_LOGOS.map((logo) => (
                 <div
-                  className="flex items-center sm:justify-center md:h-[60px] md:flex-1"
+                  className="flex items-center sm:h-[60px] sm:min-w-0 sm:flex-1 sm:justify-center"
                   key={logo.name}
                 >
                   <Image

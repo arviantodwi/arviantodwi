@@ -70,12 +70,13 @@ src/
                      # fussy). Logo row: public/techstack/ai/*.svg. Copy in
                      # dictionaries (aiWorkflow key); stage shells/icons/images in STAGES const
       Portfolio.tsx # Redesigned per Figma node 681-441: heading band (wordmark +
-                    # two-line dict tagline + 1px white/15 divider, still lg:sticky
+                    # dict tagline + 1px white/15 divider, sticky from sm below topbar
                     # with scroll-fade) → one featured `wide` ProjectCard + two
                     # rows × 2 `compact` cards; per-project data in PROJECTS const
                     # (titles/tags/surface/image locale-independent), descriptions
                     # + tagline in dictionaries (dict.portfolio); takes `locale`
-                    # AND `dict`
+                    # AND `dict`; Indonesian heading is 64px below sm;
+                    # #portfolio scroll margins clear the fixed header (design.md)
       Portfolio.legacy.tsx # Pre-redesign portfolio (CSS grid + weight-graded experiment);
                            # not imported anywhere — kept as reference only
       Testimonial.tsx # Heading + TestimonyCarousel
@@ -85,8 +86,9 @@ src/
                     # two-col layout (interests | form) with hairline divider;
                     # renders ContactForm
       ContactForm.tsx # Client island: RHF v7 validation (onTouched + live revalidate;
-                    # rules shared with lib/contact/validate.ts), interest radio group
-                    # (hidden `interest` input), name/email/message via ui/Input +
+                    # rules shared with lib/contact/validate.ts), interest select below
+                    # 600px / radios from 600px (shared RHF value; the mounted checked
+                    # radio submits `interest`), name/email/message via ui/Input +
                     # ui/Textarea; valid submit opens a 3s cancel window (Cancel
                     # trigger + #9747FF progress bar) before dispatching to
                     # sendContactMessage via useActionState (server fieldErrors →
@@ -100,16 +102,21 @@ src/
                     # 1886×672 → 1445×231) hugging the band's top edge + 1200px
                     # contact panel slot (renders `<Contact>`, `id="contact"`)
                     # + glass band section (bg-background/40 +
-                    # backdrop-blur): brand column (logo.svg at h-20 white/15 via
+                    # backdrop-blur): brand column (logo.svg up to 435px wide,
+                    # proportional height, white/15 via
                     # opacity — design's wordmark is a wider cut, reuse approved,
                     # copyright, LangSwitcher) | IN PAGE + SOCIAL link
+                    # categories: equal columns at 600–1023px below the brand;
+                    # desktop brand/link row begins at lg (details in design.md)
                     # masts (hairline rows, ↗ on external links only; anchors
                     # #about/#human-ai/#portfolio/#testimonials/#contact, section
                     # ids set on each section). Labels in dictionaries
                     # (dict.footer.mast); hrefs composed here from constants.
       ui/           # Shared UI primitives & client islands:
         Section.tsx             # Shared section shell (docs/design.md): 1440 shell,
-                                # 120px xl gutters; `as` + className overrides
+                                # 120px xl gutters; centered max-640px shell only at sm
+                                # (640–767px), including contact/footer; topbar uses its own wrapper.
+                                # `as` + className overrides
         Button.tsx              # Server-compatible button/<a> hybrid; variant 'primary' = gold fill,
                                 # dark text; children compose label + trailing icon
         Input.tsx               # Underline text field (server-compatible): full native input
@@ -118,17 +125,20 @@ src/
                                 # (docs/design.md); error?: string renders message row + aria wiring
         Textarea.tsx            # Underline textarea, same state mapping as ui/Input;
                                 # min-h-[150px] resize-y
+        Select.tsx              # Controlled select-only combobox using Popover + IconSelector;
+                                # gold selected-radio trigger, trigger-width listbox, keyboard
+                                # navigation/typeahead, focus retained on trigger; used for interests
         AvailabilityStatus.tsx  # Status enum; label text passed via `labels` prop
         LangSwitcher.tsx        # Client dropdown (IconLanguage + active code + IconSelector);
-                                # options EN->'/', ID->'/id' full-name labels, gold active.
-                                # Popover portals to <body>: both usages sit inside a backdrop-filter
-                                # ancestor (fixed topbar / footer band), whose backdrop-root boundary
-                                # would kill the popover's own frosted blur. Anchor mode is detected
-                                # at open: a position:fixed trigger (topbar) gets a viewport-fixed
-                                # panel that never repositions during scroll; a document-flow trigger
-                                # (footer) gets document-coords, left/right-anchored by viewport half,
-                                # glued to the trigger and flipping sides only when placement nears a
-                                # viewport edge; closes once the trigger leaves the fold
+                                # options EN->'/', ID->'/id' full-name labels, gold active;
+                                # full navigation + locale cookie, shared Popover behavior
+        Popover.tsx             # Shared hook/panel/option styles for LangSwitcher and Select.
+                                # Body portal escapes backdrop-filter ancestors; fixed triggers
+                                # get viewport coordinates, others get document coordinates.
+                                # Anchors to nearer viewport half, flips up near bottom edge,
+                                # follows scrolling document triggers; dismisses on outside pointer,
+                                # Escape, offscreen trigger, hidden trigger after resize, or disabled.
+                                # Clears stale placement on close; optional trigger-width panel
         SegmentedText.tsx       # Renders Segment[] (tone: dim/gold/strong/goldUnderline)
         SocialNav.tsx           # GitHub + LinkedIn icon links (ui/icons brand marks)
         Statistic.tsx           # react-countup number
@@ -143,13 +153,16 @@ src/
                                 # (Ant Design 1024). Add new icons here.
         ProjectCard.tsx         # Reusable portfolio item (server): `wide` (featured,
                                 # full-width 510px preview) / `compact` (half-column,
-                                # 360px preview) variants; mobile renders both the
-                                # same size with edge-to-edge preview; `href?` —
+                                # 360px preview) variants; both use a 5:3 ratio below md.
+                                # Preview is edge-to-edge below sm, within section gutters
+                                # at sm (592px wide), rounded from sm; `href?` —
                                 # circular arrow link hidden when omitted; image =
                                 # webp→png optimized <picture> chain (image +
                                 # imageFallback props, explicit per-variant sizes)
         TypeAnimation.tsx       # exports ClientTypeAnimation (takes `roles` prop)
         ToolsMarquee.tsx        # react-fast-marquee, 2 rows from TECH_STACK split in half
+                                # Viewport-wide below md; at sm, rows break out of the
+                                # centered 640px section while its heading stays capped
         TestimonyCarousel.tsx   # Swiper carousel; testimony data via `testimonies` prop
 public/
   photo.png logo.svg footer-aurora.png quote.svg opengraph-card.png twitter-card.png
@@ -252,19 +265,21 @@ public/
 
 - `logo.svg` is the tight wordmark (118.54×21.8, paths white) traced from the .pen
   Main artboard (node o2Uk3m). Header wraps it in `p-[7.2px]` to reproduce the
-  design's 133×36 logo slot; footer renders it at `h-20` (natural 435×80) with
-  `opacity-15` for the design's white/15. `footer-aurora.png` is the "Golden
+  design's 133×36 logo slot; footer renders it up to 435px wide (about 80px tall),
+  capped to its column with automatic height and `opacity-15` for the design's
+  white/15. `footer-aurora.png` is the "Golden
   ambience — neon aurora" export (1886×672; rendered at its natural aspect
   ratio with `object-cover` — full width, no distortion, no clipping).
   In `Footer.tsx` the aurora layer lives in the band's `z-10` wrapper as an
   absolute `bottom-full` sibling BEFORE the band glass, so it paints behind
   BOTH footer content sections (the contact `Section` runs `z-20`); the band's
   `backdrop-blur-md` reads it through the glass, per the .pen Footer root
-  (node lze4B, aurora spans mid-contact-section → band top). The `<footer>`
-  root crops its bottom 216px via `mb-[-216px]`.
+  (node lze4B, aurora spans mid-contact-section → band top). The contact wrapper's
+  `mb-[-216px]` pulls the band upward; 220px band top padding at every breakpoint
+  plus 56px inner padding keeps the wordmark below the contact panel.
 
 - People photos referenced by exact filename — mixed formats (`*.jpeg`, `*.jpg.webp`), no rename guarantees. Copy filename exactly.
 - Techstack SVG filenames are lowercase, `-` for non-alphanumeric characters (`react-router.svg`, `next-js.svg`).
 - Projects are webp, `object-cover`, `fill` + explicit `sizes`.
 
-<!-- verified against: working tree, 2026-10-26 (LangSwitcher popover portaled to body — backdrop-root blur fix) -->
+<!-- verified against: a1185483cb45b538591b311779f22346b62c4309 + working tree, 2026-10-26 (tech-stack marquee spans the viewport through sm; portfolio covers use 5:3 below md, stay within the section gutters at sm, and have rounded corners from sm upward; Portfolio header sticks from sm) -->

@@ -102,18 +102,18 @@ export const Footer: FC<Props> = ({ dict, locale }) => {
           />
         </div>
         <div className="bg-background/40 border-t border-white/15 backdrop-blur-md">
-          <Section as="div" className="pt-20 pb-16 xl:pt-[220px]">
-            <div className="relative flex flex-col gap-14 py-14 md:flex-row md:items-end md:justify-between md:gap-16">
+          {/* Clear the 216px contact overlap at every viewport width. */}
+          <Section as="div" className="pt-[220px] pb-16">
+            <div className="relative flex flex-col gap-7 py-14 min-[600px]:max-lg:gap-14 lg:flex-row lg:items-end lg:justify-between lg:gap-16">
               {/* Brand column (Figma: 435×80 wordmark at white/15, copy, language switcher). */}
               <div className="flex max-w-[550px] flex-col gap-3">
-                {/* Footer wordmark: the design's tight SVG at its natural 435×80
-                (h-20, no extra wrapping); white/15 via opacity. */}
+                {/* Scale the 435×80 wordmark proportionally to fit narrow columns. */}
                 <Image
                   src="/logo.svg"
                   width={118.54}
                   height={21.8}
                   alt="logo"
-                  className="h-20 w-auto self-start opacity-15"
+                  className="h-auto w-[435px] max-w-full self-start opacity-15"
                 />
                 <p className="text-base font-medium text-white/75">
                   {before}
@@ -130,11 +130,11 @@ export const Footer: FC<Props> = ({ dict, locale }) => {
                 <LangSwitcher locale={locale} />
               </div>
 
-              {/* Link masts (Figma: 200px wide, gold label, hairline rows). */}
-              <div className="flex flex-col gap-14 md:flex-row md:gap-16">
+              {/* Equal columns from 600px until lg; desktop keeps 200px link masts. */}
+              <div className="flex flex-col gap-7 min-[600px]:max-lg:grid min-[600px]:max-lg:grid-cols-2 min-[600px]:max-lg:gap-8 lg:flex-row lg:gap-16">
                 <nav
                   aria-label={mast.inPage}
-                  className="flex w-[200px] shrink-0 flex-col gap-3 pt-[22px]"
+                  className="flex w-[200px] shrink-0 flex-col gap-3 pt-[22px] min-[600px]:max-lg:w-full"
                 >
                   <p className="text-gold text-[11px] font-bold tracking-[2.4px] uppercase">
                     {mast.inPage}
@@ -143,7 +143,7 @@ export const Footer: FC<Props> = ({ dict, locale }) => {
                 </nav>
                 <nav
                   aria-label={mast.social}
-                  className="flex w-[200px] shrink-0 flex-col gap-3 pt-[22px]"
+                  className="flex w-[200px] shrink-0 flex-col gap-3 pt-[22px] min-[600px]:max-lg:w-full"
                 >
                   <p className="text-gold text-[11px] font-bold tracking-[2.4px] uppercase">
                     {mast.social}

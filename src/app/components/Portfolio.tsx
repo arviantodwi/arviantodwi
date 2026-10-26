@@ -1,5 +1,6 @@
 import type { FC } from 'react';
 import type { Dictionary, Locale } from '@/app/lib/i18n/types';
+import { cx } from '@/app/lib/utils';
 import { PortfolioItemFade } from './ui/PortfolioItemFade';
 import { ProjectCard } from './ui/ProjectCard';
 import { Section } from './ui/Section';
@@ -71,17 +72,21 @@ const SECTION_TITLE: Record<Locale, string> = {
 
 export const Portfolio: FC<Props> = ({ locale, dict }) => {
   const headingBand = (
-    <div className="portfolio-heading relative z-1 flex w-full flex-col lg:sticky lg:top-[68px] lg:ml-[calc(50%-50vw)] lg:w-screen lg:items-center lg:pt-[var(--portfolio-title-gap)] lg:backdrop-blur-[8px] xl:top-[76px]">
-      <div className="mx-auto flex w-full flex-col px-6 md:px-18 xl:max-w-[1440px] xl:px-30">
+    <div className="portfolio-heading relative z-1 flex w-full flex-col sm:sticky sm:top-[60px] sm:pt-[var(--portfolio-title-gap)] sm:backdrop-blur-[8px] md:top-[68px] lg:ml-[calc(50%-50vw)] lg:w-screen lg:items-center xl:top-[76px]">
+      <div className="mx-auto flex w-full flex-col px-0 md:px-18 xl:max-w-[1440px] xl:px-30">
         <div className="flex w-full flex-col gap-[24px]">
-          {/* Heading row: wordmark left, two-line tagline hung off its
-              bottom 24px to its right (first muted, second full white),
-              per Figma 681:443. */}
-          <div className="flex flex-col gap-4 md:flex-row md:items-end md:gap-[24px] md:self-stretch">
-            <h2 className="font-headline text-[76px] leading-[1.08] font-bold text-white uppercase md:text-[84px] xl:text-[112px]">
+          {/* From sm, the tagline sits 24px to the right of the wordmark,
+              bottom-aligned and wrapping into the available width. */}
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:gap-[24px] sm:self-stretch">
+            <h2
+              className={cx(
+                'font-headline text-[76px] leading-[1.08] font-bold text-white uppercase sm:max-md:shrink-0 md:text-[84px] xl:text-[112px]',
+                locale === 'id' && 'max-sm:text-[64px]',
+              )}
+            >
               {SECTION_TITLE[locale]}
             </h2>
-            <p className="font-general text-[16px] leading-[1.6] text-white/75 md:w-[420px] md:shrink-0">
+            <p className="font-general text-[16px] leading-[1.6] text-white/75 sm:max-md:min-w-0 sm:max-md:flex-1 md:w-[420px] md:shrink-0">
               <span className="block">{dict.portfolio.tagline.muted}</span>
               <span className="block text-white">{dict.portfolio.tagline.plain}</span>
             </p>
@@ -111,7 +116,7 @@ export const Portfolio: FC<Props> = ({ locale, dict }) => {
   return (
     <Section
       id="portfolio"
-      className="portfolio-section md:max-w-none md:px-18 lg:max-w-none xl:pb-20"
+      className="portfolio-section scroll-mt-[84px] md:max-w-none md:scroll-mt-[92px] md:px-18 lg:max-w-none xl:scroll-mt-[100px] xl:pb-20"
     >
       <PortfolioItemFade />
       {/* The fade hook (.portfolio-item, ui/PortfolioItemFade.tsx) sits on

@@ -4,15 +4,15 @@ import { cx } from '@/app/lib/utils';
 import { IconArrowUpRight, IconHash } from './icons';
 
 /**
- * One portfolio item, per Figma node 681-441: full-bleed-scaled preview
+ * One portfolio item, per Figma node 681-441: image preview
  * panel above a details row (gold brand marker + title + `#`-prefixed
  * discipline tags + description + circular "open project" link).
  *
  * - `wide`   — full-width featured item (desktop preview 510px tall).
  * - `compact`— half-column card in a two-per-row collection (360px tall).
- * On mobile (<md) both variants render at the same size, and the preview
- * panel bleeds to the viewport edges (the section's horizontal gutters
- * are cancelled with negative margins).
+ * Below md both variants use the same 5:3 preview ratio. Below sm,
+ * negative margins let the preview bleed to the viewport edges; at sm,
+ * it matches the inner section width (592px inside the 640px shell).
  *
  * Images are placeholder exports at their exact final paths; swapping the
  * files under `public/projects/` never changes this component.
@@ -40,11 +40,11 @@ const PREVIEW: Record<ProjectCardProps['variant'], string> = {
   compact: 'md:h-[360px]',
 };
 
-/** Notable widths shared by webp source + png fallback (wide = full bleed). */
+/** Rendered widths shared by webp source + png fallback. */
 const SIZES: Record<ProjectCardProps['variant'], string> = {
-  wide: '(max-width: 767px) 100vw, (max-width: 1023px) 640px, (max-width: 1279px) 848px, (max-width: 1439px) calc(100vw - 240px), 1200px',
+  wide: '(max-width: 639px) 100vw, (max-width: 767px) 592px, (max-width: 1023px) 640px, (max-width: 1279px) 848px, (max-width: 1439px) calc(100vw - 240px), 1200px',
   compact:
-    '(max-width: 767px) 100vw, (max-width: 1023px) 50vw, (max-width: 1279px) 416px, (max-width: 1439px) calc((100vw - 272px)/2), 584px',
+    '(max-width: 639px) 100vw, (max-width: 767px) 592px, (max-width: 1023px) 50vw, (max-width: 1279px) 416px, (max-width: 1439px) calc((100vw - 272px)/2), 584px',
 };
 
 export const ProjectCard: FC<ProjectCardProps> = ({
@@ -60,10 +60,10 @@ export const ProjectCard: FC<ProjectCardProps> = ({
   className,
 }) => (
   <article className={cx('flex w-full flex-col', className)}>
-    {/* Preview panel — edge-to-edge on mobile, rounded inside gutters from md. */}
+    {/* Preview — edge-to-edge below sm, inside gutters with rounded corners from sm. */}
     <div
       className={cx(
-        'relative -mx-6 h-[280px] overflow-hidden md:mx-0 md:rounded-lg',
+        'relative -mx-6 aspect-[5/3] overflow-hidden sm:mx-0 sm:rounded-lg md:aspect-auto',
         surface,
         PREVIEW[variant],
       )}

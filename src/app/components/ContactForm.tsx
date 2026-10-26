@@ -10,13 +10,17 @@ import {
   useState,
 } from 'react';
 import {
+  type Control,
   type FieldError,
   type RegisterOptions,
   type UseFormRegister,
+  type UseFormSetValue,
   useForm,
+  useWatch,
 } from 'react-hook-form';
 import { type ContactFormState, sendContactMessage } from '@/app/actions/contact';
 import { Input } from '@/app/components/ui/Input';
+import { Select } from '@/app/components/ui/Select';
 import { Textarea } from '@/app/components/ui/Textarea';
 import { type ContactInput, isValidEmail, LIMITS } from '@/app/lib/contact/validate';
 import type { Dictionary, Locale } from '@/app/lib/i18n/types';
@@ -215,18 +219,28 @@ const ContactFields: FC<ContactFieldsProps> = ({ dict, locale, register, errors,
 interface InterestSelectorProps {
   dict: Dictionary;
   register: UseFormRegister<ContactInput>;
+  control: Control<ContactInput>;
+  setValue: UseFormSetValue<ContactInput>;
   /** Locked during the 3s cancel window: inert (no pointer/keyboard/focus
       changes — checked state still submits) at 80% opacity. */
   locked: boolean;
 }
 
 /**
- * Radiogroup of 4 toggle options as a native fieldset of radio inputs
- * (arrow-key navigation free); the checked radio submits as `interest`.
+ * A select below 600px, otherwise a native radio group. Both share RHF's
+ * value; the checked radio remains mounted and submits as `interest`.
  * No client rule — the server's INTERESTS whitelist is the authority, and
  * the design has no error slot for the group.
  */
-const InterestSelector: FC<InterestSelectorProps> = ({ dict, register, locked }) => {
+const InterestSelector: FC<InterestSelectorProps> = ({
+  dict,
+  register,
+  control,
+  setValue,
+  locked,
+}) => {
+  const interest = useWatch({ control, name: 'interest' });
+
   return (
     <fieldset
       inert={locked}
@@ -243,7 +257,15 @@ const InterestSelector: FC<InterestSelectorProps> = ({ dict, register, locked })
       </legend>
       {/* Chrome renders <legend> outside the fieldset's flex flow (gap never
           applies after it) — the design's 24px prompt→choices gap goes here. */}
-      <div className="mt-6 flex flex-col gap-3">
+      <Select
+        options={dict.contact.choices}
+        value={interest}
+        onChange={(value) => setValue('interest', value, { shouldDirty: true, shouldTouch: true })}
+        labelledBy="contact-interests-prompt"
+        disabled={locked}
+        className="mt-6 min-[600px]:hidden"
+      />
+      <div className="mt-6 hidden grid-cols-1 gap-3 min-[600px]:grid min-[600px]:max-lg:grid-cols-2">
         {dict.contact.choices.map((choice, index) => (
           <label
             key={choice.id}
@@ -324,6 +346,8 @@ export const ContactForm: FC<Props> = ({ dict, locale }) => {
 
   const {
     register,
+    control,
+    setValue,
     handleSubmit,
     setError,
     reset,
@@ -359,7 +383,7 @@ export const ContactForm: FC<Props> = ({ dict, locale }) => {
 
   /* Valid submit → 3s window → dispatch. Fields go readOnly for the window;
      the FormData is re-read at dispatch time so the screen and the payload
-     stay identical (radios stay interactive — whatever is on screen wins).
+     stay identical (the inert interest group keeps its checked value).
      The timer guard makes double submits (Enter while counting) a no-op. */
   const onValid = (_data: ContactInput, event?: BaseSyntheticEvent) => {
     const form = event?.target;
@@ -396,7 +420,13 @@ export const ContactForm: FC<Props> = ({ dict, locale }) => {
           )}
           onSubmit={sentPhase === 'form' ? handleSubmit(onValid) : (e) => e.preventDefault()}
         >
-          <InterestSelector dict={dict} locked={counting} register={register} />
+          <InterestSelector
+            dict={dict}
+            locked={counting}
+            register={register}
+            control={control}
+            setValue={setValue}
+          />
 
           {/* Group divider (design: 1px #292929 column, desktop only).
               self-stretch, not h-full — h-full computes 0 against the form's

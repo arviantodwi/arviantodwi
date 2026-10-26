@@ -9,7 +9,7 @@ export const ToolsMarquee = () => {
   const bottomRowStack = TECH_STACK.slice(stackMiddleIndex);
 
   return (
-    <div className="-mx-6 flex flex-col gap-7 pt-12 sm:mx-0 md:mx-auto md:max-w-3xl lg:max-w-5xl lg:pt-20 xl:max-w-[1200px]">
+    <div className="-mx-6 flex flex-col gap-7 pt-12 sm:max-md:mx-[calc(50%_-_50vw)] md:mx-auto md:max-w-3xl lg:max-w-5xl lg:pt-20 xl:max-w-[1200px]">
       <Marquee direction="right" gradient gradientColor="#040404" gradientWidth={24}>
         {topRowStack.map((item) => (
           <img
