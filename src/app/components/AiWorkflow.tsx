@@ -68,9 +68,9 @@ const TOOL_LOGOS = [
   { name: 'Gemini', src: '/techstack/ai/gemini.svg' },
 ];
 
-/** Responsive sizes for the 3-up (xl) / stacked (below) stage illustrations. */
+/** Responsive sizes for the 3-up (lg) / stacked (below) stage illustrations. */
 const IMAGE_SIZES =
-  '(max-width: 767px) calc(100vw - 48px), (max-width: 1023px) 640px, (max-width: 1279px) calc((min(100vw, 896px) - 80px) / 3), (max-width: 1439px) calc((100vw - 240px) / 3), 373px';
+  '(max-width: 639px) calc(100vw - 48px), (max-width: 767px) 544px, (max-width: 1023px) 576px, (max-width: 1279px) 240px, (max-width: 1439px) calc((100vw - 560px) / 3), 293px';
 
 export const AiWorkflow: FC<Props> = ({ dict }) => {
   const { aiWorkflow } = dict;
@@ -79,8 +79,7 @@ export const AiWorkflow: FC<Props> = ({ dict }) => {
   return (
     <Section id="human-ai" className="py-20">
       {/* Inner shell: the outer Section already carries the 24px gutter on
-          mobile — no extra inline padding inside it (sm+ keeps the double
-          shell until its own pass). */}
+          mobile — no extra inline padding inside it; sm+ keeps the double shell. */}
       <Section as="div" className="flex flex-col gap-14 px-0 sm:px-6">
         {/* Headline + intro */}
         <div className="flex flex-col gap-4">
@@ -95,7 +94,7 @@ export const AiWorkflow: FC<Props> = ({ dict }) => {
         </div>
 
         {/* Workflow stages */}
-        <div className="flex flex-col gap-10 md:grid md:grid-cols-3 md:gap-10">
+        <div className="flex flex-col gap-10 lg:grid lg:grid-cols-3">
           {STAGES.map((stage) => (
             <div className="flex flex-col gap-5" key={stage.key}>
               <div className="flex flex-col gap-3">
@@ -138,8 +137,8 @@ export const AiWorkflow: FC<Props> = ({ dict }) => {
         {/* AI toolkit */}
         <div className="flex flex-col gap-7">
           <div className="h-px bg-[#292929]" />
-          <div className="flex flex-col gap-6 md:flex-row md:items-center md:gap-[60px]">
-            <p className="font-general w-full text-base font-medium md:w-[320px] md:shrink-0">
+          <div className="flex flex-col gap-6 xl:flex-row xl:items-center xl:gap-[60px]">
+            <p className="font-general w-full text-base font-medium xl:w-[320px] xl:shrink-0">
               <SegmentedText segments={toolkit} />
             </p>
             {/* Below sm: 2-column grid with left-aligned, natural-size logos.

@@ -53,16 +53,19 @@ src/
                     # AvailabilityStatus; bg-background/70 + backdrop-blur; scrolled
                     # state shrinks padding (py-6→py-2) and fades in 1px bottom line
       Hero.tsx      # Name, TypeAnimation, Statistic row, portrait Image.
-                    # xl: two-col row per Figma Main artboard — 478px copy col
-                    # (centered, gap 56) | 200px gap | 584px photo that hangs
-                    # 177px below the 700px hero; below xl photo stays absolute
-                    # with the long pb-* reservations
+                    # xl: 478px copy column beside a proportional, shrinkable portrait;
+                    # positioned wrapper contains Image fill. At 2xl: 200px gap,
+                    # 584×877 photo overhangs the 700px hero by 177px. Below xl
+                    # photo stays absolute; lg uses a 480px-wide portrait in a
+                    # 728px hero and 100px name type (xl: 116px)
       About.tsx     # Bio paragraphs via SegmentedText, .about-box-accent headline,
-                    # centered CV CTA button (ui/Button + IconArrowUpRight)
+                    # centered CV CTA button (ui/Button + IconArrowUpRight);
+                    # lg-only margin reduces the Hero → About gap to 64px
       TechStack.tsx # Heading + subline via SegmentedText + ToolsMarquee
       AiWorkflow.tsx # AI-native — Connected Workflow (Figma node 699-419): 48px two-tone
                      # headline + intro; 3 stage cols (PLAN/DESIGN/DEVELOP, Antonio 26px
-                     # + 24px custom icon from ui/icons.tsx) — card shells are code (bg/border
+                     # + 24px custom icon from ui/icons.tsx), stacked below lg; toolkit
+                     # copy above the logo row through lg — card shells are code (bg/border
                      # per design); PLAN + DESIGN render animated inline SVG via
                      # ui/PlanIllustration / ui/DesignIllustration (7.2s scenery loops);
                      # DEVELOP via ui/DevelopIllustration — static composition + blinking
@@ -113,7 +116,7 @@ src/
                     # ids set on each section). Labels in dictionaries
                     # (dict.footer.mast); hrefs composed here from constants.
       ui/           # Shared UI primitives & client islands:
-        Section.tsx             # Shared section shell (docs/design.md): 1440 shell,
+        Section.tsx             # Shared full-width section shell (docs/design.md): 1440 shell,
                                 # 120px xl gutters; centered max-640px shell only at sm
                                 # (640–767px), including contact/footer; topbar uses its own wrapper.
                                 # `as` + className overrides
@@ -152,8 +155,9 @@ src/
                                 # Right (Phosphor 256), IconBrandGithub/Linkedin
                                 # (Ant Design 1024). Add new icons here.
         ProjectCard.tsx         # Reusable portfolio item (server): `wide` (featured,
-                                # full-width 510px preview) / `compact` (half-column,
-                                # 360px preview) variants; both use a 5:3 ratio below md.
+                                # full-width 40:17 preview) / `compact` (half-column,
+                                # 73:45 preview) variants from md; both use 5:3 below md.
+                                # Ratios keep the 2xl sizes at 1200×510 / 584×360.
                                 # Preview is edge-to-edge below sm, within section gutters
                                 # at sm (592px wide), rounded from sm; `href?` —
                                 # circular arrow link hidden when omitted; image =
@@ -282,4 +286,4 @@ public/
 - Techstack SVG filenames are lowercase, `-` for non-alphanumeric characters (`react-router.svg`, `next-js.svg`).
 - Projects are webp, `object-cover`, `fill` + explicit `sizes`.
 
-<!-- verified against: a1185483cb45b538591b311779f22346b62c4309 + working tree, 2026-10-26 (tech-stack marquee spans the viewport through sm; portfolio covers use 5:3 below md, stay within the section gutters at sm, and have rounded corners from sm upward; Portfolio header sticks from sm) -->
+<!-- verified against: d873926b789176a37298874c76d3eb11d72a1793 + working tree, 2026-10-26 (responsive layouts; lg Hero uses a 480px portrait, 728px minimum height, and 64px gap before About) -->

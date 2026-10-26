@@ -10,7 +10,7 @@ import { cx } from '@/app/lib/utils';
  * `className` (cx resolves conflicting tiers via tailwind-merge).
  */
 const BASE =
-  'relative z-10 px-6 sm:max-md:mx-auto sm:max-md:w-full sm:max-md:max-w-[640px] md:mx-auto md:max-w-2xl lg:max-w-4xl xl:max-w-[1440px] xl:px-30';
+  'relative z-10 w-full px-6 sm:max-md:mx-auto sm:max-md:max-w-[640px] md:mx-auto md:max-w-2xl lg:max-w-4xl xl:max-w-[1440px] xl:px-30';
 
 interface Props {
   as?: ElementType;

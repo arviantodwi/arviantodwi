@@ -73,20 +73,20 @@ const SECTION_TITLE: Record<Locale, string> = {
 export const Portfolio: FC<Props> = ({ locale, dict }) => {
   const headingBand = (
     <div className="portfolio-heading relative z-1 flex w-full flex-col sm:sticky sm:top-[60px] sm:pt-[var(--portfolio-title-gap)] sm:backdrop-blur-[8px] md:top-[68px] lg:ml-[calc(50%-50vw)] lg:w-screen lg:items-center xl:top-[76px]">
-      <div className="mx-auto flex w-full flex-col px-0 md:px-18 xl:max-w-[1440px] xl:px-30">
+      <div className="mx-auto flex w-full flex-col px-0 lg:px-18 xl:max-w-[1440px] xl:px-30">
         <div className="flex w-full flex-col gap-[24px]">
           {/* From sm, the tagline sits 24px to the right of the wordmark,
               bottom-aligned and wrapping into the available width. */}
           <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:gap-[24px] sm:self-stretch">
             <h2
               className={cx(
-                'font-headline text-[76px] leading-[1.08] font-bold text-white uppercase sm:max-md:shrink-0 md:text-[84px] xl:text-[112px]',
+                'font-headline text-[76px] leading-[1.08] font-bold text-white uppercase sm:max-lg:shrink-0 md:text-[84px] xl:text-[112px]',
                 locale === 'id' && 'max-sm:text-[64px]',
               )}
             >
               {SECTION_TITLE[locale]}
             </h2>
-            <p className="font-general text-[16px] leading-[1.6] text-white/75 sm:max-md:min-w-0 sm:max-md:flex-1 md:w-[420px] md:shrink-0">
+            <p className="font-general text-[16px] leading-[1.6] text-white/75 sm:max-lg:min-w-0 sm:max-lg:flex-1 lg:w-[420px] lg:shrink-0">
               <span className="block">{dict.portfolio.tagline.muted}</span>
               <span className="block text-white">{dict.portfolio.tagline.plain}</span>
             </p>

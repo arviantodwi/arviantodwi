@@ -8,8 +8,9 @@ import { IconArrowUpRight, IconHash } from './icons';
  * panel above a details row (gold brand marker + title + `#`-prefixed
  * discipline tags + description + circular "open project" link).
  *
- * - `wide`   — full-width featured item (desktop preview 510px tall).
- * - `compact`— half-column card in a two-per-row collection (360px tall).
+ * - `wide`   — full-width featured item (1200×510 desktop preview).
+ * - `compact`— half-column card (584×360 desktop preview).
+ * From md, previews scale at those desktop ratios with the column width.
  * Below md both variants use the same 5:3 preview ratio. Below sm,
  * negative margins let the preview bleed to the viewport edges; at sm,
  * it matches the inner section width (592px inside the 640px shell).
@@ -36,15 +37,15 @@ export interface ProjectCardProps {
 
 /** Per-variant preview classes; mobile rules are shared by both. */
 const PREVIEW: Record<ProjectCardProps['variant'], string> = {
-  wide: 'md:h-[510px]',
-  compact: 'md:h-[360px]',
+  wide: 'md:aspect-[40/17]',
+  compact: 'md:aspect-[73/45]',
 };
 
 /** Rendered widths shared by webp source + png fallback. */
 const SIZES: Record<ProjectCardProps['variant'], string> = {
-  wide: '(max-width: 639px) 100vw, (max-width: 767px) 592px, (max-width: 1023px) 640px, (max-width: 1279px) 848px, (max-width: 1439px) calc(100vw - 240px), 1200px',
+  wide: '(max-width: 639px) 100vw, (max-width: 767px) 592px, (max-width: 1279px) calc(100vw - 144px), (max-width: 1439px) calc(100vw - 240px), 1200px',
   compact:
-    '(max-width: 639px) 100vw, (max-width: 767px) 592px, (max-width: 1023px) 50vw, (max-width: 1279px) 416px, (max-width: 1439px) calc((100vw - 272px)/2), 584px',
+    '(max-width: 639px) 100vw, (max-width: 767px) 592px, (max-width: 1279px) calc((100vw - 176px)/2), (max-width: 1439px) calc((100vw - 272px)/2), 584px',
 };
 
 export const ProjectCard: FC<ProjectCardProps> = ({
@@ -63,7 +64,7 @@ export const ProjectCard: FC<ProjectCardProps> = ({
     {/* Preview — edge-to-edge below sm, inside gutters with rounded corners from sm. */}
     <div
       className={cx(
-        'relative -mx-6 aspect-[5/3] overflow-hidden sm:mx-0 sm:rounded-lg md:aspect-auto',
+        'relative -mx-6 aspect-[5/3] overflow-hidden sm:mx-0 sm:rounded-lg',
         surface,
         PREVIEW[variant],
       )}
