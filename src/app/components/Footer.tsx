@@ -105,15 +105,16 @@ export const Footer: FC<Props> = ({ dict, locale }) => {
           {/* Clear the 216px contact overlap at every viewport width. */}
           <Section as="div" className="pt-[220px] pb-16">
             <div className="relative flex flex-col gap-7 py-14 min-[600px]:max-lg:gap-14 lg:flex-row lg:items-end lg:justify-between lg:gap-16">
-              {/* Brand column (Figma: 435×80 wordmark at white/15, copy, language switcher). */}
+              {/* Brand column (design: 274×64 white wordmark, copy, language switcher). */}
               <div className="flex max-w-[550px] flex-col gap-3">
-                {/* Scale the 435×80 wordmark proportionally to fit narrow columns. */}
+                {/* Design (.pen Footer brand): 274×64 white wordmark, scaled
+                    proportionally to fit narrow columns. */}
                 <Image
                   src="/logo.svg"
-                  width={118.54}
-                  height={21.8}
+                  width={274}
+                  height={64}
                   alt="logo"
-                  className="h-auto w-[435px] max-w-full self-start opacity-15"
+                  className="h-auto w-[274px] max-w-full self-start"
                 />
                 <p className="text-base font-medium text-white/75">
                   {before}

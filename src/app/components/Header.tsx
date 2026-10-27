@@ -50,13 +50,10 @@ export const Header: FC<Props> = ({ dict, locale }) => {
       )}
     >
       <div className="mx-auto flex h-full items-center justify-between md:px-6 xl:max-w-[1440px] xl:px-30">
-        <div className="flex items-center gap-3">
-          {/* Wordmark is the design's tight SVG (118.54×21.8); the top bar's
-              logo container carries the design frame's 7.2px inset as padding
-              to keep the 133×36 footprint. */}
-          <div className="p-[7.2px]">
-            <Image src="/logo.svg" width={118.54} height={21.8} alt="logo" />
-          </div>
+        <div className="flex items-center gap-[18px]">
+          {/* Design (.pen Header, node COKOj): 138×32 logo (node Zybny geometry,
+              rendered as /logo.svg) then 18px to the 24×24 social anchors. */}
+          <Image src="/logo.svg" width={138} height={32} alt="logo" />
           <SocialNav className="hidden sm:flex" />
         </div>
         <div className="flex items-center gap-5">

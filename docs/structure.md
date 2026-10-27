@@ -47,9 +47,10 @@ src/
                     # types.ts (Segment, Dictionary, ContactLabels), en.ts + id.ts
                     # (dictionaries)
     components/     # Sections (server components), all receive `dict: Dictionary`
-      Header.tsx    # Sticky topbar (client): logo (tight 118.54×21.8 SVG in a
-                    # p-[7.2px] container = the design's 133×36 logo slot) +
-                    # SocialNav + LangSwitcher +
+      Header.tsx    # Sticky topbar (client): logo (138×32 — the full lockup
+                    # traced from .pen node Zybny as /logo.svg) + 18px gap +
+                    # SocialNav (24×24 anchors with 18px glyphs from .pen
+                    # node gj6H2) + LangSwitcher +
                     # AvailabilityStatus; bg-background/70 + backdrop-blur; scrolled
                     # state shrinks padding (py-6→py-2) and fades in 1px bottom line
       Hero.tsx      # Name, TypeAnimation, Statistic row, portrait Image.
@@ -267,11 +268,11 @@ public/
 
 ## Asset conventions
 
-- `logo.svg` is the tight wordmark (118.54×21.8, paths white) traced from the .pen
-  Main artboard (node o2Uk3m). Header wraps it in `p-[7.2px]` to reproduce the
-  design's 133×36 logo slot; footer renders it up to 435px wide (about 80px tall),
-  capped to its column with automatic height and `opacity-15` for the design's
-  white/15. `footer-aurora.png` is the "Golden
+- `logo.svg` is the full logo lockup (mark + wordmark, paths white, viewBox
+  2525.804×587.277) traced from the .pen file (node Zybny — all-white variant,
+  transparent background). Header renders it at 138×32 (the design's Navigation
+  slot, node COKOj/gj6H2); the footer renders it at 274×64 solid white, capped
+  to its column with automatic height. `footer-aurora.png` is the "Golden
   ambience — neon aurora" export (1886×672; rendered at its natural aspect
   ratio with `object-cover` — full width, no distortion, no clipping).
   In `Footer.tsx` the aurora layer lives in the band's `z-10` wrapper as an
