@@ -195,6 +195,31 @@ export const IconCheck: FC<IconProps> = ({ size = 24, ...props }) => (
 );
 
 /**
+ * Twin speech-quote marks — testimonial section leading mark, rendered at
+ * 48px in gold above the testimonials heading. Lucide "quote" geometry
+ * (v1.62.0, ISC), traced verbatim; the pen flag node r910O uses it with
+ * `fill="$brand"`, so keep `text-gold` on the consumer.
+ */
+export const IconQuote: FC<IconProps> = ({ size = 24, ...props }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth={2}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden="true"
+    {...props}
+  >
+    <path d="M16 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z" />
+    <path d="M5 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z" />
+  </svg>
+);
+
+/**
  * Filled caret left/right — testimony carousel navigators.
  * Phosphor "bold" geometry (256 viewBox), MIT.
  */

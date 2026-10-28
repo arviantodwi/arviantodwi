@@ -57,41 +57,77 @@ export const Footer: FC<Props> = ({ dict, locale }) => {
   // positioning/z-index here — a positioned root lands in the same paint
   // layer as the z-0 pseudo but later in DOM order, so its opaque bg
   // covers the glow and clips it at the footer's top edge). The two
-  // content sections carry their own z-layers above the circle.
+  // content sections carry their own z-layers above the circle. The ≥xl
+  // aurora/background pair therefore anchors to the positioned band
+  // wrapper, NOT to the footer root.
   return (
     <footer className="bg-background font-general mt-auto overflow-hidden text-sm">
-      {/* Footer root sits straight on the #040404 page base (no fill in the
-          design); the glass treatment lives on the band section below. */}
-      {/* Aurora ambience backdrop slot (Figma: "Golden ambience — neon aurora"). */}
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0" />
-
-      {/* Contact scaffold (Figma: 1200px Contact panel — invitation + inquiry form).
-          z-20 keeps the panel above the band's aurora overhang (design: aurora
-          paints behind BOTH footer content sections). */}
-      <Section as="div" id="contact" className="relative z-20 pt-16">
+      {/* Contact scaffold (pen: 1200px Contact content — invitation + inquiry form).
+          z-20 keeps the panel above the decoration pair. From xl the design
+          gives the contact content an 80px top pad and NO bottom pad — the
+          band follows flush, so the old negative-margin construction (kept
+          below xl until the sub-xl pass) is dropped. */}
+      <Section as="div" id="contact" className="relative z-20 pt-16 xl:pt-0">
         <div className="mx-auto w-full xl:max-w-[1200px]">
-          {/* Negative bottom margin tucks the band (and its aurora overhang)
-              up behind the panel's lower edge — the aurora's bright core sits
-              at the panel bottom, per the design. */}
-          <div className="mb-[-216px] xl:px-12 xl:py-16">
+          <div className="mb-[-216px] xl:mb-0 xl:px-12 xl:pt-20 xl:pb-0">
             <Contact dict={dict} locale={locale} />
           </div>
         </div>
       </Section>
 
-      {/* Footer band (Figma node x2r6j: glass root — bg 40% + backdrop blur over
-          the aurora; pad 220/64 around the py-56 band). The z-10 wrapper holds
-          the aurora BELOW the band glass (its backdrop-blur reads it) and below
-          the contact section above. */}
+      {/* Footer band (pen node x2r6j / y5lpN: glass root; pad 48/120 around the
+          band, band pad 40/0). From xl the glass fill moved onto the root-level
+          GcP61 layer above, so this section goes transparent there and its top
+          padding becomes the design's 48px (the 220px clear-out + 64px pad are
+          below-xl legacy). */}
       <div className="relative z-10">
-        {/* Neon aurora glow hugging the band's top edge (design: 1886×672 art
-            at its natural aspect — `cover` fills the full width without
-            distortion or clipping since the container matches the art ratio;
-            bottom-full hangs it behind the contact section, per the .pen
-            footer root where the art ends at the band's top edge). */}
+        {/* ≥xl decoration pair (pen nodes aIybe + GcP61), anchored to the band
+            wrapper so aurora and background move as ONE unit and can never
+            separate: the aurora strip's bottom edge keys the background's top
+            edge (flex column — the strip is 231px, the background flex-1).
+            Pen geometry: the background's top line sits 164px above the band
+            edge (GcP61 y=512 over a 676px contact section), which puts the
+            aurora's bright core (55% down its natural art) ~47px below the
+            line — behind the panel's lower half, dimmed by the background.
+            z-0 under the glass div (z-1 above it) keeps band text readable
+            while the background's blur samples the aurora's overflowing
+            tail. The art draws at natural aspect (513px tall at 1440):
+            everything past its 231px box overflows downward — the pair never
+            scales it to fit. */}
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-x-0 bottom-[69%] z-0 aspect-[1886/672] w-full"
+          className="pointer-events-none absolute inset-x-0 -top-[395px] bottom-0 z-0 hidden flex-col xl:flex"
+        >
+          {/* Golden ambience — neon aurora (aIybe): natural 1886×672 asset,
+              exported @2x from the .pen with its 0.6 opacity and blur bleed
+              baked in, at full design width. */}
+          <div aria-hidden="true" className="relative h-[231px] shrink-0">
+            <Image
+              src="/footer-aurora.png"
+              width={1886}
+              height={672}
+              alt=""
+              className="h-auto w-full"
+            />
+          </div>
+          {/* GcP61 — the absolute background: 40%-black ground + hairline top
+              border + glass blur, filling from the aurora strip's bottom edge
+              to the wrapper's bottom edge (= the footer's, no footer padding).
+              Sibling — not parent — of the aurora so the blur reads what the
+              design draws through the glass. `relative` puts it later in the
+              positioned paint order than the strip, so the aurora's natural
+              overflow tail dim under it instead of shining over it. */}
+          <div
+            aria-hidden="true"
+            className="bg-background/40 flex-1 relative border-t border-white/15 backdrop-blur-md"
+          />
+        </div>
+        {/* Neon aurora for the ≤xl construction (pen: art hanging behind the
+            contact section, bright core at the band's top edge). Replaced above
+            xl by the pair above. */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-0 bottom-[69%] z-0 aspect-[1886/672] w-full xl:hidden"
         >
           <Image
             src="/footer-aurora.png"
@@ -101,10 +137,15 @@ export const Footer: FC<Props> = ({ dict, locale }) => {
             className="-mb-[212px] h-full w-full object-cover"
           />
         </div>
-        <div className="bg-background/40 border-t border-white/15 backdrop-blur-md">
-          {/* Clear the 216px contact overlap at every viewport width. */}
-          <Section as="div" className="pt-[220px] pb-16">
-            <div className="relative flex flex-col gap-7 py-14 min-[600px]:max-lg:gap-14 lg:flex-row lg:items-end lg:justify-between lg:gap-16">
+        <div className="bg-background/40 xl:backdrop-blur-0 relative z-1 border-t border-white/15 backdrop-blur-md xl:border-transparent xl:bg-transparent">
+          {/* Crystal layer: the background fill/border/blur live on the ≥xl
+              decoration pair above; ≤xl this div IS the glass, and at xl it
+              goes fully transparent. The z-1 keeps the band content above the
+              z-0 pair at xl (paint order: positioned siblings win over this
+              div's old flow paint). */}
+
+          <Section as="div" className="pt-[220px] pb-16 xl:pt-12 xl:pb-12">
+            <div className="relative flex flex-col gap-7 py-14 min-[600px]:max-lg:gap-14 lg:flex-row lg:items-end lg:justify-between lg:gap-16 xl:py-10">
               {/* Brand column (design: 274×64 white wordmark, copy, language switcher). */}
               <div className="flex max-w-[550px] flex-col gap-3">
                 {/* Design (.pen Footer brand): 274×64 white wordmark, scaled

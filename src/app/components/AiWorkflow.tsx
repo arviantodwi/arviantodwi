@@ -77,9 +77,11 @@ export const AiWorkflow: FC<Props> = ({ dict }) => {
   const { headline, intro, stages, toolkit } = aiWorkflow;
 
   return (
-    <Section id="human-ai" className="py-20">
+    <Section id="human-ai" className="py-20 lg:py-0">
       {/* Inner shell: the outer Section already carries the 24px gutter on
-          mobile — no extra inline padding inside it; sm+ keeps the double shell. */}
+          mobile — no extra inline padding inside it; sm+ keeps the double shell.
+          Block padding dies at lg: the Body wrapper's 120px gap + zero section
+          pad is the design rhythm; only Tech Stack/Portfolio keep their 80px. */}
       <Section as="div" className="flex flex-col gap-14 px-0 sm:px-6">
         {/* Headline + intro */}
         <div className="flex flex-col gap-4">

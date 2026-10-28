@@ -83,12 +83,13 @@ src/
                     # #portfolio scroll margins clear the fixed header (design.md)
       Portfolio.legacy.tsx # Pre-redesign portfolio (CSS grid + weight-graded experiment);
                            # not imported anywhere — kept as reference only
-      Testimonial.tsx # Heading + TestimonyCarousel
-      Contact.tsx   # Contact panel (server) per the .pen "Precision Panel" frame:
-                    # glass panel shell, gold ambient glows/pulses (aria-hidden +
-                    # pointer-events-none), invitation heading + gold rule,
-                    # two-col layout (interests | form) with hairline divider;
-                    # renders ContactForm
+      Testimonial.tsx # Heading + IconQuote mark (lucide trace, ui/icons.tsx) + TestimonyCarousel
+      Contact.tsx   # Contact panel (server) per the .pen "Contact panel" component (gQvrX):
+                    # glass panel shell, TWO gold ambient glows (top-left/top-right,
+                    # aria-hidden + pointer-events-none — bottom-right removed with the
+                    # 2026 design update; pulses disabled in the pen file), invitation
+                    # heading + gold rule, two-col layout (interests | form) with
+                    # hairline divider; renders ContactForm
       ContactForm.tsx # Client island: RHF v7 validation (onTouched + live revalidate;
                     # rules shared with lib/contact/validate.ts), interest select below
                     # 600px / radios from 600px (shared RHF value; the mounted checked
@@ -101,18 +102,26 @@ src/
                     # `company`, time-trap `startedAt`, `locale` hidden fields;
                     # form-level errors resolved from i18n keys into an
                     # aria-live region
-      Footer.tsx    # Footer per the .pen Main artboard: root sits on bg-background
-                    # with public/footer-aurora.png (neon wave, stretched
-                    # 1886×672 → 1445×231) hugging the band's top edge + 1200px
-                    # contact panel slot (renders `<Contact>`, `id="contact"`)
-                    # + glass band section (bg-background/40 +
-                    # backdrop-blur): brand column (logo.svg up to 435px wide,
-                    # proportional height, white/15 via
-                    # opacity — design's wordmark is a wider cut, reuse approved,
-                    # copyright, LangSwitcher) | IN PAGE + SOCIAL link
-                    # categories: equal columns at 600–1023px below the brand;
-                    # desktop brand/link row begins at lg (details in design.md)
-                    # masts (hairline rows, ↗ on external links only; anchors
+      Footer.tsx    # Footer per the .pen Footer frame (node lze4B). ≥xl (2026 design):
+                    # root-anchored decoration PAIR inside the z-10 band wrapper —
+                    # aurora strip (231px box, natural-aspect 1886×672 export drawing
+                    # past the box, dimmed below) + absolute background (GcP61:
+                    # bg-background/40 + border-t + backdrop-blur) filling to the
+                    # wrapper's bottom edge; strip's bottom edge ≡ background top edge
+                    # (flex column). Contact content: no top/bottom margin at xl —
+                    # 80px top pad only, panel flush to the band. ≤xl: legacy
+                    # construction survives (aurora `bottom-[69%]` + `-mb-[212px]`,
+                    # negative `-216px` contact pull + 220px band clear-out) until
+                    # the sub-xl pass. Band: `bg-background/40 border-t
+                    # backdrop-blur` glass goes transparent at xl (GcP61 takes over).
+                    # + 1200px contact panel slot (renders `<Contact>`,
+                    # `id="contact"`) + band content row: brand column (logo.svg
+                    # up to 435px wide, proportional height, white/15 via opacity —
+                    # design's wordmark is a wider cut, reuse approved, copyright,
+                    # LangSwitcher) | IN PAGE + SOCIAL link categories: equal columns
+                    # at 600–1023px below the brand; desktop brand/link row begins
+                    # at lg (details in design.md) masts (hairline rows, ↗ on
+                    # external links only; anchors
                     # #about/#human-ai/#portfolio/#testimonials/#contact, section
                     # ids set on each section). Labels in dictionaries
                     # (dict.footer.mast); hrefs composed here from constants.
@@ -170,7 +179,7 @@ src/
                                 # centered 640px section while its heading stays capped
         TestimonyCarousel.tsx   # Swiper carousel; testimony data via `testimonies` prop
 public/
-  photo.png logo.svg footer-aurora.png quote.svg opengraph-card.png twitter-card.png
+  photo.png logo.svg footer-aurora.png opengraph-card.png twitter-card.png
   ai-native-plan.{png,svg} ai-native-design.{png,svg} ai-native-dev.{png,svg}
                                                              # svg = vector card exports
                                                              # (374×132, owner-provided),
@@ -273,18 +282,24 @@ public/
   transparent background). Header renders it at 138×32 (the design's Navigation
   slot, node COKOj/gj6H2); the footer renders it at 274×64 solid white, capped
   to its column with automatic height. `footer-aurora.png` is the "Golden
-  ambience — neon aurora" export (1886×672; rendered at its natural aspect
-  ratio with `object-cover` — full width, no distortion, no clipping).
-  In `Footer.tsx` the aurora layer lives in the band's `z-10` wrapper as an
-  absolute `bottom-full` sibling BEFORE the band glass, so it paints behind
-  BOTH footer content sections (the contact `Section` runs `z-20`); the band's
-  `backdrop-blur-md` reads it through the glass, per the .pen Footer root
-  (node lze4B, aurora spans mid-contact-section → band top). The contact wrapper's
-  `mb-[-216px]` pulls the band upward; 220px band top padding at every breakpoint
-  plus 56px inner padding keeps the wordmark below the contact panel.
+  ambience — neon aurora" export (node aIybe in the 2026 pen Home @ XL frame,
+  `LAhVl`; stored @2x = 3762×1345, declared at its 1886×672 natural size and
+  drawn at natural aspect full width — opacity 0.6 and blur bleed are baked
+  into the export, so no code-level opacity applies).
+
+  In `Footer.tsx` at ≥xl the aurora strip + background live inside the band's
+  `z-10` wrapper as a flex-column pair: aurora strip box `h-[231px]` (image
+  overflows it downward — that tail is what the backdrop-blur reads), then the
+  background layer (`bg-background/40 border-t border-white/15 backdrop-blur-md
+  flex-1`) filling to the wrapper's bottom edge (= footer bottom). The pair
+  container keys `-top-[395px]` on the band wrapper: 164px design overhang
+  (background line above the band edge) + 231px aurora strip. Below xl, the
+  legacy aurora (`bottom-[69%]` + `-mb-[212px]` in the same wrapper, `xl:hidden`)
+  still renders behind the band glass, and the 220px band top padding keeps the
+  wordmark clear of the negative-margin contact panel until the sub-xl pass.
 
 - People photos referenced by exact filename — mixed formats (`*.jpeg`, `*.jpg.webp`), no rename guarantees. Copy filename exactly.
 - Techstack SVG filenames are lowercase, `-` for non-alphanumeric characters (`react-router.svg`, `next-js.svg`).
 - Projects are webp, `object-cover`, `fill` + explicit `sizes`.
 
-<!-- verified against: d873926b789176a37298874c76d3eb11d72a1793 + working tree, 2026-10-26 (responsive layouts; lg Hero uses a 480px portrait, 728px minimum height, and 64px gap before About) -->
+<!-- verified against: fb363a42eef81c7a21b37e2400a39accad19c1a1 + working tree, 2026-10-28 (footer aurora/background pair at xl + rhythm pads; legacy Hero notes retained below) -->

@@ -8,33 +8,28 @@ interface Props {
 }
 
 /**
- * Contact panel per the .pen "Contact — Precision Panel" frame (node on10I):
- * glass panel over the page base with three gold ambient glows (the design's
- * pulses are disabled in the pen file), an invitation header (36px
- * Plus Jakarta Sans heading + gold brand rule on the same row), then the
- * project inquiry row rendered by the `ContactForm` client island —
- * interest selector left, hairline divider, form right. Mobile collapses to
- * a single column (divider hidden).
+ * Contact panel per the .pen "Contact panel" component (node gQvrX, updated
+ * design reduced to TWO gold ambient glows — bottom-right removed): glass
+ * panel over the page base with an invitation header (36px Plus Jakarta Sans
+ * heading + gold brand rule on the same row), then the project inquiry row
+ * rendered by the `ContactForm` client island — interest selector left,
+ * hairline divider, form right. Mobile collapses to a single column
+ * (divider hidden).
  */
 export const Contact: FC<Props> = ({ dict, locale }) => {
   return (
     <div className="bg-background/80 relative overflow-hidden rounded-none border border-white/15 shadow-[0_24px_42px_rgba(0,0,0,0.4)] backdrop-blur-[21px]">
-      {/* Ambient glows (design: gold ellipses at top-left 320/12%, top-right
-          280/10%, bottom-right 240/8%, blur 70/63/56, clipped by the panel).
-          Decorative only — must never intercept clicks. */}
+      {/* Ambient glows (design: gold ellipses — top-left 320 at −120,−80/12%,
+          top-right 280 at 850,−180/10% — the updated design pulls the
+          top-right glow further up: it renders as a bleed past the panel's
+          top edge). Decorative only — must never intercept clicks. */}
       <div
         aria-hidden="true"
         className="bg-gold pointer-events-none absolute -top-[80px] -left-[120px] h-80 w-80 rounded-full opacity-[0.12] blur-[70px]"
       />
       <div
         aria-hidden="true"
-        className="bg-gold pointer-events-none absolute -top-[60px] -right-[96px] h-70 w-70 rounded-full opacity-[0.1] blur-[63px]"
-      />
-      {/* Bottom-right glow: anchored to the container's bottom edge (hangs
-          below it, clipped) — follows any height change of the panel. */}
-      <div
-        aria-hidden="true"
-        className="bg-gold pointer-events-none absolute -right-9 -bottom-10 h-60 w-60 rounded-full opacity-[0.08] blur-[56px]"
+        className="bg-gold pointer-events-none absolute -top-[180px] -right-[26px] h-70 w-70 rounded-full opacity-[0.1] blur-[63px]"
       />
 
       {/* Invitation header: 36px heading is Plus Jakarta Sans in the design
