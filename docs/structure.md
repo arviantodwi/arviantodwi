@@ -102,21 +102,22 @@ src/
                     # `company`, time-trap `startedAt`, `locale` hidden fields;
                     # form-level errors resolved from i18n keys into an
                     # aria-live region
-      Footer.tsx    # Footer per the .pen Footer frame (node lze4B). ≥xl (2026 design):
-                    # root-anchored decoration PAIR inside the z-10 band wrapper —
-                    # aurora strip (231px box, natural-aspect 1886×672 export drawing
-                    # past the box, dimmed below) + absolute background (GcP61:
-                    # bg-background/40 + border-t + backdrop-blur) filling to the
-                    # wrapper's bottom edge; strip's bottom edge ≡ background top edge
-                    # (flex column). Contact content: no top/bottom margin at xl —
-                    # 80px top pad only, panel flush to the band. ≤xl: legacy
-                    # construction survives (aurora `bottom-[69%]` + `-mb-[212px]`,
-                    # negative `-216px` contact pull + 220px band clear-out) until
-                    # the sub-xl pass. Band: `bg-background/40 border-t
-                    # backdrop-blur` glass goes transparent at xl (GcP61 takes over).
-                    # + 1200px contact panel slot (renders `<Contact>`,
-                    # `id="contact"`) + band content row: brand column (logo.svg
-                    # up to 435px wide, proportional height, white/15 via opacity —
+      Footer.tsx    # Footer per the .pen Footer frame (node lze4B), relative-flow
+                    # content at every width (no contact pull, no band clear-out —
+                    # the panel and band never overlap); decoration = aurora strip
+                    # (231px box, natural-aspect 1886×672 export drawing past the
+                    # box, dimmed below) + absolute background (GcP61:
+                    # bg-background/40 + border-t + backdrop-blur) as a flex-column
+                    # pair inside the z-10 band wrapper — strip's bottom edge ≡
+                    # background top edge; key `-top-[395px]` universal (164px
+                    # overhang + 231px strip, panel flush on the band edge). Band
+                    # pads: pt-12 universal, pb-16 below xl / pb-12 at xl; inner
+                    # band py-14 below xl / py-10 at xl; glass fill/border/blur all
+                    # on the GcP61 layer (crystal wrapper positions content only).
+                    # Contact: below xl pt-16 on the section; xl = 80px content
+                    # top pad (xl:pt-20) + px-12, no bottom pad. + 1200px
+                    # contact panel slot (renders `<Contact>`, `id="contact"`) +
+                    # band content row: brand column (logo.svg up to 435px wide, proportional height, white/15 via opacity —
                     # design's wordmark is a wider cut, reuse approved, copyright,
                     # LangSwitcher) | IN PAGE + SOCIAL link categories: equal columns
                     # at 600–1023px below the brand; desktop brand/link row begins
@@ -287,19 +288,20 @@ public/
   drawn at natural aspect full width — opacity 0.6 and blur bleed are baked
   into the export, so no code-level opacity applies).
 
-  In `Footer.tsx` at ≥xl the aurora strip + background live inside the band's
-  `z-10` wrapper as a flex-column pair: aurora strip box `h-[231px]` (image
-  overflows it downward — that tail is what the backdrop-blur reads), then the
-  background layer (`bg-background/40 border-t border-white/15 backdrop-blur-md
-  flex-1`) filling to the wrapper's bottom edge (= footer bottom). The pair
-  container keys `-top-[395px]` on the band wrapper: 164px design overhang
-  (background line above the band edge) + 231px aurora strip. Below xl, the
-  legacy aurora (`bottom-[69%]` + `-mb-[212px]` in the same wrapper, `xl:hidden`)
-  still renders behind the band glass, and the 220px band top padding keeps the
-  wordmark clear of the negative-margin contact panel until the sub-xl pass.
+  In `Footer.tsx` the aurora strip + background live inside the band's
+  `z-10` wrapper as a flex-column pair at every width: aurora strip box
+  `h-[231px]` (image overflows it downward — that tail is what the backdrop-blur
+  reads), then the background layer (`bg-background/40 border-t border-white/15
+  backdrop-blur-md flex-1`) filling to the wrapper's bottom edge (= footer
+  bottom). The pair keys `-top-[395px]` on the band wrapper at every width:
+  164px design overhang + 231px strip — the content is relative flow everywhere,
+  so the panel bottom is flush on the band edge and the hairline always reads
+  164px above the panel bottom. The band's former glass layer carries no fill
+  of its own anymore (the pair's ground IS the glass); it only positions its
+  content above the pair.
 
 - People photos referenced by exact filename — mixed formats (`*.jpeg`, `*.jpg.webp`), no rename guarantees. Copy filename exactly.
 - Techstack SVG filenames are lowercase, `-` for non-alphanumeric characters (`react-router.svg`, `next-js.svg`).
 - Projects are webp, `object-cover`, `fill` + explicit `sizes`.
 
-<!-- verified against: fb363a42eef81c7a21b37e2400a39accad19c1a1 + working tree, 2026-10-28 (footer aurora/background pair at xl + rhythm pads; legacy Hero notes retained below) -->
+<!-- verified against: fa69ad3f64d2fed612f3ecc794e8a341535b6a90 + working tree, 2026-10-29 (relative-flow footer content at all widths; universal pair key -top-[395px]; glass owned by GcP61 layer) -->

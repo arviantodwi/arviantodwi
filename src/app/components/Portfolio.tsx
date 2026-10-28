@@ -116,7 +116,7 @@ export const Portfolio: FC<Props> = ({ locale, dict }) => {
   return (
     <Section
       id="portfolio"
-      className="portfolio-section scroll-mt-[84px] md:max-w-none md:scroll-mt-[92px] md:px-18 lg:pt-20 lg:max-w-none xl:scroll-mt-[100px] xl:pb-20"
+      className="portfolio-section scroll-mt-[84px] md:max-w-none md:scroll-mt-[92px] md:px-18 lg:max-w-none lg:pt-20 xl:scroll-mt-[100px] xl:pb-20"
     >
       <PortfolioItemFade />
       {/* The fade hook (.portfolio-item, ui/PortfolioItemFade.tsx) sits on
