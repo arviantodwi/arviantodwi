@@ -72676,7 +72676,7 @@
           "gap": 12,
           "padding": [
             24,
-            72
+            48
           ],
           "justifyContent": "space_between",
           "alignItems": "center",
@@ -72954,11 +72954,11 @@
           "name": "Body",
           "width": "fill_container",
           "layout": "vertical",
-          "gap": 80,
+          "gap": 40,
           "padding": [
             0,
             0,
-            80,
+            40,
             0
           ],
           "children": [
@@ -72968,7 +72968,13 @@
               "name": "Hero and About",
               "width": "fill_container",
               "layout": "vertical",
-              "gap": -120,
+              "gap": 64,
+              "padding": [
+                48,
+                48,
+                0,
+                48
+              ],
               "alignItems": "center",
               "children": [
                 {
@@ -72977,10 +72983,6 @@
                   "name": "Section",
                   "clip": true,
                   "width": 672,
-                  "padding": [
-                    0,
-                    24
-                  ],
                   "children": [
                     {
                       "type": "frame",
@@ -72988,29 +72990,7 @@
                       "name": "Hero",
                       "width": "fill_container",
                       "layout": "vertical",
-                      "padding": [
-                        0,
-                        0,
-                        256,
-                        0
-                      ],
                       "children": [
-                        {
-                          "type": "rectangle",
-                          "id": "Y99wCX",
-                          "layoutPosition": "absolute",
-                          "x": 262,
-                          "y": -24,
-                          "name": "Photo",
-                          "fill": {
-                            "type": "image",
-                            "enabled": true,
-                            "url": "arvi-brand-ui-assets/me.png",
-                            "mode": "cover"
-                          },
-                          "width": 437,
-                          "height": 656.2482876712329
-                        },
                         {
                           "type": "frame",
                           "id": "S5zNq",
@@ -73327,11 +73307,7 @@
                   "type": "frame",
                   "id": "u7lsh",
                   "name": "Section",
-                  "width": 672,
-                  "padding": [
-                    0,
-                    24
-                  ],
+                  "width": "fill_container",
                   "children": [
                     {
                       "type": "frame",
@@ -73560,6 +73536,22 @@
                       ]
                     }
                   ]
+                },
+                {
+                  "type": "rectangle",
+                  "id": "Y99wCX",
+                  "layoutPosition": "absolute",
+                  "x": 367,
+                  "y": 24.6712646484375,
+                  "name": "Photo",
+                  "fill": {
+                    "type": "image",
+                    "enabled": true,
+                    "url": "arvi-brand-ui-assets/me.png",
+                    "mode": "cover"
+                  },
+                  "width": 437,
+                  "height": 656.2482876712329
                 }
               ]
             },
@@ -73577,7 +73569,7 @@
                   "layout": "vertical",
                   "gap": 48,
                   "padding": [
-                    80,
+                    48,
                     0
                   ],
                   "children": [
@@ -76153,7 +76145,7 @@
               "width": "fill_container",
               "padding": [
                 0,
-                96
+                48
               ],
               "children": [
                 {
@@ -76274,8 +76266,8 @@
                               "name": "Workflow stage",
                               "clip": true,
                               "width": "fill_container",
-                              "layout": "vertical",
-                              "gap": 20,
+                              "gap": 24,
+                              "alignItems": "center",
                               "children": [
                                 {
                                   "type": "frame",
@@ -76283,8 +76275,10 @@
                                   "name": "Stage narrative",
                                   "clip": true,
                                   "width": "fill_container",
+                                  "height": 114.39,
                                   "layout": "vertical",
                                   "gap": 12,
+                                  "justifyContent": "center",
                                   "children": [
                                     {
                                       "type": "frame",
@@ -76472,7 +76466,7 @@
                                     "mode": "contain"
                                   },
                                   "width": "fill_container",
-                                  "height": 203.2941176470588
+                                  "height": 114.39
                                 }
                               ]
                             },
@@ -76482,8 +76476,8 @@
                               "name": "Workflow stage",
                               "clip": true,
                               "width": "fill_container",
-                              "layout": "vertical",
-                              "gap": 20,
+                              "gap": 24,
+                              "alignItems": "center",
                               "children": [
                                 {
                                   "type": "frame",
@@ -76491,8 +76485,10 @@
                                   "name": "Stage narrative",
                                   "clip": true,
                                   "width": "fill_container",
+                                  "height": 114.39,
                                   "layout": "vertical",
                                   "gap": 12,
+                                  "justifyContent": "center",
                                   "children": [
                                     {
                                       "type": "frame",
@@ -76596,7 +76592,7 @@
                                     "mode": "contain"
                                   },
                                   "width": "fill_container",
-                                  "height": 203.2941176470588
+                                  "height": 114.39
                                 }
                               ]
                             },
@@ -76606,8 +76602,8 @@
                               "name": "Workflow stage",
                               "clip": true,
                               "width": "fill_container",
-                              "layout": "vertical",
-                              "gap": 20,
+                              "gap": 24,
+                              "alignItems": "center",
                               "children": [
                                 {
                                   "type": "frame",
@@ -76615,8 +76611,10 @@
                                   "name": "Stage narrative",
                                   "clip": true,
                                   "width": "fill_container",
+                                  "height": 114.39,
                                   "layout": "vertical",
                                   "gap": 12,
+                                  "justifyContent": "center",
                                   "children": [
                                     {
                                       "type": "frame",
@@ -76804,7 +76802,7 @@
                                     "mode": "contain"
                                   },
                                   "width": "fill_container",
-                                  "height": 203.2941176470588
+                                  "height": 114.39
                                 }
                               ]
                             }
@@ -76820,6 +76818,7 @@
                       "width": "fill_container",
                       "layout": "vertical",
                       "gap": 28,
+                      "alignItems": "center",
                       "children": [
                         {
                           "type": "rectangle",
@@ -76837,6 +76836,7 @@
                           "width": "fill_container",
                           "layout": "vertical",
                           "gap": 24,
+                          "alignItems": "center",
                           "children": [
                             {
                               "type": "frame",
@@ -76846,6 +76846,7 @@
                               "width": "fill_container",
                               "layout": "vertical",
                               "gap": 8,
+                              "alignItems": "center",
                               "children": [
                                 {
                                   "type": "text",
@@ -76855,6 +76856,7 @@
                                   "textGrowth": "fixed-width",
                                   "width": "fill_container",
                                   "content": "These AI tools give me less repetitive work and more room for craft!",
+                                  "textAlign": "center",
                                   "fontFamily": "Plus Jakarta Sans",
                                   "fontSize": 16,
                                   "fontWeight": "500"
@@ -76870,6 +76872,7 @@
                               "width": "fill_container",
                               "height": 60,
                               "gap": 12,
+                              "justifyContent": "center",
                               "alignItems": "center",
                               "children": [
                                 {
@@ -77372,6 +77375,10 @@
                   "fill": "#040404ff",
                   "layout": "vertical",
                   "gap": 48,
+                  "padding": [
+                    48,
+                    0
+                  ],
                   "children": [
                     {
                       "type": "frame",
@@ -77383,7 +77390,7 @@
                       "gap": 24,
                       "padding": [
                         0,
-                        72
+                        48
                       ],
                       "children": [
                         {
@@ -77463,7 +77470,7 @@
                       "gap": 48,
                       "padding": [
                         0,
-                        72
+                        48
                       ],
                       "children": [
                         {
@@ -79078,10 +79085,8 @@
               "layout": "vertical",
               "gap": 10,
               "padding": [
-                80,
-                72,
                 0,
-                72
+                48
               ],
               "children": [
                 {
@@ -79819,9 +79824,7 @@
               "gap": 10,
               "padding": [
                 64,
-                72,
-                0,
-                72
+                48
               ],
               "alignItems": "center",
               "children": [
@@ -79851,11 +79854,13 @@
                           "enabled": false
                         },
                         "P8Sda": {
-                          "textGrowth": "fixed-width",
-                          "width": "fill_container"
+                          "textGrowth": "auto",
+                          "width": "fit_content(488)",
+                          "content": "Let’s get your\ndream project done!",
+                          "height": "fit_content(96)"
                         },
                         "usH18": {
-                          "width": 64
+                          "width": "fill_container"
                         },
                         "pr3NI": {
                           "x": 0,
@@ -80999,7 +81004,7 @@
           "padding": [
             0,
             0,
-            40,
+            20,
             0
           ],
           "children": [
@@ -87111,8 +87116,6 @@
               "layout": "vertical",
               "gap": 10,
               "padding": [
-                80,
-                24,
                 0,
                 24
               ],
@@ -88966,12 +88969,6 @@
           "width": "fill_container",
           "layout": "vertical",
           "gap": 40,
-          "padding": [
-            0,
-            0,
-            40,
-            0
-          ],
           "children": [
             {
               "type": "frame",
@@ -95193,8 +95190,6 @@
               "layout": "vertical",
               "gap": 10,
               "padding": [
-                80,
-                24,
                 0,
                 24
               ],
@@ -96203,7 +96198,7 @@
                           "type": "frame",
                           "id": "GrqrU",
                           "name": "In Page Mast",
-                          "width": 200,
+                          "width": "fill_container",
                           "layout": "vertical",
                           "gap": 12,
                           "padding": [
@@ -96537,7 +96532,7 @@
                           "type": "frame",
                           "id": "APy16",
                           "name": "Social Mast",
-                          "width": 200,
+                          "width": "fill_container",
                           "layout": "vertical",
                           "gap": 12,
                           "padding": [
