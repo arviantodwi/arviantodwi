@@ -84,12 +84,13 @@ src/
                     # h-9, heading→rows 48, per the 2026-11-02 pen pass)
       AiWorkflow.tsx # AI-native — Connected Workflow (Figma node 699-419): 48px two-tone
                      # headline + intro; 3 stage cols from lg (PLAN/DESIGN/DEVELOP, Antonio
-                     # 26px + 24px custom icon from ui/icons.tsx); below lg stages stack
-                     # vertically, at md/sm each stage row is horizontal (narrative ∥
-                     # artwork, equal halves, 24px gap); toolkit row side-by-side from
-                     # lg (centered label + logos wrapping 2×2 at lg, single row at xl,
-                     # label left in the 320px column); uSM tightens: block joints 32,
-                     # stage gap 16, title→desc 4, centered toolkit label
+                     # 26px + 24px custom icon from ui/icons.tsx); stage rows are
+                     # horizontal (narrative ∥ artwork, equal halves, 24px gap) from sm
+                     # (@SM artboard mpHpG 2026-11-02), stacked below sm; toolkit row
+                     # side-by-side from lg (centered label + logos wrapping 2×2 at lg,
+                     # single row at xl, label left in the 320px column); uSM+SM tighten:
+                     # block joints 32, stage gap 16, title→desc 4 (uSM), centered toolkit
+                     # label below md (desc leading 22, headline tracking −0.048em)
                      # + closing thought row; card shells are code (bg/border
                      # per design); PLAN + DESIGN render animated inline SVG via
                      # ui/PlanIllustration / ui/DesignIllustration (7.2s scenery loops);
