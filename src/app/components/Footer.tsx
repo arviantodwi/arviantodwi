@@ -156,11 +156,12 @@ export const Footer: FC<Props> = ({ dict, locale }) => {
                 <LangSwitcher locale={locale} />
               </div>
 
-              {/* Equal columns from 600px until lg; desktop keeps 200px link masts. */}
+              {/* Full-width masts below 600px (pen WYfOW rows fill_container),
+                  equal grid columns 600–lg, 200px link masts from lg. */}
               <div className="flex flex-col gap-7 min-[600px]:max-lg:grid min-[600px]:max-lg:grid-cols-2 min-[600px]:max-lg:gap-8 lg:flex-row lg:gap-16">
                 <nav
                   aria-label={mast.inPage}
-                  className="flex w-[200px] shrink-0 flex-col gap-3 pt-[22px] min-[600px]:max-lg:w-full"
+                  className="flex w-full shrink-0 flex-col gap-3 pt-[22px] min-[600px]:max-lg:w-full lg:w-[200px]"
                 >
                   <p className="text-gold text-[11px] font-bold tracking-[2.4px] uppercase">
                     {mast.inPage}
@@ -169,7 +170,7 @@ export const Footer: FC<Props> = ({ dict, locale }) => {
                 </nav>
                 <nav
                   aria-label={mast.social}
-                  className="flex w-[200px] shrink-0 flex-col gap-3 pt-[22px] min-[600px]:max-lg:w-full"
+                  className="flex w-full shrink-0 flex-col gap-3 pt-[22px] min-[600px]:max-lg:w-full lg:w-[200px]"
                 >
                   <p className="text-gold text-[11px] font-bold tracking-[2.4px] uppercase">
                     {mast.social}

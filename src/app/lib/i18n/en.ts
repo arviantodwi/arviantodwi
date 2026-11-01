@@ -25,7 +25,7 @@ export const enDictionary: Dictionary = {
     photoAlt: "Arvianto's photo",
   },
   about: {
-    headline: ['Hi, guest.', 'Nice to meet you!'],
+    headline: ['Hi, buddy.', 'Nice to meet you!'],
     cta: 'Download my Resume/CV',
     bio: [
       [

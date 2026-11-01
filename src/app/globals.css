@@ -72,20 +72,28 @@ body {
    inscribed oval), translated up by half its height so its center sits on
    the viewport top edge: only the bottom half washes over the topbar and
    hero, mirroring the pen artboards (center exactly at the top edge). No
-   per-breakpoint sizes to maintain. */
+   per-breakpoint sizes to maintain. Opacity tiers: 0.1 below sm (the
+   under-SM artboards carry 0.1), 0.05 from sm up. */
 .blurred-circle-accent::before {
   content: "";
   position: fixed;
   z-index: 0;
   width: 100vw;
-  height: 100vw;
-  left: 0;
+  max-width: 1280px;
+  aspect-ratio: 1;
+  left: 50%;
   top: 0;
-  transform: translateY(-50%);
+  transform: translate(-50%, -50%);
   background: var(--color-gold);
   opacity: 0.1;
   filter: blur(200px);
   border-radius: 50%;
+}
+
+@media (width >= 40rem) {
+  .blurred-circle-accent::before {
+    opacity: 0.05;
+  }
 }
 
 /* Status-dot radiating ping (AvailabilityStatus). */
@@ -137,10 +145,27 @@ body {
 
 .about-box-accent {
   /* Single source of truth for the gold square's geometry;
-     ::before and the frosted strips both derive from these. */
-  --sq-right: -19px;
-  --sq-width: 181px;
+     ::before and the frosted strips both derive from these.
+     uSM+SM+MD (per owner's PeTso reference, 2026-11-02): one static
+     overlay composition — square pinned left x132 (w 161.5, h 155) over
+     the headline rows, identical at 375–1023, so the box never travels
+     with resize and stays continuous across the sm/md breakpoints. From
+     lg the legacy carriers apply (right 19px inset / 161px).
+     Stroke stays 2px at every width — pen shows 1.25 there, owner
+     override (2026-11-02). */
+  --sq-left: 132px;
+  --sq-right: auto;
+  --sq-width: 161.5px;
   --sq-height: 155px;
+}
+
+/* uSM-only: reserve the square's full box (pen Greetings wrapper is its
+   height, so the bio starts the article-gap below the square bottom).
+   sm/md keep no reservation — the square fits their wider gap. */
+@media (width < 40rem) {
+  .about-box-accent {
+    min-height: 155px;
+  }
 }
 
 .about-box-accent::before {
@@ -148,6 +173,7 @@ body {
   width: var(--sq-width);
   height: var(--sq-height);
   position: absolute;
+  left: var(--sq-left);
   right: var(--sq-right);
   top: 0;
   border: solid 2px var(--color-gold);
@@ -157,11 +183,10 @@ body {
 /* Frosted-glass strips over the square border, one per headline row.
    A vertical gradient fade-in/out of the body background color mimics
    the dimming/fogging a real backdrop-blur would produce over the border,
-   sized 1ex wide × 1.5em tall, vertically centered on the text row.
-   Horizontal: derived from the square's left/right border position.
-   Square left border's distance (inward) from parent right edge:
-   sq-right + sq-width. Strip is centered on it, so
-   right = border-distance − half strip width. */
+   sized 1ex wide (60px tall under lg, per PeTso) vertically centered on
+   the text row. Horizontal: each strip straddles the square border the
+   row crosses — left border on both rows, right border on row 2
+   (left-based anchor under lg per PeTso; right-based legacy at lg+). */
 .about-row-blur {
   position: absolute;
   width: 1ex;
@@ -178,42 +203,73 @@ body {
   );
 }
 
-.about-row-blur--left-row1,
-.about-row-blur--left-row2 {
-  right: calc(var(--sq-right) + var(--sq-width) - 0.5ex);
-}
+@media (width < 64rem) {
+  .about-box-accent::before {
+    right: auto;
+  }
 
-.about-row-blur--right-row2 {
-  right: calc(var(--sq-right) - 0.5ex);
-}
+  .about-row-blur {
+    height: 60px;
+  }
 
-/* Row tops: padding-top 51px, line box 1.15em, strip centered per row. */
-.about-row-blur--left-row1 {
-  top: calc(51px + 1.15em / 2 - 1.5em / 2);
-}
+  .about-row-blur--left-row1,
+  .about-row-blur--left-row2 {
+    left: calc(var(--sq-left) - 0.5ex);
+  }
 
-.about-row-blur--left-row2,
-.about-row-blur--right-row2 {
-  top: calc(51px + 1.15em * 1.5 - 1.5em / 2);
-}
-
-/* Mobile: row 2 shows left strip only */
-@media (width < 40rem) {
   .about-row-blur--right-row2 {
-    display: none;
+    left: calc(var(--sq-left) + var(--sq-width) - 0.5ex);
   }
 }
 
-@media (width >= 40rem) {
-  .about-box-accent {
-    --sq-right: -37px;
+/* Row tops: strips centered on the row they fog.
+   uSM: 38px text top, 1.25em line box (PeTso). sm/md: 51px text top,
+   40px rows. lg+: legacy 1.5em strips on the 51px/1.15em system. */
+@media (width < 40rem) {
+  .about-row-blur--left-row1 {
+    top: calc(38px + 0.625em - 30px);
+  }
+
+  .about-row-blur--left-row2,
+  .about-row-blur--right-row2 {
+    top: calc(38px + 1.875em - 30px);
+  }
+}
+
+@media (width >= 40rem) and (width < 64rem) {
+  .about-row-blur--left-row1 {
+    top: 41px;
+  }
+
+  .about-row-blur--left-row2,
+  .about-row-blur--right-row2 {
+    top: 81px;
   }
 }
 
 @media (width >= 64rem) {
   .about-box-accent {
+    --sq-left: auto;
     --sq-right: 19px;
     --sq-width: 161px;
+  }
+
+  .about-row-blur--left-row1,
+  .about-row-blur--left-row2 {
+    right: calc(var(--sq-right) + var(--sq-width) - 0.5ex);
+  }
+
+  .about-row-blur--right-row2 {
+    right: calc(var(--sq-right) - 0.5ex);
+  }
+
+  .about-row-blur--left-row1 {
+    top: calc(51px + 1.15em / 2 - 1.5em / 2);
+  }
+
+  .about-row-blur--left-row2,
+  .about-row-blur--right-row2 {
+    top: calc(51px + 1.15em * 1.5 - 1.5em / 2);
   }
 }
 
