@@ -67,54 +67,48 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+/* Glow dome ("Oval highlight"): ONE geometry at every width — a gold
+   square sized to the viewport (the blur + 50% radius reads as the
+   inscribed oval), translated up by half its height so its center sits on
+   the viewport top edge: only the bottom half washes over the topbar and
+   hero, mirroring the pen artboards (center exactly at the top edge). No
+   per-breakpoint sizes to maintain. */
 .blurred-circle-accent::before {
   content: "";
   position: fixed;
   z-index: 0;
-  width: 1974px;
-  height: 1974px;
-  left: 50%;
-  top: -1076px;
-  transform: translateX(-50%);
+  width: 100vw;
+  height: 100vw;
+  left: 0;
+  top: 0;
+  transform: translateY(-50%);
   background: var(--color-gold);
-  opacity: 0.05;
+  opacity: 0.1;
   filter: blur(200px);
   border-radius: 50%;
 }
 
-@media (width >= 80rem) {
-  .blurred-circle-accent::before {
-    width: 1440px;
-    height: 1440px;
-    top: -720px;
-  }
-}
+/* Status-dot radiating ping (AvailabilityStatus). */
 
-/* Pen artboards: 640px dome below sm, 768 at md, 1024 at lg, 1440 from xl —
-   circle center at the viewport top edge (only the bottom half washes over
-   the topbar/hero mirroring the xl geometry). */
-@media (width < 40rem) {
-  .blurred-circle-accent::before {
-    width: 640px;
-    height: 640px;
-    top: -320px;
-  }
-}
-
-@media (width >= 48rem) and (width < 64rem) {
-  .blurred-circle-accent::before {
-    width: 768px;
-    height: 768px;
-    top: -384px;
-  }
-}
-
-@media (width >= 64rem) and (width < 80rem) {
-  .blurred-circle-accent::before {
-    width: 1024px;
-    height: 1024px;
-    top: -512px;
-  }
+/* TechStack marquee edge fade: a mask (not an opaque paint-over) so the
+   glow/background stays continuous behind the rows — the player's own
+   `gradient` prop drew a solid #040404 patch that stood out against the
+   dome highlight. 48px fade at each running edge. */
+.tools-marquee-mask {
+  mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    #000 48px,
+    #000 calc(100% - 48px),
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    #000 48px,
+    #000 calc(100% - 48px),
+    transparent 100%
+  );
 }
 
 .status-dot-ripple::before {
