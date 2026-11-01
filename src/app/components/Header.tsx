@@ -15,7 +15,7 @@ interface Props {
 
 /** Topbar height before the y-padding collapses, per breakpoint. */
 function initialHeight(): number {
-  if (window.innerWidth >= 1280) return 108; // xl
+  if (window.innerWidth >= 1024) return 108; // lg
   if (window.innerWidth >= 768) return 100; // md
   return 92;
 }
@@ -41,15 +41,18 @@ export const Header: FC<Props> = ({ dict, locale }) => {
     <header
       className={cx(
         // Fixed to the viewport edges; collapses once scrolled past its initial height.
-        'fixed top-0 right-0 left-0 z-30 px-6 backdrop-blur-md transition-[height,padding] duration-300 md:px-12 xl:px-0',
+        // Base/sm keep inline gutters; from md the caps move to the inner row
+        // (fixed 672/896/1200 content, centered).`px-0` at md+ zeroes the
+        // outer gutters so the outer row doesn't double-inset.
+        'fixed top-0 right-0 left-0 z-30 px-6 backdrop-blur-md transition-[height,padding] duration-300 sm:px-8 md:px-0',
         // 1px bottom line, fades in with the collapse.
         'after:absolute after:inset-x-0 after:bottom-0 after:h-px after:bg-white/15 after:transition-opacity after:duration-300',
         scrolled
-          ? 'h-[60px] bg-background/70 py-2 after:opacity-100 md:h-[68px] xl:h-[76px]'
-          : 'h-[92px] bg-transparent py-6 after:opacity-0 md:h-[100px] xl:h-[108px]',
+          ? 'h-[60px] bg-background/70 py-2 after:opacity-100 md:h-[68px] lg:h-[76px]'
+          : 'h-[92px] bg-transparent py-6 after:opacity-0 md:h-[100px] lg:h-[108px]',
       )}
     >
-      <div className="mx-auto flex h-full items-center justify-between md:px-6 xl:max-w-[1440px] xl:px-30">
+      <div className="mx-auto flex h-full items-center justify-between md:max-w-[768px] md:px-12 lg:max-w-[1024px] lg:px-16 xl:max-w-[1200px] xl:px-0">
         <div className="flex items-center gap-[18px]">
           {/* Design (.pen Header, node COKOj): 138×32 logo (node Zybny geometry,
               rendered as /logo.svg) then 18px to the 24×24 social anchors. */}

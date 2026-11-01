@@ -17,8 +17,8 @@ export const Testimonial: FC<Props> = ({ dict }) => {
   const { testimonial } = dict;
 
   return (
-    <Section id="testimonials" className="flex flex-col gap-12 pt-20 lg:pt-0">
-      {/* Figma: heading centered, hr 1000px wide, quote 966px — all inside the 1200 container. */}
+    <Section id="testimonials" className="flex flex-col gap-12 lg:gap-16">
+      {/* Pen: heading centered, hr 1000px wide, quote 966px — all inside the 1200 container. */}
       <div className="mx-auto flex w-full max-w-[1000px] flex-col gap-7">
         <div className="text-center">
           {/* Pen: flag node r910O — lucide quote glyph, 48px, $brand gold. */}

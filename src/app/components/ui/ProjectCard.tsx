@@ -41,11 +41,14 @@ const PREVIEW: Record<ProjectCardProps['variant'], string> = {
   compact: 'md:aspect-[73/45]',
 };
 
-/** Rendered widths shared by webp source + png fallback. */
+/** Rendered widths shared by webp source + png fallback: content is FIXED
+ * per tier — 576px at the 640 viewport (sm fluid), 672 (md), 896 (lg),
+ * 1200 from xl; 32px column gap from md. Featured bleeds to the viewport
+ * edges below sm. */
 const SIZES: Record<ProjectCardProps['variant'], string> = {
-  wide: '(max-width: 639px) 100vw, (max-width: 767px) 592px, (max-width: 1279px) calc(100vw - 144px), (max-width: 1439px) calc(100vw - 240px), 1200px',
+  wide: '(max-width: 639px) 100vw, (max-width: 767px) calc(100vw - 64px), (max-width: 1023px) 672px, (max-width: 1279px) 896px, 1200px',
   compact:
-    '(max-width: 639px) 100vw, (max-width: 767px) 592px, (max-width: 1279px) calc((100vw - 176px)/2), (max-width: 1439px) calc((100vw - 272px)/2), 584px',
+    '(max-width: 639px) 100vw, (max-width: 767px) calc(100vw - 64px), (max-width: 1023px) 320px, (max-width: 1279px) 432px, 584px',
 };
 
 export const ProjectCard: FC<ProjectCardProps> = ({

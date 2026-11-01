@@ -68,8 +68,8 @@ export const Footer: FC<Props> = ({ dict, locale }) => {
           the band up behind the panel — all gone); only the decoration pair is
           absolute. From xl the design gives the contact content an 80px top
           pad and NO bottom pad below — the band supplies the spacing. */}
-      <Section as="div" id="contact" className="relative z-20 pt-16 xl:pt-0">
-        <div className="mx-auto w-full xl:max-w-[1200px]">
+      <Section as="div" id="contact" className="relative z-20 pt-12 md:pt-16 xl:pt-0">
+        <div className="mx-auto w-full lg:max-w-[768px] xl:max-w-[1200px]">
           <div className="xl:px-12 xl:pt-20 xl:pb-0">
             <Contact dict={dict} locale={locale} />
           </div>
@@ -104,12 +104,7 @@ export const Footer: FC<Props> = ({ dict, locale }) => {
               exported @2x from the .pen with its 0.6 opacity and blur bleed
               baked in, at full design width. */}
           <div aria-hidden="true" className="relative h-[231px] w-full shrink-0">
-            <Image
-              src="/footer-aurora.png"
-              fill
-              objectFit="cover"
-              alt=""
-            />
+            <Image src="/footer-aurora.png" fill objectFit="cover" alt="" />
           </div>
           {/* GcP61 — the absolute background: 40%-black ground + hairline top
               border + glass blur, filling from the aurora strip's bottom edge
@@ -133,7 +128,7 @@ export const Footer: FC<Props> = ({ dict, locale }) => {
               clear-out paired with the dropped `-216px` contact pull and is
               gone with it; XL keeps the design's 48px top pad, below xl the
               base `pt-12` + `pb-16` keeps the shipped bottom rhythm. */}
-          <Section as="div" className="pt-12 pb-16 xl:pb-12">
+          <Section as="div" className="pt-0 pb-8 sm:pt-12 sm:pb-16 xl:pb-12">
             <div className="relative flex flex-col gap-7 py-14 min-[600px]:max-lg:gap-14 lg:flex-row lg:items-end lg:justify-between lg:gap-16 xl:py-10">
               {/* Brand column (design: 274×64 white wordmark, copy, language switcher). */}
               <div className="flex max-w-[550px] flex-col gap-3">

@@ -54,19 +54,27 @@ src/
                     # AvailabilityStatus; bg-background/70 + backdrop-blur; scrolled
                     # state shrinks padding (py-6→py-2) and fades in 1px bottom line
       Hero.tsx      # Name, TypeAnimation, Statistic row, portrait Image.
-                    # xl: 478px copy column beside a proportional, shrinkable portrait;
-                    # positioned wrapper contains Image fill. At 2xl: 200px gap,
-                    # 584×877 photo overhangs the 700px hero by 177px. Below xl
-                    # photo stays absolute; lg uses a 480px-wide portrait in a
-                    # 728px hero and 100px name type (xl: 116px)
+                    # From xl: 478px copy column beside a proportional, shrinkable
+                    # portrait; positioned wrapper contains Image fill. From 1440px:
+                    # 200px gap, fixed 584×877 photo overhanging the 700px hero by
+                    # 177px. Below lg photo stays absolute: centered backdrop at
+                    # 0.33 on phones (clipped to the hero box); media/portrait
+                    # placement right from 600px (sm: viewport x318/top11, md:
+                    # x415/top25, bleeding off the right edge); lg rows a 484px
+                    # portrait flush right in a 640px hero. Name type 76px below lg,
+                    # 112px from lg; 3 stats at every width (row gap 20 at lg)
       About.tsx     # Bio paragraphs via SegmentedText, .about-box-accent headline,
-                    # centered CV CTA button (ui/Button + IconArrowUpRight);
-                    # lg-only margin reduces the Hero → About gap to 64px
+                    # left-aligned CV CTA button (ui/Button + IconArrowUpRight);
+                    # side-by-side from lg (headline col shrink-0 + bio, 72px gap);
+                    # sm/md 24px margin extends the Hero → About gap to 64px
       TechStack.tsx # Heading + subline via SegmentedText + ToolsMarquee
       AiWorkflow.tsx # AI-native — Connected Workflow (Figma node 699-419): 48px two-tone
-                     # headline + intro; 3 stage cols (PLAN/DESIGN/DEVELOP, Antonio 26px
-                     # + 24px custom icon from ui/icons.tsx), stacked below lg; toolkit
-                     # copy above the logo row through lg — card shells are code (bg/border
+                     # headline + intro; 3 stage cols from lg (PLAN/DESIGN/DEVELOP, Antonio
+                     # 26px + 24px custom icon from ui/icons.tsx); below lg stages stack
+                     # vertically, at md/sm each stage row is horizontal (narrative ∥
+                     # artwork, equal halves, 24px gap); toolkit row side-by-side from
+                     # lg (320px desc + logos wrapping 2×2 at lg, single row at xl)
+                     # + closing thought row; card shells are code (bg/border
                      # per design); PLAN + DESIGN render animated inline SVG via
                      # ui/PlanIllustration / ui/DesignIllustration (7.2s scenery loops);
                      # DEVELOP via ui/DevelopIllustration — static composition + blinking
@@ -127,10 +135,10 @@ src/
                     # ids set on each section). Labels in dictionaries
                     # (dict.footer.mast); hrefs composed here from constants.
       ui/           # Shared UI primitives & client islands:
-        Section.tsx             # Shared full-width section shell (docs/design.md): 1440 shell,
-                                # 120px xl gutters; centered max-640px shell only at sm
-                                # (640–767px), including contact/footer; topbar uses its own wrapper.
-                                # `as` + className overrides
+        Section.tsx             # Shared section shell (docs/design.md): fluid gutters (24/32)
+                                # only below sm; fixed containers from md — 672/896/1200 content;
+                                # topbar caps the same way; root overflow-x clip kills page
+                                # hscroll. `as` + className overrides
         Button.tsx              # Server-compatible button/<a> hybrid; variant 'primary' = gold fill,
                                 # dark text; children compose label + trailing icon
         Input.tsx               # Underline text field (server-compatible): full native input
@@ -168,17 +176,19 @@ src/
         ProjectCard.tsx         # Reusable portfolio item (server): `wide` (featured,
                                 # full-width 40:17 preview) / `compact` (half-column,
                                 # 73:45 preview) variants from md; both use 5:3 below md.
-                                # Ratios keep the 2xl sizes at 1200×510 / 584×360.
+                                # Heights derive from the column width — at the 1440 shell
+                                # they render 1200×510 / 584×360.
                                 # Preview is edge-to-edge below sm, within section gutters
-                                # at sm (592px wide), rounded from sm; `href?` —
-                                # circular arrow link hidden when omitted; image =
+                                # from sm (576px at the 640px viewport), rounded from sm; `href?` —
                                 # webp→png optimized <picture> chain (image +
                                 # imageFallback props, explicit per-variant sizes)
         TypeAnimation.tsx       # exports ClientTypeAnimation (takes `roles` prop)
         ToolsMarquee.tsx        # react-fast-marquee, 2 rows from TECH_STACK split in half
-                                # Viewport-wide below md; at sm, rows break out of the
-                                # centered 640px section while its heading stays capped
-        TestimonyCarousel.tsx   # Swiper carousel; testimony data via `testimonies` prop
+                                # Viewport-wide below lg; content-width from lg (896) / xl (1200)
+        TestimonyCarousel.tsx   # Swiper at every width (pen row dimensions: 330 wrapper
+                                # / 250px viewport below lg, 464 / 336px at lg; 80px slides,
+                                # neighbors scale 0.6 = the pen's 48px dimmed avatars);
+                                # testimony data via `testimonies` prop
 public/
   photo.png logo.svg footer-aurora.png opengraph-card.png twitter-card.png
   ai-native-plan.{png,svg} ai-native-design.{png,svg} ai-native-dev.{png,svg}

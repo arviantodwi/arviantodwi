@@ -47,6 +47,20 @@ textarea:-webkit-autofill[aria-invalid="true"] {
   -webkit-text-fill-color: #ed5440;
 }
 
+/* Static-container rule: the page never scrolls horizontally. Root-level
+   X clip (NOT hidden — clip creates no scroll container, so it never
+   breaks position: sticky, and it works with `w-screen` scrollbar-width
+   rounding) lets pen-bleed elements (hero photo, marquee breakout) paint
+   past their section edges without widening the page: they simply run
+   off the viewport edge, as the artboards draw them. Clipped on BOTH html
+   and body: the html value propagates to the viewport, the body value
+   clips the content box — Chrome only respects the horizontal scroll
+   ban reliably with both in place. */
+html,
+body {
+  overflow-x: clip;
+}
+
 body {
   background: var(--color-neutral-900);
   color: var(--foreground);
@@ -68,7 +82,7 @@ body {
   border-radius: 50%;
 }
 
-@media (width >= 1024px) {
+@media (width >= 80rem) {
   .blurred-circle-accent::before {
     width: 1440px;
     height: 1440px;
@@ -76,14 +90,30 @@ body {
   }
 }
 
-/* Mobile: a 640px dome — circle center at the viewport top edge, so only
-   the bottom half washes over the topbar/hero, mirroring the lg geometry
-   (center exactly at the top edge). */
+/* Pen artboards: 640px dome below sm, 768 at md, 1024 at lg, 1440 from xl —
+   circle center at the viewport top edge (only the bottom half washes over
+   the topbar/hero mirroring the xl geometry). */
 @media (width < 40rem) {
   .blurred-circle-accent::before {
     width: 640px;
     height: 640px;
     top: -320px;
+  }
+}
+
+@media (width >= 48rem) and (width < 64rem) {
+  .blurred-circle-accent::before {
+    width: 768px;
+    height: 768px;
+    top: -384px;
+  }
+}
+
+@media (width >= 64rem) and (width < 80rem) {
+  .blurred-circle-accent::before {
+    width: 1024px;
+    height: 1024px;
+    top: -512px;
   }
 }
 
@@ -214,6 +244,11 @@ body {
 }
 
 .people-carousel .swiper-slide {
+  /* Fixed pen slide width: 80px cells — the active avatar renders at
+     80px, the neighbors scale(0.6) → 48px, landing the visuals on the
+     pen row's avatar centers (spaceBetween 21 below lg, 64 at lg). */
+  width: 80px;
+  flex: none;
   opacity: 0.33;
 }
 

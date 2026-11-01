@@ -13,10 +13,13 @@ interface Props {
 export const About: FC<Props> = ({ dict }) => {
   const { about } = dict;
 
+  /* Joint below lg: body gap is 40; pen Hero→About internal gap is
+     64 at sm/md (40 at uSM → no extra). No negative margins — the photo
+     runs behind the About since the hero no longer clips it. */
   return (
-    <Section id="about" className="max-lg:-mt-[200px] lg:max-xl:-mt-14">
-      <article className="font-general flex flex-col gap-10 xl:flex-row xl:gap-[72px]">
-        <div className="about-box-accent relative max-w-fit pt-[51px] text-4xl font-bold lg:text-[40px] xl:shrink-0">
+    <Section id="about" className="sm:max-lg:mt-6">
+      <article className="font-general flex flex-col gap-10 lg:flex-row lg:gap-[72px]">
+        <div className="about-box-accent relative max-w-fit pt-[51px] text-4xl font-bold lg:shrink-0 lg:text-[40px]">
           <div aria-hidden="true" className="about-row-blur about-row-blur--left-row1" />
           <div aria-hidden="true" className="about-row-blur about-row-blur--left-row2" />
           <div aria-hidden="true" className="about-row-blur about-row-blur--right-row2" />
@@ -32,7 +35,8 @@ export const About: FC<Props> = ({ dict }) => {
               <SegmentedText segments={paragraph} />
             </p>
           ))}
-          <div className="mt-8 flex justify-center sm:justify-start">
+          {/* Pen uSM: left-aligned at every below-lg width. */}
+          <div className="mt-8 flex justify-start">
             <Button href={CV_URL} target="_blank" rel="noopener noreferrer" size="lg">
               {about.cta}
               <IconArrowUpRight size={18} />

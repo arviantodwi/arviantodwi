@@ -72,15 +72,15 @@ const SECTION_TITLE: Record<Locale, string> = {
 
 export const Portfolio: FC<Props> = ({ locale, dict }) => {
   const headingBand = (
-    <div className="portfolio-heading relative z-1 flex w-full flex-col sm:sticky sm:top-[60px] sm:pt-[var(--portfolio-title-gap)] sm:backdrop-blur-[8px] md:top-[68px] lg:ml-[calc(50%-50vw)] lg:w-screen lg:items-center xl:top-[76px]">
-      <div className="mx-auto flex w-full flex-col px-0 lg:px-18 xl:max-w-[1440px] xl:px-30">
+    <div className="portfolio-heading relative z-1 flex w-full flex-col sm:sticky sm:top-[60px] sm:pt-[var(--portfolio-title-gap)] sm:backdrop-blur-[8px] md:top-[68px] lg:top-[76px] lg:ml-[calc(50%-50vw)] lg:w-screen lg:items-center">
+      <div className="mx-auto flex w-full flex-col lg:max-w-[1024px] lg:px-16 xl:max-w-[1200px] xl:px-0">
         <div className="flex w-full flex-col gap-[24px]">
           {/* From sm, the tagline sits 24px to the right of the wordmark,
               bottom-aligned and wrapping into the available width. */}
           <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:gap-[24px] sm:self-stretch">
             <h2
               className={cx(
-                'font-headline text-[76px] leading-[1.08] font-bold text-white uppercase sm:max-lg:shrink-0 md:text-[84px] xl:text-[112px]',
+                'font-headline text-[76px] leading-[1.08] font-bold text-white uppercase sm:max-lg:shrink-0 md:text-[84px] lg:text-[112px]',
                 locale === 'id' && 'max-sm:text-[64px]',
               )}
             >
@@ -116,7 +116,7 @@ export const Portfolio: FC<Props> = ({ locale, dict }) => {
   return (
     <Section
       id="portfolio"
-      className="portfolio-section scroll-mt-[84px] md:max-w-none md:scroll-mt-[92px] md:px-18 lg:max-w-none lg:pt-20 xl:scroll-mt-[100px] xl:pb-20"
+      className="portfolio-section scroll-mt-[84px] py-6 sm:py-8 md:scroll-mt-[92px] md:py-12 lg:scroll-mt-[100px] lg:py-16 xl:py-20"
     >
       <PortfolioItemFade />
       {/* The fade hook (.portfolio-item, ui/PortfolioItemFade.tsx) sits on
@@ -127,16 +127,17 @@ export const Portfolio: FC<Props> = ({ locale, dict }) => {
           fade as every other row. */}
       <div>
         {headingBand}
-        <div className="mt-12 flex flex-col gap-12 md:gap-[48px]">
+        {/* Card-to-card gaps: 24 at uSM, 48 from sm (pen). */}
+        <div className="mt-12 flex flex-col gap-6 sm:gap-12">
           {card(PROJECTS[0], true)}
-          <div className="flex flex-col gap-12 md:grid md:grid-cols-2 md:gap-x-[32px] md:gap-y-[48px]">
+          <div className="flex flex-col gap-6 sm:gap-12 md:grid md:grid-cols-2 md:gap-x-[32px] md:gap-y-[48px]">
             {card(PROJECTS[1], true)}
             {card(PROJECTS[2], true)}
           </div>
         </div>
       </div>
 
-      <div className="mt-12 flex flex-col gap-12 md:flex-row md:items-start md:gap-[32px]">
+      <div className="mt-12 flex flex-col gap-6 sm:gap-12 md:flex-row md:items-start md:gap-[32px]">
         {card(PROJECTS[3], true)}
         {card(PROJECTS[4], true)}
       </div>
