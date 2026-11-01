@@ -19,11 +19,11 @@ export default async function Home({ params }: PageProps<'/[lang]'>) {
   return (
     <main className="flex min-h-screen w-screen flex-col">
       <Header dict={dict} locale={lang} />
-      {/* Body shell per the Figma Main artboard: uniform rhythm between
-          sections (80px mobile, 120px from lg up) and a 120px close before
-          the footer. Padding-top clears the fixed topbar (its pre-collapse
-          height per breakpoint). */}
-      <div className="blurred-circle-accent flex flex-col gap-20 bg-background pt-[92px] pb-20 md:pt-[100px] lg:gap-[120px] lg:pb-[120px] xl:pt-[108px]">
+      {/* Body shell per the .pen responsive artboards: uniform rhythm
+          between sections (40px base, 80px from lg, 120px at xl) and the
+          same close before the footer (0/20/40/80/120). Padding-top clears
+          the fixed topbar (its pre-collapse height per breakpoint). */}
+      <div className="blurred-circle-accent bg-background flex flex-col gap-10 pt-[92px] pb-0 sm:pb-5 md:pt-[100px] md:pb-10 lg:gap-20 lg:pt-[108px] lg:pb-20 xl:gap-[120px] xl:pb-[120px]">
         <Hero dict={dict} />
         <About dict={dict} />
         <TechStack dict={dict} />

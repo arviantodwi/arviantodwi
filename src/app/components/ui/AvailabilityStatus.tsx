@@ -16,6 +16,7 @@ interface StatusLabels {
 interface Props {
   variant: Status;
   labels: StatusLabels;
+  className?: string;
 }
 
 const STATUS_KEY: Record<Status, keyof StatusLabels> = {
@@ -24,7 +25,7 @@ const STATUS_KEY: Record<Status, keyof StatusLabels> = {
   [Status.UNAVAILABLE]: 'unavailable',
 };
 
-export const AvailabilityStatus: FC<Props> = ({ variant, labels }) => {
+export const AvailabilityStatus: FC<Props> = ({ variant, labels, className }) => {
   const statusText = labels[STATUS_KEY[variant]];
 
   const statusDotClassName =
@@ -42,7 +43,7 @@ export const AvailabilityStatus: FC<Props> = ({ variant, labels }) => {
         : 'text-emerald-600';
 
   return (
-    <div className="flex items-center gap-4">
+    <div className={cx('flex items-center gap-4', className)}>
       <span className={cx('status-dot-ripple relative h-2 w-2 rounded-full', statusDotClassName)} />{' '}
       <span className={cx('font-general text-sm', statusTextClassName)}>{statusText}</span>
     </div>

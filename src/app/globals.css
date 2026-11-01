@@ -47,33 +47,68 @@ textarea:-webkit-autofill[aria-invalid="true"] {
   -webkit-text-fill-color: #ed5440;
 }
 
+/* Static-container rule: the page never scrolls horizontally. Root-level
+   X clip (NOT hidden — clip creates no scroll container, so it never
+   breaks position: sticky, and it works with `w-screen` scrollbar-width
+   rounding) lets pen-bleed elements (hero photo, marquee breakout) paint
+   past their section edges without widening the page: they simply run
+   off the viewport edge, as the artboards draw them. Clipped on BOTH html
+   and body: the html value propagates to the viewport, the body value
+   clips the content box — Chrome only respects the horizontal scroll
+   ban reliably with both in place. */
+html,
+body {
+  overflow-x: clip;
+}
+
 body {
   background: var(--color-neutral-900);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
 
+/* Glow dome ("Oval highlight"): ONE geometry at every width — a gold
+   square sized to the viewport (the blur + 50% radius reads as the
+   inscribed oval), translated up by half its height so its center sits on
+   the viewport top edge: only the bottom half washes over the topbar and
+   hero, mirroring the pen artboards (center exactly at the top edge). No
+   per-breakpoint sizes to maintain. */
 .blurred-circle-accent::before {
   content: "";
   position: fixed;
   z-index: 0;
-  width: 1974px;
-  height: 1974px;
-  left: 50%;
-  top: -1076px;
-  transform: translateX(-50%);
+  width: 100vw;
+  height: 100vw;
+  left: 0;
+  top: 0;
+  transform: translateY(-50%);
   background: var(--color-gold);
-  opacity: 0.05;
+  opacity: 0.1;
   filter: blur(200px);
   border-radius: 50%;
 }
 
-@media (width >= 1024px) {
-  .blurred-circle-accent::before {
-    width: 1440px;
-    height: 1440px;
-    top: -720px;
-  }
+/* Status-dot radiating ping (AvailabilityStatus). */
+
+/* TechStack marquee edge fade: a mask (not an opaque paint-over) so the
+   glow/background stays continuous behind the rows — the player's own
+   `gradient` prop drew a solid #040404 patch that stood out against the
+   dome highlight. 48px fade at each running edge. */
+.tools-marquee-mask {
+  mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    #000 48px,
+    #000 calc(100% - 48px),
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    #000 48px,
+    #000 calc(100% - 48px),
+    transparent 100%
+  );
 }
 
 .status-dot-ripple::before {
@@ -189,7 +224,7 @@ body {
 }
 
 /* Portfolio section: gap between the collapsed topbar and the pinned
-   sticky heading band on large screens. */
+   sticky heading band from sm upward. */
 .portfolio-section {
   --portfolio-title-gap: 40px;
 }
@@ -203,6 +238,11 @@ body {
 }
 
 .people-carousel .swiper-slide {
+  /* Fixed pen slide width: 80px cells — the active avatar renders at
+     80px, the neighbors scale(0.6) → 48px, landing the visuals on the
+     pen row's avatar centers (spaceBetween 21 below lg, 64 at lg). */
+  width: 80px;
+  flex: none;
   opacity: 0.33;
 }
 

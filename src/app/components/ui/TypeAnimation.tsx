@@ -14,6 +14,6 @@ export const ClientTypeAnimation = ({ roles }: Props) => (
     sequence={roles.flatMap((role) => [1000, role])}
     speed={50}
     deletionSpeed={75}
-    className="border-b-[1px] border-b-gold"
+    className="border-b-gold border-b-[1px]"
   />
 );

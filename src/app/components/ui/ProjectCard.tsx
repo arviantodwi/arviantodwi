@@ -1,19 +1,19 @@
 import { getImageProps } from 'next/image';
 import type { FC } from 'react';
-import { TbArrowUpRight } from 'react-icons/tb';
 import { cx } from '@/app/lib/utils';
-import { IconHash } from './icons';
+import { IconArrowUpRight, IconHash } from './icons';
 
 /**
- * One portfolio item, per Figma node 681-441: full-bleed-scaled preview
+ * One portfolio item, per Figma node 681-441: image preview
  * panel above a details row (gold brand marker + title + `#`-prefixed
  * discipline tags + description + circular "open project" link).
  *
- * - `wide`   — full-width featured item (desktop preview 510px tall).
- * - `compact`— half-column card in a two-per-row collection (360px tall).
- * On mobile (<md) both variants render at the same size, and the preview
- * panel bleeds to the viewport edges (the section's horizontal gutters
- * are cancelled with negative margins).
+ * - `wide`   — full-width featured item (1200×510 desktop preview).
+ * - `compact`— half-column card (584×360 desktop preview).
+ * From md, previews scale at those desktop ratios with the column width.
+ * Below md both variants use the same 5:3 preview ratio. Below sm,
+ * negative margins let the preview bleed to the viewport edges; at sm,
+ * it matches the inner section width (592px inside the 640px shell).
  *
  * Images are placeholder exports at their exact final paths; swapping the
  * files under `public/projects/` never changes this component.
@@ -37,15 +37,18 @@ export interface ProjectCardProps {
 
 /** Per-variant preview classes; mobile rules are shared by both. */
 const PREVIEW: Record<ProjectCardProps['variant'], string> = {
-  wide: 'md:h-[510px]',
-  compact: 'md:h-[360px]',
+  wide: 'md:aspect-[40/17]',
+  compact: 'md:aspect-[73/45]',
 };
 
-/** Notable widths shared by webp source + png fallback (wide = full bleed). */
+/** Rendered widths shared by webp source + png fallback: content is FIXED
+ * per tier — 576px at the 640 viewport (sm fluid), 672 (md), 896 (lg),
+ * 1200 from xl; 32px column gap from md. Featured bleeds to the viewport
+ * edges below sm. */
 const SIZES: Record<ProjectCardProps['variant'], string> = {
-  wide: '(max-width: 767px) 100vw, (max-width: 1023px) 640px, (max-width: 1279px) 848px, (max-width: 1439px) calc(100vw - 240px), 1200px',
+  wide: '(max-width: 639px) 100vw, (max-width: 767px) calc(100vw - 64px), (max-width: 1023px) 672px, (max-width: 1279px) 896px, 1200px',
   compact:
-    '(max-width: 767px) 100vw, (max-width: 1023px) 50vw, (max-width: 1279px) 416px, (max-width: 1439px) calc((100vw - 272px)/2), 584px',
+    '(max-width: 639px) 100vw, (max-width: 767px) calc(100vw - 64px), (max-width: 1023px) 320px, (max-width: 1279px) 432px, 584px',
 };
 
 export const ProjectCard: FC<ProjectCardProps> = ({
@@ -61,10 +64,10 @@ export const ProjectCard: FC<ProjectCardProps> = ({
   className,
 }) => (
   <article className={cx('flex w-full flex-col', className)}>
-    {/* Preview panel — edge-to-edge on mobile, rounded inside gutters from md. */}
+    {/* Preview — edge-to-edge below sm, inside gutters with rounded corners from sm. */}
     <div
       className={cx(
-        'relative -mx-6 h-[280px] overflow-hidden md:mx-0 md:rounded-lg',
+        'relative -mx-6 aspect-[5/3] overflow-hidden sm:mx-0 sm:rounded-lg',
         surface,
         PREVIEW[variant],
       )}
@@ -112,11 +115,11 @@ export const ProjectCard: FC<ProjectCardProps> = ({
           {tags.map((tag) => (
             <span key={tag} className="flex items-center gap-[2px]">
               <IconHash size={16} className="text-white/75" />
-              <span className="font-general text-[12px] text-white/75 leading-[1.4]">{tag}</span>
+              <span className="font-general text-[12px] leading-[1.4] text-white/75">{tag}</span>
             </span>
           ))}
         </div>
-        <p className="w-full font-general text-[16px] text-white/75 pl-[24px] leading-[1.5]">
+        <p className="font-general w-full pl-[24px] text-[16px] leading-[1.5] text-white/75">
           {description}
         </p>
       </div>
@@ -124,9 +127,9 @@ export const ProjectCard: FC<ProjectCardProps> = ({
         <a
           href={href}
           aria-label={`Open project: ${title}`}
-          className="flex size-[40px] shrink-0 items-center justify-center rounded-full border border-white/15 text-white transition-colors duration-150 hover:border-gold hover:text-gold"
+          className="hover:border-gold hover:text-gold flex size-[40px] shrink-0 items-center justify-center rounded-full border border-white/15 text-white transition-colors duration-150"
         >
-          <TbArrowUpRight size={20} />
+          <IconArrowUpRight size={20} />
         </a>
       )}
     </div>

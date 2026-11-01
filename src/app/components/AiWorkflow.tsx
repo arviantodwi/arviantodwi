@@ -68,46 +68,58 @@ const TOOL_LOGOS = [
   { name: 'Gemini', src: '/techstack/ai/gemini.svg' },
 ];
 
-/** Responsive sizes for the 3-up (xl) / stacked (below) stage illustrations. */
+/** Responsive sizes for the 3-up (lg) / md half (md) / stacked stage illustrations. */
 const IMAGE_SIZES =
-  '(max-width: 767px) calc(100vw - 48px), (max-width: 1023px) 640px, (max-width: 1279px) calc((min(100vw, 896px) - 80px) / 3), (max-width: 1439px) calc((100vw - 240px) / 3), 373px';
+  '(max-width: 639px) calc(100vw - 48px), (max-width: 767px) calc(100vw - 64px), (max-width: 1023px) 324px, (max-width: 1279px) 272px, 373px';
 
 export const AiWorkflow: FC<Props> = ({ dict }) => {
   const { aiWorkflow } = dict;
   const { headline, intro, stages, toolkit } = aiWorkflow;
 
   return (
-    <Section id="human-ai" className="py-20">
-      <Section as="div" className="flex flex-col gap-14">
+    <Section id="human-ai" className="py-0">
+      {/* Inner shell = plain div: the outer Section carries the tiers'
+          gutters — nested shells would double-pad (D1). Block pad stays 0
+          at every width: the body gap is the rhythm; only Tech
+          Stack/Portfolio keep their block padding. */}
+      <div className="flex flex-col gap-14">
         {/* Headline + intro */}
         <div className="flex flex-col gap-4">
-          <h2 className="font-general font-semibold text-[40px] leading-[1.125] tracking-[-0.04em] md:text-[48px] md:leading-[60px]">
+          <h2 className="font-general text-[40px] leading-[1.125] font-semibold tracking-[-0.04em] md:text-[48px] md:leading-[60px]">
             {headline[0]}
             <br />
-            <span className="font-bold text-gold">{headline[1]}</span>
+            <span className="text-gold font-bold">{headline[1]}</span>
           </h2>
           <p className="font-general text-base leading-6">
             <SegmentedText segments={intro} />
           </p>
         </div>
 
-        {/* Workflow stages */}
-        <div className="flex flex-col gap-10 md:grid md:grid-cols-3 md:gap-10">
+        {/* Workflow stages: 3-col grid from lg; single stacked column below.
+            At md/sm (600–1023) each stage row is horizontal — narrative left,
+            artwork right, equal halves with a 24px gap (artwork height follows
+            the 373:132 ratio of its half width). Vertical stage below md. */}
+        <div className="flex flex-col gap-10 lg:grid lg:grid-cols-3">
           {STAGES.map((stage) => (
-            <div className="flex flex-col gap-5" key={stage.key}>
-              <div className="flex flex-col gap-3">
+            <div
+              className="flex flex-col gap-5 md:max-lg:flex-row md:max-lg:items-start md:max-lg:gap-6"
+              key={stage.key}
+            >
+              <div className="flex flex-col gap-3 md:max-lg:min-w-0 md:max-lg:flex-1">
                 <div className="flex items-center gap-2">
-                  <h3 className="whitespace-nowrap font-headline font-semibold text-[26px] uppercase tracking-[-0.02em]">
+                  <h3 className="font-headline text-[26px] font-semibold tracking-[-0.02em] whitespace-nowrap uppercase">
                     {stage.title}
                   </h3>
                   {(() => {
                     const StageIcon = stage.icon;
-                    return <StageIcon size={24} className="select-none text-white" />;
+                    return <StageIcon size={24} className="text-white select-none" />;
                   })()}
                 </div>
                 <p className="font-general text-sm opacity-75">{stages[stage.key].description}</p>
               </div>
-              <div className={`overflow-hidden border ${stage.shell}`}>
+              <div
+                className={`overflow-hidden border md:max-lg:min-w-0 md:max-lg:flex-1 ${stage.shell}`}
+              >
                 {(() => {
                   const Animated = ANIMATED_ILLUSTRATION[stage.key];
                   return Animated ? (
@@ -132,17 +144,22 @@ export const AiWorkflow: FC<Props> = ({ dict }) => {
           ))}
         </div>
 
-        {/* AI toolkit */}
+        {/* AI toolkit: side-by-side from lg (320px description + logos,
+            which wrap to 2 rows at lg); stacked below. */}
         <div className="flex flex-col gap-7">
           <div className="h-px bg-[#292929]" />
-          <div className="flex flex-col gap-6 md:flex-row md:items-center md:gap-[60px]">
-            <p className="w-full font-general font-medium text-base md:w-[320px] md:shrink-0">
+          <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:gap-[60px]">
+            <p className="font-general w-full text-base font-medium lg:w-[320px] lg:shrink-0">
               <SegmentedText segments={toolkit} />
             </p>
-            <div className="flex flex-1 flex-col gap-3 md:h-[60px] md:flex-row">
+            {/* Below sm: 2-column grid with left-aligned, natural-size logos.
+                From sm to lg: one centered row with four equal, shrinkable
+                cells. At lg: 2×2 grid of 60px cells (pen wraps to 2 rows);
+                from xl: single full row again. */}
+            <div className="grid min-w-0 flex-1 grid-cols-2 gap-3 sm:max-lg:flex sm:max-lg:h-[60px] sm:max-lg:flex-row lg:h-auto xl:flex xl:h-[60px] xl:flex-row">
               {TOOL_LOGOS.map((logo) => (
                 <div
-                  className="flex items-center md:h-[60px] md:flex-1 md:justify-center"
+                  className="flex items-center sm:max-lg:h-[60px] sm:max-lg:min-w-0 sm:max-lg:flex-1 sm:max-lg:justify-center xl:h-[60px] xl:min-w-0 xl:flex-1 xl:justify-center"
                   key={logo.name}
                 >
                   <Image
@@ -151,14 +168,14 @@ export const AiWorkflow: FC<Props> = ({ dict }) => {
                     width={196}
                     height={60}
                     loading="lazy"
-                    className="select-none opacity-50"
+                    className="h-auto w-auto max-w-full opacity-50 select-none sm:max-lg:w-full sm:max-lg:max-w-[196px] lg:h-[60px] lg:w-full lg:max-w-none lg:object-cover lg:object-center"
                   />
                 </div>
               ))}
             </div>
           </div>
         </div>
-      </Section>
+      </div>
     </Section>
   );
 };

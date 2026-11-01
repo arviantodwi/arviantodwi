@@ -10,18 +10,22 @@ import {
   useState,
 } from 'react';
 import {
+  type Control,
   type FieldError,
   type RegisterOptions,
   type UseFormRegister,
+  type UseFormSetValue,
   useForm,
+  useWatch,
 } from 'react-hook-form';
-import { TbCheck } from 'react-icons/tb';
 import { type ContactFormState, sendContactMessage } from '@/app/actions/contact';
 import { Input } from '@/app/components/ui/Input';
+import { Select } from '@/app/components/ui/Select';
 import { Textarea } from '@/app/components/ui/Textarea';
 import { type ContactInput, isValidEmail, LIMITS } from '@/app/lib/contact/validate';
 import type { Dictionary, Locale } from '@/app/lib/i18n/types';
 import { cx } from '@/app/lib/utils';
+import { IconCheck } from './ui/icons';
 
 /** Fill a copy template's {min}/{max}; numbers get the locale's thousand separator. */
 const fillLimits = (
@@ -215,18 +219,28 @@ const ContactFields: FC<ContactFieldsProps> = ({ dict, locale, register, errors,
 interface InterestSelectorProps {
   dict: Dictionary;
   register: UseFormRegister<ContactInput>;
+  control: Control<ContactInput>;
+  setValue: UseFormSetValue<ContactInput>;
   /** Locked during the 3s cancel window: inert (no pointer/keyboard/focus
       changes — checked state still submits) at 80% opacity. */
   locked: boolean;
 }
 
 /**
- * Radiogroup of 4 toggle options as a native fieldset of radio inputs
- * (arrow-key navigation free); the checked radio submits as `interest`.
+ * A select below 600px, otherwise a native radio group. Both share RHF's
+ * value; the checked radio remains mounted and submits as `interest`.
  * No client rule — the server's INTERESTS whitelist is the authority, and
  * the design has no error slot for the group.
  */
-const InterestSelector: FC<InterestSelectorProps> = ({ dict, register, locked }) => {
+const InterestSelector: FC<InterestSelectorProps> = ({
+  dict,
+  register,
+  control,
+  setValue,
+  locked,
+}) => {
+  const interest = useWatch({ control, name: 'interest' });
+
   return (
     <fieldset
       inert={locked}
@@ -237,13 +251,21 @@ const InterestSelector: FC<InterestSelectorProps> = ({ dict, register, locked })
     >
       <legend
         id="contact-interests-prompt"
-        className="font-general font-semibold text-base text-white tracking-[0.01em]"
+        className="font-general text-base font-semibold tracking-[0.01em] text-white"
       >
         {dict.contact.prompt}
       </legend>
       {/* Chrome renders <legend> outside the fieldset's flex flow (gap never
           applies after it) — the design's 24px prompt→choices gap goes here. */}
-      <div className="mt-6 flex flex-col gap-3">
+      <Select
+        options={dict.contact.choices}
+        value={interest}
+        onChange={(value) => setValue('interest', value, { shouldDirty: true, shouldTouch: true })}
+        labelledBy="contact-interests-prompt"
+        disabled={locked}
+        className="mt-6 min-[600px]:hidden"
+      />
+      <div className="mt-6 hidden grid-cols-1 gap-3 min-[600px]:grid min-[600px]:max-lg:grid-cols-2">
         {dict.contact.choices.map((choice, index) => (
           <label
             key={choice.id}
@@ -261,7 +283,7 @@ const InterestSelector: FC<InterestSelectorProps> = ({ dict, register, locked })
             <span>{choice.label}</span>
             <span
               aria-hidden="true"
-              className="h-[5px] w-[5px] bg-gold opacity-0 peer-checked:opacity-100"
+              className="bg-gold h-[5px] w-[5px] opacity-0 peer-checked:opacity-100"
             />
           </label>
         ))}
@@ -281,13 +303,13 @@ const SentView: FC<{ dict: Dictionary }> = ({ dict }) => (
     role="status"
     className="contact-sent-enter flex h-[372px] w-full flex-col items-center justify-center gap-5"
   >
-    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gold">
-      <TbCheck aria-hidden="true" size={20} className="text-background" />
+    <div className="bg-gold flex h-10 w-10 items-center justify-center rounded-full">
+      <IconCheck aria-hidden="true" size={20} className="text-background" />
     </div>
-    <p className="font-bold font-general text-4xl text-white tracking-[-0.01em]">
+    <p className="font-general text-4xl font-bold tracking-[-0.01em] text-white">
       {dict.contact.successHeading}
     </p>
-    <p className="font-general text-base text-white/75 leading-[1.4375] tracking-[0.01em]">
+    <p className="font-general text-base leading-[1.4375] tracking-[0.01em] text-white/75">
       {dict.contact.successSubtext}
     </p>
   </div>
@@ -324,6 +346,8 @@ export const ContactForm: FC<Props> = ({ dict, locale }) => {
 
   const {
     register,
+    control,
+    setValue,
     handleSubmit,
     setError,
     reset,
@@ -359,7 +383,7 @@ export const ContactForm: FC<Props> = ({ dict, locale }) => {
 
   /* Valid submit → 3s window → dispatch. Fields go readOnly for the window;
      the FormData is re-read at dispatch time so the screen and the payload
-     stay identical (radios stay interactive — whatever is on screen wins).
+     stay identical (the inert interest group keeps its checked value).
      The timer guard makes double submits (Enter while counting) a no-op. */
   const onValid = (_data: ContactInput, event?: BaseSyntheticEvent) => {
     const form = event?.target;
@@ -396,7 +420,13 @@ export const ContactForm: FC<Props> = ({ dict, locale }) => {
           )}
           onSubmit={sentPhase === 'form' ? handleSubmit(onValid) : (e) => e.preventDefault()}
         >
-          <InterestSelector dict={dict} locked={counting} register={register} />
+          <InterestSelector
+            dict={dict}
+            locked={counting}
+            register={register}
+            control={control}
+            setValue={setValue}
+          />
 
           {/* Group divider (design: 1px #292929 column, desktop only).
               self-stretch, not h-full — h-full computes 0 against the form's
@@ -424,7 +454,7 @@ export const ContactForm: FC<Props> = ({ dict, locale }) => {
                   <button
                     type="button"
                     onClick={cancelSend}
-                    className="flex h-12 cursor-pointer items-center border border-foreground/70 px-4 font-bold font-general text-base text-foreground/70 transition-colors hover:border-foreground hover:text-foreground focus-visible:outline-2 focus-visible:outline-gold focus-visible:outline-offset-2"
+                    className="border-foreground/70 font-general text-foreground/70 hover:border-foreground hover:text-foreground focus-visible:outline-gold flex h-12 cursor-pointer items-center border px-4 text-base font-bold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2"
                   >
                     {dict.contact.cancel}
                   </button>
@@ -510,7 +540,7 @@ export const ContactForm: FC<Props> = ({ dict, locale }) => {
 
       {/* Form-level errors only — success announces through the SentView. */}
       <div aria-live="polite" role="status">
-        {statusText && <p className="pt-6 text-[#ed5440] text-sm">{statusText}</p>}
+        {statusText && <p className="pt-6 text-sm text-[#ed5440]">{statusText}</p>}
       </div>
     </div>
   );

@@ -47,22 +47,34 @@ src/
                     # types.ts (Segment, Dictionary, ContactLabels), en.ts + id.ts
                     # (dictionaries)
     components/     # Sections (server components), all receive `dict: Dictionary`
-      Header.tsx    # Sticky topbar (client): logo (tight 118.54×21.8 SVG in a
-                    # p-[7.2px] container = the design's 133×36 logo slot) +
-                    # SocialNav + LangSwitcher +
+      Header.tsx    # Sticky topbar (client): logo (138×32 — the full lockup
+                    # traced from .pen node Zybny as /logo.svg) + 18px gap +
+                    # SocialNav (24×24 anchors with 18px glyphs from .pen
+                    # node gj6H2) + LangSwitcher +
                     # AvailabilityStatus; bg-background/70 + backdrop-blur; scrolled
                     # state shrinks padding (py-6→py-2) and fades in 1px bottom line
       Hero.tsx      # Name, TypeAnimation, Statistic row, portrait Image.
-                    # xl: two-col row per Figma Main artboard — 478px copy col
-                    # (centered, gap 56) | 200px gap | 584px photo that hangs
-                    # 177px below the 700px hero; below xl photo stays absolute
-                    # with the long pb-* reservations
+                    # From xl: 478px copy column beside a proportional, shrinkable
+                    # portrait; positioned wrapper contains Image fill. From 1440px:
+                    # 200px gap, fixed 584×877 photo overhanging the 700px hero by
+                    # 177px. Below lg photo stays absolute: centered backdrop at
+                    # 0.33 on phones (clipped to the hero box); media/portrait
+                    # placement right from 600px (sm: viewport x318/top11, md:
+                    # x415/top25, bleeding off the right edge); lg rows a 484px
+                    # portrait flush right in a 640px hero. Name type 76px below lg,
+                    # 112px from lg; 3 stats at every width (row gap 20 at lg)
       About.tsx     # Bio paragraphs via SegmentedText, .about-box-accent headline,
-                    # centered CV CTA button (ui/Button + TbArrowUpRight)
+                    # left-aligned CV CTA button (ui/Button + IconArrowUpRight);
+                    # side-by-side from lg (headline col shrink-0 + bio, 72px gap);
+                    # sm/md 24px margin extends the Hero → About gap to 64px
       TechStack.tsx # Heading + subline via SegmentedText + ToolsMarquee
       AiWorkflow.tsx # AI-native — Connected Workflow (Figma node 699-419): 48px two-tone
-                     # headline + intro; 3 stage cols (PLAN/DESIGN/DEVELOP, Antonio 26px
-                     # + 24px custom icon from ui/icons.tsx) — card shells are code (bg/border
+                     # headline + intro; 3 stage cols from lg (PLAN/DESIGN/DEVELOP, Antonio
+                     # 26px + 24px custom icon from ui/icons.tsx); below lg stages stack
+                     # vertically, at md/sm each stage row is horizontal (narrative ∥
+                     # artwork, equal halves, 24px gap); toolkit row side-by-side from
+                     # lg (320px desc + logos wrapping 2×2 at lg, single row at xl)
+                     # + closing thought row; card shells are code (bg/border
                      # per design); PLAN + DESIGN render animated inline SVG via
                      # ui/PlanIllustration / ui/DesignIllustration (7.2s scenery loops);
                      # DEVELOP via ui/DevelopIllustration — static composition + blinking
@@ -70,23 +82,26 @@ src/
                      # fussy). Logo row: public/techstack/ai/*.svg. Copy in
                      # dictionaries (aiWorkflow key); stage shells/icons/images in STAGES const
       Portfolio.tsx # Redesigned per Figma node 681-441: heading band (wordmark +
-                    # two-line dict tagline + 1px white/15 divider, still lg:sticky
+                    # dict tagline + 1px white/15 divider, sticky from sm below topbar
                     # with scroll-fade) → one featured `wide` ProjectCard + two
                     # rows × 2 `compact` cards; per-project data in PROJECTS const
                     # (titles/tags/surface/image locale-independent), descriptions
                     # + tagline in dictionaries (dict.portfolio); takes `locale`
-                    # AND `dict`
+                    # AND `dict`; Indonesian heading is 64px below sm;
+                    # #portfolio scroll margins clear the fixed header (design.md)
       Portfolio.legacy.tsx # Pre-redesign portfolio (CSS grid + weight-graded experiment);
                            # not imported anywhere — kept as reference only
-      Testimonial.tsx # Heading + TestimonyCarousel
-      Contact.tsx   # Contact panel (server) per the .pen "Precision Panel" frame:
-                    # glass panel shell, gold ambient glows/pulses (aria-hidden +
-                    # pointer-events-none), invitation heading + gold rule,
-                    # two-col layout (interests | form) with hairline divider;
-                    # renders ContactForm
+      Testimonial.tsx # Heading + IconQuote mark (lucide trace, ui/icons.tsx) + TestimonyCarousel
+      Contact.tsx   # Contact panel (server) per the .pen "Contact panel" component (gQvrX):
+                    # glass panel shell, TWO gold ambient glows (top-left/top-right,
+                    # aria-hidden + pointer-events-none — bottom-right removed with the
+                    # 2026 design update; pulses disabled in the pen file), invitation
+                    # heading + gold rule, two-col layout (interests | form) with
+                    # hairline divider; renders ContactForm
       ContactForm.tsx # Client island: RHF v7 validation (onTouched + live revalidate;
-                    # rules shared with lib/contact/validate.ts), interest radio group
-                    # (hidden `interest` input), name/email/message via ui/Input +
+                    # rules shared with lib/contact/validate.ts), interest select below
+                    # 600px / radios from 600px (shared RHF value; the mounted checked
+                    # radio submits `interest`), name/email/message via ui/Input +
                     # ui/Textarea; valid submit opens a 3s cancel window (Cancel
                     # trigger + #9747FF progress bar) before dispatching to
                     # sendContactMessage via useActionState (server fieldErrors →
@@ -95,21 +110,35 @@ src/
                     # `company`, time-trap `startedAt`, `locale` hidden fields;
                     # form-level errors resolved from i18n keys into an
                     # aria-live region
-      Footer.tsx    # Footer per the .pen Main artboard: root sits on bg-background
-                    # with public/footer-aurora.png (neon wave, stretched
-                    # 1886×672 → 1445×231) hugging the band's top edge + 1200px
-                    # contact panel slot (renders `<Contact>`, `id="contact"`)
-                    # + glass band section (bg-background/40 +
-                    # backdrop-blur): brand column (logo.svg at h-20 white/15 via
-                    # opacity — design's wordmark is a wider cut, reuse approved,
-                    # copyright, LangSwitcher) | IN PAGE + SOCIAL link
-                    # masts (hairline rows, ↗ on external links only; anchors
+      Footer.tsx    # Footer per the .pen Footer frame (node lze4B), relative-flow
+                    # content at every width (no contact pull, no band clear-out —
+                    # the panel and band never overlap); decoration = aurora strip
+                    # (231px box, natural-aspect 1886×672 export drawing past the
+                    # box, dimmed below) + absolute background (GcP61:
+                    # bg-background/40 + border-t + backdrop-blur) as a flex-column
+                    # pair inside the z-10 band wrapper — strip's bottom edge ≡
+                    # background top edge; key `-top-[395px]` universal (164px
+                    # overhang + 231px strip, panel flush on the band edge). Band
+                    # pads: pt-12 universal, pb-16 below xl / pb-12 at xl; inner
+                    # band py-14 below xl / py-10 at xl; glass fill/border/blur all
+                    # on the GcP61 layer (crystal wrapper positions content only).
+                    # Contact: below xl pt-16 on the section; xl = 80px content
+                    # top pad (xl:pt-20) + px-12, no bottom pad. + 1200px
+                    # contact panel slot (renders `<Contact>`, `id="contact"`) +
+                    # band content row: brand column (logo.svg up to 435px wide, proportional height, white/15 via opacity —
+                    # design's wordmark is a wider cut, reuse approved, copyright,
+                    # LangSwitcher) | IN PAGE + SOCIAL link categories: equal columns
+                    # at 600–1023px below the brand; desktop brand/link row begins
+                    # at lg (details in design.md) masts (hairline rows, ↗ on
+                    # external links only; anchors
                     # #about/#human-ai/#portfolio/#testimonials/#contact, section
                     # ids set on each section). Labels in dictionaries
                     # (dict.footer.mast); hrefs composed here from constants.
       ui/           # Shared UI primitives & client islands:
-        Section.tsx             # Shared section shell (docs/design.md): 1440 shell,
-                                # 120px xl gutters; `as` + className overrides
+        Section.tsx             # Shared section shell (docs/design.md): fluid gutters (24/32)
+                                # only below sm; fixed containers from md — 672/896/1200 content;
+                                # topbar caps the same way; root overflow-x clip kills page
+                                # hscroll. `as` + className overrides
         Button.tsx              # Server-compatible button/<a> hybrid; variant 'primary' = gold fill,
                                 # dark text; children compose label + trailing icon
         Input.tsx               # Underline text field (server-compatible): full native input
@@ -118,29 +147,50 @@ src/
                                 # (docs/design.md); error?: string renders message row + aria wiring
         Textarea.tsx            # Underline textarea, same state mapping as ui/Input;
                                 # min-h-[150px] resize-y
+        Select.tsx              # Controlled select-only combobox using Popover + IconSelector;
+                                # gold selected-radio trigger, trigger-width listbox, keyboard
+                                # navigation/typeahead, focus retained on trigger; used for interests
         AvailabilityStatus.tsx  # Status enum; label text passed via `labels` prop
-        LangSwitcher.tsx        # Client dropdown (TbLanguage + active code + TbSelector);
-                                # options EN->'/', ID->'/id' full-name labels, gold active
+        LangSwitcher.tsx        # Client dropdown (IconLanguage + active code + IconSelector);
+                                # options EN->'/', ID->'/id' full-name labels, gold active;
+                                # full navigation + locale cookie, shared Popover behavior
+        Popover.tsx             # Shared hook/panel/option styles for LangSwitcher and Select.
+                                # Body portal escapes backdrop-filter ancestors; fixed triggers
+                                # get viewport coordinates, others get document coordinates.
+                                # Anchors to nearer viewport half, flips up near bottom edge,
+                                # follows scrolling document triggers; dismisses on outside pointer,
+                                # Escape, offscreen trigger, hidden trigger after resize, or disabled.
+                                # Clears stale placement on close; optional trigger-width panel
         SegmentedText.tsx       # Renders Segment[] (tone: dim/gold/strong/goldUnderline)
-        SocialNav.tsx           # GitHub + LinkedIn icon links
+        SocialNav.tsx           # GitHub + LinkedIn icon links (ui/icons brand marks)
         Statistic.tsx           # react-countup number
-        icons.tsx               # Custom inline icons (Tabler conventions: 24×24,
-                                # round-cap stroke, currentColor) — IconPolygon,
-                                # IconCircleSquare, IconIcosahedron (AI workflow
-                                # stages, 2px stroke), IconHash (portfolio tags,
-                                # 1.25px stroke)
+        icons.tsx               # Self-hosted inline icon library (no react-icons):
+                                # Tabler-stroke icons (24×24, round-cap, currentColor,
+                                # 2px stroke): IconPolygon, IconCircleSquare,
+                                # IconIcosahedron (AI workflow stages), IconHash
+                                # (portfolio tags, 1.25px stroke), IconLanguage,
+                                # IconSelector, IconArrowUpRight, IconCheck;
+                                # filled marks keep their native viewBox: IconCaretLeft/
+                                # Right (Phosphor 256), IconBrandGithub/Linkedin
+                                # (Ant Design 1024). Add new icons here.
         ProjectCard.tsx         # Reusable portfolio item (server): `wide` (featured,
-                                # full-width 510px preview) / `compact` (half-column,
-                                # 360px preview) variants; mobile renders both the
-                                # same size with edge-to-edge preview; `href?` —
-                                # circular arrow link hidden when omitted; image =
+                                # full-width 40:17 preview) / `compact` (half-column,
+                                # 73:45 preview) variants from md; both use 5:3 below md.
+                                # Heights derive from the column width — at the 1440 shell
+                                # they render 1200×510 / 584×360.
+                                # Preview is edge-to-edge below sm, within section gutters
+                                # from sm (576px at the 640px viewport), rounded from sm; `href?` —
                                 # webp→png optimized <picture> chain (image +
                                 # imageFallback props, explicit per-variant sizes)
         TypeAnimation.tsx       # exports ClientTypeAnimation (takes `roles` prop)
         ToolsMarquee.tsx        # react-fast-marquee, 2 rows from TECH_STACK split in half
-        TestimonyCarousel.tsx   # Swiper carousel; testimony data via `testimonies` prop
+                                # Viewport-wide below lg; content-width from lg (896) / xl (1200)
+        TestimonyCarousel.tsx   # Swiper at every width (pen row dimensions: 330 wrapper
+                                # / 250px viewport below lg, 464 / 336px at lg; 80px slides,
+                                # neighbors scale 0.6 = the pen's 48px dimmed avatars);
+                                # testimony data via `testimonies` prop
 public/
-  photo.png logo.svg footer-aurora.png quote.svg opengraph-card.png twitter-card.png
+  photo.png logo.svg footer-aurora.png opengraph-card.png twitter-card.png
   ai-native-plan.{png,svg} ai-native-design.{png,svg} ai-native-dev.{png,svg}
                                                              # svg = vector card exports
                                                              # (374×132, owner-provided),
@@ -238,21 +288,30 @@ public/
 
 ## Asset conventions
 
-- `logo.svg` is the tight wordmark (118.54×21.8, paths white) traced from the .pen
-  Main artboard (node o2Uk3m). Header wraps it in `p-[7.2px]` to reproduce the
-  design's 133×36 logo slot; footer renders it at `h-20` (natural 435×80) with
-  `opacity-15` for the design's white/15. `footer-aurora.png` is the "Golden
-  ambience — neon aurora" export (1886×672; rendered at its natural aspect
-  ratio with `object-cover` — full width, no distortion, no clipping).
-  In `Footer.tsx` the aurora layer lives in the band's `z-10` wrapper as an
-  absolute `bottom-full` sibling BEFORE the band glass, so it paints behind
-  BOTH footer content sections (the contact `Section` runs `z-20`); the band's
-  `backdrop-blur-md` reads it through the glass, per the .pen Footer root
-  (node lze4B, aurora spans mid-contact-section → band top). The `<footer>`
-  root crops its bottom 216px via `mb-[-216px]`.
+- `logo.svg` is the full logo lockup (mark + wordmark, paths white, viewBox
+  2525.804×587.277) traced from the .pen file (node Zybny — all-white variant,
+  transparent background). Header renders it at 138×32 (the design's Navigation
+  slot, node COKOj/gj6H2); the footer renders it at 274×64 solid white, capped
+  to its column with automatic height. `footer-aurora.png` is the "Golden
+  ambience — neon aurora" export (node aIybe in the 2026 pen Home @ XL frame,
+  `LAhVl`; stored @2x = 3762×1345, declared at its 1886×672 natural size and
+  drawn at natural aspect full width — opacity 0.6 and blur bleed are baked
+  into the export, so no code-level opacity applies).
+
+  In `Footer.tsx` the aurora strip + background live inside the band's
+  `z-10` wrapper as a flex-column pair at every width: aurora strip box
+  `h-[231px]` (image overflows it downward — that tail is what the backdrop-blur
+  reads), then the background layer (`bg-background/40 border-t border-white/15
+  backdrop-blur-md flex-1`) filling to the wrapper's bottom edge (= footer
+  bottom). The pair keys `-top-[395px]` on the band wrapper at every width:
+  164px design overhang + 231px strip — the content is relative flow everywhere,
+  so the panel bottom is flush on the band edge and the hairline always reads
+  164px above the panel bottom. The band's former glass layer carries no fill
+  of its own anymore (the pair's ground IS the glass); it only positions its
+  content above the pair.
 
 - People photos referenced by exact filename — mixed formats (`*.jpeg`, `*.jpg.webp`), no rename guarantees. Copy filename exactly.
 - Techstack SVG filenames are lowercase, `-` for non-alphanumeric characters (`react-router.svg`, `next-js.svg`).
 - Projects are webp, `object-cover`, `fill` + explicit `sizes`.
 
-<!-- verified against: working tree, 2026-10-25 (mail/ tree row + copy recipes for the branded builders; move SHA on next commit) -->
+<!-- verified against: fa69ad3f64d2fed612f3ecc794e8a341535b6a90 + working tree, 2026-10-29 (relative-flow footer content at all widths; universal pair key -top-[395px]; glass owned by GcP61 layer) -->

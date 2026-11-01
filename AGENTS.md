@@ -18,8 +18,6 @@ Read `docs/index.md` before making changes. It routes to `docs/structure.md`, `d
 
 When your changes touch anything documented there (components, content locations, theme, tooling config), update the related doc in the same task. Move the doc's `verified against` comment to the new commit SHA and date.
 
-When there is a need to run the dev server, always use port 3001 instead of 3000 so local dev server won't be killed.
-
 ## Pencil MCP (design → code)
 
 When doing design → code work with the pencil MCP, do not test the implementation results in pencil's built-in browser.
@@ -27,6 +25,8 @@ When doing design → code work with the pencil MCP, do not test the implementat
 ## Browser verification
 
 Verify in a browser only when explicitly asked. When asked, use the Chrome DevTools MCP for browser verification.
+
+When there is a need to run the dev server, always use port 3001 instead of 3000 so local dev server won't be killed.
 
 ## Git policy
 
