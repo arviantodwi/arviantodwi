@@ -21,7 +21,8 @@
       },
       "Figma Desktop": {
         "type": "remote",
-        "url": "https://mcp.figma.com/mcp"
+        "url": "https://mcp.figma.com/mcp",
+        "disabled": true
       }
     }
   }

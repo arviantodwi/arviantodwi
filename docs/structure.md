@@ -62,11 +62,14 @@ src/
                     # placement right from 600px (sm: viewport x318/top11, md:
                     # x415/top25, bleeding off the right edge); lg rows a 484px
                     # portrait flush right in a 640px hero. Name type 76px below lg,
-                    # 112px from lg. Hero fills the viewport below the fixed
-                    # topbar at uSM (min-h calc(100dvh - 92px)); copy packs to
-                    # the hero bottom (justify end, 32px min gap). Hero pads
-                    # pt-0 pb-12 below sm (48px → 88px to the About heading),
-                    # pb-0 from sm; photo fully opaque at uSM, centered, top
+                    # 112px from lg. Below 600px the hero fills the viewport below the fixed
+                    # topbar (min-h calc(100dvh - 92px)); copy packs to
+                    # the hero bottom (justify end, 32px min gap), pads
+                    # pt-0 pb-12 (48px → 88px to the About heading). From
+                    # 600px until sm it mirrors the md look (2026-11-03):
+                    # pt-12 pb-0, natural height, copy unpacked at the 48px
+                    # gap, photo top-11 (md-consistent vertical);
+                    # photo fully opaque at uSM, centered, top
                     # 0, hero box open. Body rhythm 72px at uSM, 40 from sm,
                     # 80 lg, 120 xl. 3 stats in one row every width (gap 16
                     # at uSM, 32 from sm, 20 at lg); only sm+ keeps pb-0
@@ -332,4 +335,4 @@ public/
 - Techstack SVG filenames are lowercase, `-` for non-alphanumeric characters (`react-router.svg`, `next-js.svg`).
 - Projects are webp, `object-cover`, `fill` + explicit `sizes`.
 
-<!-- verified against: fa69ad3f64d2fed612f3ecc794e8a341535b6a90 + working tree, 2026-10-29 (relative-flow footer content at all widths; universal pair key -top-[395px]; glass owned by GcP61 layer) -->
+<!-- verified against: 1f0d58cd824dfc2c9adab0aa2246ce2bcb1f7ebc + working tree, 2026-11-03 (hero mirrors the md look from 600px until sm; dvh-fill packing scoped below 600px) -->
