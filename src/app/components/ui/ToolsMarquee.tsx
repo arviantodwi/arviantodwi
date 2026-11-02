@@ -30,12 +30,15 @@ export const ToolsMarquee = () => {
   const renderRow = (row: typeof TECH_STACK, reversed: boolean) => (
     <div className="marquee-row overflow-hidden" data-reverse={reversed ? 'true' : undefined}>
       <div className="marquee-track">
-        {[...row, ...row].map((item) => (
+        {/* Row renders twice ({[...row, ...row]}) for the -50% loop — name
+            alone isn't a key (collides across the copies); add the copy
+            index. List is static, so copy index stays stable. */}
+        {[...row, ...row].map((item, i) => (
           <img
             src={item.image}
             alt={`${item.name} logo`}
             className="mx-4 h-11 w-auto select-none max-sm:h-9 lg:h-12"
-            key={item.name}
+            key={`${item.name}-${i < row.length ? 1 : 2}`}
             draggable={false}
           />
         ))}
