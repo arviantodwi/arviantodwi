@@ -85,10 +85,17 @@ export const Hero: FC<Props> = ({ dict }) => {
 
       {/* Photo: absolute below lg. Base (375–599): horizontally centered on
           the viewport, fully opaque (2026-11-01 pen adjustment — the 0.33
-          dim is gone). top 0 with the hero box open (no clip — the pen
-          @under-SM y −53.69 can't be shown above the artboard edge, so the
-          face starts flush at the hero top, just under the topbar) — the
-          437×656 box runs ~81px past the dvh hero bottom behind the About.
+          dim is gone). top 0 with the hero box open, except under sm
+          (hero = 100dvh − 92px, the topbar's initial height) the box is
+          vertically centered in that dvh height: top =
+          max(calc((100dvh − 92px − 656px) / 2), −38px). Negative slack
+          (short phones) splits the overflow evenly top/bottom; the −38px
+          floor is the glass topbar ceiling — measured: pushing higher
+          clips the photo behind the glass blur (iPhone SE). Constants:
+          92 topbar, 656 box height (437 × 877/584; re-tune the floor if
+          the photo asset changes) — so on 667px viewports the
+          437×656 box runs ~81px past the dvh hero bottom behind the About
+          (split ~40/40; pinned −38 when a dvh bar state shrinks below).
           From 600px it flips to the sm placement (viewport x 318, top 11),
           the photo bleeds 115px off the right viewport edge — traveling
           with the resize ONLY until 672px (owner rule): after that it
@@ -104,7 +111,7 @@ export const Hero: FC<Props> = ({ dict }) => {
           From xl the positioned, in-flow wrapper contains Image fill and
           shrinks with the row (min 32px gap); from 1440px it keeps the
           artboard's fixed 584×877 (D9 pen-exact row, gap 200). */}
-      <div className="absolute top-0 left-1/2 -z-10 aspect-[584/877] w-[437px] -translate-x-1/2 min-[600px]:top-[11px] min-[600px]:left-auto min-[600px]:translate-x-0 min-[600px]:max-[672px]:top-[11px] min-[600px]:max-[672px]:right-[-115px] min-[672px]:max-md:top-[11px] min-[672px]:max-md:right-auto min-[672px]:max-md:left-[350px] md:max-lg:top-[11px] md:max-lg:left-[350px] lg:top-0 lg:right-0 lg:w-[484px] xl:relative xl:inset-auto xl:w-[584px] xl:min-w-0">
+      <div className="absolute top-0 left-1/2 -z-10 aspect-[584/877] w-[437px] -translate-x-1/2 max-sm:top-[max(calc((100dvh-92px-656px)/2),-38px)] min-[600px]:top-[11px] min-[600px]:left-auto min-[600px]:translate-x-0 min-[600px]:max-[672px]:top-[11px] min-[600px]:max-[672px]:right-[-115px] min-[672px]:max-md:top-[11px] min-[672px]:max-md:right-auto min-[672px]:max-md:left-[350px] md:max-lg:top-[11px] md:max-lg:left-[350px] lg:top-0 lg:right-0 lg:w-[484px] xl:relative xl:inset-auto xl:w-[584px] xl:min-w-0">
         <Image
           src="/photo.avif"
           fill
