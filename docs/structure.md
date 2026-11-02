@@ -18,7 +18,14 @@ src/
                     # owns the vertical rhythm (gap-20 / lg:gap-[120px], pb before
                     # footer) per the .pen Main artboard; sections carry no mb-*
     globals.css     # Tailwind import, theme tokens, custom utilities (see design.md)
-    icon.png        # Favicon
+    icon.png        # Favicon — app icons from the .pen icon family (design/
+                    # arvi-brand-ui.pen, frame "Website icon assets — Alert
+                    # day", node nvy4Z; 2026-11-03 owner pass): icon.png 512
+                    # (from android-chrome-512, rjbaC), icon2/3/4.png 48/32/16
+                    # (xXevm/qBIRb/sdfYm), apple-icon.png 180 (rPGe8) — all
+                    # exported 1:1 at scale 1, gold ground #E9B63C + mark
+                    # #3F2411. File conventions auto-emit the <link>s; no
+                    # favicon.ico, no manifest
     actions/
       contact.ts    # 'use server' sendContactMessage(prev, formData) — contact form
                     # endpoint: rate limit → time trap → honeypot → sanitize →
@@ -335,4 +342,4 @@ public/
 - Techstack SVG filenames are lowercase, `-` for non-alphanumeric characters (`react-router.svg`, `next-js.svg`).
 - Projects are webp, `object-cover`, `fill` + explicit `sizes`.
 
-<!-- verified against: 1f0d58cd824dfc2c9adab0aa2246ce2bcb1f7ebc + working tree, 2026-11-03 (hero mirrors the md look from 600px until sm; dvh-fill packing scoped below 600px) -->
+<!-- verified against: 1f0d58cd824dfc2c9adab0aa2246ce2bcb1f7ebc + working tree, 2026-11-03 (hero mirrors the md look from 600px until sm; dvh-fill packing scoped below 600px; app icon family replaced from the .pen icon assets frame nvy4Z — icon.png 512 / icon2-4 48-32-16 / apple-icon 180) -->
