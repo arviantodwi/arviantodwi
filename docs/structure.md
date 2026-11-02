@@ -62,18 +62,35 @@ src/
                     # placement right from 600px (sm: viewport x318/top11, md:
                     # x415/top25, bleeding off the right edge); lg rows a 484px
                     # portrait flush right in a 640px hero. Name type 76px below lg,
-                    # 112px from lg; 3 stats at every width (row gap 20 at lg)
-      About.tsx     # Bio paragraphs via SegmentedText, .about-box-accent headline,
-                    # left-aligned CV CTA button (ui/Button + IconArrowUpRight);
+                    # 112px from lg. Hero fills the viewport below the fixed
+                    # topbar at uSM (min-h calc(100dvh - 92px)); copy packs to
+                    # the hero bottom (justify end, 32px min gap). Hero pads
+                    # pt-0 pb-12 below sm (48px → 88px to the About heading),
+                    # pb-0 from sm; photo fully opaque at uSM, centered, top
+                    # 0, hero box open. Body rhythm 72px at uSM, 40 from sm,
+                    # 80 lg, 120 xl. 3 stats in one row every width (gap 16
+                    # at uSM, 32 from sm, 20 at lg); only sm+ keeps pb-0
+      About.tsx     # Bio paragraphs via SegmentedText, .about-box-accent headline;
+                    # CV CTA button (ui/Button + IconArrowUpRight) centered on uSM,
+                    # left from sm; greeting 'Hi, buddy.' (en) above the headline;
                     # side-by-side from lg (headline col shrink-0 + bio, 72px gap);
-                    # sm/md 24px margin extends the Hero → About gap to 64px
-      TechStack.tsx # Heading + subline via SegmentedText + ToolsMarquee
+                    # sm/md 24px margin extends the Hero → About gap to 64px;
+                    # uSM: bio gap 24, gold box per PeTso (2026-11-02): square
+                    # pinned left 132px, w 161.5/h 155, one composition for
+                    # uSM/SM/MD (legacy carriers from lg), bio gap reservation,
+                    # pt 38 rows at uSM, lh 1.25, stroke 2px (owner override);
+                    # right-border strip EN-only below lg (ID: max-lg:hidden)
+      TechStack.tsx # Heading + subline via SegmentedText + ToolsMarquee (uSM: rows
+                    # h-9, heading→rows 48, per the 2026-11-02 pen pass)
       AiWorkflow.tsx # AI-native — Connected Workflow (Figma node 699-419): 48px two-tone
                      # headline + intro; 3 stage cols from lg (PLAN/DESIGN/DEVELOP, Antonio
-                     # 26px + 24px custom icon from ui/icons.tsx); below lg stages stack
-                     # vertically, at md/sm each stage row is horizontal (narrative ∥
-                     # artwork, equal halves, 24px gap); toolkit row side-by-side from
-                     # lg (320px desc + logos wrapping 2×2 at lg, single row at xl)
+                     # 26px + 24px custom icon from ui/icons.tsx); stage rows are
+                     # horizontal (narrative ∥ artwork, equal halves, 24px gap) from sm
+                     # (@SM artboard mpHpG 2026-11-02), stacked below sm; toolkit row
+                     # side-by-side from lg (centered label + logos wrapping 2×2 at lg,
+                     # single row at xl, label left in the 320px column); uSM+SM tighten:
+                     # block joints 32, stage gap 16, title→desc 4 (uSM), centered toolkit
+                     # label below md (desc leading 22, headline tracking −0.048em)
                      # + closing thought row; card shells are code (bg/border
                      # per design); PLAN + DESIGN render animated inline SVG via
                      # ui/PlanIllustration / ui/DesignIllustration (7.2s scenery loops);
@@ -129,7 +146,8 @@ src/
                     # design's wordmark is a wider cut, reuse approved, copyright,
                     # LangSwitcher) | IN PAGE + SOCIAL link categories: equal columns
                     # at 600–1023px below the brand; desktop brand/link row begins
-                    # at lg (details in design.md) masts (hairline rows, ↗ on
+                    # at lg (details in design.md) masts (full-width below 600px
+                    # per pen WYfOW 2026-11-02; hairline rows, ↗ on
                     # external links only; anchors
                     # #about/#human-ai/#portfolio/#testimonials/#contact, section
                     # ids set on each section). Labels in dictionaries

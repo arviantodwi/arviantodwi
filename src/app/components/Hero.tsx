@@ -26,11 +26,15 @@ export const Hero: FC<Props> = ({ dict }) => {
   const { hero } = dict;
 
   return (
-    <Section className="relative overflow-hidden pt-6 pb-0 min-[600px]:overflow-visible min-[1440px]:gap-[200px] sm:pt-8 md:pt-12 lg:h-[640px] lg:pt-0 xl:flex xl:h-[700px] xl:items-start xl:justify-between xl:gap-8">
-      {/* Copy column: headline block + stats, vertically centered against
-          the photo at lg/xl (pen "Hero Copy": 478px, centered, gap 56;
-          lg hero box 640, xl 700). */}
-      <div className="flex flex-col gap-12 lg:h-[640px] lg:w-[478px] lg:shrink-0 lg:justify-center lg:gap-14 xl:h-full">
+    <Section className="relative overflow-visible pt-0 pb-12 max-sm:flex max-sm:min-h-[calc(100dvh-92px)] max-sm:flex-col min-[1440px]:gap-[200px] sm:pt-8 sm:pb-0 md:pt-12 lg:h-[640px] lg:pt-0 xl:flex xl:h-[700px] xl:items-start xl:justify-between xl:gap-8">
+      {/* Copy column: headline block + stats. At uSM the hero fills the
+          viewport below the fixed topbar (100dvh - 92px, the topbar's
+          initial height); the copy packs to its bottom (pen "Hero Copy":
+          justify end, 32px min gap) with the stats row last, pad 0 top /
+          48 bottom (pen Hero pad [0,0,48,0]) — 88px from stats to the
+          About heading with the body gap. Vertically centered against the
+          photo at lg/xl (pen: 478px, gap 56; lg hero box 640, xl 700). */}
+      <div className="flex flex-col gap-8 max-sm:grow max-sm:justify-end sm:gap-12 lg:h-[640px] lg:w-[478px] lg:shrink-0 lg:justify-center lg:gap-14 xl:h-full">
         <div className="flex flex-col gap-6 sm:max-w-3/4">
           {/* Mobile: the topbar has no room for the status pill, so it
               anchors above the name (sm+ keeps it in the topbar). Variant
@@ -58,8 +62,9 @@ export const Hero: FC<Props> = ({ dict }) => {
         </div>
 
         {/* 3 stats at every width (pen: they fit 375px — 263px + gaps;
-            wrap only below 375). Row gap 20 at lg, 32 elsewhere (pen). */}
-        <div className="flex flex-wrap items-start gap-8 lg:gap-5 xl:gap-8">
+            wrap only below 375). Row gap 16 at uSM, 32 from sm, 20 at lg
+            (pen @under-SM gap 16; sm+ unchanged). */}
+        <div className="flex flex-wrap items-start gap-4 sm:gap-8 lg:gap-5 xl:gap-8">
           <Statistic
             text={statText(hero.stats.projects)}
             value={128}
@@ -79,38 +84,29 @@ export const Hero: FC<Props> = ({ dict }) => {
       </div>
 
       {/* Photo: absolute below lg. Base (375–599): horizontally centered on
-          the viewport, top 116px, behind the name/role at 0.33 — clipped to
-          the hero box (pen Hero frame clip). From 600px it flips to the sm
-          placement (content x 286 → viewport 318, top 11) at full opacity
-          and the clip becomes horizontal-only, letting the photo run past
-          the hero bottom behind the About (pen @SM/@MD) and bleed off the
-          right viewport edge. At md it shifts right (viewport 415, top 25,
-          84px right bleed). At lg: 484px wide, flush to the viewport right,
-          top 0 — 726px tall, overflowing ~86px past the 640px hero into the
-          About gap. From xl the positioned, in-flow wrapper contains Image
-          fill and shrinks with the row (min 32px gap); from 1440px it keeps
-          the artboard's fixed 584×877 (D9 pen-exact row, gap 200). */}
-      {/* Photo: absolute below lg. Base (375–599): horizontally centered on
-          the viewport, top 116px, behind the name/role at 0.33 — clipped to
-          the hero box (pen Hero frame clip). From 600px it flips to full
-          opacity, the box opens (photo runs past the hero bottom behind the
-          About) and the photo bleeds 115px off the right viewport edge —
-          traveling with the resize ONLY until 672px (owner rule): after that
-          it freezes at viewport x 350 (the exact position it carries at
-          672; the sm shell spans the viewport, so left-in-element =
-          left-in-document). From md that same `left-[350px]` keeps the
-          freeze at the 768 boundary (owner: no jump; the pen @MD x415/y25
-          is waived) and the photo then rides the capped container as the
-          margins grow, fading the bleed out. The root overflow-x clip rules
-          the horizontal bleed and the scroll ban.
+          the viewport, fully opaque (2026-11-01 pen adjustment — the 0.33
+          dim is gone). top 0 with the hero box open (no clip — the pen
+          @under-SM y −53.69 can't be shown above the artboard edge, so the
+          face starts flush at the hero top, just under the topbar) — the
+          437×656 box runs ~81px past the dvh hero bottom behind the About.
+          From 600px it flips to the sm placement (viewport x 318, top 11),
+          the photo bleeds 115px off the right viewport edge — traveling
+          with the resize ONLY until 672px (owner rule): after that it
+          freezes at viewport x 350 (the exact position
+          it carries at 672; the sm shell spans the viewport, so
+          left-in-element = left-in-document). From md that same
+          `left-[350px]` keeps the freeze at the 768 boundary (owner: no
+          jump; the pen @MD x415/y25 is waived) and the photo then rides the
+          capped container as the margins grow, fading the bleed out. The
+          root overflow-x clip rules the horizontal bleed and the scroll ban.
           At lg: 484px wide, flush to the container right at top 0 — 726px
           tall, overflowing ~86px past the 640px hero into the About gap.
           From xl the positioned, in-flow wrapper contains Image fill and
           shrinks with the row (min 32px gap); from 1440px it keeps the
           artboard's fixed 584×877 (D9 pen-exact row, gap 200). */}
-      <div className="absolute top-[116px] left-1/2 -z-10 aspect-[584/877] w-[437px] -translate-x-1/2 opacity-[0.33] min-[600px]:left-auto min-[600px]:translate-x-0 min-[600px]:opacity-100 min-[600px]:max-[672px]:top-[11px] min-[600px]:max-[672px]:right-[-115px] min-[672px]:max-md:top-[11px] min-[672px]:max-md:right-auto min-[672px]:max-md:left-[350px] md:max-lg:top-[11px] md:max-lg:left-[350px] lg:top-0 lg:right-0 lg:w-[484px] xl:relative xl:inset-auto xl:w-[584px] xl:min-w-0">
+      <div className="absolute top-0 left-1/2 -z-10 aspect-[584/877] w-[437px] -translate-x-1/2 min-[600px]:top-[11px] min-[600px]:left-auto min-[600px]:translate-x-0 min-[600px]:max-[672px]:top-[11px] min-[600px]:max-[672px]:right-[-115px] min-[672px]:max-md:top-[11px] min-[672px]:max-md:right-auto min-[672px]:max-md:left-[350px] md:max-lg:top-[11px] md:max-lg:left-[350px] lg:top-0 lg:right-0 lg:w-[484px] xl:relative xl:inset-auto xl:w-[584px] xl:min-w-0">
         <Image
-          src="/photo.png"
+          src="/photo.avif"
           fill
           priority
           sizes="(min-width: 1280px) 584px, (min-width: 1024px) 484px, 437px"

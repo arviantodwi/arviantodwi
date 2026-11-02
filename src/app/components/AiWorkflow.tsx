@@ -68,9 +68,9 @@ const TOOL_LOGOS = [
   { name: 'Gemini', src: '/techstack/ai/gemini.svg' },
 ];
 
-/** Responsive sizes for the 3-up (lg) / md half (md) / stacked stage illustrations. */
+/** Responsive sizes for the 3-up (lg) / SM+md half / stacked stage illustrations. */
 const IMAGE_SIZES =
-  '(max-width: 639px) calc(100vw - 48px), (max-width: 767px) calc(100vw - 64px), (max-width: 1023px) 324px, (max-width: 1279px) 272px, 373px';
+  '(max-width: 639px) calc(100vw - 48px), (max-width: 767px) calc((100vw - 88px)/2), (max-width: 1023px) 324px, (max-width: 1279px) 272px, 373px';
 
 export const AiWorkflow: FC<Props> = ({ dict }) => {
   const { aiWorkflow } = dict;
@@ -82,10 +82,13 @@ export const AiWorkflow: FC<Props> = ({ dict }) => {
           gutters — nested shells would double-pad (D1). Block pad stays 0
           at every width: the body gap is the rhythm; only Tech
           Stack/Portfolio keep their block padding. */}
-      <div className="flex flex-col gap-14">
+      {/* AI-native joints per pen: 32px at uSM (@under-SM 2026-11-02) and SM
+          (@SM artboard mpHpG 2026-11-02 — the previous waiver of this tier is
+          lifted); from md the legacy 56px rhythm applies (@MD = pen). */}
+      <div className="flex flex-col gap-14 max-sm:gap-8 sm:max-md:gap-8">
         {/* Headline + intro */}
         <div className="flex flex-col gap-4">
-          <h2 className="font-general text-[40px] leading-[1.125] font-semibold tracking-[-0.04em] md:text-[48px] md:leading-[60px]">
+          <h2 className="font-general text-[40px] leading-[1.125] font-semibold tracking-[-0.04em] max-md:tracking-[-0.048em] md:text-[48px] md:leading-[60px]">
             {headline[0]}
             <br />
             <span className="text-gold font-bold">{headline[1]}</span>
@@ -95,17 +98,18 @@ export const AiWorkflow: FC<Props> = ({ dict }) => {
           </p>
         </div>
 
-        {/* Workflow stages: 3-col grid from lg; single stacked column below.
-            At md/sm (600–1023) each stage row is horizontal — narrative left,
-            artwork right, equal halves with a 24px gap (artwork height follows
-            the 373:132 ratio of its half width). Vertical stage below md. */}
-        <div className="flex flex-col gap-10 lg:grid lg:grid-cols-3">
+        {/* Workflow stages: 3-col grid from lg; horizontal rows from sm —
+            narrative left, artwork right, equal halves with a 24px gap
+            (@SM artboard mpHpG 2026-11-02; was md-only before, @MD identical
+            classes → no md drift; artwork height follows the 373:132 ratio of
+            its half width). Vertical stage below md. */}
+        <div className="flex flex-col gap-10 max-sm:gap-8 lg:grid lg:grid-cols-3">
           {STAGES.map((stage) => (
             <div
-              className="flex flex-col gap-5 md:max-lg:flex-row md:max-lg:items-start md:max-lg:gap-6"
+              className="flex flex-col gap-5 max-sm:gap-4 sm:max-lg:flex-row sm:max-lg:items-start sm:max-lg:gap-6"
               key={stage.key}
             >
-              <div className="flex flex-col gap-3 md:max-lg:min-w-0 md:max-lg:flex-1">
+              <div className="flex flex-col gap-3 max-sm:gap-1 sm:max-lg:min-w-0 sm:max-lg:flex-1">
                 <div className="flex items-center gap-2">
                   <h3 className="font-headline text-[26px] font-semibold tracking-[-0.02em] whitespace-nowrap uppercase">
                     {stage.title}
@@ -115,10 +119,12 @@ export const AiWorkflow: FC<Props> = ({ dict }) => {
                     return <StageIcon size={24} className="text-white select-none" />;
                   })()}
                 </div>
-                <p className="font-general text-sm opacity-75">{stages[stage.key].description}</p>
+                <p className="font-general text-sm opacity-75 max-md:leading-[22px]">
+                  {stages[stage.key].description}
+                </p>
               </div>
               <div
-                className={`overflow-hidden border md:max-lg:min-w-0 md:max-lg:flex-1 ${stage.shell}`}
+                className={`overflow-hidden border sm:max-lg:min-w-0 sm:max-lg:flex-1 ${stage.shell}`}
               >
                 {(() => {
                   const Animated = ANIMATED_ILLUSTRATION[stage.key];
@@ -149,7 +155,7 @@ export const AiWorkflow: FC<Props> = ({ dict }) => {
         <div className="flex flex-col gap-7">
           <div className="h-px bg-[#292929]" />
           <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:gap-[60px]">
-            <p className="font-general w-full text-base font-medium lg:w-[320px] lg:shrink-0">
+            <p className="font-general w-full text-base font-medium max-sm:text-center sm:max-md:text-center lg:w-[320px] lg:shrink-0">
               <SegmentedText segments={toolkit} />
             </p>
             {/* Below sm: 2-column grid with left-aligned, natural-size logos.
