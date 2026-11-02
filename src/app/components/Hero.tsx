@@ -106,7 +106,7 @@ export const Hero: FC<Props> = ({ dict }) => {
           artboard's fixed 584×877 (D9 pen-exact row, gap 200). */}
       <div className="absolute top-0 left-1/2 -z-10 aspect-[584/877] w-[437px] -translate-x-1/2 min-[600px]:top-[11px] min-[600px]:left-auto min-[600px]:translate-x-0 min-[600px]:max-[672px]:top-[11px] min-[600px]:max-[672px]:right-[-115px] min-[672px]:max-md:top-[11px] min-[672px]:max-md:right-auto min-[672px]:max-md:left-[350px] md:max-lg:top-[11px] md:max-lg:left-[350px] lg:top-0 lg:right-0 lg:w-[484px] xl:relative xl:inset-auto xl:w-[584px] xl:min-w-0">
         <Image
-          src="/photo.png"
+          src="/photo.avif"
           fill
           priority
           sizes="(min-width: 1280px) 584px, (min-width: 1024px) 484px, 437px"

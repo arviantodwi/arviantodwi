@@ -100,11 +100,13 @@ export const Footer: FC<Props> = ({ dict, locale }) => {
           aria-hidden="true"
           className="pointer-events-none absolute inset-x-0 -top-[395px] bottom-0 z-0 flex flex-col"
         >
-          {/* Golden ambience — neon aurora (aIybe): natural 1886×672 asset,
-              exported @2x from the .pen with its 0.6 opacity and blur bleed
-              baked in, at full design width. */}
+          {/* Golden ambience — neon aurora (aIybe): 1886×674 @1x AVIF export
+              (q50) of the blurred .pen art, opacity + blur bleed baked in, at
+              full design width. `sizes="100vw"` avoids the optimizer's
+              default-width bloat; the 2026-11-02 mobile-load fix (was a 1.4MB
+              PNG @2x). */}
           <div aria-hidden="true" className="relative h-[231px] w-full shrink-0">
-            <Image src="/footer-aurora.png" fill objectFit="cover" alt="" />
+            <Image src="/footer-aurora.avif" fill sizes="100vw" objectFit="cover" alt="" />
           </div>
           {/* GcP61 — the absolute background: 40%-black ground + hairline top
               border + glass blur, filling from the aurora strip's bottom edge
