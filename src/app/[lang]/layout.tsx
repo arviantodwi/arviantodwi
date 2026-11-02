@@ -1,6 +1,6 @@
-import type { Metadata } from 'next';
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
+import type { Metadata } from 'next';
 import { Antonio, Plus_Jakarta_Sans } from 'next/font/google';
 import { notFound } from 'next/navigation';
 import { getDictionary, hasLocale, locales } from '../lib/i18n';

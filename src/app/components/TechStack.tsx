@@ -1,10 +1,8 @@
-import dynamic from 'next/dynamic';
 import type { FC } from 'react';
 import type { Dictionary } from '@/app/lib/i18n/types';
 import { Section } from './ui/Section';
 import { SegmentedText } from './ui/SegmentedText';
-
-const ToolsMarquee = dynamic(() => import('./ui/ToolsMarquee').then((mod) => mod.ToolsMarquee));
+import { ToolsMarquee } from './ui/ToolsMarquee';
 
 interface Props {
   dict: Dictionary;

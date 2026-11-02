@@ -98,6 +98,36 @@ body {
 
 /* Status-dot radiating ping (AvailabilityStatus). */
 
+/* TechStack marquee — pure CSS loop (2026-11-02 mobile-load fix, replaced
+   react-fast-marquee's RAF player). Each `.marquee-row` holds its stack
+   rendered twice inside `.marquee-track`; sliding one duplicate width
+   (-50%) loops seamlessly. Duration set for ~85px/s like the old player's
+   default. Row 2 runs rightward via `data-reverse`. Composited on the
+   GPU (will-change), paused for reduced motion. */
+.marquee-track {
+  display: flex;
+  align-items: center;
+  width: max-content;
+  will-change: transform;
+  animation: marquee-slide 45s linear infinite;
+}
+.marquee-row[data-reverse] .marquee-track {
+  animation-direction: reverse;
+}
+@keyframes marquee-slide {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+  }
+}
+
 /* TechStack marquee edge fade: a mask (not an opaque paint-over) so the
    glow/background stays continuous behind the rows — the player's own
    `gradient` prop drew a solid #040404 patch that stood out against the

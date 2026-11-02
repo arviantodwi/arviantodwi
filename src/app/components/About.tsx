@@ -20,7 +20,10 @@ export const About: FC<Props> = ({ locale, dict }) => {
      the hero carries pb-12. No negative margins — the photo runs behind
      the About since the hero no longer clips it. */
   return (
-    <Section id="about" className="sm:max-lg:mt-6">
+    <Section
+      id="about"
+      className="[contain-intrinsic-size:auto_1700px] [content-visibility:auto] sm:max-lg:mt-6"
+    >
       <article className="font-general flex flex-col gap-10 max-sm:gap-6 lg:flex-row lg:gap-[72px]">
         <div className="about-box-accent relative max-w-fit pt-[51px] text-4xl font-bold max-sm:pt-[38px] max-sm:leading-[1.25] max-sm:tracking-[0.4px] lg:shrink-0 lg:text-[40px]">
           <div aria-hidden="true" className="about-row-blur about-row-blur--left-row1" />
