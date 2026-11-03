@@ -15,12 +15,12 @@ export const idDictionary: Dictionary = {
   },
   hero: {
     rolePrefix: 'Front End Developer &',
-    roles: ['Penggemar TypeScript', 'Ahli Visual', 'Trader Harian', 'Bapak-bapak Kocak'],
+    roles: ['Spesialis React', 'UI Engineer', 'AI-native', 'Pemikir praktis', 'Trader pemula'],
     location: 'Yogyakarta, Indonesia',
     stats: {
       projects: { short: 'Proyek selesai', long: 'Proyek selesai' },
       tools: { short: 'Tools dikuasai', long: 'Tools dikuasai' },
-      years: { short: 'Tahun pengalaman', long: 'Tahun pengalaman' },
+      years: { short: 'Tahun berkarya', long: 'Tahun berkarya' },
     },
     photoAlt: 'Foto Arvianto',
   },
@@ -96,22 +96,22 @@ export const idDictionary: Dictionary = {
       { text: 'Kumpulan perangkat AI ini membantu saya ', tone: 'dim' },
       { text: 'mengurangi pekerjaan repetitif ' },
       { text: 'dan ', tone: 'dim' },
-      { text: 'lebih banyak ruang untuk berkarya!' },
+      { text: 'memberikan lebih banyak ruang untuk berkarya!' },
     ],
   },
   portfolio: {
     tagline: {
       muted: 'Tantangan yang berbeda-beda.',
-      plain: 'Perhatian yang sama pada pengalaman.',
+      plain: 'Ketelitian yang sama pada pengalaman.',
     },
     projects: {
       tours: {
         description:
-          'Eksplorasi, kompetisi, dan penemuan. Pengalaman yang benar-benar mengajak berkarya melampaui layar.',
+          'Eksplorasi, kompetisi, dan penjelajahan. Pengalaman yang benar-benar mengajak untuk bergerak melampaui layar.',
       },
       sports: {
         description:
-          'Rumah bagi pelajaran, podcast, dan webinar. Konten yang kaya, tersaji ramah di setiap layar.',
+          'Rumah bagi pelajaran, siniar (podcast), dan webinar bertema olahraga. Konten beragam tersaji ramah di setiap layar.',
       },
       voice: {
         description:
@@ -136,7 +136,7 @@ export const idDictionary: Dictionary = {
       {
         photo: '/people/profile_logo_24449541.jpg.webp',
         name: 'David Seek',
-        title: 'Mantan Software Engineer di Amazon',
+        title: 'Ex-Senior Software Engineer di Amazon',
         quotes: [
           {
             text: 'Arvi adalah desainer paling berbakat yang pernah saya lihat. Saya sudah bekerja dengan dia di beberapa proyek dan dia ',
@@ -247,7 +247,7 @@ export const idDictionary: Dictionary = {
     },
   },
   contact: {
-    heading: 'Mari wujudkan proyek impian kamu!',
+    heading: 'Mari wujudkan proyek impianmu!',
     prompt: 'Saya tertarik dengan...',
     choices: [
       { id: 'design', label: 'Desain UI/UX' },
@@ -259,7 +259,7 @@ export const idDictionary: Dictionary = {
     placeholders: {
       name: 'Nama kamu',
       /** {min}/{max} diisi dari LIMITS saat render (mis. "(2–100 karakter)"). */
-      nameRange: '({min}–{max} karakter)',
+      nameRange: '({min}-{max} karakter)',
       email: 'Email kamu',
       message:
         'Tulis apa pun yang ingin kamu sampaikan. Saya membaca 100% pesan yang masuk agar percakapan kita berlanjut.',
@@ -268,18 +268,18 @@ export const idDictionary: Dictionary = {
     submitting: 'Mengirim...',
     cancel: 'Batal',
     successHeading: 'Pesan terkirim!',
-    successSubtext: 'Saya akan segera membalas.',
+    successSubtext: 'Saya akan membalasnya sesegera mungkin.',
     errors: {
-      name: 'Mohon isi nama kamu.',
-      email: 'Mohon isi alamat email kamu.',
-      emailInvalid: 'Mohon isi alamat email yang valid.',
-      message: 'Mohon tulis pesan kamu.',
+      name: 'Yuk, isi nama kamu dulu.',
+      email: 'Bisa isi alamat email kamu di sini?',
+      emailInvalid: 'Tolong isi alamat email yang valid, ya!',
+      message: 'Tulis pesan kamu. Kalau kosong, apa yang mau kita obrolin?',
       messageTooShort: 'Pesan terlalu pendek, minimal {min} karakter.',
       messageTooLong: 'Pesan tidak bisa lebih dari {max} karakter.',
-      tooFast: 'Terlalu cepat! Mohon sejenak dan coba lagi.',
-      rateLimited: 'Terlalu banyak pesan dari pihak kamu. Mohon coba lagi nanti.',
-      sendFailed: 'Terjadi kesalahan saat mengirim pesan kamu. Mohon coba lagi.',
-      missingConfig: 'Formulir belum dikonfigurasi. Silakan hubungi saya langsung melalui email.',
+      tooFast: 'Terlalu cepat! Tunggu dulu sebentar dan coba lagi.',
+      rateLimited: 'Terlalu banyak pesan yang dikirim dari kamu. Coba lagi nanti, ya.',
+      sendFailed: 'Terjadi kesalahan saat mengirim pesan kamu. Bisa dicoba lagi?',
+      missingConfig: 'Form ini belum dikonfigurasi. Kamu bisa hubungi saya langsung melalui email.',
     },
   },
 };

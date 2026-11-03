@@ -15,7 +15,7 @@ export const enDictionary: Dictionary = {
   },
   hero: {
     rolePrefix: 'Front End Developer &',
-    roles: ['TypeScript Enthusiast', 'Wizard of Screens', 'Intraday Trader', 'Humorous Dad'],
+    roles: ['React specialist', 'UI Engineer', 'AI-native', 'Practical thinker', 'Beginner Trader'],
     location: 'Yogyakarta, Indonesia',
     stats: {
       projects: { short: 'Projects done', long: 'Projects done' },
@@ -107,7 +107,7 @@ export const enDictionary: Dictionary = {
       },
       sports: {
         description:
-          'A home for lessons, podcasts and webinars. Rich content, made approachable on every screen.',
+          'A home for sport-themed lessons, podcasts and webinars. Rich content, made approachable on every screen.',
       },
       voice: {
         description:
@@ -115,7 +115,7 @@ export const enDictionary: Dictionary = {
       },
       vehicle: {
         description:
-          'From route overview to delivery details, a connected experience for keeping every vehicle’s journey in view.',
+          "From route overview to delivery details, a connected experience for keeping every vehicle's journey in view.",
       },
       charity: {
         description:
@@ -255,7 +255,7 @@ export const enDictionary: Dictionary = {
     placeholders: {
       name: 'Your name',
       /** {min}/{max} filled from LIMITS at render (e.g. "(2–100 characters)"). */
-      nameRange: '({min}–{max} characters)',
+      nameRange: '({min}-{max} characters)',
       email: 'Your email',
       message:
         'Write whatever you want to tell me. I read 100% of messages to keep our conversation going.',
@@ -267,9 +267,9 @@ export const enDictionary: Dictionary = {
     successSubtext: "I'll get back to you soon.",
     errors: {
       name: 'Please enter your name.',
-      email: 'Please enter your email address.',
-      emailInvalid: 'Please enter a valid email address.',
-      message: 'Please write a message.',
+      email: 'Could you enter your email address here?',
+      emailInvalid: 'Could you enter a valid email address, please?',
+      message: 'Go ahead and write a message. What would we chat about otherwise?',
       messageTooShort: 'Message is too short, at least {min} characters.',
       messageTooLong: 'Message cannot be more than {max} characters.',
       tooFast: 'Too fast! Please take a moment and try again.',
