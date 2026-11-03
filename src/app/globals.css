@@ -933,3 +933,153 @@ body {
     animation: none;
   }
 }
+
+/* PROTOTYPE (button spec, 2026-11-04) — throwaway, lives on the prototype
+   branch. Loading shimmer sweep for the frost-glass button variant only;
+   the class and keyframes go away with the prototype folder. */
+.proto-shimmer {
+  background: linear-gradient(
+    100deg,
+    transparent 30%,
+    color-mix(in oklab, currentColor 18%, transparent) 50%,
+    transparent 70%
+  );
+  background-size: 250% 100%;
+  animation: proto-shimmer 1.4s linear infinite;
+}
+
+@keyframes proto-shimmer {
+  from {
+    background-position: 150% 0;
+  }
+
+  to {
+    background-position: -50% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .proto-shimmer {
+    animation: none;
+  }
+}
+
+/* PROTOTYPE (button spec) — variant D's loader: a 20px morphogram on a
+   shared 2.8s timeline (each dot's corners arrive via --ax/--ay/--bx/--by,
+   4px dots, ±5px corner travel → 3px inner margin):
+   beat 1 rests one fuller center square (scale 1.4 = merged mass), beat 2
+   bursts to the corners with a soft overshoot, beat 3 chases one corner
+   clockwise while morphing square → circle (swelling at midpoint), beat 4
+   collapses back to the fuller center circle, beat 5 bounces twice with
+   floor squash and damped second drop (+5px → +3px), beat 6 eases circle
+   back to square with a 1.05× pop (the design-core idiom) — rest, loop. */
+.proto-morph-dot {
+  animation: proto-morph 2.8s linear infinite;
+}
+
+@keyframes proto-morph {
+  /* Beat 1: merged center square rests; subtle anticipation before burst. */
+  0%,
+  4% {
+    animation-timing-function: ease-in;
+    transform: translate(0, 0) scale(1.4);
+    border-radius: 0;
+  }
+
+  6% {
+    animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+    transform: translate(0, 0) scale(1.25);
+    border-radius: 0;
+  }
+
+  /* Beat 2: burst to tl/tr/br/bl with a 10% overshoot, then settle. */
+  15% {
+    animation-timing-function: ease-out;
+    transform: translate(calc(var(--ax) * 1.12), calc(var(--ay) * 1.12)) scale(1);
+    border-radius: 0;
+  }
+
+  20%,
+  24% {
+    animation-timing-function: cubic-bezier(0.45, 0.05, 0.55, 0.95);
+    transform: translate(var(--ax), var(--ay)) scale(1);
+    border-radius: 0;
+  }
+
+  /* Beat 3: 1st→2nd, 2nd→3rd, 3rd→4th, 4th→1st — plus square → circle,
+     with a soft breath at the midpoint of the walk. */
+  34% {
+    animation-timing-function: cubic-bezier(0.45, 0.05, 0.55, 0.95);
+    transform: translate(calc((var(--ax) + var(--bx)) / 2), calc((var(--ay) + var(--by)) / 2))
+      scale(1.15);
+    border-radius: 30%;
+  }
+
+  44%,
+  50% {
+    animation-timing-function: cubic-bezier(0.45, 0.05, 0.55, 0.95);
+    transform: translate(var(--bx), var(--by)) scale(1);
+    border-radius: 50%;
+  }
+
+  /* Beat 4: corners collapse to center, merging into a fuller circle. */
+  61% {
+    animation-timing-function: ease-out;
+    transform: translate(0, 0) scale(1.5);
+    border-radius: 50%;
+  }
+
+  63% {
+    animation-timing-function: cubic-bezier(0.55, 0.085, 0.68, 0.53);
+    transform: translate(0, 0) scale(1.4);
+    border-radius: 50%;
+  }
+
+  /* Beat 5: damped double bounce as a circle — first impact drops +drop1
+     with floor squash, second drops +drop2 (lost energy) with gentler squash. */
+  70% {
+    animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transform: translate(0, var(--drop1, 5px)) scale(1.65, 1.1);
+    border-radius: 50%;
+  }
+
+  77% {
+    animation-timing-function: cubic-bezier(0.55, 0.085, 0.68, 0.53);
+    transform: translate(0, 0) scale(1.35, 1.45);
+    border-radius: 50%;
+  }
+
+  83% {
+    animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transform: translate(0, var(--drop2, 3px)) scale(1.5, 1.22);
+    border-radius: 50%;
+  }
+
+  /* Beat 6: rise home, ease circle → square with a 1.05× pop (design-core),
+     then settle on beat 1's exact frame so the restart is invisible. */
+  89% {
+    animation-timing-function: cubic-bezier(0.45, 0.05, 0.55, 0.95);
+    transform: translate(0, 0) scale(1.4);
+    border-radius: 50%;
+  }
+
+  95% {
+    animation-timing-function: ease-out;
+    transform: translate(0, 0) scale(1.48);
+    border-radius: 0;
+  }
+
+  98%,
+  100% {
+    transform: translate(0, 0) scale(1.4);
+    border-radius: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .proto-morph-dot {
+    animation: none;
+    transform: translate(0, 0) scale(1.4);
+    border-radius: 0;
+  }
+}
