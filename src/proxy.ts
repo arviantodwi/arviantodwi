@@ -36,16 +36,6 @@ function getSelectedLocale(request: NextRequest): string | undefined {
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  /* PROTOTYPE (button spec, 2026-11-04) — canonical dev entry for the
-     throwaway button route (`[lang]/prototype-button`): `/en` prefixes
-     canonicalize away below, so an unprefixed prototype URL would 404.
-     Dev only; removed together with the prototype folder. */
-  if (process.env.NODE_ENV !== 'production' && pathname === '/prototype-button') {
-    const url = new URL('/en/prototype-button', request.url);
-    url.search = request.nextUrl.search;
-    return NextResponse.rewrite(url);
-  }
-
   // A prefixed default locale is canonicalized to the unprefixed URL.
   if (pathname === `/${DEFAULT_LOCALE}` || pathname.startsWith(`/${DEFAULT_LOCALE}/`)) {
     return NextResponse.redirect(

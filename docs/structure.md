@@ -81,7 +81,7 @@ src/
                     # 80 lg, 120 xl. 3 stats in one row every width (gap 16
                     # at uSM, 32 from sm, 20 at lg); only sm+ keeps pb-0
       About.tsx     # Bio paragraphs via SegmentedText, .about-box-accent headline;
-                    # CV CTA button (ui/Button + IconArrowUpRight) centered on uSM,
+                    # CV CTA button (ui/Button structured label + icon) centered on uSM,
                     # left from sm; greeting 'Hi, buddy.' (en) above the headline;
                     # side-by-side from lg (headline col shrink-0 + bio, 72px gap);
                     # sm/md 24px margin extends the Hero → About gap to 64px;
@@ -167,8 +167,9 @@ src/
                                 # only below sm; fixed containers from md — 672/896/1200 content;
                                 # topbar caps the same way; root overflow-x clip kills page
                                 # hscroll. `as` + className overrides
-        Button.tsx              # Server-compatible button/<a> hybrid; variant 'primary' = gold fill,
-                                # dark text; children compose label + trailing icon
+        Button.tsx              # Server-compatible button/<a> hybrid; sharp glass (variant D):
+                                # structured label/icon/iconOnly content, morphogram loading,
+                                # exports ButtonFrame + LoaderSlot (custom-loader escape hatch)
         Input.tsx               # Underline text field (server-compatible): full native input
                                 # passthrough (text/email/number/password/…); idle #292929,
                                 # focus-empty white/65, typed → gold line, error #ed5440
@@ -342,4 +343,4 @@ public/
 - Techstack SVG filenames are lowercase, `-` for non-alphanumeric characters (`react-router.svg`, `next-js.svg`).
 - Projects are webp, `object-cover`, `fill` + explicit `sizes`.
 
-<!-- verified against: 1f0d58cd824dfc2c9adab0aa2246ce2bcb1f7ebc + working tree, 2026-11-03 (hero mirrors the md look from 600px until sm; dvh-fill packing scoped below 600px; app icon family replaced from the .pen icon assets frame nvy4Z — icon.png 512 / icon2-4 48-32-16 / apple-icon 180) -->
+<!-- verified against: bfe9390 + working tree, 2026-11-04 (ui/Button migrated to the variant D sharp-glass system; About CV CTA uses structured label + icon props) -->

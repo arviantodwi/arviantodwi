@@ -25,6 +25,7 @@ import { Textarea } from '@/app/components/ui/Textarea';
 import { type ContactInput, isValidEmail, LIMITS } from '@/app/lib/contact/validate';
 import type { Dictionary, Locale } from '@/app/lib/i18n/types';
 import { cx } from '@/app/lib/utils';
+import { ButtonFrame, LoaderSlot } from './ui/Button';
 import { IconCheck } from './ui/icons';
 
 /** Fill a copy template's {min}/{max}; numbers get the locale's thousand separator. */
@@ -447,66 +448,70 @@ export const ContactForm: FC<Props> = ({ dict, locale }) => {
             {/* Send button: idle → (hover) plane bottom-left → counting/submitting
               with plane top-right, flight bob, and trails drawing 2→1→3. Valid
               submit opens the 3s cancel window (bar + Cancel below/behind);
-              dispatch happens only when the window elapses. */}
+              dispatch happens only when the window elapses. Skin: the
+              button rides ui/Button's frame (ButtonFrame) through the
+              custom-loader escape hatch — trigger state-class + persistent
+              plane in a LoaderSlot — so the shared Button's slot-swap
+              morphogram never hosts this choreography. Cursor reads
+              progress while counting (loading prop) and not-allowed dimmed
+              while dispatching (disabled prop). */}
             <div className="flex min-h-[70px] flex-col items-end justify-end gap-6">
               <div className="flex items-center gap-4">
                 {counting && (
-                  <button
-                    type="button"
-                    onClick={cancelSend}
-                    className="border-foreground/70 font-general text-foreground/70 hover:border-foreground hover:text-foreground focus-visible:outline-gold flex h-12 cursor-pointer items-center border px-4 text-base font-bold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2"
-                  >
+                  <ButtonFrame type="button" variant="secondary" size="flush" onClick={cancelSend}>
                     {dict.contact.cancel}
-                  </button>
+                  </ButtonFrame>
                 )}
                 <div className="relative">
-                  <button
+                  <ButtonFrame
                     type="submit"
-                    disabled={counting || pending}
-                    className={cx(
-                      'send-btn group inline-flex h-12 items-center gap-2 bg-gold px-[18px] font-bold font-general text-background text-base transition-opacity focus-visible:outline-2 focus-visible:outline-gold focus-visible:outline-offset-2',
-                      counting
-                        ? 'cursor-progress'
-                        : pending
-                          ? 'cursor-not-allowed'
-                          : 'cursor-pointer hover:opacity-90',
-                      (counting || pending) && 'send-btn--loading',
-                    )}
+                    variant="primary"
+                    size="lg"
+                    loading={counting}
+                    disabled={pending}
+                    className={cx('send-btn', (counting || pending) && 'send-btn--loading')}
                   >
                     {counting || pending ? dict.contact.submitting : dict.contact.submit}
-                    <svg
-                      width={32}
-                      height={32}
-                      viewBox="0 0 32 32"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth={2}
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      aria-hidden="true"
-                    >
-                      <g className="send-fly">
-                        <path className="send-plane" d="M12 6l-4 4 6 6 4-16-18 7 4 2 2 6 3-4" />
-                      </g>
-                      <g transform="translate(7 19.3)">
-                        <path
-                          className="send-trail send-trail--1"
-                          pathLength={1}
-                          d="M5.3 -2.6L1.1 1.7"
-                        />
-                        <path
-                          className="send-trail send-trail--2"
-                          pathLength={1}
-                          d="M8 0L0.4 8.4"
-                        />
-                        <path
-                          className="send-trail send-trail--3"
-                          pathLength={1}
-                          d="M12.5 1.3L7.6 6.6"
-                        />
-                      </g>
-                    </svg>
-                  </button>
+                    {/* Plane rides the loader contract: the 20px slot keeps
+                        the frame's lg footprint (48px), the 32px canvas
+                        draws the flight in the padding air space. The
+                        element persists idle→loading, so the path's state
+                        transform transitions every change. */}
+                    <LoaderSlot slot={20} canvas={32}>
+                      <svg
+                        width={32}
+                        height={32}
+                        viewBox="0 0 32 32"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        aria-hidden="true"
+                      >
+                        <g className="send-fly">
+                          <path className="send-plane" d="M12 6l-4 4 6 6 4-16-18 7 4 2 2 6 3-4" />
+                        </g>
+                        <g transform="translate(7 19.3)">
+                          <path
+                            className="send-trail send-trail--1"
+                            pathLength={1}
+                            d="M5.3 -2.6L1.1 1.7"
+                          />
+                          <path
+                            className="send-trail send-trail--2"
+                            pathLength={1}
+                            d="M8 0L0.4 8.4"
+                          />
+                          <path
+                            className="send-trail send-trail--3"
+                            pathLength={1}
+                            d="M12.5 1.3L7.6 6.6"
+                          />
+                        </g>
+                      </svg>
+                    </LoaderSlot>
+                  </ButtonFrame>
                   {/* 3s cancel-window progress: flat 3px bar, no track, sweeps
                     left→right below the button; gone once dispatch begins. */}
                   {counting && (

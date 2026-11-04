@@ -868,116 +868,16 @@ body {
   }
 }
 
-/* Contact success transition (pen node B2C6cA): the form subtree (radios,
-   divider, fields, send row) fades out and lifts slightly on success; the
-   sent view (badge + heading + subtext, full panel width) rises in after. */
-@keyframes contact-form-exit {
-  from {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-
-  to {
-    opacity: 0;
-    transform: translateY(-8px) scale(0.99);
-  }
+/* BUTTON loader (ui/Button): a 20px morphogram, four 4px dots on a shared
+   2.8s timeline (each dot's corners arrive via --ax/--ay/--bx/--by set by
+   the component, ±5px corner travel → 3px inner margin). Class + keyframes
+   validated on the button-spec prototype (variant D); geometry constants
+   live in ui/Button.tsx. */
+.button-morph-dot {
+  animation: button-morph 2.8s linear infinite;
 }
 
-@keyframes contact-sent-enter {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.contact-form-exit {
-  animation: contact-form-exit 250ms ease forwards;
-}
-
-.contact-sent-enter {
-  animation: contact-sent-enter 350ms ease-out forwards;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .send-btn .send-plane {
-    transition: none;
-  }
-
-  .send-btn.send-btn--loading .send-fly {
-    animation: none;
-  }
-
-  .send-btn--loading .send-trail {
-    animation: none;
-    stroke-dashoffset: 0;
-    opacity: 1;
-  }
-
-  /* Progress is redundant when motion is off — the Cancel trigger + button
-     label carry the state. */
-  .send-progress-bar {
-    display: none;
-  }
-
-  .contact-form-exit {
-    animation: none;
-    opacity: 0;
-  }
-
-  .contact-sent-enter {
-    animation: none;
-  }
-}
-
-/* PROTOTYPE (button spec, 2026-11-04) — throwaway, lives on the prototype
-   branch. Loading shimmer sweep for the frost-glass button variant only;
-   the class and keyframes go away with the prototype folder. */
-.proto-shimmer {
-  background: linear-gradient(
-    100deg,
-    transparent 30%,
-    color-mix(in oklab, currentColor 18%, transparent) 50%,
-    transparent 70%
-  );
-  background-size: 250% 100%;
-  animation: proto-shimmer 1.4s linear infinite;
-}
-
-@keyframes proto-shimmer {
-  from {
-    background-position: 150% 0;
-  }
-
-  to {
-    background-position: -50% 0;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .proto-shimmer {
-    animation: none;
-  }
-}
-
-/* PROTOTYPE (button spec) — variant D's loader: a 20px morphogram on a
-   shared 2.8s timeline (each dot's corners arrive via --ax/--ay/--bx/--by,
-   4px dots, ±5px corner travel → 3px inner margin):
-   beat 1 rests one fuller center square (scale 1.4 = merged mass), beat 2
-   bursts to the corners with a soft overshoot, beat 3 chases one corner
-   clockwise while morphing square → circle (swelling at midpoint), beat 4
-   collapses back to the fuller center circle, beat 5 bounces twice with
-   floor squash and damped second drop (+5px → +3px), beat 6 eases circle
-   back to square with a 1.05× pop (the design-core idiom) — rest, loop. */
-.proto-morph-dot {
-  animation: proto-morph 2.8s linear infinite;
-}
-
-@keyframes proto-morph {
+@keyframes button-morph {
   /* Beat 1: merged center square rests; subtle anticipation before burst. */
   0%,
   4% {
@@ -1077,18 +977,75 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .proto-morph-dot {
+  .button-morph-dot {
     animation: none;
     transform: translate(0, 0) scale(1.4);
     border-radius: 0;
   }
 }
 
-/* PROTOTYPE (button spec) — the contact send button's exhibit (Variant D
-   page): the 3s cancel-window bar runs one-shot (`forwards`) in the real
-   form, but pinned loading rows would freeze it at full width — so the
-   exhibit loops the sweep. Prototype-only class; ContactForm keeps its
-   inline forwards one-shot untouched. */
-.proto-send-progress {
-  animation: send-progress 3000ms linear infinite;
+/* Contact success transition (pen node B2C6cA): the form subtree (radios,
+   divider, fields, send row) fades out and lifts slightly on success; the
+   sent view (badge + heading + subtext, full panel width) rises in after. */
+@keyframes contact-form-exit {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.99);
+  }
+}
+
+@keyframes contact-sent-enter {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.contact-form-exit {
+  animation: contact-form-exit 250ms ease forwards;
+}
+
+.contact-sent-enter {
+  animation: contact-sent-enter 350ms ease-out forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .send-btn .send-plane {
+    transition: none;
+  }
+
+  .send-btn.send-btn--loading .send-fly {
+    animation: none;
+  }
+
+  .send-btn--loading .send-trail {
+    animation: none;
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+
+  /* Progress is redundant when motion is off — the Cancel trigger + button
+     label carry the state. */
+  .send-progress-bar {
+    display: none;
+  }
+
+  .contact-form-exit {
+    animation: none;
+    opacity: 0;
+  }
+
+  .contact-sent-enter {
+    animation: none;
+  }
 }

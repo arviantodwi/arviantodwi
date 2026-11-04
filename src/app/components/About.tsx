@@ -3,7 +3,6 @@ import type { Dictionary, Locale } from '@/app/lib/i18n/types';
 import { cx } from '@/app/lib/utils';
 import { CV_URL } from '../lib/constants';
 import { Button } from './ui/Button';
-import { IconArrowUpRight } from './ui/icons';
 import { Section } from './ui/Section';
 import { SegmentedText } from './ui/SegmentedText';
 
@@ -51,10 +50,15 @@ export const About: FC<Props> = ({ locale, dict }) => {
           ))}
           {/* Pen uSM: centered below sm, left-aligned elsewhere. */}
           <div className="mt-8 flex justify-start max-sm:justify-center">
-            <Button href={CV_URL} target="_blank" rel="noopener noreferrer" size="lg">
-              {about.cta}
-              <IconArrowUpRight size={18} />
-            </Button>
+            <Button
+              href={CV_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              size="lg"
+              label={about.cta}
+              icon="arrow-up-right"
+              iconPosition="trailing"
+            />
           </div>
         </div>
       </article>
