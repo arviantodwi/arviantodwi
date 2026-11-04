@@ -23,8 +23,11 @@ const VARIANT: Record<'primary' | 'secondary', string> = {
 
 const MOTION = 'hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.96]';
 
+/* No `disabled:cursor-*` — cursor is prop-keyed (mirrors VariantD's frame);
+   the DOM attr derives from disabled || loading, so a variant selector
+   would out-bind cursor-progress on the pinned loading rows. */
 const STATES =
-  'disabled:cursor-not-allowed disabled:translate-y-0 disabled:scale-100 disabled:opacity-45 disabled:hover:translate-y-0 disabled:border-foreground/60';
+  'disabled:translate-y-0 disabled:scale-100 disabled:opacity-45 disabled:hover:translate-y-0 disabled:border-foreground/60';
 
 const SHAPE: Record<'md' | 'lg', string> = { md: 'px-5 py-2.5 text-sm', lg: 'px-6 py-3 text-base' };
 const ICON_ONLY = { md: 'size-10', lg: 'size-12' };
@@ -46,7 +49,10 @@ const Button: FC<ProtoButtonProps> = ({
     iconOnly ? ICON_ONLY[size] : SHAPE[size],
     !disabled && !loading && MOTION,
     STATES,
-    disabled && 'cursor-not-allowed',
+    /* cursor-progress while the custom loader drives the button, so a
+       mouse waits even though the disabled click-block (disabled={loading})
+       reads cursor-not-allowed only on the disabled prop. Mirrors D. */
+    disabled ? 'cursor-not-allowed' : loading && 'cursor-progress',
   );
 
   const content = iconOnly ? (
@@ -63,10 +69,10 @@ const Button: FC<ProtoButtonProps> = ({
       {loading ? (
         <ProtoSpinner />
       ) : (
-        iconPosition === 'leading' && Icon !== null && <Icon size={18} />
+        iconPosition === 'leading' && Icon !== null && <Icon size={20} />
       )}
       <span>{label}</span>
-      {iconPosition === 'trailing' && Icon !== null && <Icon size={18} aria-hidden="true" />}
+      {iconPosition === 'trailing' && Icon !== null && <Icon size={20} aria-hidden="true" />}
     </>
   );
 

@@ -3,7 +3,11 @@ import { cx } from '@/app/lib/utils';
 import { IconArrowUpRight, IconBrandGithub } from '../ui/icons';
 
 /* PROTOTYPE (button spec) — comparison harness. Every variant mounts its
-   own <Button> into the same matrix; the harness holds no styling. */
+   own <Button> into the same matrix; the harness holds no styling.
+   Slot sizes, unified: text-row + icon-only glyphs render at 20px, and
+   Variant D's morphogram drives its 20px box — no in-growth, no shift.
+   Bigger drawing room is a custom-loader-only privilege (LoaderSlot's
+   slot/canvas pair; contact send exhibit). */
 
 export type ProtoIcon = 'arrow-up-right' | 'brand-github';
 

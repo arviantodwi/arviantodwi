@@ -1,36 +1,26 @@
-import type { CSSProperties, FC } from 'react';
-import { cx } from '@/app/lib/utils';
+import type { CSSProperties, FC, ReactNode } from 'react';
 import { IconArrowUpRight, IconBrandGithub } from '../ui/icons';
+import { ContactSendCurrent, ContactSendD } from './ContactSend';
 import { Matrix, type ProtoButtonProps, type ProtoIcon } from './Matrix';
+import { DFrame } from './VariantDBase';
 
 /* PROTOTYPE (button spec) — Variant D: variant C's frost glass at the
    site's sharp-corner shape. Same glass language (translucent fill +
    hairline border, gold primary / neutral secondary) with square corners,
    40ms press snap, and a theme-native loader: three dots in a discrete
    steps() chase (the plan-marker / dev-caret idiom) instead of a generic
-   spinner — no face overlay motion on loading. */
+   spinner — no face overlay motion on loading.
+   Tokens + frame live in VariantDBase (shared with the contact send
+   exhibit); this file keeps D's content layer (matrix loader logic) and
+   the exhibit sections. Below the matrix: the contact send button, the
+   page's deliberate exception — shipped skin vs this variant's sharp
+   glass over the same send-plane choreography (see ContactSend). Loading
+   rows run pinned. */
 
 const PROTO_ICONS: Record<ProtoIcon, FC<{ size?: number }>> = {
   'arrow-up-right': IconArrowUpRight,
   'brand-github': IconBrandGithub,
 };
-
-const BASE =
-  'relative inline-flex cursor-pointer overflow-hidden items-center justify-center gap-2 border backdrop-blur-sm font-general font-medium transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold';
-
-const VARIANT: Record<'primary' | 'secondary', string> = {
-  /* Press snaps faster than hover (40ms vs 200ms) — the click reads
-     immediate, the return eases back at the base duration. */
-  primary:
-    'border-gold/50 bg-gold/15 text-gold hover:border-gold hover:bg-gold/25 active:scale-[0.98] active:bg-gold/10 active:duration-40',
-  secondary:
-    'border-white/15 bg-white/[0.08] text-foreground hover:border-white/50 hover:bg-white/[0.16] active:scale-[0.98] active:bg-white/[0.06] active:duration-40',
-};
-
-const STATES = 'disabled:cursor-not-allowed disabled:scale-100';
-
-const SHAPE: Record<'md' | 'lg', string> = { md: 'px-5 py-2.5 text-sm', lg: 'px-6 py-3 text-base' };
-const ICON_ONLY = { md: 'size-10', lg: 'size-12' };
 
 /* Loader: one shared timeline, four dots. Each dot carries its own
    (ax, ay) = its starting corner and (bx, by) = the next corner clockwise,
@@ -92,14 +82,8 @@ const Button: FC<ProtoButtonProps> = ({
   loaderMargin = 3,
 }) => {
   const Icon = icon ? PROTO_ICONS[icon] : null;
-  const classes = cx(
-    BASE,
-    VARIANT[variant],
-    iconOnly ? ICON_ONLY[size] : SHAPE[size],
-    STATES,
-    disabled ? 'cursor-not-allowed opacity-40' : loading ? 'cursor-progress' : undefined,
-  );
-
+  /* Content layer only — the root (cursor, aria-busy, press snap, shape)
+     is DFrame; icon-only re-addresses the frame's size to its square. */
   const content = iconOnly ? (
     icon ? (
       <>
@@ -115,27 +99,75 @@ const Button: FC<ProtoButtonProps> = ({
           would sit (leading → before text, trailing → after text), so the
           layout never shifts when loading starts. */}
       {iconPosition === 'leading' &&
-        (loading ? <Loader margin={loaderMargin} /> : Icon !== null && <Icon size={18} />)}
+        (loading ? <Loader margin={loaderMargin} /> : Icon !== null && <Icon size={20} />)}
       <span>{label}</span>
       {iconPosition === 'trailing' &&
         (loading ? (
           <Loader margin={loaderMargin} />
         ) : (
-          Icon !== null && <Icon size={18} aria-hidden="true" />
+          Icon !== null && <Icon size={20} aria-hidden="true" />
         ))}
     </>
   );
 
   return (
-    <button
-      type="button"
-      aria-busy={loading || undefined}
-      disabled={disabled || loading}
-      className={classes}
+    <DFrame
+      variant={variant}
+      size={iconOnly ? `icon-${size}` : size}
+      loading={loading}
+      disabled={disabled}
     >
       {content}
-    </button>
+    </DFrame>
   );
 };
 
-export const VariantD = () => <Matrix button={Button} />;
+const Row: FC<{ title: string; children: ReactNode }> = ({ title, children }) => (
+  <div className="flex flex-wrap items-center gap-4">
+    <span className="w-24 shrink-0 text-xs font-medium tracking-widest text-white/40 uppercase">
+      {title}
+    </span>
+    {children}
+  </div>
+);
+
+const Cell: FC<{ caption: string; children: ReactNode }> = ({ caption, children }) => (
+  <div className="flex flex-col gap-2">
+    {children}
+    <span className="text-xs tracking-widest text-white/40">{caption}</span>
+  </div>
+);
+
+const SendPair: FC<{ loading?: boolean }> = ({ loading = false }) => (
+  <>
+    <Cell caption="Shipped">
+      <ContactSendCurrent loading={loading} />
+    </Cell>
+    <Cell caption="D sharp glass">
+      <ContactSendD loading={loading} />
+    </Cell>
+  </>
+);
+
+export const VariantD = () => (
+  <>
+    <Matrix button={Button} />
+
+    {/* The contact send button's comparison exhibit, heading the exception
+        note on the page: the shipped flat-gold frame against its sharp-glass
+        re-skin, both carrying the same send-plane loading choreography and
+        the purple 3s cancel-window bar. Pinned rows loop that bar (see
+        .proto-send-progress in globals.css) so the sweep never freezes at
+        full width; production's one-shot is untouched. Labels are hardcoded
+        English like the matrix's — the prototype route carries no dict. */}
+    <section className="flex flex-col gap-4">
+      <h3 className="text-gold text-sm tracking-widest uppercase">Contact — exception</h3>
+      <Row title="Idle">
+        <SendPair />
+      </Row>
+      <Row title="Loading">
+        <SendPair loading />
+      </Row>
+    </section>
+  </>
+);

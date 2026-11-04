@@ -22,8 +22,11 @@ const VARIANT: Record<'primary' | 'secondary', string> = {
   secondary: 'text-foreground',
 };
 
+/* No `disabled:cursor-*` — cursor is prop-keyed (mirrors VariantD's frame);
+   the DOM attr derives from disabled || loading, so a variant selector
+   would out-bind cursor-progress on the pinned loading rows. */
 const STATES =
-  'disabled:cursor-not-allowed disabled:translate-x-0 disabled:translate-y-0 disabled:shadow-none disabled:opacity-50';
+  'disabled:translate-x-0 disabled:translate-y-0 disabled:shadow-none disabled:opacity-50';
 
 const SHAPE: Record<NonNullable<ProtoButtonProps['size']>, string> = {
   md: 'px-4 py-2 text-sm shadow-[4px_4px_0_0_black] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0_0_black] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none',
@@ -47,7 +50,10 @@ const Button: FC<ProtoButtonProps> = ({
     VARIANT[variant],
     iconOnly ? ICON_ONLY[size] : SHAPE[size],
     STATES,
-    disabled && 'cursor-not-allowed',
+    /* cursor-progress while the custom loader drives the button, so a
+       mouse waits even though the disabled click-block (disabled={loading})
+       reads cursor-not-allowed only on the disabled prop. Mirrors D. */
+    disabled ? 'cursor-not-allowed' : loading && 'cursor-progress',
   );
   return (
     <button
@@ -61,7 +67,7 @@ const Button: FC<ProtoButtonProps> = ({
           const Glyph = PROTO_ICONS[icon];
           return (
             <span className="inline-flex items-center justify-center">
-              {loading ? <ProtoSpinner /> : <Glyph size={18} />}
+              {loading ? <ProtoSpinner /> : <Glyph size={20} />}
               <span className="sr-only">{label}</span>
             </span>
           );
@@ -70,10 +76,10 @@ const Button: FC<ProtoButtonProps> = ({
         return (
           <>
             {loading && <ProtoSpinner />}
-            {!loading && iconPosition === 'leading' && icon && Icon !== null && <Icon size={18} />}
+            {!loading && iconPosition === 'leading' && icon && Icon !== null && <Icon size={20} />}
             <span>{label}</span>
             {!loading && iconPosition === 'trailing' && icon && Icon !== null && (
-              <Icon size={18} aria-hidden="true" />
+              <Icon size={20} aria-hidden="true" />
             )}
           </>
         );

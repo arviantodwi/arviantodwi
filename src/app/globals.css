@@ -1083,3 +1083,12 @@ body {
     border-radius: 0;
   }
 }
+
+/* PROTOTYPE (button spec) — the contact send button's exhibit (Variant D
+   page): the 3s cancel-window bar runs one-shot (`forwards`) in the real
+   form, but pinned loading rows would freeze it at full width — so the
+   exhibit loops the sweep. Prototype-only class; ContactForm keeps its
+   inline forwards one-shot untouched. */
+.proto-send-progress {
+  animation: send-progress 3000ms linear infinite;
+}

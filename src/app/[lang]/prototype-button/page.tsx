@@ -22,7 +22,8 @@ import { hasLocale } from '@/app/lib/i18n';
  * × default / loading / disabled + sizes), switchable via `?variant=`.
  * Hover and click act live on every button; the state rows pin loading and
  * disabled. Contact section is the deliberate exception: its send button
- * keeps the custom send-plane loading (never migrated to ui/Button).
+ * keeps the custom send-plane loading (never migrated to ui/Button) and —
+ * on Variant D only — mounts as a comparison exhibit in ContactSend.
  */
 
 const REGISTRY: Record<VariantKey, FC> = { A: VariantA, B: VariantB, C: VariantC, D: VariantD };
@@ -64,7 +65,8 @@ export default async function ButtonPrototypePage({
         <p className="border-t border-white/15 pt-6 text-sm opacity-60">
           Contact section stays an exception: its send button keeps the custom send-plane loading
           animation (swap plane + trails + 3s cancel bar) and is never migrated into the shared
-          button.
+          button. Variant D carries it as an exhibit — shipped skin vs sharp-glass re-skin — with
+          the pinned rows looping the cancel-bar sweep.
         </p>
       </div>
 

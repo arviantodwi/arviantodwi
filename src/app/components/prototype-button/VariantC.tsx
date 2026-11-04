@@ -23,7 +23,10 @@ const VARIANT: Record<'primary' | 'secondary', string> = {
     'border-white/15 bg-white/[0.08] text-foreground hover:border-white/50 hover:bg-white/[0.16] active:scale-[0.98] active:bg-white/[0.06]',
 };
 
-const STATES = 'disabled:cursor-not-allowed disabled:opacity-40 disabled:scale-100';
+/* No `disabled:cursor-*` — cursor is prop-keyed (mirrors VariantD's frame);
+   the DOM attr derives from disabled || loading, so a variant selector
+   would out-bind cursor-progress on the pinned loading rows. */
+const STATES = 'disabled:opacity-40 disabled:scale-100';
 
 const SHAPE: Record<'md' | 'lg', string> = { md: 'px-5 py-2.5 text-sm', lg: 'px-6 py-3 text-base' };
 const ICON_ONLY = { md: 'size-10', lg: 'size-12' };
@@ -44,7 +47,10 @@ const Button: FC<ProtoButtonProps> = ({
     VARIANT[variant],
     iconOnly ? ICON_ONLY[size] : SHAPE[size],
     STATES,
-    disabled && 'cursor-not-allowed',
+    /* cursor-progress while the custom loader drives the button, so a
+       mouse waits even though the disabled click-block (disabled={loading})
+       reads cursor-not-allowed only on the disabled prop. Mirrors D. */
+    disabled ? 'cursor-not-allowed' : loading && 'cursor-progress',
   );
 
   const content = iconOnly ? (
@@ -61,10 +67,10 @@ const Button: FC<ProtoButtonProps> = ({
       {loading ? (
         <ProtoSpinner />
       ) : (
-        iconPosition === 'leading' && Icon !== null && <Icon size={18} />
+        iconPosition === 'leading' && Icon !== null && <Icon size={20} />
       )}
       <span>{label}</span>
-      {iconPosition === 'trailing' && Icon !== null && <Icon size={18} aria-hidden="true" />}
+      {iconPosition === 'trailing' && Icon !== null && <Icon size={20} aria-hidden="true" />}
     </>
   );
 
