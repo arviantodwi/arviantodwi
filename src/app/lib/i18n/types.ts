@@ -1,3 +1,5 @@
+import type { OpenLabelStrings } from '../availability';
+
 export type Locale = 'en' | 'id';
 
 /**
@@ -88,7 +90,7 @@ export interface Dictionary {
   header: {
     status: {
       available: string;
-      open: string;
+      open: OpenLabelStrings;
       unavailable: string;
     };
   };

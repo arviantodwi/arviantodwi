@@ -2,14 +2,15 @@
 
 import Image from 'next/image';
 import { type FC, useEffect, useState } from 'react';
-import type { Dictionary, Locale } from '@/app/lib/i18n/types';
+import type { Availability } from '@/app/lib/availability';
+import type { Locale } from '@/app/lib/i18n/types';
 import { cx } from '@/app/lib/utils';
-import { AvailabilityStatus, Status } from './ui/AvailabilityStatus';
+import { AvailabilityStatus } from './ui/AvailabilityStatus';
 import { LangSwitcher } from './ui/LangSwitcher';
 import { SocialNav } from './ui/SocialNav';
 
 interface Props {
-  dict: Dictionary;
+  availability: Availability;
   locale: Locale;
 }
 
@@ -20,7 +21,7 @@ function initialHeight(): number {
   return 92;
 }
 
-export const Header: FC<Props> = ({ dict, locale }) => {
+export const Header: FC<Props> = ({ availability, locale }) => {
   // Collapsed/tinted state applies once the page scrolls past the topbar's
   // initial height; at the top of the page the topbar is fully transparent.
   const [scrolled, setScrolled] = useState(false);
@@ -65,8 +66,8 @@ export const Header: FC<Props> = ({ dict, locale }) => {
               then separates badge and switcher. */}
           <SocialNav className="flex sm:hidden" />
           <AvailabilityStatus
-            variant={Status.UNAVAILABLE}
-            labels={dict.header.status}
+            variant={availability.status}
+            labels={availability.labels}
             className="hidden sm:flex"
           />
           <span aria-hidden="true" className="h-4 w-px bg-white/15" />

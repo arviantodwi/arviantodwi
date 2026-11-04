@@ -8,9 +8,16 @@ export const idDictionary: Dictionary = {
   },
   header: {
     status: {
-      available: 'Siap untuk dipekerjakan',
-      open: 'Terbuka untuk penawaran',
-      unavailable: 'Tidak tersedia untuk penawaran',
+      available: 'Sedang mencari pekerjaan baru',
+      open: {
+        prefix: 'Terbuka untuk',
+        comma: ',',
+        and: 'dan',
+        freelance: 'freelance',
+        partnership: 'partnership',
+        offer: 'tawaran kerja baru',
+      },
+      unavailable: 'Tidak menerima tawaran apa pun',
     },
   },
   hero: {

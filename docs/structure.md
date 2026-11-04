@@ -34,6 +34,11 @@ src/
                     # auto-reply (best effort). Returns i18n error KEYS, never raw
                     # errors; env vars read inside functions, literal key names.
     lib/
+      availability.ts  # Env-driven status resolver: AVAIL_* booleans read at render time —
+                       # getAvailability() fail-closed chain (AVAIL_IS_CLOSED forced red >
+                       # AVAIL_LOOKING_FOR_JOB green > any toggle → yellow, label lists the
+                       # active ones, nothing → red); readFlag truthiness (empty/false/0 off);
+                       # called from [lang]/page.tsx, passed down as serializable props
       constants/   # index.ts (GITHUB_URL, LINKEDIN_URL, CV_URL, NEXT_LOCALE_COOKIE —
                    # barrel, re-exports stack.ts), stack.ts (TECH_STACK, 30 items,
                    # sorted by name)
@@ -180,7 +185,7 @@ src/
         Select.tsx              # Controlled select-only combobox using Popover + IconSelector;
                                 # gold selected-radio trigger, trigger-width listbox, keyboard
                                 # navigation/typeahead, focus retained on trigger; used for interests
-        AvailabilityStatus.tsx  # Status enum; label text passed via `labels` prop
+        AvailabilityStatus.tsx  # Status enum; labels (incl. composed `open`) passed via `labels` prop
         LangSwitcher.tsx        # Client dropdown (IconLanguage + active code + IconSelector);
                                 # options EN->'/', ID->'/id' full-name labels, gold active;
                                 # full navigation + locale cookie, shared Popover behavior
@@ -292,7 +297,15 @@ public/
   the circular arrow button is hidden.
 - **Add/edit footer mast link**: label in `footer.mast.links.*` / `footer.mast.socialLinks.*` (en + id); target/external flag composed in `Footer.tsx` (`inPageLinks` / `socialLinks` arrays). In-page links need a matching section `id`.
 - **Change hero stats**: numbers in `Hero.tsx` (`value`), labels in dictionaries (`hero.stats`).
-- **Change availability**: `variant={Status.X}` in `Header.tsx`; statuses defined in `ui/AvailabilityStatus.tsx`, labels in dictionaries (`header.status`).
+- **Change availability**: no code edit — set root `.env` vars (Vercel project envs in prod):
+  `AVAIL_IS_CLOSED` (forced red) > `AVAIL_LOOKING_FOR_JOB` (green) > `AVAIL_FREELANCE` /
+  `AVAIL_PARTNERSHIP` / `AVAIL_OPEN_TO_OFFER` (any one → yellow; the yellow label lists the
+  active ones). All boolean (empty/false/0 = off); nothing set → red. Resolver
+  `lib/availability.ts` runs at render time in `[lang]/page.tsx` (Header is a client
+  component — envs must stay server-side) and is passed to `Header.tsx` + `Hero.tsx` as
+  props; both badges stay in sync automatically. Yellow label parts live in dictionaries
+  (`header.status.open` — prefix/comma/and + one noun per toggle). Status change requires a
+  redeploy (envs are baked into the prerendered HTML).
 - **Change typed roles / location**: `hero.roles` / `hero.location` in dictionaries.
 - **Change bio**: `about.bio` segments in dictionaries.
 - **Edit contact form copy**: `contact.*` in `en.ts`/`id.ts` (heading, prompt, choice
@@ -347,4 +360,4 @@ public/
 - Techstack SVG filenames are lowercase, `-` for non-alphanumeric characters (`react-router.svg`, `next-js.svg`).
 - Projects are webp, `object-cover`, `fill` + explicit `sizes`.
 
-<!-- verified against: 94f73d2 + working tree, 2026-11-09 (design sources moved outside the repo; .pen references documented as provenance, not paths) -->
+<!-- verified against: 267c451972da4b7400f0b07b89e6e093b2a7cd5f + working tree, 2026-11-11 (availability badge env-driven via AVAIL_* + lib/availability.ts; design sources moved outside the repo; .pen references documented as provenance, not paths) -->
