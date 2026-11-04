@@ -1,8 +1,9 @@
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import type { FC } from 'react';
+import type { Availability } from '@/app/lib/availability';
 import type { Dictionary } from '@/app/lib/i18n/types';
-import { AvailabilityStatus, Status } from './ui/AvailabilityStatus';
+import { AvailabilityStatus } from './ui/AvailabilityStatus';
 import { Section } from './ui/Section';
 
 const TypeAnimation = dynamic(() =>
@@ -12,6 +13,7 @@ const Statistic = dynamic(() => import('./ui/Statistic').then((mod) => mod.Stati
 
 interface Props {
   dict: Dictionary;
+  availability: Availability;
 }
 
 /** Statistic label with small/large variants (mirrors the original breakpoint tricks). */
@@ -22,7 +24,7 @@ const statText = (label: { short: string; long: string }) => (
   </>
 );
 
-export const Hero: FC<Props> = ({ dict }) => {
+export const Hero: FC<Props> = ({ dict, availability }) => {
   const { hero } = dict;
 
   return (
@@ -39,11 +41,11 @@ export const Hero: FC<Props> = ({ dict }) => {
       <div className="flex flex-col gap-8 max-[600px]:grow max-[600px]:justify-end min-[600px]:max-sm:gap-12 sm:gap-12 lg:h-[640px] lg:w-[478px] lg:shrink-0 lg:justify-center lg:gap-14 xl:h-full">
         <div className="flex flex-col gap-6 sm:max-w-3/4">
           {/* Mobile: the topbar has no room for the status pill, so it
-              anchors above the name (sm+ keeps it in the topbar). Variant
-              must stay in sync with Header. */}
+              anchors above the name (sm+ keeps it in the topbar). Both badge
+              spots receive the same resolved availability from page.tsx. */}
           <AvailabilityStatus
-            variant={Status.UNAVAILABLE}
-            labels={dict.header.status}
+            variant={availability.status}
+            labels={availability.labels}
             className="-mb-4 sm:hidden"
           />
           <h1 className="sm:w-[333px] lg:w-[478px]">

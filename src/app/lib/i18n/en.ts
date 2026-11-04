@@ -9,7 +9,14 @@ export const enDictionary: Dictionary = {
   header: {
     status: {
       available: 'Available for hire',
-      open: 'Open to offers',
+      open: {
+        prefix: 'Open to',
+        comma: ',',
+        and: '&',
+        freelance: 'freelance',
+        partnership: 'partnership',
+        offer: 'new offers',
+      },
       unavailable: 'Closed to offers',
     },
   },

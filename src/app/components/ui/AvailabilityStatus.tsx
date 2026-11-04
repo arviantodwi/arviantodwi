@@ -7,7 +7,7 @@ export enum Status {
   UNAVAILABLE,
 }
 
-interface StatusLabels {
+export interface StatusLabels {
   available: string;
   open: string;
   unavailable: string;
