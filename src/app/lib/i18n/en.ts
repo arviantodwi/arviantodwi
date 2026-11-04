@@ -8,7 +8,7 @@ export const enDictionary: Dictionary = {
   },
   header: {
     status: {
-      available: 'Available for hire',
+      available: 'Actively looking a new job',
       open: {
         prefix: 'Open to',
         comma: ',',

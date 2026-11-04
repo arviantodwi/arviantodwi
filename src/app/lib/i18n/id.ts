@@ -8,7 +8,7 @@ export const idDictionary: Dictionary = {
   },
   header: {
     status: {
-      available: 'Siap untuk dipekerjakan',
+      available: 'Sedang mencari pekerjaan baru',
       open: {
         prefix: 'Terbuka untuk',
         comma: ',',
@@ -17,7 +17,7 @@ export const idDictionary: Dictionary = {
         partnership: 'partnership',
         offer: 'tawaran kerja baru',
       },
-      unavailable: 'Tidak tersedia untuk penawaran',
+      unavailable: 'Tidak menerima tawaran apapun',
     },
   },
   hero: {
