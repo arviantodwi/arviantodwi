@@ -18,9 +18,10 @@ src/
                     # owns the vertical rhythm (gap-20 / lg:gap-[120px], pb before
                     # footer) per the .pen Main artboard; sections carry no mb-*
     globals.css     # Tailwind import, theme tokens, custom utilities (see design.md)
-    icon.png        # Favicon — app icons from the .pen icon family (design/
-                    # arvi-brand-ui.pen, frame "Website icon assets — Alert
-                    # day", node nvy4Z; 2026-11-03 owner pass): icon.png 512
+    icon.png        # Favicon — app icons from the .pen icon family
+                    # (arvi-brand-ui.pen — design source lives outside this repo
+                    # and is untracked; frame "Website icon assets — Alert day",
+                    # node nvy4Z; 2026-11-03 owner pass): icon.png 512
                     # (from android-chrome-512, rjbaC), icon2/3/4.png 48/32/16
                     # (xXevm/qBIRb/sdfYm), apple-icon.png 180 (rPGe8) — all
                     # exported 1:1 at scale 1, gold ground #E9B63C + mark
@@ -317,6 +318,9 @@ public/
 
 ## Asset conventions
 
+- Design sources (`arvi-brand-ui.pen`, brand exports, full-res masters) live outside
+  this repo and are untracked. `.pen` node/frame references in this doc are provenance
+  notes, not in-repo paths; runtime assets are the copies under `public/`.
 - `logo.svg` is the full logo lockup (mark + wordmark, paths white, viewBox
   2525.804×587.277) traced from the .pen file (node Zybny — all-white variant,
   transparent background). Header renders it at 138×32 (the design's Navigation
@@ -343,4 +347,4 @@ public/
 - Techstack SVG filenames are lowercase, `-` for non-alphanumeric characters (`react-router.svg`, `next-js.svg`).
 - Projects are webp, `object-cover`, `fill` + explicit `sizes`.
 
-<!-- verified against: bfe9390 + working tree, 2026-11-04 (ui/Button migrated to the variant D sharp-glass system; About CV CTA uses structured label + icon props) -->
+<!-- verified against: 94f73d2 + working tree, 2026-11-09 (design sources moved outside the repo; .pen references documented as provenance, not paths) -->
