@@ -6,19 +6,24 @@ Annotated tree, render pipeline, and update recipes for content edits.
 
 ```
 src/
-  proxy.ts          # Locale routing: / → rewrite to /en (URL stays /), or redirect
-                    # /id when browser language is Indonesian; /en → redirects to /;
+  proxy.ts          # Locale routing: / → rewrite to /en (URL stays /, English is
+                    # canonical); redirect / → /id when the visitor's NEXT_LOCALE_COOKIE
+                    # pick (LangSwitcher) is a non-default locale, else when
+                    # Accept-Language prefers Indonesian; /en/* → redirects to /;
                     # /id served as-is. Accept-Language parsed in detectLocale().
   app/
     [lang]/
       layout.tsx    # Root layout: fonts (Antonio, Plus Jakarta Sans) via CSS vars,
                     # <html lang={lang}>; generateStaticParams (en, id);
                     # generateMetadata per locale from dict.metadata (images unchanged)
-      page.tsx      # Loads dict for lang, passes it to every section. Body wrapper
+      page.tsx      # Loads dict for lang, resolves availability (lib/availability),
+                    # passes both to every section (Header/Hero take the badge).
+                    # Body wrapper
                     # owns the vertical rhythm (gap-20 / lg:gap-[120px], pb before
                     # footer) per the .pen Main artboard; sections carry no mb-*
     globals.css     # Tailwind import, theme tokens, custom utilities (see design.md)
-    icon.png        # Favicon — app icons from the .pen icon family
+    icon.png        # Favicon set (icon.png + icon2/3/4.png + apple-icon.png
+                    # siblings) — app icons from the .pen icon family
                     # (arvi-brand-ui.pen — design source lives outside this repo
                     # and is untracked; frame "Website icon assets — Alert day",
                     # node nvy4Z; 2026-11-03 owner pass): icon.png 512
@@ -36,8 +41,10 @@ src/
     lib/
       availability.ts  # Env-driven status resolver: AVAIL_* booleans read at render time —
                        # getAvailability() fail-closed chain (AVAIL_IS_CLOSED forced red >
-                       # AVAIL_LOOKING_FOR_JOB green > any toggle → yellow, label lists the
-                       # active ones, nothing → red); readFlag truthiness (empty/false/0 off);
+                       # AVAIL_LOOKING_FOR_JOB green, label ignores the toggles > any
+                       # toggle → yellow, composed label lists the active ones >
+                       # nothing → red, empty list composes '' so no open label ever
+                       # renders); readFlag truthiness (empty/false/0 off);
                        # called from [lang]/page.tsx, passed down as serializable props
       constants/   # index.ts (GITHUB_URL, LINKEDIN_URL, CV_URL, NEXT_LOCALE_COOKIE —
                    # barrel, re-exports stack.ts), stack.ts (TECH_STACK, 30 items,
@@ -57,7 +64,8 @@ src/
                    # has an en/id branch; see docs/design.md "Email templates")
       utils.ts     # cx() = clsx + tailwind-merge
       i18n/        # Locale infra: index.ts (hasLocale/getDictionary/locales),
-                    # types.ts (Segment, Dictionary, ContactLabels), en.ts + id.ts
+                    # types.ts (Segment, Dictionary — header.status.open typed by
+                    # lib/availability's OpenLabelStrings, ContactLabels), en.ts + id.ts
                     # (dictionaries)
     components/     # Sections (server components), all receive `dict: Dictionary`
       Header.tsx    # Sticky topbar (client): logo (138×32 — the full lockup
@@ -66,26 +74,32 @@ src/
                     # node gj6H2) + LangSwitcher +
                     # AvailabilityStatus; bg-background/70 + backdrop-blur; scrolled
                     # state shrinks padding (py-6→py-2) and fades in 1px bottom line
-      Hero.tsx      # Name, TypeAnimation, Statistic row, portrait Image.
-                    # From xl: 478px copy column beside a proportional, shrinkable
-                    # portrait; positioned wrapper contains Image fill. From 1440px:
-                    # 200px gap, fixed 584×877 photo overhanging the 700px hero by
-                    # 177px. Below lg photo stays absolute: centered backdrop at
-                    # 0.33 on phones (clipped to the hero box); media/portrait
-                    # placement right from 600px (sm: viewport x318/top11, md:
-                    # x415/top25, bleeding off the right edge); lg rows a 484px
-                    # portrait flush right in a 640px hero. Name type 76px below lg,
-                    # 112px from lg. Below 600px the hero fills the viewport below the fixed
-                    # topbar (min-h calc(100dvh - 92px)); copy packs to
-                    # the hero bottom (justify end, 32px min gap), pads
-                    # pt-0 pb-12 (48px → 88px to the About heading). From
-                    # 600px until sm it mirrors the md look (2026-11-03):
-                    # pt-12 pb-0, natural height, copy unpacked at the 48px
-                    # gap, photo top-11 (md-consistent vertical);
-                    # photo fully opaque at uSM, centered, top
-                    # 0, hero box open. Body rhythm 72px at uSM, 40 from sm,
-                    # 80 lg, 120 xl. 3 stats in one row every width (gap 16
-                    # at uSM, 32 from sm, 20 at lg); only sm+ keeps pb-0
+      Hero.tsx      # Mobile-only availability badge (sm:hidden, above the name —
+                    # the topbar has no room at uSM); both badge spots receive the
+                    # same resolved availability from page.tsx. Name, TypeAnimation,
+                    # Statistic row, portrait Image (photo.avif, fill +
+                    # object-contain, priority). From xl: 478px copy column beside
+                    # a proportional, shrinkable portrait; positioned wrapper
+                    # contains Image fill. From 1440px: 200px gap, fixed 584×877
+                    # photo overhanging the 700px hero by 177px. Below lg photo
+                    # stays absolute, fully opaque (the 0.33 phone dim is gone,
+                    # 2026-11-01): on phones the 437×656 box centers in the
+                    # 100dvh − 92px hero, top = max(calc((100dvh − 92px − 656px)/2),
+                    # −38px) — the −38px floor is the glass topbar ceiling
+                    # (iPhone SE measured); placement right from 600px (viewport
+                    # x318/top11, bleeding 115px off the right edge until 672px,
+                    # then frozen at x350 through md — the pen @MD x415/y25 is
+                    # waived); lg rows a 484px portrait flush right in a 640px
+                    # hero (726px tall, ~86px past the hero bottom). Name type
+                    # 76px below lg, 112px from lg. Below 600px the hero fills
+                    # the viewport below the fixed topbar (min-h calc(100dvh -
+                    # 92px)); copy packs to the hero bottom (justify end, 32px
+                    # min gap), pads pt-0 pb-12 (48px → 88px to the About
+                    # heading). From 600px until sm it mirrors the md look
+                    # (2026-11-03): pt-12 pb-0, natural height, copy unpacked at
+                    # the 48px gap, photo top-11. Body rhythm 72px at uSM, 40
+                    # from sm, 80 lg, 120 xl. 3 stats in one row every width
+                    # (gap 16 at uSM, 32 from sm, 20 at lg); only sm+ keeps pb-0
       About.tsx     # Bio paragraphs via SegmentedText, .about-box-accent headline;
                     # CV CTA button (ui/Button structured label + icon) centered on uSM,
                     # left from sm; greeting 'Hi, buddy.' (en) above the headline;
@@ -115,16 +129,17 @@ src/
                      # fussy). Logo row: public/techstack/ai/*.svg. Copy in
                      # dictionaries (aiWorkflow key); stage shells/icons/images in STAGES const
       Portfolio.tsx # Redesigned per Figma node 681-441: heading band (wordmark +
-                    # dict tagline + 1px white/15 divider, sticky from sm below topbar
-                    # with scroll-fade) → one featured `wide` ProjectCard + two
+                    # dict tagline + 1px white/15 divider, sticky from sm below topbar;
+                    # rows fade behind it via ui/PortfolioItemFade) → one featured
+                    # `wide` ProjectCard + two
                     # rows × 2 `compact` cards; per-project data in PROJECTS const
                     # (titles/tags/surface/image locale-independent), descriptions
                     # + tagline in dictionaries (dict.portfolio); takes `locale`
                     # AND `dict`; Indonesian heading is 64px below sm;
                     # #portfolio scroll margins clear the fixed header (design.md)
-      Portfolio.legacy.tsx # Pre-redesign portfolio (CSS grid + weight-graded experiment);
-                           # not imported anywhere — kept as reference only
-      Testimonial.tsx # Heading + IconQuote mark (lucide trace, ui/icons.tsx) + TestimonyCarousel
+      Testimonial.tsx # Heading + IconQuote mark (48px gold, ui/icons.tsx) + TestimonyCarousel
+                      # inside ui/HydrateInView (static CarouselFallback until the
+                      # section nears the viewport — 2026-11-02 mobile-load fix)
       Contact.tsx   # Contact panel (server) per the .pen "Contact panel" component (gQvrX):
                     # glass panel shell, TWO gold ambient glows (top-left/top-right,
                     # aria-hidden + pointer-events-none — bottom-right removed with the
@@ -146,20 +161,20 @@ src/
       Footer.tsx    # Footer per the .pen Footer frame (node lze4B), relative-flow
                     # content at every width (no contact pull, no band clear-out —
                     # the panel and band never overlap); decoration = aurora strip
-                    # (231px box, natural-aspect 1886×672 export drawing past the
-                    # box, dimmed below) + absolute background (GcP61:
+                    # (231px box, footer-aurora.avif windowed by Image fill +
+                    # objectFit: cover — see Asset conventions) + absolute background (GcP61:
                     # bg-background/40 + border-t + backdrop-blur) as a flex-column
                     # pair inside the z-10 band wrapper — strip's bottom edge ≡
                     # background top edge; key `-top-[395px]` universal (164px
                     # overhang + 231px strip, panel flush on the band edge). Band
-                    # pads: pt-12 universal, pb-16 below xl / pb-12 at xl; inner
+                    # pads: uSM pt-0 pb-8; sm+ pt-12 pb-16, xl pb-12; inner
                     # band py-14 below xl / py-10 at xl; glass fill/border/blur all
                     # on the GcP61 layer (crystal wrapper positions content only).
-                    # Contact: below xl pt-16 on the section; xl = 80px content
+                    # Contact: section uSM pt-12 / md pt-16, xl pt-0 = 80px content
                     # top pad (xl:pt-20) + px-12, no bottom pad. + 1200px
                     # contact panel slot (renders `<Contact>`, `id="contact"`) +
-                    # band content row: brand column (logo.svg up to 435px wide, proportional height, white/15 via opacity —
-                    # design's wordmark is a wider cut, reuse approved, copyright,
+                    # band content row: brand column (logo.svg 274×64 solid white,
+                    # w-[274px] capped to its column, copyright,
                     # LangSwitcher) | IN PAGE + SOCIAL link categories: equal columns
                     # at 600–1023px below the brand; desktop brand/link row begins
                     # at lg (details in design.md) masts (full-width below 600px
@@ -203,11 +218,23 @@ src/
                                 # Tabler-stroke icons (24×24, round-cap, currentColor,
                                 # 2px stroke): IconPolygon, IconCircleSquare,
                                 # IconIcosahedron (AI workflow stages), IconHash
-                                # (portfolio tags, 1.25px stroke), IconLanguage,
+                                # (portfolio tags, 1.25px stroke), IconQuote
+                                # (testimonial mark), IconLanguage,
                                 # IconSelector, IconArrowUpRight, IconCheck;
                                 # filled marks keep their native viewBox: IconCaretLeft/
-                                # Right (Phosphor 256), IconBrandGithub/Linkedin
-                                # (Ant Design 1024). Add new icons here.
+                                # Right (Phosphor 256), IconBrandGithub (ui/Button
+                                # `brand-github`) + IconGithubMark/IconLinkedinMark
+                                # (SocialNav), IconBrandLinkedin (Ant Design 1024).
+                                # Add new icons here.
+        PlanIllustration.tsx    # Animated PLAN stage-card illustration (Figma 699:459):
+                                # inline SVG traced from the export, 7.2s CSS keyframe
+                                # loop (.plan-* in globals.css); reduced motion = static
+        DesignIllustration.tsx  # Animated DESIGN stage-card illustration (Figma 699:489):
+                                # same inline-SVG + keyframes approach, 7.2s loop;
+                                # reduced motion = static
+        DevelopIllustration.tsx # DEVELOP stage-card illustration (Figma 699:534): static
+                                # composition, only the line-03 caret blinks; reduced
+                                # motion hides it
         ProjectCard.tsx         # Reusable portfolio item (server): `wide` (featured,
                                 # full-width 40:17 preview) / `compact` (half-column,
                                 # 73:45 preview) variants from md; both use 5:3 below md.
@@ -218,19 +245,33 @@ src/
                                 # webp→png optimized <picture> chain (image +
                                 # imageFallback props, explicit per-variant sizes)
         TypeAnimation.tsx       # exports ClientTypeAnimation (takes `roles` prop)
-        ToolsMarquee.tsx        # react-fast-marquee, 2 rows from TECH_STACK split in half
-                                # Viewport-wide below lg; content-width from lg (896) / xl (1200)
+        ToolsMarquee.tsx        # Pure CSS transform marquee (server component — the
+                                # 2026-11-02 mobile-load fix replaced react-fast-marquee);
+                                # 2 rows from TECH_STACK split in half, opposite
+                                # directions. Viewport-wide below lg; content-width
+                                # from lg (896) / xl (1200); CSS-mask row fade
         TestimonyCarousel.tsx   # Swiper at every width (pen row dimensions: 330 wrapper
                                 # / 250px viewport below lg, 464 / 336px at lg; 80px slides,
                                 # neighbors scale 0.6 = the pen's 48px dimmed avatars);
                                 # testimony data via `testimonies` prop
+        HydrateInView.tsx       # Defers hydrating heavy, below-the-fold client components
+                                # (Swiper carousel) until the section nears the viewport;
+                                # static fallback until ready, rootMargin pre-render
+                                # lead (2026-11-02 mobile-load fix)
+        PortfolioItemFade.tsx   # Fades portfolio rows as they scroll behind the sticky
+                                # heading (imperative scroll listener + rAF, no state)
 public/
-  photo.png logo.svg footer-aurora.png opengraph-card.png twitter-card.png
-  ai-native-plan.{png,svg} ai-native-design.{png,svg} ai-native-dev.{png,svg}
-                                                             # svg = vector card exports
-                                                             # (374×132, owner-provided),
-                                                             # png = @4x fallback/backup
-  projects/  *.webp
+  photo.avif logo.svg footer-aurora.avif opengraph-card.png twitter-card.png
+  ai-native-plan.svg ai-native-design.svg ai-native-dev.svg
+                                                             # svg = static export twins
+                                                             # of the ui/*Illustration
+                                                             # inline components
+                                                             # (374×132, owner-provided)
+  logo-raster-dark.png logo-raster-light.png                 # email wordmarks (mail
+                                                             # templates, absolute URLs)
+  photo.png footer-aurora.png                                # full-res masters, kept
+                                                             # unreferenced by code
+  projects/  *.webp + *.png                                  # webp served, png <picture> fallback
   people/    *.jpeg / *.jpg.webp
   techstack/ *.svg (lowercase, dashes for non-alphanumerics, e.g. "next-js.svg")
   techstack/ai/  opencode.svg figma.svg openai.svg gemini.svg (196×60 pre-composed cells)
@@ -239,15 +280,18 @@ public/
 ## Render pipeline
 
 1. `src/proxy.ts` routes locale URLs: `/` → rewrite to `/en` (URL stays `/`, English is
-   canonical), redirect `/` → `/id` when `Accept-Language` prefers Indonesian, redirect
-   `/en/*` → unprefixed. `/id/*` renders directly. Matcher excludes `_next`, `api`, paths with dots.
-2. `page.tsx` resolves `lang`, `getDictionary(lang)`, and renders sections in order,
-   passing `dict` to each. Sections are server components; interactive bits are client
-   islands loaded with `next/dynamic` + `'use client'` (TypeAnimation, Statistic,
-   ToolsMarquee, TestimonyCarousel) that receive translated text via props. The contact
-   form is a client island too (`ContactForm`), but it submits through the
-   `sendContactMessage` Server Action (`actions/contact.ts`) via `useActionState` —
-   no route handler, no `src/app/api/`.
+   canonical), redirect `/` → `/id` when the visitor's `NEXT_LOCALE_COOKIE` pick
+   (LangSwitcher) is a non-default locale, else when `Accept-Language` prefers
+   Indonesian; `/en/*` → unprefixed. `/id/*` renders directly. Matcher excludes
+   `_next`, `api`, paths with dots.
+2. `page.tsx` resolves `lang`, `getDictionary(lang)`, and the availability badge
+   (`lib/availability`), then renders sections in order, passing both to each. Sections
+   are server components; interactive bits are client islands loaded with
+   `next/dynamic` + `'use client'` (TypeAnimation + Statistic in Hero, TestimonyCarousel
+   in Testimonial — the carousel also hydrates in-view via `ui/HydrateInView` with a
+   static fallback). The contact form is a client island too (`ContactForm`), but it
+   submits through the `sendContactMessage` Server Action (`actions/contact.ts`) via
+   `useActionState` — no route handler, no `src/app/api/`.
 3. Styling is Tailwind-4-only via `globals.css` — no `tailwind.config` file. Class order enforced by Biome (`useSortedClasses`).
 4. Path alias: `@/*` → `src/*`.
 5. Both locales are statically prerendered (`generateStaticParams` on the layout).
@@ -283,10 +327,13 @@ public/
   descriptions + their illustration alts in `aiWorkflow.stages.*`). Stage card visuals
   (shell bg/border, icon component, SVG paths) live in the `STAGES` const in
   `AiWorkflow.tsx`.
-  Card illustrations are vector `public/ai-native-*.svg` exports (374×132, from Figma
-  nodes 699:459 / 699:489 / 699:534); PNG variants kept as backup. When re-exporting,
-  update the Image `width`/`height` to the new intrinsic size (display is
-  `h-auto w-full`).
+  Card illustrations are animated inline SVGs: ui/PlanIllustration /
+  ui/DesignIllustration (7.2s keyframe loops — `.plan-*` / `.design-*` in
+  globals.css) and ui/DevelopIllustration (blinking line-03 caret only). The
+  `public/ai-native-*.svg` exports (374×132, from Figma nodes 699:459 / 699:489 /
+  699:534) are the static source twins — not rendered; reduced motion shows the
+  static composition. When re-animating, re-trace the component + keyframes from
+  the new export.
 - **Edit portfolio copy**: `portfolio.tagline` + `portfolio.projects.*` in `en.ts`/`id.ts`
   (keys must match the `key` fields in `Portfolio.tsx` `PROJECTS`). Titles/tags stay in
   `PROJECTS` (proper nouns, locale-independent).
@@ -297,10 +344,13 @@ public/
   the circular arrow button is hidden.
 - **Add/edit footer mast link**: label in `footer.mast.links.*` / `footer.mast.socialLinks.*` (en + id); target/external flag composed in `Footer.tsx` (`inPageLinks` / `socialLinks` arrays). In-page links need a matching section `id`.
 - **Change hero stats**: numbers in `Hero.tsx` (`value`), labels in dictionaries (`hero.stats`).
-- **Change availability**: no code edit — set root `.env` vars (Vercel project envs in prod):
-  `AVAIL_IS_CLOSED` (forced red) > `AVAIL_LOOKING_FOR_JOB` (green) > `AVAIL_FREELANCE` /
-  `AVAIL_PARTNERSHIP` / `AVAIL_OPEN_TO_OFFER` (any one → yellow; the yellow label lists the
-  active ones). All boolean (empty/false/0 = off); nothing set → red. Resolver
+- **Change availability**: no code edit — set root `.env` vars (`.env.example` lists
+  every var with comments; Vercel project envs in prod):
+  `AVAIL_IS_CLOSED` (forced red) > `AVAIL_LOOKING_FOR_JOB` (green; the label ignores the
+  open-type toggles) > `AVAIL_FREELANCE` / `AVAIL_PARTNERSHIP` / `AVAIL_OPEN_TO_OFFER`
+  (any one → yellow; the yellow label lists the active ones). All boolean
+  (empty/false/0 = off); nothing set → red (the composed open label is '' and never
+  renders). Resolver
   `lib/availability.ts` runs at render time in `[lang]/page.tsx` (Header is a client
   component — envs must stay server-side) and is passed to `Header.tsx` + `Hero.tsx` as
   props; both badges stay in sync automatically. Yellow label parts live in dictionaries
@@ -338,16 +388,20 @@ public/
   2525.804×587.277) traced from the .pen file (node Zybny — all-white variant,
   transparent background). Header renders it at 138×32 (the design's Navigation
   slot, node COKOj/gj6H2); the footer renders it at 274×64 solid white, capped
-  to its column with automatic height. `footer-aurora.png` is the "Golden
+  to its column with automatic height. `footer-aurora.avif` is the "Golden
   ambience — neon aurora" export (node aIybe in the 2026 pen Home @ XL frame,
-  `LAhVl`; stored @2x = 3762×1345, declared at its 1886×672 natural size and
-  drawn at natural aspect full width — opacity 0.6 and blur bleed are baked
-  into the export, so no code-level opacity applies).
+  `LAhVl`): 1886×674 @1x AVIF (q50) of the blurred .pen art — opacity and blur
+  bleed are baked into the export, so no code-level opacity applies. Rendered
+  `fill` + `objectFit: cover` + `sizes="100vw"` inside the strip's 231px box
+  (a center window onto the art; the 2026-11-02 mobile-load fix replaced a
+  1.4MB @2x PNG drawn at natural aspect). The full-res `footer-aurora.png`
+  master (3762×1345) stays unreferenced, as does `photo.png` (1752×2631 —
+  the served portrait is `photo.avif`).
 
   In `Footer.tsx` the aurora strip + background live inside the band's
   `z-10` wrapper as a flex-column pair at every width: aurora strip box
-  `h-[231px]` (image overflows it downward — that tail is what the backdrop-blur
-  reads), then the background layer (`bg-background/40 border-t border-white/15
+  `h-[231px]` (Image fill + objectFit: cover — a center window onto the art),
+  then the background layer (`bg-background/40 border-t border-white/15
   backdrop-blur-md flex-1`) filling to the wrapper's bottom edge (= footer
   bottom). The pair keys `-top-[395px]` on the band wrapper at every width:
   164px design overhang + 231px strip — the content is relative flow everywhere,
@@ -360,4 +414,4 @@ public/
 - Techstack SVG filenames are lowercase, `-` for non-alphanumeric characters (`react-router.svg`, `next-js.svg`).
 - Projects are webp, `object-cover`, `fill` + explicit `sizes`.
 
-<!-- verified against: 267c451972da4b7400f0b07b89e6e093b2a7cd5f + working tree, 2026-11-11 (availability badge env-driven via AVAIL_* + lib/availability.ts; design sources moved outside the repo; .pen references documented as provenance, not paths) -->
+<!-- verified against: 3a513b8 + working tree, 2026-11-11 (doc refresh: tree, recipes and asset list reconciled with the squashed availability commit; availability badge env-driven via AVAIL_* + lib/availability.ts; design sources moved outside the repo; .pen references documented as provenance, not paths) -->
