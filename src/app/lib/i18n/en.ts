@@ -102,6 +102,41 @@ export const enDictionary: Dictionary = {
       { text: 'more room for craft!' },
     ],
   },
+  aiToolkit: {
+    headline: ['Human intention.', 'AI momentum.'],
+    paragraphs: [
+      "As a software developer with a UI design mindset, there's no doubt for me to bring AI into every stage of my workflow. From the very first question to the final polish, whether it's architectural or pixel perfection, I set the direction.",
+      "They're definitely capable of helping me compress execution loops and remove repetitive processes. AI lets me iterate faster while staying deep in the details.",
+      'My role is now to steer it with real human taste and intention. The results? Magnificent, human-directed products. Always.',
+    ],
+    cards: {
+      plan: 'Planning brief illustration',
+      design: 'Design composition study illustration',
+      develop: 'Development process artifact illustration',
+    },
+    stations: {
+      specs: {
+        title: 'Broad-context synthesis.',
+        description:
+          'Pairs architectural reasoning and a graph-based knowledge base with multimodal exploration to shape direction early.',
+      },
+      design: {
+        title: 'Playground for visual direction.',
+        description:
+          'Explores visual variations and locks in spatial rhythm, typography, and tokens into a cohesive component system.',
+      },
+      engineering: {
+        title: 'Autonomous coding. Strict verification.',
+        description:
+          'Driven through OpenChamber, the GLM 5.3 model family is routed for fast, high-precision code shipping.',
+      },
+      test: {
+        title: 'Catch regressions. Ship with confidence.',
+        description:
+          'Runs automated tests, handles edge cases, and refactors overly complex code before changes reach production.',
+      },
+    },
+  },
   portfolio: {
     tagline: {
       muted: 'Different challenges.',

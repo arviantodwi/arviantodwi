@@ -14,6 +14,9 @@
   --color-rose-600: oklch(65.32% 0.2427 8.87);
   --font-headline: var(--font-antonio);
   --font-general: var(--font-plus-jakarta);
+  /* IBM Plex Mono (loaded in [lang]/layout.tsx): the AI toolkit band's
+     mono voice — station overlines, routing labels, model chips. */
+  --font-mono: var(--font-plex-mono);
 }
 
 @media (prefers-color-scheme: dark) {

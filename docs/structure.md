@@ -128,6 +128,27 @@ src/
                      # caret on line 03 only (owner verdict: heavy text animation too
                      # fussy). Logo row: public/techstack/ai/*.svg. Copy in
                      # dictionaries (aiWorkflow key); stage shells/icons/images in STAGES const
+      AiNativeToolkit.tsx # AI-native — Floating Introduction + Four-Stage Toolkit (Unified
+                     # Narrative), .pen node T9rslD (2026-11-12 penhand handoff,
+                     # checksum 14f6c7b4789c…). Rendered BELOW AiWorkflow (both live).
+                     # Intro: 460px narrative (two-tone 48px headline + three
+                     # $text-secondary paragraphs) beside a 676×463 floating collage —
+                     # the three stage cards reused from ui/PlanIllustration /
+                     # ui/DesignIllustration / ui/DevelopIllustration inside rotated
+                     # shells (−3°/+3°/−2°, border #30302B, shadow 0 12px 28px
+                     # #00000066), %-positioned in an aspect-locked canvas so the
+                     # collage scales as one unit (design is @1440-only; documented
+                     # adaptation). Toolkit band: two ambient ribbon arcs (inline SVG,
+                     # gradients + blur, bleeding above the glass) behind a glass
+                     # matrix (bg #0A0A08CC, border #292924, backdrop-blur 20, 2px
+                     # horizontal trace gradient) with 4 instrument stations
+                     # (overline/logo stage/model strip/narrative): 4-up at xl
+                     # (design exact), 2×2 from md, 1 column below md. Overlines,
+                     # strip labels and model chips are design labels in the
+                     # STATIONS const; titles + descriptions in dictionaries
+                     # (aiToolkit.stations). Logos: public/ai-native/*.svg. The pen's
+                     # disabled nodes (Anchored header band cCTFV, Conduit telemetry
+                     # bar eMYZ9) are intentionally not rendered
       Portfolio.tsx # Redesigned per Figma node 681-441: heading band (wordmark +
                     # dict tagline + 1px white/15 divider, sticky from sm below topbar;
                     # rows fade behind it via ui/PortfolioItemFade) → one featured
@@ -267,6 +288,14 @@ public/
                                                              # of the ui/*Illustration
                                                              # inline components
                                                              # (374×132, owner-provided)
+  ai-native/  obsidian.svg pen-dev.svg openchamber.svg fallow.svg
+                                                             # brand lockups traced
+                                                             # from the .pen tree
+                                                             # (node T9rslD handoff:
+                                                             # D5ETw/S62Vk/nukhj/
+                                                             # abz0R) — white marks,
+                                                             # exact path geometry,
+                                                             # viewBox = frame size
   logo-raster-dark.png logo-raster-light.png                 # email wordmarks (mail
                                                              # templates, absolute URLs)
   photo.png footer-aurora.png                                # full-res masters, kept
@@ -334,6 +363,14 @@ public/
   699:534) are the static source twins — not rendered; reduced motion shows the
   static composition. When re-animating, re-trace the component + keyframes from
   the new export.
+- **Edit AI toolkit copy**: `aiToolkit.*` in `en.ts`/`id.ts` (headline pair, the three
+  paragraphs, card alt texts, station titles + descriptions). Station overlines, strip
+  labels and model chips live in the `STATIONS` const in `AiNativeToolkit.tsx`
+  (design labels, locale-independent); the floating cards reuse
+  ui/PlanIllustration / ui/DesignIllustration / ui/DevelopIllustration inside the
+  rotated shells — restyle the shells there. The four lockups
+  (`public/ai-native/*.svg`) were traced from the .pen tree (node T9rslD:
+  frames D5ETw/S62Vk/nukhj/abz0R) — replace the SVG files to swap a logo.
 - **Edit portfolio copy**: `portfolio.tagline` + `portfolio.projects.*` in `en.ts`/`id.ts`
   (keys must match the `key` fields in `Portfolio.tsx` `PROJECTS`). Titles/tags stay in
   `PROJECTS` (proper nouns, locale-independent).
@@ -414,4 +451,4 @@ public/
 - Techstack SVG filenames are lowercase, `-` for non-alphanumeric characters (`react-router.svg`, `next-js.svg`).
 - Projects are webp, `object-cover`, `fill` + explicit `sizes`.
 
-<!-- verified against: 3a513b8 + working tree, 2026-11-11 (doc refresh: tree, recipes and asset list reconciled with the squashed availability commit; availability badge env-driven via AVAIL_* + lib/availability.ts; design sources moved outside the repo; .pen references documented as provenance, not paths) -->
+<!-- verified against: 3a513b8 + working tree, 2026-11-13 (doc refresh: tree, recipes and asset list reconciled with the squashed availability commit; availability badge env-driven via AVAIL_* + lib/availability.ts; design sources moved outside the repo; .pen references documented as provenance, not paths; AiNativeToolkit (pen T9rslD handoff) added below AiWorkflow with public/ai-native/*.svg lockups) -->

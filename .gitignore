@@ -24,6 +24,8 @@
 .cursorrules
 LOVABLE.md
 .figma-cache/*
+.pen-handoff/*
+.openchamber/
 
 # misc
 .DS_Store

@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation';
 import { About } from '../components/About';
+import { AiNativeToolkit } from '../components/AiNativeToolkit';
 import { AiWorkflow } from '../components/AiWorkflow';
 import { Footer } from '../components/Footer';
 import { Header } from '../components/Header';
@@ -31,6 +32,10 @@ export default async function Home({ params }: PageProps<'/[lang]'>) {
         <About dict={dict} locale={lang} />
         <TechStack dict={dict} />
         <AiWorkflow dict={dict} />
+        {/* AI-native unified narrative (pen T9rslD, 2026-11-12 handoff):
+            floats BELOW the original AiWorkflow section — both live on the
+            page (owner request: don't remove the existing one). */}
+        <AiNativeToolkit dict={dict} />
         <Portfolio locale={lang} dict={dict} />
         <Testimonial dict={dict} />
       </div>

@@ -106,6 +106,41 @@ export const idDictionary: Dictionary = {
       { text: 'memberikan lebih banyak ruang untuk berkarya!' },
     ],
   },
+  aiToolkit: {
+    headline: ['Intensi manusia.', 'Momentum AI.'],
+    paragraphs: [
+      'Sebagai software developer dengan pola pikir desain UI, tidak ada keraguan bagiku untuk membawa AI ke setiap tahap alur kerjaku. Dari pertanyaan pertama hingga sentuhan akhir, baik soal arsitektur maupun presisi piksel, aku yang menentukan arahnya.',
+      'AI jelas mampu membantaku mempercepat putaran eksekusi dan menghilangkan proses yang repetitif. AI membuatku bisa beriterasi lebih cepat sambil tetap dalam pada detail.',
+      'Peranku kini adalah mengarahkannya dengan selera dan intensi manusia yang nyata. Hasilnya? Produk-produk luar biasa yang diarahkan manusia. Selalu.',
+    ],
+    cards: {
+      plan: 'Ilustrasi brief perencanaan',
+      design: 'Ilustrasi studi komposisi desain',
+      develop: 'Ilustrasi artefak proses pengembangan',
+    },
+    stations: {
+      specs: {
+        title: 'Sinergi konteks yang luas.',
+        description:
+          'Memadukan penalaran arsitektural dan basis pengetahuan berbasis graf dengan eksplorasi multimodal untuk membentuk arah sejak awal.',
+      },
+      design: {
+        title: 'Wahana bermain untuk arah visual.',
+        description:
+          'Mengeksplorasi variasi visual dan mengunci ritme spasial, tipografi, serta token ke dalam sistem komponen yang padu.',
+      },
+      engineering: {
+        title: 'Koding otonom. Verifikasi ketat.',
+        description:
+          'Digerakkan melalui OpenChamber, keluarga model GLM 5.3 diarahkan untuk pengiriman kode yang cepat dan presisi tinggi.',
+      },
+      test: {
+        title: 'Tangkap regresi. Rilis dengan percaya diri.',
+        description:
+          'Menjalankan pengujian otomatis, menangani kasus batas, dan merefactor kode yang terlalu kompleks sebelum perubahan mencapai produksi.',
+      },
+    },
+  },
   portfolio: {
     tagline: {
       muted: 'Tantangan yang berbeda-beda.',

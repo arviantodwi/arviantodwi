@@ -125,6 +125,25 @@ export interface Dictionary {
     };
     toolkit: Segment[];
   };
+  aiToolkit: {
+    /** Headline pair: first line plain, second line rendered gold + bold in the component. */
+    headline: [string, string];
+    /** The three perspective paragraphs under the headline ($text-secondary). */
+    paragraphs: [string, string, string];
+    /** Floating collage alt texts, keyed by the FLOATING_CARDS const in AiNativeToolkit.tsx. */
+    cards: {
+      plan: string;
+      design: string;
+      develop: string;
+    };
+    /** Four-stage band narrative copy, keyed by the STATIONS const in AiNativeToolkit.tsx. */
+    stations: {
+      specs: { title: string; description: string };
+      design: { title: string; description: string };
+      engineering: { title: string; description: string };
+      test: { title: string; description: string };
+    };
+  };
   portfolio: {
     /** Section tagline pair: first line muted, second full white. */
     tagline: {
