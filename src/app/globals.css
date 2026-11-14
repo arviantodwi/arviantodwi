@@ -987,6 +987,117 @@ body {
   }
 }
 
+/* AI-native toolkit ambient ribbon arcs (pen wDgkw + k8R2jD + the
+   breakpoint artboards' copies): ONE class per arc, per-tier custom
+   properties. Every artboard scales the XL arcs by f (uSM 0.2604, SM
+   0.4444, MD 0.5333, LG 0.72, XL 1) — width, height, top offset and blur
+   all scale by f; the x anchors hold fixed per-tier offsets from the band
+   center (--arc-shift, pen x + w/2 − content center). The XL primary top
+   (−125px) was empirically matched against the artboard export (only the
+   thick right region of the ribbon crests the glass edge); per-tier tops
+   scale it by the same f. Opacities are constant (0.55 / 0.45). */
+.ai-arc-primary,
+.ai-arc-secondary {
+  position: absolute;
+  top: var(--arc-top);
+  left: 50%;
+  width: var(--arc-w);
+  height: var(--arc-h);
+  transform: translateX(calc(-50% + var(--arc-shift)));
+  filter: blur(var(--arc-blur));
+  pointer-events: none;
+}
+
+.ai-arc-primary {
+  --arc-w: 416.67px;
+  --arc-h: 67.71px;
+  --arc-top: -32.55px;
+  --arc-shift: 24px;
+  --arc-blur: 9.375px;
+  opacity: 0.55;
+}
+
+.ai-arc-secondary {
+  --arc-w: 343.75px;
+  --arc-h: 49.48px;
+  --arc-top: -5.21px;
+  --arc-shift: 39.63px;
+  --arc-blur: 6.25px;
+  opacity: 0.45;
+}
+
+@media (width >= 40rem) {
+  .ai-arc-primary {
+    --arc-w: 711.11px;
+    --arc-h: 115.56px;
+    --arc-top: -55.56px;
+    --arc-shift: 32px;
+    --arc-blur: 16px;
+  }
+
+  .ai-arc-secondary {
+    --arc-w: 586.67px;
+    --arc-h: 84.44px;
+    --arc-top: -8.89px;
+    --arc-shift: 58.67px;
+    --arc-blur: 10.67px;
+  }
+}
+
+@media (width >= 48rem) {
+  .ai-arc-primary {
+    --arc-w: 853.33px;
+    --arc-h: 138.67px;
+    --arc-top: -66.67px;
+    --arc-shift: 48px;
+    --arc-blur: 19.2px;
+  }
+
+  .ai-arc-secondary {
+    --arc-w: 704px;
+    --arc-h: 101.33px;
+    --arc-top: -10.67px;
+    --arc-shift: 80px;
+    --arc-blur: 12.8px;
+  }
+}
+
+@media (width >= 64rem) {
+  .ai-arc-primary {
+    --arc-w: 1152px;
+    --arc-h: 187.2px;
+    --arc-top: -90px;
+    --arc-shift: 70.4px;
+    --arc-blur: 25.92px;
+  }
+
+  .ai-arc-secondary {
+    --arc-w: 950.4px;
+    --arc-h: 136.8px;
+    --arc-top: -14.4px;
+    --arc-shift: 113.6px;
+    --arc-blur: 17.28px;
+  }
+}
+
+@media (width >= 80rem) {
+  .ai-arc-primary {
+    --arc-w: 1600px;
+    --arc-h: 260px;
+    --arc-top: -125px;
+    --arc-shift: 120px;
+    --arc-blur: 36px;
+  }
+
+  .ai-arc-secondary {
+    --arc-w: 1320px;
+    --arc-h: 190px;
+    --arc-top: -20px;
+    --arc-shift: 180px;
+    --arc-blur: 24px;
+  }
+}
+
 /* Contact success transition (pen node B2C6cA): the form subtree (radios,
    divider, fields, send row) fades out and lifts slightly on success; the
    sent view (badge + heading + subtext, full panel width) rises in after. */

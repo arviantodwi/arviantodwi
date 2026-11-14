@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import type { ComponentType, FC } from 'react';
+import type { ComponentType, FC, ReactNode } from 'react';
 import type { Dictionary } from '@/app/lib/i18n/types';
 import { cx } from '@/app/lib/utils';
 import { DesignIllustration } from './ui/DesignIllustration';
@@ -13,72 +13,106 @@ interface Props {
 
 /**
  * AI-native — Floating Introduction + Four-Stage Toolkit (Unified Narrative),
- * .pen node T9rslD (penhand handoff 2026-11-12, checksum 14f6c7b4789c…).
- * Rendered BELOW the original AiWorkflow section (both live on the page).
+ * .pen node T9rslD with the responsive artboards swZ82 (@LG 1024) /
+ * HKJ8s (@MD 768) / wKpaA (@SM 640) / GbhRS (@under-SM 375) — 2026-11-13
+ * pen pass. The page's AI section (replaced the old AiWorkflow section,
+ * removed 2026-11-14; the footer mast's AI anchor points at #ai-native).
  *
- * Structure per the flattened screen tree:
- * - Introduction (pUcyU): 460px narrative column (48px two-tone headline +
- *   three $text-secondary paragraphs) beside a 676×463 floating collage of
- *   the three stage cards (Plan −3° @ 18,18 · Design +3° @ 244,156 ·
- *   Develop −2° @ 74,300). The cards' interiors are the same traced
+ * Structure per the flattened screen tree + breakpoint descendants:
+ * - Introduction (pUcyU): narrative column (two-tone headline + three
+ *   $text-secondary paragraphs) beside the floating collage at lg+; below
+ *   lg the artboards stack the narrative and DISABLE the intro copy of the
+ *   collage, re-parenting it INSIDE the band below the matrix (ukQxJ /
+ *   Bo2m3 / E4LxRt — left/right/center stagger). Headline 40px below sm /
+ *   48px from sm (owner override 2026-11-14 over the pen's 28/32/36/40/48
+ *   artboard scale) with the pen's absolute −1.92px tracking at every size.
+ * - Floating collage (pen LMgxo): aspect-locked canvas, the three stage
+ *   cards pinned at %-coordinates so each canvas scales as one unit —
+ *   55.23%-wide cards in both variants; interiors are the same traced
  *   compositions the first section renders (ui/PlanIllustration,
  *   ui/DesignIllustration, ui/DevelopIllustration) — reused, per the
- *   handoff's build-once rule; their shells move here (fills + 1px
- *   #30302B border + 0 12px 28px #00000066 shadow). The pen's 1–2px
- *   backdrop-blur on the opaque cards is invisible and skipped.
+ *   handoff's build-once rule; shells = fills + 1px #30302B border +
+ *   0 12px 28px #00000066 shadow. The pen's 1–2px backdrop-blur on the
+ *   opaque cards is invisible and skipped.
  * - AI toolkit (NC4YD): two ambient ribbon arcs behind a glass band
  *   (#0A0A08CC, 1px #292924, backdrop-blur 20) with a 2px horizontal
- *   signal-trace gradient and four instrument stations (overline, logo
- *   stage, model strip, narrative). The pen's "Anchored header band"
- *   (cCTFV) and "Conduit telemetry bar" (eMYZ9) are enabled=false in the
- *   source and absent from the export — intentionally not rendered.
- *
- * No responsive artboards exist in the bundle; adaptations (documented in
- * docs/structure.md + docs/design.md): the collage scales as one unit via
- * %-positioned cards; the station grid is 4-up at xl (design exact), 2×2
- * from md, 1 column below md. The pen's frame paddings (intro pt-72/pb-32,
- * toolkit pt-32/pb-72) map to the body wrapper's rhythm: py-0 section, the
- * 64px intro→band joint as an internal gap, body gaps above/below.
+ *   signal-trace gradient and four instrument stations — 4-up at lg+
+ *   (stations padding 16 / stages 44 / overlines 9px / logos capped 192 /
+ *   strips stacked vertical), 2×2 at sm–md, 1 column at uSM (padding
+ *   12/12/16/12, stages 44, strips [6,8]). The pen's "Anchored header
+ *   band" and "Conduit telemetry bar" stay enabled=false — not rendered.
+ * - The artboard gutters match the Section shell at every tier
+ *   (24/32/48/64/120); the pen's vertical frame paddings map to the body
+ *   wrapper's rhythm (py-0 section, internal joints 48 below lg / 64 lg+).
  */
 
-/** Floating collage geometry (pen LMgxo): % positions of the 55.23%-wide
-    cards so the whole canvas scales as one unit at every width. */
 const FLOATING_CARDS: {
   key: 'plan' | 'design' | 'develop';
   Illustration: ComponentType<{ className?: string; ariaLabel: string }>;
   shell: string;
-  position: string;
 }[] = [
-  {
-    key: 'plan',
-    Illustration: PlanIllustration,
-    shell: 'bg-[#10100d]',
-    position: 'left-[2.663%] top-[3.888%] -rotate-3',
-  },
-  {
-    key: 'design',
-    Illustration: DesignIllustration,
-    shell: 'bg-[#14140f]',
-    position: 'left-[36.09%] top-[33.7%] rotate-3',
-  },
-  {
-    key: 'develop',
-    Illustration: DevelopIllustration,
-    shell: 'bg-[#0d0d0d]',
-    position: 'left-[10.95%] top-[64.79%] -rotate-2',
-  },
+  { key: 'plan', Illustration: PlanIllustration, shell: 'bg-[#10100d]' },
+  { key: 'design', Illustration: DesignIllustration, shell: 'bg-[#14140f]' },
+  { key: 'develop', Illustration: DevelopIllustration, shell: 'bg-[#0d0d0d]' },
 ];
 
 /**
- * Four-stage toolkit stations (pen OTmUQ). Overlines, strip labels and
- * model names are design labels (like AiWorkflow's stage titles — proper
- * nouns / mono-caps, locale-independent); titles + descriptions are
+ * Collage geometry per variant (pen LMgxo at xl/lg; ukQxJ / Bo2m3 / E4LxRt
+ * below lg): card width is 55.23% of the canvas in both; the intro canvas
+ * keeps the XL stagger, the below-grid canvas re-points it left / right /
+ * center with an even vertical rhythm. Card interiors scale with the
+ * canvas, so the reused illustration SVGs track the shells automatically.
+ */
+const COLLAGE_VARIANTS = {
+  /** Intro row (pen LMgxo 676×463, ×0.72 at lg) — XL stagger. */
+  intro: {
+    aspect: 'aspect-[676/463]',
+    positions: [
+      'left-[2.663%] top-[3.888%] -rotate-3',
+      'left-[36.09%] top-[33.7%] rotate-3',
+      'left-[10.95%] top-[64.79%] -rotate-2',
+    ],
+  },
+  /** Below the toolkit grid (pen ukQxJ 672×424 family) — L/R/C stagger. */
+  below: {
+    aspect: 'aspect-[672/424]',
+    positions: [
+      'left-0 top-0 -rotate-3',
+      'left-[43.8%] top-[33%] rotate-3',
+      'left-[22.05%] top-[66%] -rotate-2',
+    ],
+  },
+} as const;
+
+const FloatingCollage: FC<{
+  variant: keyof typeof COLLAGE_VARIANTS;
+  labels: Dictionary['aiToolkit']['cards'];
+}> = ({ variant, labels }) => {
+  const { aspect, positions } = COLLAGE_VARIANTS[variant];
+  return (
+    <div className={`relative ${aspect} w-full`}>
+      {FLOATING_CARDS.map(({ key, Illustration, shell }, index) => (
+        <div className={`absolute w-[55.23%] ${positions[index]}`} key={key}>
+          <div
+            className={cx('border border-[#30302b] shadow-[0_12px_28px_rgba(0,0,0,0.4)]', shell)}
+          >
+            <Illustration ariaLabel={labels[key]} className="h-auto w-full select-none" />
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+/**
+ * Four-stage toolkit stations (pen OTmUQ + the replaced @MD/@SM/@uSM
+ * subtrees). Strip labels and model names are design labels (proper nouns
+ * / mono-caps, locale-independent); overlines + titles + descriptions are
  * dictionary copy (dict.aiToolkit.stations). Logos are the lockups
  * extracted from the .pen tree into public/ai-native/*.svg.
  */
 const STATIONS: {
   key: 'specs' | 'design' | 'engineering' | 'test';
-  overline: string;
   logo: { name: string; src: `/ai-native/${string}.svg`; width: number; height: number };
   stripLabel: string;
   stripLabelClass: string;
@@ -87,7 +121,6 @@ const STATIONS: {
 }[] = [
   {
     key: 'specs',
-    overline: 'SPECS & PLAN',
     logo: { name: 'Obsidian', src: '/ai-native/obsidian.svg', width: 244, height: 43 },
     stripLabel: 'MODELS',
     stripLabelClass: 'font-normal',
@@ -96,7 +129,6 @@ const STATIONS: {
   },
   {
     key: 'design',
-    overline: 'DESIGN SYSTEM & UI COMPOSITION',
     logo: { name: 'pen.dev', src: '/ai-native/pen-dev.svg', width: 207, height: 44 },
     stripLabel: 'MODELS',
     stripLabelClass: 'font-normal',
@@ -105,7 +137,6 @@ const STATIONS: {
   },
   {
     key: 'engineering',
-    overline: 'AI-ASSISTED ENGINEERING',
     logo: { name: 'OpenChamber', src: '/ai-native/openchamber.svg', width: 244, height: 42 },
     stripLabel: 'MODELS',
     stripLabelClass: 'font-medium',
@@ -114,7 +145,6 @@ const STATIONS: {
   },
   {
     key: 'test',
-    overline: 'TEST & REVIEW',
     logo: { name: 'Fallow', src: '/ai-native/fallow.svg', width: 138, height: 44 },
     stripLabel: 'SUPPORTING MODELS',
     stripLabelClass: 'font-normal',
@@ -123,25 +153,86 @@ const STATIONS: {
   },
 ];
 
-/** Station cell separators per tier: 1px #22221D right strokes between
-    columns (pen) — bottom strokes join the stacked/2×2 adaptations. */
+/**
+ * Station cell separators + padding per tier (pen): 1px #22221D strokes —
+ * 4-up right strokes at lg+; 2×2 right+bottom at sm–md (odd columns right,
+ * bottom row borderless); stacked bottom strokes at uSM. Padding 20 at
+ * xl/md, 16 at lg/sm, 12 sides + 16 bottom at uSM.
+ */
 const STATION_CELL =
-  'flex flex-col gap-4 border-b border-[#22221d] p-5 last:border-b-0 md:[&:nth-child(odd)]:border-r md:[&:nth-child(n+3)]:border-b-0 xl:border-b-0 xl:border-r xl:last:border-r-0';
+  'flex flex-col gap-4 border-b border-[#22221d] max-sm:px-3 max-sm:pt-3 max-sm:pb-4 sm:p-4 md:p-5 lg:p-4 xl:p-5 last:border-b-0 sm:[&:nth-child(odd)]:border-r sm:[&:nth-child(n+3)]:border-b-0 lg:border-b-0 lg:border-r lg:last:border-r-0';
+
+const StationNarrative: FC<{ title: string; description: string }> = ({ title, description }) => (
+  <div className="flex flex-col gap-1">
+    <h3 className="font-general text-[13px] leading-[1.35] font-bold tracking-[-0.1px] text-white">
+      {title}
+    </h3>
+    <p className="font-general text-xs leading-[1.4] text-white/60">{description}</p>
+  </div>
+);
 
 export const AiNativeToolkit: FC<Props> = ({ dict }) => {
   const { aiToolkit } = dict;
   const { headline, paragraphs, stations } = aiToolkit;
 
+  const renderStation = (station: (typeof STATIONS)[number]): ReactNode => {
+    const copy = stations[station.key];
+    return (
+      <div className={cx(STATION_CELL, station.shell)} key={station.key}>
+        {/* Station telemetry header (pen Node id) — dictionary overline */}
+        <p className="font-mono text-[10px] font-medium tracking-[0.7px] text-white/80 lg:text-[9px]">
+          {copy.overline}
+        </p>
+        {/* Logo stage (pen 52 tall; 44 at lg + uSM; opacity .95) */}
+        <div className="flex h-[44px] items-center opacity-95 sm:h-[52px] lg:h-[44px] xl:h-[52px]">
+          <Image
+            alt={`${station.logo.name} logo`}
+            className="h-auto w-auto max-w-full select-none lg:max-w-[192px] xl:max-w-none"
+            height={station.logo.height}
+            loading="lazy"
+            src={station.logo.src}
+            width={station.logo.width}
+          />
+        </div>
+        {/* Model routing strip (pen lsH6d family): horizontal 36px; stacked
+            label-over-chips at lg only (xl restores the inline row); [6,8]
+            padding at uSM */}
+        <div className="flex h-9 items-center justify-between gap-2 border border-[#36321d] bg-[#14130c] px-2.5 py-2 max-sm:h-auto max-sm:px-2 max-sm:py-1.5 lg:h-auto lg:flex-col lg:items-start lg:justify-start lg:gap-1.5 xl:h-9 xl:flex-row xl:items-center xl:justify-between xl:gap-2">
+          <span
+            className={cx(
+              'font-mono text-[9px] tracking-[0.6px] text-gold',
+              station.stripLabelClass,
+            )}
+          >
+            {station.stripLabel}
+          </span>
+          <span className="flex items-center gap-1.5">
+            {station.chips.map((chip) => (
+              <span
+                className="border border-[#e3b60059] bg-[#1f1d12] px-[5px] py-[3px] font-mono text-[10px] font-semibold text-white"
+                key={chip}
+              >
+                {chip}
+              </span>
+            ))}
+          </span>
+        </div>
+        {/* Station narrative (pen HTFo2 family) — Plus Jakarta Sans */}
+        <StationNarrative title={copy.title} description={copy.description} />
+      </div>
+    );
+  };
+
   return (
     <Section id="ai-native" className="py-0">
-      <div className="flex flex-col gap-16">
-        {/* Introduction — Floating process (pen pUcyU): narrative column +
-            floating collage, side by side from xl (design exact), stacked
-            below with the same 64px joint. */}
-        <div className="flex flex-col gap-16 xl:flex-row xl:items-center">
-          {/* Narrative (pen mMWFv, 460px) */}
-          <div className="flex max-w-[460px] flex-col gap-5 xl:w-[460px] xl:shrink-0">
-            <h2 className="font-general text-[40px] leading-[1.25] font-semibold tracking-[-0.04em] max-md:tracking-[-0.048em] md:text-[48px]">
+      <div className="flex flex-col gap-12 lg:gap-16">
+        {/* Introduction — Floating process (pen pUcyU): narrative ∥ collage
+            row at lg+ (486.72px collage at lg, 676px at xl); stacked below
+            lg with the collage re-parented into the band. */}
+        <div className="flex flex-col gap-12 lg:flex-row lg:items-center xl:gap-16">
+          {/* Narrative (pen mMWFv): 460px at xl, fill_container at lg */}
+          <div className="flex flex-col gap-5 lg:min-w-0 lg:flex-1 xl:w-[460px] xl:flex-none xl:shrink-0">
+            <h2 className="font-general text-[40px] leading-[1.25] font-semibold tracking-[-1.92px] sm:text-[48px]">
               {headline[0]}
               <br />
               <span className="text-gold font-bold">{headline[1]}</span>
@@ -150,7 +241,7 @@ export const AiNativeToolkit: FC<Props> = ({ dict }) => {
             <div className="flex flex-col gap-3.5">
               {paragraphs.map((paragraph) => (
                 <p
-                  className="font-general text-base leading-[1.5] text-white/75"
+                  className="font-general text-base leading-[1.5] text-white/75 max-sm:text-[15px]"
                   key={paragraph.slice(0, 24)}
                 >
                   {paragraph}
@@ -159,40 +250,24 @@ export const AiNativeToolkit: FC<Props> = ({ dict }) => {
             </div>
           </div>
 
-          {/* Connected process — Floating illustrations (pen LMgxo, 676×463):
-              one aspect-locked canvas, cards pinned at %-coordinates. */}
-          <div className="relative mx-auto aspect-[676/463] w-full max-w-[676px] xl:mx-0 xl:w-[676px] xl:shrink-0">
-            {FLOATING_CARDS.map(({ key, Illustration, position, shell }) => (
-              <div className={`absolute w-[55.23%] ${position}`} key={key}>
-                <div
-                  className={cx(
-                    'border border-[#30302b] shadow-[0_12px_28px_rgba(0,0,0,0.4)]',
-                    shell,
-                  )}
-                >
-                  <Illustration
-                    ariaLabel={aiToolkit.cards[key]}
-                    className="h-auto w-full select-none"
-                  />
-                </div>
-              </div>
-            ))}
+          {/* Connected process — Floating illustrations (pen LMgxo): one
+              aspect-locked canvas, cards pinned at %-coordinates. */}
+          <div className="max-lg:hidden lg:w-[486.72px] lg:shrink-0 xl:w-[676px]">
+            <FloatingCollage variant="intro" labels={aiToolkit.cards} />
           </div>
         </div>
 
         {/* AI toolkit — Four-stage workflow (pen NC4YD). The wrapper is the
-            arc canvas: both ribbons anchor to the band's center line (pen
-            centers them on the 1200px content) and bleed above the glass
-            like the artboard; the page-level overflow-x clip absorbs the
-            horizontal bleed. */}
+            arc canvas: both ribbons anchor to the band's center line with
+            per-tier offsets (globals.css .ai-arc-*) and bleed above the
+            glass like the artboard; the page-level overflow-x clip absorbs
+            the horizontal bleed. */}
         <div className="relative">
-          {/* Ambient ribbon arc — primary gold (pen wDgkw): anchored to the
-              band center +120px; its ribbon sits mostly behind the glass —
-              only the thick right region crests the top edge, as in the
-              artboard export (empirically matched: top −125). */}
+          {/* Ambient ribbon arc — primary gold (pen wDgkw): only the thick
+              right region crests the glass edge, as in the artboards. */}
           <svg
             aria-hidden="true"
-            className="pointer-events-none absolute top-[-125px] left-1/2 h-[260px] w-[1600px] -translate-x-[calc(50%-120px)] opacity-[0.55] blur-[36px]"
+            className="ai-arc-primary"
             viewBox="0 0 1600 260"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -211,12 +286,11 @@ export const AiNativeToolkit: FC<Props> = ({ dict }) => {
               fill="url(#ai-native-arc-primary)"
             />
           </svg>
-          {/* Ambient ribbon arc — secondary ember (pen k8R2jD: x 120 / y −20
-              against the content box → band center +180px, its ribbon almost
-              entirely behind the glass like the artboard) */}
+          {/* Ambient ribbon arc — secondary ember (pen k8R2jD): its ribbon
+              sits almost entirely behind the glass like the artboards. */}
           <svg
             aria-hidden="true"
-            className="pointer-events-none absolute top-[-20px] left-1/2 h-[190px] w-[1320px] -translate-x-[calc(50%-180px)] opacity-[0.45] blur-[24px]"
+            className="ai-arc-secondary"
             viewBox="0 0 1320 190"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -240,61 +314,16 @@ export const AiNativeToolkit: FC<Props> = ({ dict }) => {
           <div className="relative border border-[#292924] bg-[#0a0a08]/80 shadow-[0_8px_24px_rgba(0,0,0,0.4)] backdrop-blur-[20px]">
             {/* Luminous top signal trace (pen P8qhbc) */}
             <div className="h-[2px] bg-[linear-gradient(90deg,#e3b60022_0%,#e3b600_28%,#fff29c_50%,#708da9aa_78%,#29292944_100%)]" />
-            {/* Instrument stations (pen r1NnoT): 4-up at xl, 2×2 from md */}
-            <div className="grid md:grid-cols-2 xl:grid-cols-4">
-              {STATIONS.map((station) => {
-                const copy = stations[station.key];
-                return (
-                  <div className={cx(STATION_CELL, station.shell)} key={station.key}>
-                    {/* Station telemetry header (pen Node id) */}
-                    <p className="font-mono text-[10px] font-medium tracking-[0.7px] text-white/80">
-                      {station.overline}
-                    </p>
-                    {/* Logo stage (pen height 52, opacity .95) */}
-                    <div className="flex h-[52px] items-center opacity-95">
-                      <Image
-                        alt={`${station.logo.name} logo`}
-                        className="h-auto w-auto max-w-full select-none"
-                        height={station.logo.height}
-                        loading="lazy"
-                        src={station.logo.src}
-                        width={station.logo.width}
-                      />
-                    </div>
-                    {/* Model routing strip (pen lsH6d family) */}
-                    <div className="flex h-9 items-center justify-between gap-2 border border-[#36321d] bg-[#14130c] px-2.5">
-                      <span
-                        className={cx(
-                          'font-mono text-[9px] tracking-[0.6px] text-gold',
-                          station.stripLabelClass,
-                        )}
-                      >
-                        {station.stripLabel}
-                      </span>
-                      <span className="flex items-center gap-1.5">
-                        {station.chips.map((chip) => (
-                          <span
-                            className="border border-[#e3b60059] bg-[#1f1d12] px-[5px] py-[3px] font-mono text-[10px] font-semibold text-white"
-                            key={chip}
-                          >
-                            {chip}
-                          </span>
-                        ))}
-                      </span>
-                    </div>
-                    {/* Station narrative (pen HTFo2 family) — Plus Jakarta Sans */}
-                    <div className="flex flex-col gap-1">
-                      <h3 className="font-general text-[13px] leading-[1.35] font-bold tracking-[-0.1px] text-white">
-                        {copy.title}
-                      </h3>
-                      <p className="font-general text-xs leading-[1.4] text-white/60">
-                        {copy.description}
-                      </p>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
+            {/* Instrument stations (pen r1NnoT family): 4-up at lg+, 2×2 at
+                sm–md, 1 column at uSM */}
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4">{STATIONS.map(renderStation)}</div>
+          </div>
+
+          {/* Connected process — Floating illustrations, re-parented below
+              the matrix at uSM/SM/MD (pen ukQxJ / Bo2m3 / E4LxRt, 40px
+              after the band): L/R/C stagger, full content width. */}
+          <div className="mt-10 lg:hidden">
+            <FloatingCollage variant="below" labels={aiToolkit.cards} />
           </div>
         </div>
       </div>

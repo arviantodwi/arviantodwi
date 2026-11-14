@@ -29,12 +29,6 @@ export interface PersonTestimony {
   quotes: Segment[];
 }
 
-/** Copy for one AI-workflow stage: stage description + its illustration alt text. */
-export interface StageCopy {
-  description: string;
-  imageAlt: string;
-}
-
 /** One selectable "I'm interested in..." option on the contact form. */
 export interface ContactChoice {
   id: 'design' | 'frontend' | 'sme' | 'hello';
@@ -114,17 +108,6 @@ export interface Dictionary {
     heading: Segment[];
     subline: Segment[];
   };
-  aiWorkflow: {
-    /** Headline pair: first line plain, second line rendered gold + bold in the component. */
-    headline: [string, string];
-    intro: Segment[];
-    stages: {
-      plan: StageCopy;
-      design: StageCopy;
-      develop: StageCopy;
-    };
-    toolkit: Segment[];
-  };
   aiToolkit: {
     /** Headline pair: first line plain, second line rendered gold + bold in the component. */
     headline: [string, string];
@@ -136,12 +119,12 @@ export interface Dictionary {
       design: string;
       develop: string;
     };
-    /** Four-stage band narrative copy, keyed by the STATIONS const in AiNativeToolkit.tsx. */
+    /** Four-stage band copy, keyed by the STATIONS const in AiNativeToolkit.tsx. */
     stations: {
-      specs: { title: string; description: string };
-      design: { title: string; description: string };
-      engineering: { title: string; description: string };
-      test: { title: string; description: string };
+      specs: { overline: string; title: string; description: string };
+      design: { overline: string; title: string; description: string };
+      engineering: { overline: string; title: string; description: string };
+      test: { overline: string; title: string; description: string };
     };
   };
   portfolio: {

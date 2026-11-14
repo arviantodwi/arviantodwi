@@ -69,49 +69,12 @@ export const idDictionary: Dictionary = {
       { text: ' serta teknologi untuk mencapai hasil pekerjaan yang luar biasa.' },
     ],
   },
-  aiWorkflow: {
-    headline: ['Intensi pada manusia.', 'Momentum dengan AI.'],
-    intro: [
-      {
-        text: 'Sebagai desainer dan developer yang AI-native, saya membawa AI ke setiap tahapan proses kreatif saya. Dari pertanyaan pertama hingga sentuhan akhir, ',
-        tone: 'dim',
-      },
-      { text: 'saya yang menentukan arahnya', tone: 'gold' },
-      {
-        text: '. Hasilnya adalah produk-produk luar biasa yang diarahkan oleh manusia.',
-        tone: 'dim',
-      },
-    ],
-    stages: {
-      plan: {
-        description:
-          'Saya merumuskan rencana, menemukan berbagai kemungkinan, dan memetakan arah yang jelas.',
-        imageAlt: 'Ilustrasi brief perencanaan',
-      },
-      design: {
-        description:
-          'Saya mengeksplorasi arah visual, menyempurnakan interaksi, dan menjaga pengalaman tetap berpadu.',
-        imageAlt: 'Ilustrasi studi komposisi desain',
-      },
-      develop: {
-        description:
-          'Saya mempercepat implementasi, melakukan iterasi dengan cermat, dan menghaluskan detilnya.',
-        imageAlt: 'Ilustrasi artefak proses pengembangan',
-      },
-    },
-    toolkit: [
-      { text: 'Kumpulan perangkat AI ini membantu saya ', tone: 'dim' },
-      { text: 'mengurangi pekerjaan repetitif ' },
-      { text: 'dan ', tone: 'dim' },
-      { text: 'memberikan lebih banyak ruang untuk berkarya!' },
-    ],
-  },
   aiToolkit: {
     headline: ['Intensi manusia.', 'Momentum AI.'],
     paragraphs: [
-      'Sebagai software developer dengan pola pikir desain UI, tidak ada keraguan bagiku untuk membawa AI ke setiap tahap alur kerjaku. Dari pertanyaan pertama hingga sentuhan akhir, baik soal arsitektur maupun presisi piksel, aku yang menentukan arahnya.',
-      'AI jelas mampu membantaku mempercepat putaran eksekusi dan menghilangkan proses yang repetitif. AI membuatku bisa beriterasi lebih cepat sambil tetap dalam pada detail.',
-      'Peranku kini adalah mengarahkannya dengan selera dan intensi manusia yang nyata. Hasilnya? Produk-produk luar biasa yang diarahkan manusia. Selalu.',
+      'Sebagai software developer yang juga merangkap UI designer, saya tidak ragu untuk membawa AI ke setiap tahap alur kerja saya. Mulai dari pertanyaan pertama hingga sentuhan akhir, baik soal arsitektur maupun kepresisian piksel, saya yang menentukan arahnya.',
+      'AI mampu membantu saya mempercepat eksekusi dan menghilangkan proses yang repetitif, sehingga saya bisa beriterasi lebih cepat sambil tetap memperhitungkan detil-detil kecil.',
+      'Peran saya kini adalah mengarahkannya sesuai selera manusia, dengan melibatkan intensi yang nyata. Hasilnya? Produk-produk luar biasa yang selalu ada manusia di dalamnya.',
     ],
     cards: {
       plan: 'Ilustrasi brief perencanaan',
@@ -120,24 +83,28 @@ export const idDictionary: Dictionary = {
     },
     stations: {
       specs: {
-        title: 'Sinergi konteks yang luas.',
+        overline: 'SPESIFIKASI & PERENCANAAN',
+        title: 'Sinergi antar konteks yang luas.',
         description:
-          'Memadukan penalaran arsitektural dan basis pengetahuan berbasis graf dengan eksplorasi multimodal untuk membentuk arah sejak awal.',
+          'Memadukan penalaran arsitektural dan basis pengetahuan berbasis graf dengan eksplorasi multimodal sehingga dapat membentuk arah kerja sejak awal.',
       },
       design: {
-        title: 'Wahana bermain untuk arah visual.',
+        overline: 'DESIGN SYSTEM & KOMPOSISI UI',
+        title: 'Wahana bermain untuk pembentukan visual.',
         description:
           'Mengeksplorasi variasi visual dan mengunci ritme spasial, tipografi, serta token ke dalam sistem komponen yang padu.',
       },
       engineering: {
-        title: 'Koding otonom. Verifikasi ketat.',
+        overline: 'PENGEMBANGAN BERBANTUAN AI',
+        title: 'Coding berotonomi yang diverifikasi secara ketat.',
         description:
-          'Digerakkan melalui OpenChamber, keluarga model GLM 5.3 diarahkan untuk pengiriman kode yang cepat dan presisi tinggi.',
+          'Digerakkan melalui OpenChamber, model GLM 5.3 beserta turunannya diarahkan untuk penulisan kode yang cepat dan dengan kepresisian yang tinggi.',
       },
       test: {
-        title: 'Tangkap regresi. Rilis dengan percaya diri.',
+        overline: 'PENGUJIAN & PENINJAUAN',
+        title: 'Tanggulangi regresi. Rilis dengan percaya diri.',
         description:
-          'Menjalankan pengujian otomatis, menangani kasus batas, dan merefactor kode yang terlalu kompleks sebelum perubahan mencapai produksi.',
+          'Menjalankan pengujian otomatis, menangani kasus batas, dan pemfaktoran ulang kode yang terlalu kompleks sebelum perubahan mencapai lini produksi.',
       },
     },
   },

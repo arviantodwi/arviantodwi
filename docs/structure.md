@@ -112,43 +112,43 @@ src/
                     # right-border strip EN-only below lg (ID: max-lg:hidden)
       TechStack.tsx # Heading + subline via SegmentedText + ToolsMarquee (uSM: rows
                     # h-9, heading→rows 48, per the 2026-11-02 pen pass)
-      AiWorkflow.tsx # AI-native — Connected Workflow (Figma node 699-419): 48px two-tone
-                     # headline + intro; 3 stage cols from lg (PLAN/DESIGN/DEVELOP, Antonio
-                     # 26px + 24px custom icon from ui/icons.tsx); stage rows are
-                     # horizontal (narrative ∥ artwork, equal halves, 24px gap) from sm
-                     # (@SM artboard mpHpG 2026-11-02), stacked below sm; toolkit row
-                     # side-by-side from lg (centered label + logos wrapping 2×2 at lg,
-                     # single row at xl, label left in the 320px column); uSM+SM tighten:
-                     # block joints 32, stage gap 16, title→desc 4 (uSM), centered toolkit
-                     # label below md (desc leading 22, headline tracking −0.048em)
-                     # + closing thought row; card shells are code (bg/border
-                     # per design); PLAN + DESIGN render animated inline SVG via
-                     # ui/PlanIllustration / ui/DesignIllustration (7.2s scenery loops);
-                     # DEVELOP via ui/DevelopIllustration — static composition + blinking
-                     # caret on line 03 only (owner verdict: heavy text animation too
-                     # fussy). Logo row: public/techstack/ai/*.svg. Copy in
-                     # dictionaries (aiWorkflow key); stage shells/icons/images in STAGES const
       AiNativeToolkit.tsx # AI-native — Floating Introduction + Four-Stage Toolkit (Unified
-                     # Narrative), .pen node T9rslD (2026-11-12 penhand handoff,
-                     # checksum 14f6c7b4789c…). Rendered BELOW AiWorkflow (both live).
-                     # Intro: 460px narrative (two-tone 48px headline + three
-                     # $text-secondary paragraphs) beside a 676×463 floating collage —
-                     # the three stage cards reused from ui/PlanIllustration /
-                     # ui/DesignIllustration / ui/DevelopIllustration inside rotated
-                     # shells (−3°/+3°/−2°, border #30302B, shadow 0 12px 28px
-                     # #00000066), %-positioned in an aspect-locked canvas so the
-                     # collage scales as one unit (design is @1440-only; documented
-                     # adaptation). Toolkit band: two ambient ribbon arcs (inline SVG,
-                     # gradients + blur, bleeding above the glass) behind a glass
-                     # matrix (bg #0A0A08CC, border #292924, backdrop-blur 20, 2px
-                     # horizontal trace gradient) with 4 instrument stations
-                     # (overline/logo stage/model strip/narrative): 4-up at xl
-                     # (design exact), 2×2 from md, 1 column below md. Overlines,
-                     # strip labels and model chips are design labels in the
-                     # STATIONS const; titles + descriptions in dictionaries
-                     # (aiToolkit.stations). Logos: public/ai-native/*.svg. The pen's
-                     # disabled nodes (Anchored header band cCTFV, Conduit telemetry
-                     # bar eMYZ9) are intentionally not rendered
+                     # Narrative), .pen node T9rslD + the responsive artboards swZ82
+                     # (@LG 1024) / HKJ8s (@MD 768) / wKpaA (@SM 640) / GbhRS
+                     # (@under-SM 375) — 2026-11-13 pen pass. The page's AI section —
+                     # replaced the old AiWorkflow section (removed 2026-11-14;
+                     # footer mast AI anchor → #ai-native). Intro: narrative column (two-tone headline,
+                     # 40px below sm / 48px from sm — owner override 2026-11-14
+                     # over the pen's 28/32/36/40/48 artboard scale — with the
+                     # pen's absolute −1.92px tracking, + three $text-secondary
+                     # paragraphs, 15px at uSM) beside the
+                     # floating collage at lg+ (676×463 at xl, 486.72×333.36 = ×0.72 at
+                     # lg, fill narrative at lg) — below lg the intro's collage copy is
+                     # disabled and the artboards RE-PARENT the collage INSIDE the band
+                     # below the matrix (ukQxJ/Bo2m3/E4LxRt: full content width, 40px
+                     # after the band, left/right/center card stagger, aspect 672:424).
+                     # The collage renders via a local FloatingCollage component (two
+                     # geometry variants, %-positioned 55.23%-wide cards) reusing
+                     # ui/PlanIllustration / ui/DesignIllustration /
+                     # ui/DevelopIllustration inside rotated shells (−3°/+3°/−2°,
+                     # border #30302B, shadow 0 12px 28px #00000066). Toolkit band:
+                     # two ambient ribbon arcs (inline SVG, per-tier geometry via
+                     # globals.css .ai-arc-* custom properties — width/height/top/blur
+                     # scale by f per tier: uSM .26/SM .44/MD .53/LG .72/XL 1; fixed
+                     # per-tier x offsets from the band center) behind a glass matrix
+                     # (bg #0A0A08CC, border #292924, backdrop-blur 20, 2px horizontal
+                     # trace gradient) with 4 instrument stations (overline/logo
+                     # stage/model strip/narrative): 4-up at lg+ (stations padding 16 /
+                     # stages 44 / overlines 9px / logos capped 192 / strips stacked
+                     # label-over-chips — horizontal 36px rows again at xl), 2×2 at sm–md (padding 20/16, stages 52,
+                     # horizontal strips), 1 column at uSM (padding 12/12/16/12,
+                     # stages 44, strips [6,8]); station fills #0E0E0A/#10100B on 3/4;
+                     # 1px #22221D separators per tier. Strip labels and
+                     # model chips are design labels in the STATIONS const; overlines +
+                     # titles + descriptions in dictionaries (aiToolkit.stations). Logos:
+                     # public/ai-native/*.svg. The pen's disabled nodes (Anchored
+                     # header band cCTFV, Conduit telemetry bar eMYZ9) are
+                     # intentionally not rendered
       Portfolio.tsx # Redesigned per Figma node 681-441: heading band (wordmark +
                     # dict tagline + 1px white/15 divider, sticky from sm below topbar;
                     # rows fade behind it via ui/PortfolioItemFade) → one featured
@@ -201,7 +201,7 @@ src/
                     # at lg (details in design.md) masts (full-width below 600px
                     # per pen WYfOW 2026-11-02; hairline rows, ↗ on
                     # external links only; anchors
-                    # #about/#human-ai/#portfolio/#testimonials/#contact, section
+                    # #about/#ai-native/#portfolio/#testimonials/#contact, section
                     # ids set on each section). Labels in dictionaries
                     # (dict.footer.mast); hrefs composed here from constants.
       ui/           # Shared UI primitives & client islands:
@@ -238,7 +238,7 @@ src/
         icons.tsx               # Self-hosted inline icon library (no react-icons):
                                 # Tabler-stroke icons (24×24, round-cap, currentColor,
                                 # 2px stroke): IconPolygon, IconCircleSquare,
-                                # IconIcosahedron (AI workflow stages), IconHash
+                                # IconIcosahedron (unused since the AiWorkflow removal), IconHash
                                 # (portfolio tags, 1.25px stroke), IconQuote
                                 # (testimonial mark), IconLanguage,
                                 # IconSelector, IconArrowUpRight, IconCheck;
@@ -303,7 +303,6 @@ public/
   projects/  *.webp + *.png                                  # webp served, png <picture> fallback
   people/    *.jpeg / *.jpg.webp
   techstack/ *.svg (lowercase, dashes for non-alphanumerics, e.g. "next-js.svg")
-  techstack/ai/  opencode.svg figma.svg openai.svg gemini.svg (196×60 pre-composed cells)
 ```
 
 ## Render pipeline
@@ -351,24 +350,15 @@ public/
 - **Add tool to marquee**: add `{ name, image }` to `TECH_STACK` in `lib/constants/stack.ts`
   (keep name-sorted) + lowercase-dashed SVG in `public/techstack/`. Marquee rows split list
   in half automatically.
-- **Edit AI workflow copy**: `aiWorkflow.*` in `en.ts`/`id.ts` (headline pair rendered by
-  the component: line 1 plain, line 2 gold+bold; intro/toolkit are `Segment[]`; stage
-  descriptions + their illustration alts in `aiWorkflow.stages.*`). Stage card visuals
-  (shell bg/border, icon component, SVG paths) live in the `STAGES` const in
-  `AiWorkflow.tsx`.
-  Card illustrations are animated inline SVGs: ui/PlanIllustration /
-  ui/DesignIllustration (7.2s keyframe loops — `.plan-*` / `.design-*` in
-  globals.css) and ui/DevelopIllustration (blinking line-03 caret only). The
-  `public/ai-native-*.svg` exports (374×132, from Figma nodes 699:459 / 699:489 /
-  699:534) are the static source twins — not rendered; reduced motion shows the
-  static composition. When re-animating, re-trace the component + keyframes from
-  the new export.
 - **Edit AI toolkit copy**: `aiToolkit.*` in `en.ts`/`id.ts` (headline pair, the three
-  paragraphs, card alt texts, station titles + descriptions). Station overlines, strip
-  labels and model chips live in the `STATIONS` const in `AiNativeToolkit.tsx`
-  (design labels, locale-independent); the floating cards reuse
-  ui/PlanIllustration / ui/DesignIllustration / ui/DevelopIllustration inside the
-  rotated shells — restyle the shells there. The four lockups
+  paragraphs, card alt texts, station overlines + titles + descriptions). Strip labels
+  and model chips live in the `STATIONS` const in `AiNativeToolkit.tsx`
+  (design labels, locale-independent). The floating cards render twice (intro at lg+,
+  below the grid below lg) via the `COLLAGE_VARIANTS` geometry in
+  `AiNativeToolkit.tsx` — their interiors are the shared ui/*Illustration components
+  (animate them there, both spots update); restyle the shells in `FLOATING_CARDS`.
+  Responsive geometry lives in the component classes + the `.ai-arc-*` vars in
+  `globals.css` (pen artboards swZ82/HKJ8s/wKpaA/GbhRS). The four lockups
   (`public/ai-native/*.svg`) were traced from the .pen tree (node T9rslD:
   frames D5ETw/S62Vk/nukhj/abz0R) — replace the SVG files to swap a logo.
 - **Edit portfolio copy**: `portfolio.tagline` + `portfolio.projects.*` in `en.ts`/`id.ts`
@@ -451,4 +441,4 @@ public/
 - Techstack SVG filenames are lowercase, `-` for non-alphanumeric characters (`react-router.svg`, `next-js.svg`).
 - Projects are webp, `object-cover`, `fill` + explicit `sizes`.
 
-<!-- verified against: 3a513b8 + working tree, 2026-11-13 (doc refresh: tree, recipes and asset list reconciled with the squashed availability commit; availability badge env-driven via AVAIL_* + lib/availability.ts; design sources moved outside the repo; .pen references documented as provenance, not paths; AiNativeToolkit (pen T9rslD handoff) added below AiWorkflow with public/ai-native/*.svg lockups) -->
+<!-- verified against: 343c4c9 + working tree, 2026-11-14 (doc refresh: tree, recipes and asset list reconciled with the squashed availability commit; availability badge env-driven via AVAIL_* + lib/availability.ts; design sources moved outside the repo; .pen references documented as provenance, not paths; AiNativeToolkit responsive pass per the pen breakpoint artboards swZ82/HKJ8s/wKpaA/GbhRS — re-parented below-grid collage, per-tier band + arcs; headline override 40 below sm / 48 from sm) -->

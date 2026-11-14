@@ -1,7 +1,6 @@
 import { notFound } from 'next/navigation';
 import { About } from '../components/About';
 import { AiNativeToolkit } from '../components/AiNativeToolkit';
-import { AiWorkflow } from '../components/AiWorkflow';
 import { Footer } from '../components/Footer';
 import { Header } from '../components/Header';
 import { Hero } from '../components/Hero';
@@ -31,10 +30,10 @@ export default async function Home({ params }: PageProps<'/[lang]'>) {
         <Hero dict={dict} availability={availability} />
         <About dict={dict} locale={lang} />
         <TechStack dict={dict} />
-        <AiWorkflow dict={dict} />
-        {/* AI-native unified narrative (pen T9rslD, 2026-11-12 handoff):
-            floats BELOW the original AiWorkflow section — both live on the
-            page (owner request: don't remove the existing one). */}
+        {/* AI-native unified narrative (pen T9rslD + the responsive
+            artboards swZ82/HKJ8s/wKpaA/GbhRS): the page's AI section —
+            it replaced the old AiWorkflow section (removed 2026-11-14)
+            and owns the footer mast's AI anchor (#ai-native). */}
         <AiNativeToolkit dict={dict} />
         <Portfolio locale={lang} dict={dict} />
         <Testimonial dict={dict} />
