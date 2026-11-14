@@ -237,7 +237,7 @@ export const idDictionary: Dictionary = {
   },
   footer: {
     copyright:
-      'Merek dagang dan merek adalah milik pemiliknya masing-masing. Desain berkolaborasi dengan <link>Lucas Brancher</link> 🇧🇷 pada 2025.',
+      'Merek dagang dan merek adalah milik pemiliknya masing-masing. Desain awal berkolaborasi dengan <link>Lucas Brancher</link> 🇧🇷 pada 2025. Penyesuaian desain dikerjakan dengan ♥️ ☕️ 🤖 pada 2026.',
     mast: {
       inPage: 'Di halaman',
       social: 'Sosial',

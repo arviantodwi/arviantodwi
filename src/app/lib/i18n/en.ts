@@ -238,7 +238,7 @@ export const enDictionary: Dictionary = {
   },
   footer: {
     copyright:
-      'Trademarks and brands are the property of their respective owners. Designed in collaboration with <link>Lucas Brancher</link> 🇧🇷 in 2025.',
+      'Trademarks and brands are the property of their respective owners. Initially designed in collaboration with <link>Lucas Brancher</link> 🇧🇷 in 2025. Improved design, crafted with ♥️ ☕️ 🤖 in 2026.',
     mast: {
       inPage: 'In page',
       social: 'Social',
