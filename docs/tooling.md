@@ -14,6 +14,8 @@ Commands, lint rules, config pointers.
 
 No test runner, no CI config.
 
+**npm only.** This project is npm-managed (`package-lock.json` is the sole lockfile, committed). Running `pnpm <script>` / `pnpm exec` in this repo is destructive as a side effect: pnpm generates its own `pnpm-lock.yaml` and converts `node_modules` to its symlink/virtual-store layout on an implicit install. If that happens: delete `pnpm-lock.yaml` and restore with `npm ci`, then re-verify.
+
 ## npm configuration
 
 Root `.npmrc` sets `legacy-peer-deps=false` so npm resolves peer dependencies for this project, overriding any user-level setting. This keeps dependency classification consistent across machines, including `devOptional` for packages shared by development dependencies and optional production peers.
@@ -50,4 +52,4 @@ Root `.npmrc` sets `legacy-peer-deps=false` so npm resolves peer dependencies fo
 - **Breaking vs. older Next:** read the relevant guide under `node_modules/next/dist/docs/` before writing Next-specific code. The agent file (`AGENTS.md` Next block) regenerates on `next dev` — never delete it from diffs.
 - React 19. App Router, server components default, `next/dynamic` for client islands.
 
-<!-- verified against: fad1627537e746d4446b90e1c5ae40a5b3dcc82a + working tree, 2026-10-26 (project .npmrc overrides legacy-peer-deps; repository-local Git identity configured) -->
+<!-- verified against: bfe9390 + working tree, 2026-11-04 (npm-only rule added after a pnpm run converted node_modules; .npmrc legacy-peer-deps note unchanged) -->

@@ -14,6 +14,9 @@
   --color-rose-600: oklch(65.32% 0.2427 8.87);
   --font-headline: var(--font-antonio);
   --font-general: var(--font-plus-jakarta);
+  /* IBM Plex Mono (loaded in [lang]/layout.tsx): the AI toolkit band's
+     mono voice — station overlines, routing labels, model chips. */
+  --font-mono: var(--font-plex-mono);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -865,6 +868,233 @@ body {
 
   to {
     transform: scaleX(1);
+  }
+}
+
+/* BUTTON loader (ui/Button): a 20px morphogram, four 4px dots on a shared
+   2.8s timeline (each dot's corners arrive via --ax/--ay/--bx/--by set by
+   the component, ±5px corner travel → 3px inner margin). Class + keyframes
+   validated on the button-spec prototype (variant D); geometry constants
+   live in ui/Button.tsx. */
+.button-morph-dot {
+  animation: button-morph 2.8s linear infinite;
+}
+
+@keyframes button-morph {
+  /* Beat 1: merged center square rests; subtle anticipation before burst. */
+  0%,
+  4% {
+    animation-timing-function: ease-in;
+    transform: translate(0, 0) scale(1.4);
+    border-radius: 0;
+  }
+
+  6% {
+    animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+    transform: translate(0, 0) scale(1.25);
+    border-radius: 0;
+  }
+
+  /* Beat 2: burst to tl/tr/br/bl with a 10% overshoot, then settle. */
+  15% {
+    animation-timing-function: ease-out;
+    transform: translate(calc(var(--ax) * 1.12), calc(var(--ay) * 1.12)) scale(1);
+    border-radius: 0;
+  }
+
+  20%,
+  24% {
+    animation-timing-function: cubic-bezier(0.45, 0.05, 0.55, 0.95);
+    transform: translate(var(--ax), var(--ay)) scale(1);
+    border-radius: 0;
+  }
+
+  /* Beat 3: 1st→2nd, 2nd→3rd, 3rd→4th, 4th→1st — plus square → circle,
+     with a soft breath at the midpoint of the walk. */
+  34% {
+    animation-timing-function: cubic-bezier(0.45, 0.05, 0.55, 0.95);
+    transform: translate(calc((var(--ax) + var(--bx)) / 2), calc((var(--ay) + var(--by)) / 2))
+      scale(1.15);
+    border-radius: 30%;
+  }
+
+  44%,
+  50% {
+    animation-timing-function: cubic-bezier(0.45, 0.05, 0.55, 0.95);
+    transform: translate(var(--bx), var(--by)) scale(1);
+    border-radius: 50%;
+  }
+
+  /* Beat 4: corners collapse to center, merging into a fuller circle. */
+  61% {
+    animation-timing-function: ease-out;
+    transform: translate(0, 0) scale(1.5);
+    border-radius: 50%;
+  }
+
+  63% {
+    animation-timing-function: cubic-bezier(0.55, 0.085, 0.68, 0.53);
+    transform: translate(0, 0) scale(1.4);
+    border-radius: 50%;
+  }
+
+  /* Beat 5: damped double bounce as a circle — first impact drops +drop1
+     with floor squash, second drops +drop2 (lost energy) with gentler squash. */
+  70% {
+    animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transform: translate(0, var(--drop1, 5px)) scale(1.65, 1.1);
+    border-radius: 50%;
+  }
+
+  77% {
+    animation-timing-function: cubic-bezier(0.55, 0.085, 0.68, 0.53);
+    transform: translate(0, 0) scale(1.35, 1.45);
+    border-radius: 50%;
+  }
+
+  83% {
+    animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transform: translate(0, var(--drop2, 3px)) scale(1.5, 1.22);
+    border-radius: 50%;
+  }
+
+  /* Beat 6: rise home, ease circle → square with a 1.05× pop (design-core),
+     then settle on beat 1's exact frame so the restart is invisible. */
+  89% {
+    animation-timing-function: cubic-bezier(0.45, 0.05, 0.55, 0.95);
+    transform: translate(0, 0) scale(1.4);
+    border-radius: 50%;
+  }
+
+  95% {
+    animation-timing-function: ease-out;
+    transform: translate(0, 0) scale(1.48);
+    border-radius: 0;
+  }
+
+  98%,
+  100% {
+    transform: translate(0, 0) scale(1.4);
+    border-radius: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .button-morph-dot {
+    animation: none;
+    transform: translate(0, 0) scale(1.4);
+    border-radius: 0;
+  }
+}
+
+/* AI-native toolkit ambient ribbon arcs (pen wDgkw + k8R2jD + the
+   breakpoint artboards' copies): ONE class per arc, per-tier custom
+   properties. Every artboard scales the XL arcs by f (uSM 0.2604, SM
+   0.4444, MD 0.5333, LG 0.72, XL 1) — width, height, top offset and blur
+   all scale by f; the x anchors hold fixed per-tier offsets from the band
+   center (--arc-shift, pen x + w/2 − content center). The XL primary top
+   (−125px) was empirically matched against the artboard export (only the
+   thick right region of the ribbon crests the glass edge); per-tier tops
+   scale it by the same f. Opacities are constant (0.55 / 0.45). */
+.ai-arc-primary,
+.ai-arc-secondary {
+  position: absolute;
+  top: var(--arc-top);
+  left: 50%;
+  width: var(--arc-w);
+  height: var(--arc-h);
+  transform: translateX(calc(-50% + var(--arc-shift)));
+  filter: blur(var(--arc-blur));
+  pointer-events: none;
+}
+
+.ai-arc-primary {
+  --arc-w: 416.67px;
+  --arc-h: 67.71px;
+  --arc-top: -32.55px;
+  --arc-shift: 24px;
+  --arc-blur: 9.375px;
+  opacity: 0.55;
+}
+
+.ai-arc-secondary {
+  --arc-w: 343.75px;
+  --arc-h: 49.48px;
+  --arc-top: -5.21px;
+  --arc-shift: 39.63px;
+  --arc-blur: 6.25px;
+  opacity: 0.45;
+}
+
+@media (width >= 40rem) {
+  .ai-arc-primary {
+    --arc-w: 711.11px;
+    --arc-h: 115.56px;
+    --arc-top: -55.56px;
+    --arc-shift: 32px;
+    --arc-blur: 16px;
+  }
+
+  .ai-arc-secondary {
+    --arc-w: 586.67px;
+    --arc-h: 84.44px;
+    --arc-top: -8.89px;
+    --arc-shift: 58.67px;
+    --arc-blur: 10.67px;
+  }
+}
+
+@media (width >= 48rem) {
+  .ai-arc-primary {
+    --arc-w: 853.33px;
+    --arc-h: 138.67px;
+    --arc-top: -66.67px;
+    --arc-shift: 48px;
+    --arc-blur: 19.2px;
+  }
+
+  .ai-arc-secondary {
+    --arc-w: 704px;
+    --arc-h: 101.33px;
+    --arc-top: -10.67px;
+    --arc-shift: 80px;
+    --arc-blur: 12.8px;
+  }
+}
+
+@media (width >= 64rem) {
+  .ai-arc-primary {
+    --arc-w: 1152px;
+    --arc-h: 187.2px;
+    --arc-top: -90px;
+    --arc-shift: 70.4px;
+    --arc-blur: 25.92px;
+  }
+
+  .ai-arc-secondary {
+    --arc-w: 950.4px;
+    --arc-h: 136.8px;
+    --arc-top: -14.4px;
+    --arc-shift: 113.6px;
+    --arc-blur: 17.28px;
+  }
+}
+
+@media (width >= 80rem) {
+  .ai-arc-primary {
+    --arc-w: 1600px;
+    --arc-h: 260px;
+    --arc-top: -125px;
+    --arc-shift: 120px;
+    --arc-blur: 36px;
+  }
+
+  .ai-arc-secondary {
+    --arc-w: 1320px;
+    --arc-h: 190px;
+    --arc-top: -20px;
+    --arc-shift: 180px;
+    --arc-blur: 24px;
   }
 }
 

@@ -2,19 +2,6 @@
   "$schema": "https://opencode.ai/config.json",
   "mcp": {
     "servers": {
-      // "openfigma": {
-      //   "type": "local",
-      //   "cwd": ".",
-      //   "command": ["npx", "-y", "github:Shivam990q/open-figma-mcp#v1.4.0", "--stdio"]
-      // },
-      // "stitch": {
-      //   "type": "remote",
-      //   "url": "https://stitch.googleapis.com/mcp",
-      //   "oauth": false,
-      //   "headers": {
-      //     "X-Goog-Api-Key": "{env:STITCH_API_KEY}"
-      //   }
-      // }
       "Chrome DevTools": {
         "type": "local",
         "command": ["npx", "-y", "chrome-devtools-mcp@latest"]
@@ -25,5 +12,17 @@
         "disabled": true
       }
     }
-  }
+  },
+  "policies": [
+    {
+      "action": "skill.use",
+      "resource": "code-review",
+      "effect": "deny"
+    },
+    {
+      "action": "skill.use",
+      "resource": "autofix",
+      "effect": "deny"
+    }
+  ]
 }

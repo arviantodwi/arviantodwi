@@ -1,3 +1,5 @@
+import type { OpenLabelStrings } from '../availability';
+
 export type Locale = 'en' | 'id';
 
 /**
@@ -25,12 +27,6 @@ export interface PersonTestimony {
   /** Role + organization combined, e.g. "Senior SDE at Amazon". */
   title: string;
   quotes: Segment[];
-}
-
-/** Copy for one AI-workflow stage: stage description + its illustration alt text. */
-export interface StageCopy {
-  description: string;
-  imageAlt: string;
 }
 
 /** One selectable "I'm interested in..." option on the contact form. */
@@ -88,7 +84,7 @@ export interface Dictionary {
   header: {
     status: {
       available: string;
-      open: string;
+      open: OpenLabelStrings;
       unavailable: string;
     };
   };
@@ -112,16 +108,24 @@ export interface Dictionary {
     heading: Segment[];
     subline: Segment[];
   };
-  aiWorkflow: {
+  aiToolkit: {
     /** Headline pair: first line plain, second line rendered gold + bold in the component. */
     headline: [string, string];
-    intro: Segment[];
-    stages: {
-      plan: StageCopy;
-      design: StageCopy;
-      develop: StageCopy;
+    /** The three perspective paragraphs under the headline ($text-secondary). */
+    paragraphs: [string, string, string];
+    /** Floating collage alt texts, keyed by the FLOATING_CARDS const in AiNativeToolkit.tsx. */
+    cards: {
+      plan: string;
+      design: string;
+      develop: string;
     };
-    toolkit: Segment[];
+    /** Four-stage band copy, keyed by the STATIONS const in AiNativeToolkit.tsx. */
+    stations: {
+      specs: { overline: string; title: string; description: string };
+      design: { overline: string; title: string; description: string };
+      engineering: { overline: string; title: string; description: string };
+      test: { overline: string; title: string; description: string };
+    };
   };
   portfolio: {
     /** Section tagline pair: first line muted, second full white. */

@@ -29,7 +29,7 @@ export const Footer: FC<Props> = ({ dict, locale }) => {
   const inPageLinks = [
     { label: mast.links.about, href: '#about' },
     { label: mast.links.cv, href: CV_URL, external: true },
-    { label: mast.links.humanAi, href: '#human-ai' },
+    { label: mast.links.humanAi, href: '#ai-native' },
     { label: mast.links.portfolio, href: '#portfolio' },
     { label: mast.links.testimonials, href: '#testimonials' },
     { label: mast.links.message, href: '#contact' },

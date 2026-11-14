@@ -1,7 +1,7 @@
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import type { Metadata } from 'next';
-import { Antonio, Plus_Jakarta_Sans } from 'next/font/google';
+import { Antonio, IBM_Plex_Mono, Plus_Jakarta_Sans } from 'next/font/google';
 import { notFound } from 'next/navigation';
 import { getDictionary, hasLocale, locales } from '../lib/i18n';
 import '../globals.css';
@@ -15,6 +15,14 @@ const antonioSans = Antonio({
 const jakartaSans = Plus_Jakarta_Sans({
   variable: '--font-plus-jakarta',
   weight: ['300', '400', '500', '600', '700'],
+  subsets: ['latin'],
+});
+
+// Mono voice of the AI toolkit band (pen: IBM Plex Mono on overlines,
+// routing labels and model chips) — mapped as --font-mono in globals.css.
+const plexMono = IBM_Plex_Mono({
+  variable: '--font-plex-mono',
+  weight: ['400', '500', '600'],
   subsets: ['latin'],
 });
 
@@ -76,7 +84,9 @@ export default async function RootLayout({ children, params }: LayoutProps<'/[la
 
   return (
     <html lang={lang}>
-      <body className={`${antonioSans.variable} ${jakartaSans.variable} antialiased`}>
+      <body
+        className={`${antonioSans.variable} ${jakartaSans.variable} ${plexMono.variable} antialiased`}
+      >
         {children}
         <SpeedInsights />
         <Analytics />

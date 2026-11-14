@@ -7,7 +7,7 @@ export enum Status {
   UNAVAILABLE,
 }
 
-interface StatusLabels {
+export interface StatusLabels {
   available: string;
   open: string;
   unavailable: string;
@@ -44,7 +44,12 @@ export const AvailabilityStatus: FC<Props> = ({ variant, labels, className }) =>
 
   return (
     <div className={cx('flex items-center gap-4', className)}>
-      <span className={cx('status-dot-ripple relative h-2 w-2 rounded-full', statusDotClassName)} />{' '}
+      <span
+        className={cx(
+          'status-dot-ripple relative h-2 w-2 shrink-0 rounded-full',
+          statusDotClassName,
+        )}
+      />{' '}
       <span className={cx('font-general text-sm', statusTextClassName)}>{statusText}</span>
     </div>
   );

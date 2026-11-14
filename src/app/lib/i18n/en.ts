@@ -8,14 +8,21 @@ export const enDictionary: Dictionary = {
   },
   header: {
     status: {
-      available: 'Available for hire',
-      open: 'Open to offers',
+      available: 'Actively looking a new job',
+      open: {
+        prefix: 'Open to',
+        comma: ',',
+        and: '&',
+        freelance: 'freelance',
+        partnership: 'partnership',
+        offer: 'new offers',
+      },
       unavailable: 'Closed to offers',
     },
   },
   hero: {
     rolePrefix: 'Front End Developer &',
-    roles: ['TypeScript Enthusiast', 'Wizard of Screens', 'Intraday Trader', 'Humorous Dad'],
+    roles: ['React specialist', 'UI Engineer', 'AI-native', 'Practical thinker', 'Beginner Trader'],
     location: 'Yogyakarta, Indonesia',
     stats: {
       projects: { short: 'Projects done', long: 'Projects done' },
@@ -63,37 +70,44 @@ export const enDictionary: Dictionary = {
       { text: ' and technologies to achieve exceptional day-to-day results.' },
     ],
   },
-  aiWorkflow: {
+  aiToolkit: {
     headline: ['Human intention.', 'AI momentum.'],
-    intro: [
-      {
-        text: 'As an AI-native designer and developer, I bring AI into every stage of my process. From the very first question to the final polish, ',
-        tone: 'dim',
-      },
-      { text: 'I set the direction', tone: 'gold' },
-      { text: '. The results are magnificent, human-directed products.', tone: 'dim' },
+    paragraphs: [
+      "As a software developer with a UI design mindset, there's no doubt for me to bring AI into every stage of my workflow. From the very first question to the final polish, whether it's architectural or pixel perfection, I set the direction.",
+      "They're definitely capable of helping me compress execution loops and remove repetitive processes. AI lets me iterate faster while staying deep in the details.",
+      'My role is now to steer it with real human taste and intention. The results? Magnificent, human-directed products. Always.',
     ],
-    stages: {
-      plan: {
-        description: 'I shape the brief, discover possibilities, and map a clear direction.',
-        imageAlt: 'Planning brief illustration',
+    cards: {
+      plan: 'Planning brief illustration',
+      design: 'Design composition study illustration',
+      develop: 'Development process artifact illustration',
+    },
+    stations: {
+      specs: {
+        overline: 'SPECS & PLAN',
+        title: 'Broad-context synthesis.',
+        description:
+          'Pairs architectural reasoning and a graph-based knowledge base with multimodal exploration to shape direction early.',
       },
       design: {
+        overline: 'DESIGN SYSTEM & UI COMPOSITION',
+        title: 'Playground for visual direction.',
         description:
-          'I explore visual directions, refine interactions, and keep the experience coherent.',
-        imageAlt: 'Design composition study illustration',
+          'Explores visual variations and locks in spatial rhythm, typography, and tokens into a cohesive component system.',
       },
-      develop: {
-        description: 'I accelerate implementation, iterate thoughtfully, and polish the details.',
-        imageAlt: 'Development process artifact illustration',
+      engineering: {
+        overline: 'AI-ASSISTED ENGINEERING',
+        title: 'Autonomous coding. Strict verification.',
+        description:
+          'Driven through OpenChamber, the GLM 5.3 model family is routed for fast, high-precision code shipping.',
+      },
+      test: {
+        overline: 'TEST & REVIEW',
+        title: 'Catch regressions. Ship with confidence.',
+        description:
+          'Runs automated tests, handles edge cases, and refactors overly complex code before changes reach production.',
       },
     },
-    toolkit: [
-      { text: 'These AI tools give me ', tone: 'dim' },
-      { text: 'less repetitive work ' },
-      { text: 'and ', tone: 'dim' },
-      { text: 'more room for craft!' },
-    ],
   },
   portfolio: {
     tagline: {
@@ -107,7 +121,7 @@ export const enDictionary: Dictionary = {
       },
       sports: {
         description:
-          'A home for lessons, podcasts and webinars. Rich content, made approachable on every screen.',
+          'A home for sport-themed lessons, podcasts and webinars. Rich content, made approachable on every screen.',
       },
       voice: {
         description:
@@ -115,7 +129,7 @@ export const enDictionary: Dictionary = {
       },
       vehicle: {
         description:
-          'From route overview to delivery details, a connected experience for keeping every vehicle’s journey in view.',
+          "From route overview to delivery details, a connected experience for keeping every vehicle's journey in view.",
       },
       charity: {
         description:
@@ -224,7 +238,7 @@ export const enDictionary: Dictionary = {
   },
   footer: {
     copyright:
-      'Trademarks and brands are the property of their respective owners. Designed in collaboration with <link>Lucas Brancher</link> 🇧🇷 in 2025.',
+      'Trademarks and brands are the property of their respective owners. Initially designed in collaboration with <link>Lucas Brancher</link> 🇧🇷 in 2025. Improved design, crafted with ♥️ ☕️ 🤖 in 2026.',
     mast: {
       inPage: 'In page',
       social: 'Social',
@@ -255,7 +269,7 @@ export const enDictionary: Dictionary = {
     placeholders: {
       name: 'Your name',
       /** {min}/{max} filled from LIMITS at render (e.g. "(2–100 characters)"). */
-      nameRange: '({min}–{max} characters)',
+      nameRange: '({min}-{max} characters)',
       email: 'Your email',
       message:
         'Write whatever you want to tell me. I read 100% of messages to keep our conversation going.',
@@ -267,9 +281,9 @@ export const enDictionary: Dictionary = {
     successSubtext: "I'll get back to you soon.",
     errors: {
       name: 'Please enter your name.',
-      email: 'Please enter your email address.',
-      emailInvalid: 'Please enter a valid email address.',
-      message: 'Please write a message.',
+      email: 'Could you enter your email address here?',
+      emailInvalid: 'Could you enter a valid email address, please?',
+      message: 'Go ahead and write a message. What would we chat about otherwise?',
       messageTooShort: 'Message is too short, at least {min} characters.',
       messageTooLong: 'Message cannot be more than {max} characters.',
       tooFast: 'Too fast! Please take a moment and try again.',

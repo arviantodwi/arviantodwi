@@ -3,7 +3,6 @@ import type { Dictionary, Locale } from '@/app/lib/i18n/types';
 import { cx } from '@/app/lib/utils';
 import { CV_URL } from '../lib/constants';
 import { Button } from './ui/Button';
-import { IconArrowUpRight } from './ui/icons';
 import { Section } from './ui/Section';
 import { SegmentedText } from './ui/SegmentedText';
 
@@ -38,7 +37,8 @@ export const About: FC<Props> = ({ locale, dict }) => {
             )}
           />
           <p className="relative z-[2]">{about.headline[0]}</p>
-          <p className="relative z-[2]">{about.headline[1]}</p>
+          {/* Second headline line: no word-wrap below sm (owner request 2026-11-14). */}
+          <p className="relative z-[2] max-sm:whitespace-nowrap">{about.headline[1]}</p>
         </div>
         <div className="leading-[1.4375]">
           {about.bio.map((paragraph) => (
@@ -51,10 +51,15 @@ export const About: FC<Props> = ({ locale, dict }) => {
           ))}
           {/* Pen uSM: centered below sm, left-aligned elsewhere. */}
           <div className="mt-8 flex justify-start max-sm:justify-center">
-            <Button href={CV_URL} target="_blank" rel="noopener noreferrer" size="lg">
-              {about.cta}
-              <IconArrowUpRight size={18} />
-            </Button>
+            <Button
+              href={CV_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              size="lg"
+              label={about.cta}
+              icon="arrow-up-right"
+              iconPosition="trailing"
+            />
           </div>
         </div>
       </article>
