@@ -8,7 +8,8 @@
   },
   "vars": {
     "ACTIVITY_TZ": "Asia/Jakarta",
-    "ALLOWED_ORIGINS": "https://arvian.to"
+    "ALLOWED_ORIGINS": "https://arvian.to",
+    "JEV_BASE_URL": "https://ai.sumopod.com"
   },
   "d1_databases": [
     {

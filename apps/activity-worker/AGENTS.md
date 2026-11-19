@@ -13,7 +13,7 @@ This is `apps/activity-worker`: the agent-activity backend (Cloudflare Worker + 
 ## Secrets & env (hard rule)
 
 - **No secret or env file is ever created/committed in this scope.** Only `.env.example` with placeholders ships in git; the owner fills real values manually.
-- Real values: production → `wrangler secret put AGENT_ACTIVITY_TOKEN` / `wrangler secret put OPENROUTER_API_KEY`; local → gitignored `.dev.vars`, created manually by the owner.
+- Real values: production → `wrangler secret put AGENT_ACTIVITY_TOKEN` / `wrangler secret put JEV_API_KEY`; local → gitignored `.dev.vars`, created manually by the owner.
 - Never log, echo, or copy secret values.
 
 ## Data contracts (do not break silently)
@@ -21,7 +21,7 @@ This is `apps/activity-worker`: the agent-activity backend (Cloudflare Worker + 
 - Timestamps in D1 are **ISO 8601 UTC (`…Z`)** — source of truth. `day` is a derived projection in `ACTIVITY_TZ`, recomputable from UTC at any time.
 - Ingest is **idempotent** by `(source, session_id, turn_id)`: same key = overwrite with latest values. Batch ≤ 50 turns, ≤ 64 KB per turn.
 - The public read API returns **numbers only** — never titles, projects, or prose. `title` stays internal (Jev digest + re-classification).
-- Category enum: `planning | design | coding | test_review | other`; `category_source`: `manual | jev | heuristic`. Jev accepted at ≥ 0.7 confidence, else the tool-mix heuristic stands; no OpenRouter key → heuristic-only mode.
+- Category enum: `planning | design | coding | test_review | other`; `category_source`: `manual | jev | heuristic`. Jev accepted at ≥ 0.7 self-reported confidence, else the tool-mix heuristic stands; no `JEV_API_KEY` → heuristic-only mode. Provider is OpenAI-compatible (see `JEV_BASE_URL` in `wrangler.jsonc`): `jev-1.14.0` primary with automatic fallback to `jev-1.13.0`.
 
 ## Verification
 
