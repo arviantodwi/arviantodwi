@@ -1,12 +1,42 @@
 import { Hono } from 'hono';
+import { aggregate, parseRange } from './days';
 import { activityTz, type Env } from './env';
 import { categorizeTurn, requireBearer, upsertTurns } from './ingest';
 import { parseTurnsBody, validateTurn, type ValidTurn } from './validate';
 
 const app = new Hono<{ Bindings: Env }>();
 
+function corsHeaders(env: Env, origin: string | undefined): Record<string, string> {
+  const allowed = (env.ALLOWED_ORIGINS || 'https://arvian.to').split(',').map((s) => s.trim());
+  const headers: Record<string, string> = {
+    Vary: 'Origin',
+    'Access-Control-Allow-Methods': 'GET, OPTIONS',
+    'Access-Control-Max-Age': '86400',
+  };
+  if (origin && allowed.includes(origin)) headers['Access-Control-Allow-Origin'] = origin;
+  return headers;
+}
+
 // Readiness probe for local dev and deploy verification.
 app.get('/activity/health', (c) => c.json({ ok: true }));
+
+// Public read: daily aggregates + per-turn numeric records. Numbers only.
+// CORS-restricted to ALLOWED_ORIGINS; short cache so the grid refreshes cheaply.
+const daysHandler = async (c: import('hono').Context<{ Bindings: Env }>) => {
+  const range = parseRange(c.req.query('range'));
+  if (!range) return c.json({ error: 'range must be absent, "last12", or a 4-digit year' }, 400);
+  const { days, turns } = await aggregate(c.env.DB, activityTz(c.env), range);
+  const cors = corsHeaders(c.env, c.req.header('Origin'));
+  c.header('Cache-Control', 'public, max-age=300');
+  for (const [k, v] of Object.entries(cors)) c.header(k, v);
+  return c.json({ days, turns, generatedAt: new Date().toISOString() });
+};
+app.get('/activity/days', (c) => daysHandler(c));
+app.options('/activity/days', (c) => {
+  const cors = corsHeaders(c.env, c.req.header('Origin'));
+  for (const [k, v] of Object.entries(cors)) c.header(k, v);
+  return c.body(null, 204);
+});
 
 // Ingest: single turn object, top-level array, or { turns: [...] }. Idempotent
 // upsert by (source, session_id, turn_id); malformed batches are rejected whole.
