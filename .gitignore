@@ -40,6 +40,10 @@ yarn-error.log*
 .env*
 !.env.example
 
+# cloudflare workers (apps/activity-worker): local state + secrets
+.dev.vars*
+.wrangler/
+
 # vercel
 .vercel
 
