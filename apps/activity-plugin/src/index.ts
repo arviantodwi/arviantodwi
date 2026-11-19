@@ -36,10 +36,16 @@ interface CtxLike {
 }
 
 const LOG = '[agent-activity]';
+/** Resolve an `{env:VAR_NAME}` reference against the server process environment. */
+const resolveEnvRef = (value: string | undefined): string | undefined => {
+  if (typeof value !== 'string') return undefined;
+  const match = value.match(/^\{env:([A-Za-z_][A-Za-z0-9_]*)\}$/);
+  return match ? process.env[match[1]] : value;
+};
 const config = (ctx: CtxLike): { url: string; token: string } | null => {
   const options = ctx.options ?? {};
-  const url = options.url ?? process.env.AGENT_ACTIVITY_URL;
-  const token = options.token ?? process.env.AGENT_ACTIVITY_TOKEN;
+  const url = resolveEnvRef(options.url) ?? process.env.AGENT_ACTIVITY_URL;
+  const token = resolveEnvRef(options.token) ?? process.env.AGENT_ACTIVITY_TOKEN;
   if (!url || !token) return null;
   return { url: url.replace(/\/$/, ''), token };
 };

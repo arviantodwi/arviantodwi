@@ -19,6 +19,14 @@
 - Config: `AGENT_ACTIVITY_URL` / `AGENT_ACTIVITY_TOKEN` from the environment or `{ url, token }` plugin options. Missing → dormant with a one-time warning, no crashes, no data sent.
 - No secrets in this scope — the token lives outside the repo (owner-managed).
 
+## Config & secrets (owner)
+
+- The plugin reads `AGENT_ACTIVITY_URL` + `AGENT_ACTIVITY_TOKEN` from the **OpenCode service process environment**; nothing secret belongs in any `opencode.json(c)`.
+- Recommended: a 600-permission env file outside the repo (e.g. `~/.agent-activity.env`), sourced from the shell profile with `set -a`, then `opencode service restart` (env is read only at service launch).
+- Plugin options may reference env vars without plaintext: `{ url: "…", token: "{env:MY_TOKEN_NAME}" }` — `{env:VAR}` is resolved by the plugin at load time (also works if the host pre-expands it).
+- Missing/unset → dormant with a one-time warning: no crashes, no data sent.
+- No secrets in this scope — the token lives outside the repo (owner-managed).
+
 ## Live verification (owner, after filling env)
 
 1. Set `AGENT_ACTIVITY_URL` (e.g. `http://localhost:8787/activity/turns` for local dev, or the deployed URL) and `AGENT_ACTIVITY_TOKEN` in the environment that owns the OpenCode service, or as plugin options in the global config.

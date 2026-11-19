@@ -6,12 +6,13 @@ OpenCode server plugin (`agent-activity`) that captures per-turn agent activity 
 
 ## Where things live
 
-| Concern                                                               | Location                                                                |
-| --------------------------------------------------------------------- | ----------------------------------------------------------------------- |
-| Plugin entrypoint (event loop, POST, cursor)                          | `src/index.ts`                                                          |
-| Pure turn slicing + metrics (no imports — Node-type-strippable tests) | `src/turn.ts`                                                           |
-| Tests (run: `node test/turn.test.ts`)                                 | `test/turn.test.ts`                                                     |
-| Global registration                                                   | `~/.config/opencode/opencode.json` → `plugins` array (outside the repo) |
+| Concern                                                               | Location                                                                                                            |
+| --------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| Plugin entrypoint (event loop, POST, cursor)                          | `src/index.ts`                                                                                                      |
+| Pure turn slicing + metrics (no imports — Node-type-strippable tests) | `src/turn.ts`                                                                                                       |
+| Tests (run: `node test/turn.test.ts`)                                 | `test/turn.test.ts`                                                                                                 |
+| Global registration                                                   | `~/.config/opencode/opencode.json` → `plugins` array (outside the repo)                                             |
+| Secret config (URL/token)                                             | Service process env, or plugin options referencing env vars via `{env:VAR}` — never plaintext in `opencode.json(c)` |
 
 ## Mechanics (verified against the V2 API spec, 2026-11-20)
 
