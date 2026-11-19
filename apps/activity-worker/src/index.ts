@@ -2,6 +2,7 @@ import { Hono } from 'hono';
 import { aggregate, parseRange } from './days';
 import { activityTz, type Env } from './env';
 import { categorizeTurn, requireBearer, upsertTurns } from './ingest';
+import { handleMcpPost } from './mcp';
 import { parseTurnsBody, validateTurn, type ValidTurn } from './validate';
 
 const app = new Hono<{ Bindings: Env }>();
@@ -37,6 +38,15 @@ app.options('/activity/days', (c) => {
   for (const [k, v] of Object.entries(cors)) c.header(k, v);
   return c.body(null, 204);
 });
+
+// MCP: stateless streamable HTTP, read-only v1 (get_activity_stats).
+app.post('/activity/mcp', requireBearer, (c) => handleMcpPost(c));
+app.get('/activity/mcp', (c) =>
+  c.json({ error: 'SSE streaming not offered; POST JSON-RPC here' }, 405),
+);
+app.delete('/activity/mcp', (c) =>
+  c.json({ error: 'Stateless server; no session to delete' }, 405),
+);
 
 // Ingest: single turn object, top-level array, or { turns: [...] }. Idempotent
 // upsert by (source, session_id, turn_id); malformed batches are rejected whole.
