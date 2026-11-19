@@ -1,0 +1,1165 @@
+@import 'tailwindcss';
+
+:root {
+  --background: #040404;
+  --foreground: #ffffff;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-gold: oklch(79.48% 0.1624 90.32);
+  --color-neutral-900: oklch(22.21% 0 0);
+  --color-emerald-600: oklch(80.28% 0.2227 149.71);
+  --color-rose-600: oklch(65.32% 0.2427 8.87);
+  --font-headline: var(--font-antonio);
+  --font-general: var(--font-plus-jakarta);
+  /* IBM Plex Mono (loaded in [lang]/layout.tsx): the AI toolkit band's
+     mono voice — station overlines, routing labels, model chips. */
+  --font-mono: var(--font-plex-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #040404;
+    --foreground: #ffffff;
+  }
+}
+
+/* Autofill (Chrome paints a light-blue fill with dark text): keep our
+   design's colors — very light blue background (forced via inset shadow so
+   the UA fill can't win), white value text, white caret. Error state keeps
+   its red value via aria-invalid. Underline/focus/has-value line classes are
+   untouched by autofill and keep working. */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+textarea:-webkit-autofill:active {
+  -webkit-text-fill-color: #ffffff;
+  caret-color: #ffffff;
+  box-shadow: 0 0 0 1000px #e8f0fe inset;
+  transition: background-color 99999s ease-in-out 0s;
+}
+
+input:-webkit-autofill[aria-invalid='true'],
+textarea:-webkit-autofill[aria-invalid='true'] {
+  -webkit-text-fill-color: #ed5440;
+}
+
+/* Static-container rule: the page never scrolls horizontally. Root-level
+   X clip (NOT hidden — clip creates no scroll container, so it never
+   breaks position: sticky, and it works with `w-screen` scrollbar-width
+   rounding) lets pen-bleed elements (hero photo, marquee breakout) paint
+   past their section edges without widening the page: they simply run
+   off the viewport edge, as the artboards draw them. Clipped on BOTH html
+   and body: the html value propagates to the viewport, the body value
+   clips the content box — Chrome only respects the horizontal scroll
+   ban reliably with both in place. */
+html,
+body {
+  overflow-x: clip;
+}
+
+body {
+  background: var(--color-neutral-900);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Glow dome ("Oval highlight"): ONE geometry at every width — a gold
+   square sized to the viewport (the blur + 50% radius reads as the
+   inscribed oval), translated up by half its height so its center sits on
+   the viewport top edge: only the bottom half washes over the topbar and
+   hero, mirroring the pen artboards (center exactly at the top edge). No
+   per-breakpoint sizes to maintain. Opacity tiers: 0.1 below sm (the
+   under-SM artboards carry 0.1), 0.05 from sm up. */
+.blurred-circle-accent::before {
+  content: '';
+  position: fixed;
+  z-index: 0;
+  width: 100vw;
+  max-width: 1280px;
+  aspect-ratio: 1;
+  left: 50%;
+  top: 0;
+  transform: translate(-50%, -50%);
+  background: var(--color-gold);
+  opacity: 0.1;
+  filter: blur(200px);
+  border-radius: 50%;
+}
+
+@media (width >= 40rem) {
+  .blurred-circle-accent::before {
+    opacity: 0.05;
+  }
+}
+
+/* Status-dot radiating ping (AvailabilityStatus). */
+
+/* TechStack marquee — pure CSS loop (2026-11-02 mobile-load fix, replaced
+   react-fast-marquee's RAF player). Each `.marquee-row` holds its stack
+   rendered twice inside `.marquee-track`; sliding one duplicate width
+   (-50%) loops seamlessly. Duration set for ~85px/s like the old player's
+   default. Row 2 runs rightward via `data-reverse`. Composited on the
+   GPU (will-change), paused for reduced motion. */
+.marquee-track {
+  display: flex;
+  align-items: center;
+  width: max-content;
+  will-change: transform;
+  animation: marquee-slide 45s linear infinite;
+}
+.marquee-row[data-reverse] .marquee-track {
+  animation-direction: reverse;
+}
+@keyframes marquee-slide {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+  }
+}
+
+/* TechStack marquee edge fade: a mask (not an opaque paint-over) so the
+   glow/background stays continuous behind the rows — the player's own
+   `gradient` prop drew a solid #040404 patch that stood out against the
+   dome highlight. 48px fade at each running edge. */
+.tools-marquee-mask {
+  mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    #000 48px,
+    #000 calc(100% - 48px),
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    #000 48px,
+    #000 calc(100% - 48px),
+    transparent 100%
+  );
+}
+
+.status-dot-ripple::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: inherit;
+  border-radius: 50%;
+  z-index: -1;
+  animation: ripple 1.6s ease-out infinite;
+  animation-delay: 0.4s;
+}
+
+@keyframes ripple {
+  from {
+    opacity: 0.75;
+    transform: scale(0);
+  }
+
+  to {
+    opacity: 0;
+    transform: scale(4);
+  }
+}
+
+.about-box-accent {
+  /* Single source of truth for the gold square's geometry;
+     ::before and the frosted strips both derive from these.
+     uSM+SM+MD (per owner's PeTso reference, 2026-11-02): one static
+     overlay composition — square pinned left x132 (w 161.5, h 155) over
+     the headline rows, identical at 375–1023, so the box never travels
+     with resize and stays continuous across the sm/md breakpoints. From
+     lg the legacy carriers apply (right 19px inset / 161px).
+     Stroke stays 2px at every width — pen shows 1.25 there, owner
+     override (2026-11-02). */
+  --sq-left: 132px;
+  --sq-right: auto;
+  --sq-width: 161.5px;
+  --sq-height: 155px;
+}
+
+/* uSM-only: reserve the square's full box (pen Greetings wrapper is its
+   height, so the bio starts the article-gap below the square bottom).
+   sm/md keep no reservation — the square fits their wider gap. */
+@media (width < 40rem) {
+  .about-box-accent {
+    min-height: 155px;
+  }
+}
+
+.about-box-accent::before {
+  content: '';
+  width: var(--sq-width);
+  height: var(--sq-height);
+  position: absolute;
+  left: var(--sq-left);
+  right: var(--sq-right);
+  top: 0;
+  border: solid 2px var(--color-gold);
+  z-index: 1;
+}
+
+/* Frosted-glass strips over the square border, one per headline row.
+   A vertical gradient fade-in/out of the body background color mimics
+   the dimming/fogging a real backdrop-blur would produce over the border,
+   sized 1ex wide (60px tall under lg, per PeTso) vertically centered on
+   the text row. Horizontal: each strip straddles the square border the
+   row crosses — left border on both rows, right border on row 2
+   (left-based anchor under lg per PeTso; right-based legacy at lg+). */
+.about-row-blur {
+  position: absolute;
+  width: 1ex;
+  height: 1.5em;
+  z-index: 1;
+  pointer-events: none;
+  backdrop-filter: blur(0.4px);
+  background: linear-gradient(
+    0deg,
+    color-mix(in oklab, var(--background) 0%, transparent) 0%,
+    var(--background) 33%,
+    var(--background) 66%,
+    color-mix(in oklab, var(--background) 0%, transparent) 100%
+  );
+}
+
+@media (width < 64rem) {
+  .about-box-accent::before {
+    right: auto;
+  }
+
+  .about-row-blur {
+    height: 60px;
+  }
+
+  .about-row-blur--left-row1,
+  .about-row-blur--left-row2 {
+    left: calc(var(--sq-left) - 0.5ex);
+  }
+
+  .about-row-blur--right-row2 {
+    left: calc(var(--sq-left) + var(--sq-width) - 0.5ex);
+  }
+}
+
+/* Row tops: strips centered on the row they fog.
+   uSM: 38px text top, 1.25em line box (PeTso). sm/md: 51px text top,
+   40px rows. lg+: legacy 1.5em strips on the 51px/1.15em system. */
+@media (width < 40rem) {
+  .about-row-blur--left-row1 {
+    top: calc(38px + 0.625em - 30px);
+  }
+
+  .about-row-blur--left-row2,
+  .about-row-blur--right-row2 {
+    top: calc(38px + 1.875em - 30px);
+  }
+}
+
+@media (width >= 40rem) and (width < 64rem) {
+  .about-row-blur--left-row1 {
+    top: 41px;
+  }
+
+  .about-row-blur--left-row2,
+  .about-row-blur--right-row2 {
+    top: 81px;
+  }
+}
+
+@media (width >= 64rem) {
+  .about-box-accent {
+    --sq-left: auto;
+    --sq-right: 19px;
+    --sq-width: 161px;
+  }
+
+  .about-row-blur--left-row1,
+  .about-row-blur--left-row2 {
+    right: calc(var(--sq-right) + var(--sq-width) - 0.5ex);
+  }
+
+  .about-row-blur--right-row2 {
+    right: calc(var(--sq-right) - 0.5ex);
+  }
+
+  .about-row-blur--left-row1 {
+    top: calc(51px + 1.15em / 2 - 1.5em / 2);
+  }
+
+  .about-row-blur--left-row2,
+  .about-row-blur--right-row2 {
+    top: calc(51px + 1.15em * 1.5 - 1.5em / 2);
+  }
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .about-headline-glass {
+    display: none;
+  }
+}
+
+/* Portfolio section: gap between the collapsed topbar and the pinned
+   sticky heading band from sm upward. */
+.portfolio-section {
+  --portfolio-title-gap: 40px;
+}
+
+/* Portfolio rows scrolling behind the sticky PORTFOLIO heading fade out via
+   JS (ui/PortfolioItemFade.tsx): opacity is computed per scroll frame so the
+   fade starts exactly when a row's top edge crosses the heading's bottom edge.
+   Only `will-change` lives here. */
+.portfolio-item {
+  will-change: opacity;
+}
+
+.people-carousel .swiper-slide {
+  /* Fixed pen slide width: 80px cells — the active avatar renders at
+     80px, the neighbors scale(0.6) → 48px, landing the visuals on the
+     pen row's avatar centers (spaceBetween 21 below lg, 64 at lg). */
+  width: 80px;
+  flex: none;
+  opacity: 0.33;
+}
+
+.people-carousel .swiper-slide.swiper-slide-active {
+  opacity: 1;
+}
+
+.people-carousel .swiper-slide img {
+  transition: transform 0.125s ease-in;
+}
+
+.people-carousel .swiper-slide:not(.swiper-slide-active) img {
+  transform: scale(0.6);
+}
+
+/* PLAN card ("Brief study" illustration) draw loop, 7.2s cycle.
+   Marker + brief question live outside the animated elements — visible from
+   frame 0 and through the pause between cycles. Sequence: marker blinks 3×
+   (0–20%, ~288ms per state), bar 1 grows 0→1 (20–24%), bar 2 (25.3–28.7%),
+   bar 3 (30.7–34.7%), direction note fades in + rises (36–42%), everything
+   holds (42–90%), bars/note wipe out (90–93%), then ~0.5s pause showing
+   only marker + brief question before the loop restarts. All percentages
+   share the 7.2s duration — no delays, stays in lockstep. */
+.plan-marker {
+  animation-name: plan-marker;
+  animation-duration: 7.2s;
+  animation-iteration-count: infinite;
+  /* Discrete on/off blink: each stop holds its value (~288ms). */
+  animation-timing-function: steps(1, end);
+}
+
+.plan-line-1,
+.plan-line-2,
+.plan-line-3 {
+  transform-box: fill-box;
+  transform-origin: left center;
+  transform: scaleX(0);
+  animation-duration: 7.2s;
+  animation-iteration-count: infinite;
+  animation-fill-mode: both;
+}
+
+.plan-line-1 {
+  animation-name: plan-line-1;
+}
+
+.plan-line-2 {
+  animation-name: plan-line-2;
+}
+
+.plan-line-3 {
+  animation-name: plan-line-3;
+}
+
+.plan-note {
+  animation-name: plan-note;
+  animation-duration: 7.2s;
+  animation-iteration-count: infinite;
+  animation-fill-mode: both;
+  /* Animated via opacity/translate; isolate so translate doesn't hit blur. */
+  will-change: opacity, transform;
+}
+
+@keyframes plan-marker {
+  0%,
+  3.32% {
+    opacity: 1;
+  }
+
+  3.33%,
+  6.65% {
+    opacity: 0.12;
+  }
+
+  6.66%,
+  9.99% {
+    opacity: 1;
+  }
+
+  10%,
+  13.32% {
+    opacity: 0.12;
+  }
+
+  13.33%,
+  16.65% {
+    opacity: 1;
+  }
+
+  16.66%,
+  19.99% {
+    opacity: 0.12;
+  }
+
+  20%,
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes plan-line-1 {
+  0%,
+  20% {
+    transform: scaleX(0);
+    animation-timing-function: cubic-bezier(0.25, 1, 0.35, 1); /* ease-out draw */
+  }
+
+  24%,
+  90% {
+    transform: scaleX(1);
+  }
+
+  93%,
+  100% {
+    transform: scaleX(0);
+  }
+}
+
+@keyframes plan-line-2 {
+  0%,
+  25.33% {
+    transform: scaleX(0);
+    animation-timing-function: cubic-bezier(0.25, 1, 0.35, 1);
+  }
+
+  28.67%,
+  90% {
+    transform: scaleX(1);
+  }
+
+  93%,
+  100% {
+    transform: scaleX(0);
+  }
+}
+
+@keyframes plan-line-3 {
+  0%,
+  30.67% {
+    transform: scaleX(0);
+    animation-timing-function: cubic-bezier(0.25, 1, 0.35, 1);
+  }
+
+  34.67%,
+  90% {
+    transform: scaleX(1);
+  }
+
+  93%,
+  100% {
+    transform: scaleX(0);
+  }
+}
+
+@keyframes plan-note {
+  0%,
+  36% {
+    opacity: 0;
+    transform: translateY(4px);
+    animation-timing-function: cubic-bezier(0.25, 1, 0.35, 1);
+  }
+
+  42%,
+  90% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  93%,
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Reduced motion: show the finished composition statically. */
+@media (prefers-reduced-motion: reduce) {
+  .plan-line-1,
+  .plan-line-2,
+  .plan-line-3,
+  .plan-marker,
+  .plan-note {
+    animation: none;
+  }
+
+  .plan-line-1,
+  .plan-line-2,
+  .plan-line-3 {
+    transform: scaleX(1);
+  }
+}
+
+/* DESIGN card ("Composition study" illustration) reveal loop, 7.2s cycle.
+   The tagline is outside the cycle — visible from frame 0 and through the
+   pause. Sequence per cycle: palette dots fade+scale in (gold 0–5%, cream
+   3–8%, grey 6–11%), the supporting line grows from dot 2's start (3–12%),
+   the gradient square rises (14–20%), the gold ring draws itself (18–30%)
+   and the center dot pops (26–32%), everything holds (32–90%), the whole
+   transient set fades out (.design-seq, 90–93%) and the loop restarts.
+   All percentages share the 7.2s duration — no delays, stays in lockstep. */
+.design-dot-1,
+.design-dot-2,
+.design-dot-3,
+.design-line {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation-duration: 7.2s;
+  animation-iteration-count: infinite;
+  animation-fill-mode: both;
+  animation-timing-function: cubic-bezier(0.25, 1, 0.35, 1); /* ease-out draw */
+}
+
+.design-dot-1 {
+  animation-name: design-dot-1;
+}
+
+.design-dot-2 {
+  animation-name: design-dot-2;
+}
+
+.design-dot-3 {
+  animation-name: design-dot-3;
+}
+
+.design-line {
+  transform-origin: left center;
+  animation-name: design-line;
+}
+
+.design-panel {
+  animation-name: design-panel;
+  animation-duration: 7.2s;
+  animation-iteration-count: infinite;
+  animation-fill-mode: both;
+  /* Keep any transform isolated from the gradient paint. */
+  will-change: opacity, transform;
+}
+
+.design-ring {
+  /* Draw the stroke from the top of the circle. */
+  transform-box: fill-box;
+  transform-origin: center;
+  transform: rotate(-90deg);
+  stroke-dasharray: 186;
+  stroke-dashoffset: 186;
+  animation-name: design-ring;
+  animation-duration: 7.2s;
+  animation-iteration-count: infinite;
+  animation-fill-mode: both;
+  animation-timing-function: cubic-bezier(0.45, 0.05, 0.55, 0.95); /* ease-in-out draw */
+}
+
+.design-core {
+  transform-box: fill-box;
+  transform-origin: center;
+  transform: scale(0);
+  animation-name: design-core;
+  animation-duration: 7.2s;
+  animation-iteration-count: infinite;
+  animation-fill-mode: both;
+}
+
+.design-seq {
+  animation-name: design-seq;
+  animation-duration: 7.2s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes design-dot-1 {
+  0% {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+
+  5%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes design-dot-2 {
+  0%,
+  3% {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+
+  8%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes design-dot-3 {
+  0%,
+  6% {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+
+  11%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes design-line {
+  0%,
+  3% {
+    transform: scaleX(0);
+  }
+
+  12%,
+  100% {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes design-panel {
+  0%,
+  14% {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  20%,
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes design-ring {
+  0%,
+  18% {
+    stroke-dashoffset: 186;
+  }
+
+  30%,
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes design-core {
+  0%,
+  26% {
+    transform: scale(0);
+  }
+
+  30% {
+    transform: scale(1.05);
+  }
+
+  32%,
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes design-seq {
+  0%,
+  90% {
+    opacity: 1;
+  }
+
+  93%,
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Reduced motion: show the finished composition statically. */
+@media (prefers-reduced-motion: reduce) {
+  .design-dot-1,
+  .design-dot-2,
+  .design-dot-3,
+  .design-line,
+  .design-panel,
+  .design-ring,
+  .design-core,
+  .design-seq {
+    animation: none;
+  }
+
+  .design-dot-1,
+  .design-dot-2,
+  .design-dot-3,
+  .design-core {
+    transform: none;
+    opacity: 1;
+  }
+
+  .design-line {
+    transform: scaleX(1);
+  }
+
+  .design-panel {
+    transform: none;
+    opacity: 1;
+  }
+
+  .design-ring {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* DEVELOP card ("Process artifact") — static composition except the caret:
+   a gold cursor blinking on the 03 `connection="human"` line (~530ms
+   cadence, steps(1, end) so it toggles discretely like a real editor). */
+.dev-caret {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation-name: dev-caret;
+  animation-duration: 1.06s;
+  animation-iteration-count: infinite;
+  animation-timing-function: steps(1, end);
+  will-change: opacity;
+}
+
+@keyframes dev-caret {
+  0%,
+  49.99% {
+    opacity: 1;
+  }
+
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+/* DEVELOP card reduced motion: the design's resting look — caret hidden. */
+@media (prefers-reduced-motion: reduce) {
+  .dev-caret {
+    animation: none;
+    opacity: 0;
+  }
+}
+
+/* SEND BUTTON icon (ContactForm): plane path bbox is 18×16, stroke adds
+   1px each side → painted box 20×18 (x −1..19, y −1..17 in path space).
+   The button uses a 32px viewBox (icon still paints at the same visual
+   size — 20×18 — because the svg is also 32px, 1 unit = 1px), giving the
+   states more travel room than a tight 24px box:
+   - idle centers:         translate(7, 8)   → painted x 6..26, y 7..25
+   - hover bottom-left:    translate(2, 14)  → painted x 1..21, y 13..31
+   - loading top-right:    translate(12, 2)  → painted x 11..31, y 1..19
+   Position and bob live on separate elements: state `transform` sits on
+   the path (transitioned), the flight bob animates the wrapper <g>. The
+   path's transform is never animated, so every state change — including
+   reset → idle — reliably transitions. (Note: transitioning the
+   individual CSS `translate` property on SVG elements is broken here —
+   it sticks at its start value — hence `transform`.) */
+.send-btn .send-plane {
+  transform: translate(7px, 8px);
+  transition: transform 0.3s cubic-bezier(0.25, 1, 0.35, 1);
+}
+
+.send-btn.send-btn--loading .send-plane {
+  transform: translate(12px, 2px);
+}
+
+.send-btn:hover:not(.send-btn--loading) .send-plane {
+  transform: translate(2px, 14px);
+}
+
+/* Flight bob on the wrapper: the 0.3s slide to top-right finishes exactly
+   when the delayed animation takes over (fill-mode stays none during the
+   delay, so the transition owns the first 0.3s). Bobs straight down, 1px —
+   painted box stays inside the 32px box. Torn down on reset: the wrapper
+   snaps 1px, the path glides home. */
+.send-btn.send-btn--loading .send-fly {
+  animation: send-plane-fly 1s ease-in-out 0.3s infinite;
+}
+
+@keyframes send-plane-fly {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(1px);
+  }
+}
+
+/* Loading trails: each line draws itself (dashoffset 1→0, pathLength=1),
+   holds, then fades; sequence 2nd → 1st → 3rd via staggered delays on a
+   shared 1.2s cycle. Hidden until the button enters loading. */
+.send-trail {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  opacity: 0;
+}
+
+.send-btn--loading .send-trail {
+  animation: send-trail 1.2s cubic-bezier(0.25, 1, 0.35, 1) infinite;
+}
+
+.send-btn--loading .send-trail--1 {
+  animation-delay: 0.15s;
+}
+
+.send-btn--loading .send-trail--3 {
+  animation-delay: 0.3s;
+}
+
+@keyframes send-trail {
+  0% {
+    stroke-dashoffset: 1;
+    opacity: 1;
+  }
+
+  30%,
+  70% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 0;
+  }
+}
+
+/* 3s cancel-window progress bar under the send button: scaleX 0→1 (origin
+   set by .origin-left on the element itself). */
+@keyframes send-progress {
+  from {
+    transform: scaleX(0);
+  }
+
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* BUTTON loader (ui/Button): a 20px morphogram, four 4px dots on a shared
+   2.8s timeline (each dot's corners arrive via --ax/--ay/--bx/--by set by
+   the component, ±5px corner travel → 3px inner margin). Class + keyframes
+   validated on the button-spec prototype (variant D); geometry constants
+   live in ui/Button.tsx. */
+.button-morph-dot {
+  animation: button-morph 2.8s linear infinite;
+}
+
+@keyframes button-morph {
+  /* Beat 1: merged center square rests; subtle anticipation before burst. */
+  0%,
+  4% {
+    animation-timing-function: ease-in;
+    transform: translate(0, 0) scale(1.4);
+    border-radius: 0;
+  }
+
+  6% {
+    animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+    transform: translate(0, 0) scale(1.25);
+    border-radius: 0;
+  }
+
+  /* Beat 2: burst to tl/tr/br/bl with a 10% overshoot, then settle. */
+  15% {
+    animation-timing-function: ease-out;
+    transform: translate(calc(var(--ax) * 1.12), calc(var(--ay) * 1.12)) scale(1);
+    border-radius: 0;
+  }
+
+  20%,
+  24% {
+    animation-timing-function: cubic-bezier(0.45, 0.05, 0.55, 0.95);
+    transform: translate(var(--ax), var(--ay)) scale(1);
+    border-radius: 0;
+  }
+
+  /* Beat 3: 1st→2nd, 2nd→3rd, 3rd→4th, 4th→1st — plus square → circle,
+     with a soft breath at the midpoint of the walk. */
+  34% {
+    animation-timing-function: cubic-bezier(0.45, 0.05, 0.55, 0.95);
+    transform: translate(calc((var(--ax) + var(--bx)) / 2), calc((var(--ay) + var(--by)) / 2))
+      scale(1.15);
+    border-radius: 30%;
+  }
+
+  44%,
+  50% {
+    animation-timing-function: cubic-bezier(0.45, 0.05, 0.55, 0.95);
+    transform: translate(var(--bx), var(--by)) scale(1);
+    border-radius: 50%;
+  }
+
+  /* Beat 4: corners collapse to center, merging into a fuller circle. */
+  61% {
+    animation-timing-function: ease-out;
+    transform: translate(0, 0) scale(1.5);
+    border-radius: 50%;
+  }
+
+  63% {
+    animation-timing-function: cubic-bezier(0.55, 0.085, 0.68, 0.53);
+    transform: translate(0, 0) scale(1.4);
+    border-radius: 50%;
+  }
+
+  /* Beat 5: damped double bounce as a circle — first impact drops +drop1
+     with floor squash, second drops +drop2 (lost energy) with gentler squash. */
+  70% {
+    animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transform: translate(0, var(--drop1, 5px)) scale(1.65, 1.1);
+    border-radius: 50%;
+  }
+
+  77% {
+    animation-timing-function: cubic-bezier(0.55, 0.085, 0.68, 0.53);
+    transform: translate(0, 0) scale(1.35, 1.45);
+    border-radius: 50%;
+  }
+
+  83% {
+    animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transform: translate(0, var(--drop2, 3px)) scale(1.5, 1.22);
+    border-radius: 50%;
+  }
+
+  /* Beat 6: rise home, ease circle → square with a 1.05× pop (design-core),
+     then settle on beat 1's exact frame so the restart is invisible. */
+  89% {
+    animation-timing-function: cubic-bezier(0.45, 0.05, 0.55, 0.95);
+    transform: translate(0, 0) scale(1.4);
+    border-radius: 50%;
+  }
+
+  95% {
+    animation-timing-function: ease-out;
+    transform: translate(0, 0) scale(1.48);
+    border-radius: 0;
+  }
+
+  98%,
+  100% {
+    transform: translate(0, 0) scale(1.4);
+    border-radius: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .button-morph-dot {
+    animation: none;
+    transform: translate(0, 0) scale(1.4);
+    border-radius: 0;
+  }
+}
+
+/* AI-native toolkit ambient ribbon arcs (pen wDgkw + k8R2jD + the
+   breakpoint artboards' copies): ONE class per arc, per-tier custom
+   properties. Every artboard scales the XL arcs by f (uSM 0.2604, SM
+   0.4444, MD 0.5333, LG 0.72, XL 1) — width, height, top offset and blur
+   all scale by f; the x anchors hold fixed per-tier offsets from the band
+   center (--arc-shift, pen x + w/2 − content center). The XL primary top
+   (−125px) was empirically matched against the artboard export (only the
+   thick right region of the ribbon crests the glass edge); per-tier tops
+   scale it by the same f. Opacities are constant (0.55 / 0.45). */
+.ai-arc-primary,
+.ai-arc-secondary {
+  position: absolute;
+  top: var(--arc-top);
+  left: 50%;
+  width: var(--arc-w);
+  height: var(--arc-h);
+  transform: translateX(calc(-50% + var(--arc-shift)));
+  filter: blur(var(--arc-blur));
+  pointer-events: none;
+}
+
+.ai-arc-primary {
+  --arc-w: 416.67px;
+  --arc-h: 67.71px;
+  --arc-top: -32.55px;
+  --arc-shift: 24px;
+  --arc-blur: 9.375px;
+  opacity: 0.55;
+}
+
+.ai-arc-secondary {
+  --arc-w: 343.75px;
+  --arc-h: 49.48px;
+  --arc-top: -5.21px;
+  --arc-shift: 39.63px;
+  --arc-blur: 6.25px;
+  opacity: 0.45;
+}
+
+@media (width >= 40rem) {
+  .ai-arc-primary {
+    --arc-w: 711.11px;
+    --arc-h: 115.56px;
+    --arc-top: -55.56px;
+    --arc-shift: 32px;
+    --arc-blur: 16px;
+  }
+
+  .ai-arc-secondary {
+    --arc-w: 586.67px;
+    --arc-h: 84.44px;
+    --arc-top: -8.89px;
+    --arc-shift: 58.67px;
+    --arc-blur: 10.67px;
+  }
+}
+
+@media (width >= 48rem) {
+  .ai-arc-primary {
+    --arc-w: 853.33px;
+    --arc-h: 138.67px;
+    --arc-top: -66.67px;
+    --arc-shift: 48px;
+    --arc-blur: 19.2px;
+  }
+
+  .ai-arc-secondary {
+    --arc-w: 704px;
+    --arc-h: 101.33px;
+    --arc-top: -10.67px;
+    --arc-shift: 80px;
+    --arc-blur: 12.8px;
+  }
+}
+
+@media (width >= 64rem) {
+  .ai-arc-primary {
+    --arc-w: 1152px;
+    --arc-h: 187.2px;
+    --arc-top: -90px;
+    --arc-shift: 70.4px;
+    --arc-blur: 25.92px;
+  }
+
+  .ai-arc-secondary {
+    --arc-w: 950.4px;
+    --arc-h: 136.8px;
+    --arc-top: -14.4px;
+    --arc-shift: 113.6px;
+    --arc-blur: 17.28px;
+  }
+}
+
+@media (width >= 80rem) {
+  .ai-arc-primary {
+    --arc-w: 1600px;
+    --arc-h: 260px;
+    --arc-top: -125px;
+    --arc-shift: 120px;
+    --arc-blur: 36px;
+  }
+
+  .ai-arc-secondary {
+    --arc-w: 1320px;
+    --arc-h: 190px;
+    --arc-top: -20px;
+    --arc-shift: 180px;
+    --arc-blur: 24px;
+  }
+}
+
+/* Contact success transition (pen node B2C6cA): the form subtree (radios,
+   divider, fields, send row) fades out and lifts slightly on success; the
+   sent view (badge + heading + subtext, full panel width) rises in after. */
+@keyframes contact-form-exit {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.99);
+  }
+}
+
+@keyframes contact-sent-enter {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.contact-form-exit {
+  animation: contact-form-exit 250ms ease forwards;
+}
+
+.contact-sent-enter {
+  animation: contact-sent-enter 350ms ease-out forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .send-btn .send-plane {
+    transition: none;
+  }
+
+  .send-btn.send-btn--loading .send-fly {
+    animation: none;
+  }
+
+  .send-btn--loading .send-trail {
+    animation: none;
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+
+  /* Progress is redundant when motion is off — the Cancel trigger + button
+     label carry the state. */
+  .send-progress-bar {
+    display: none;
+  }
+
+  .contact-form-exit {
+    animation: none;
+    opacity: 0;
+  }
+
+  .contact-sent-enter {
+    animation: none;
+  }
+}
