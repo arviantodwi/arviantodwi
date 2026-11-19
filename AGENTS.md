@@ -8,11 +8,13 @@ Docs belong to their own scope: `apps/web/docs/` documents the web app, `apps/<a
 
 This root file is the router and holds only repo-wide behavior:
 
-| Scope             | Docs                           |
-| ----------------- | ------------------------------ |
-| Web app           | `apps/web/docs/index.md`       |
-| (future apps)     | `apps/<app>/docs/index.md`     |
-| (future packages) | `packages/<pkg>/docs/index.md` |
+| Scope             | Docs                                 |
+| ----------------- | ------------------------------------ |
+| Web app           | `apps/web/docs/index.md`             |
+| Activity worker   | `apps/activity-worker/docs/index.md` |
+| Activity plugin   | `apps/activity-plugin/docs/index.md` |
+| (future apps)     | `apps/<app>/docs/index.md`           |
+| (future packages) | `packages/<pkg>/docs/index.md`       |
 
 ## Workspace tooling (Vite+ / pnpm)
 
