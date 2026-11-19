@@ -29,7 +29,7 @@ app.post('/activity/turns', requireBearer, async (c) => {
   });
   if (failures.length > 0) return c.json({ error: 'Malformed turn(s)', details: failures }, 400);
 
-  const categorized = valid.map((turn) => categorizeTurn(turn));
+  const categorized = await Promise.all(valid.map((turn) => categorizeTurn(turn, c.env)));
   await upsertTurns(c.env.DB, categorized, activityTz(c.env));
 
   return c.json({

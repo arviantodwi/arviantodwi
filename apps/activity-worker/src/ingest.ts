@@ -1,6 +1,7 @@
 import type { MiddlewareHandler } from 'hono';
 import type { Env } from './env';
 import { heuristicCategory, categoryMix, type Category } from './heuristic';
+import { classifyWithJev, JEV_MIN_CONFIDENCE } from './jev';
 import { dayBucket } from './time';
 import type { ValidTurn } from './validate';
 
@@ -22,19 +23,21 @@ export const requireBearer: MiddlewareHandler<{ Bindings: Env }> = async (c, nex
 };
 
 /**
- * Assign a category to a turn. v1 flow: a forward-compat manual `category`
- * wins; otherwise the tool-mix heuristic (Jev refinement is layered in step 3).
+ * Assign a category to a turn. Flow: a forward-compat manual `category` wins;
+ * otherwise Jev classifies from the digest and is accepted at ≥ 0.7
+ * confidence; below threshold or on any failure the tool-mix heuristic stands
+ * (decision 4). Never throws — Jev failure degrades to the heuristic.
  */
-export function categorizeTurn(turn: ValidTurn): CategorizedTurn {
+export async function categorizeTurn(turn: ValidTurn, env: Env): Promise<CategorizedTurn> {
   if (turn.category) {
     return { turn, category: turn.category, categorySource: 'manual', categoryProbs: null };
   }
-  return {
-    turn,
-    category: heuristicCategory(turn.toolCounts, turn.agent ?? undefined),
-    categorySource: 'heuristic',
-    categoryProbs: null,
-  };
+  const heuristic = heuristicCategory(turn.toolCounts, turn.agent ?? undefined);
+  const jev = await classifyWithJev(turn, env);
+  if (jev && jev.confidence >= JEV_MIN_CONFIDENCE) {
+    return { turn, category: jev.category, categorySource: 'jev', categoryProbs: jev.probs };
+  }
+  return { turn, category: heuristic, categorySource: 'heuristic', categoryProbs: null };
 }
 
 const UPSERT_SQL = `INSERT INTO agent_turns (
