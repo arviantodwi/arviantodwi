@@ -12,7 +12,8 @@
 
 ## Behavior rules (do not break silently)
 
-- One POST per closed turn — the plugin **never accumulates across turns**. Trigger set: `session.idle` (primary) + `session.execution.failed` / `session.execution.interrupted`.
+- One POST per closed turn — the plugin **never accumulates across turns**. Trigger set (verified empirically 2026-11-22, OpenCode v2.3.2): **`session.execution.succeeded` / `.failed` / `.interrupted`** — `session.idle` exists in the API spec but never fires in the runtime stream, and `session.execution.succeeded` marks turn completion.
+- Each instance handles only its own location's sessions (events carry `location.directory`; others are ignored) — without this, every loaded location would process every turn.
 - Subagent sessions (`parentID`) and empty slices are skipped.
 - The plugin must **never throw into the session loop**: every failure is caught and logged; a failed POST leaves the durable cursor untouched, so the next event retries naturally.
 - Idempotency: turn key = opening message id; cursor persisted in plugin storage (`turn/<sessionID>`), surviving service restarts.

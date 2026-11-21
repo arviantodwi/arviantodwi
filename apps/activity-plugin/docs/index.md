@@ -16,8 +16,8 @@ OpenCode server plugin (`agent-activity`) that captures per-turn agent activity 
 
 ## Mechanics (verified against the V2 API spec, 2026-11-20)
 
-- Subscription: `ctx.event.subscribe({ types: ["session.idle", "session.execution.failed", "session.execution.interrupted"] })`; payloads carry `data.sessionID`.
-- Idle markers are persisted transcript messages (`Session.Message.Idle`, includes `outcome`); an idle event slices **between the previous idle marker and the newest one**. If the newest marker is not persisted yet (racy), a tail slice from the cursor is sent instead — same turn key, so the worker's upsert stays idempotent.
+- Subscription: `ctx.event.subscribe({ types: ["session.execution.succeeded", "session.execution.failed", "session.execution.interrupted"] })` — **verified empirically 2026-11-22 (v2.3.2): `session.idle` never fires in the runtime stream even though the API spec lists it; execution-terminal events mark turn completion.** Payloads carry `data.sessionID` and `location.directory`; instances scope themselves to their own location.
+- Turn slicing: cursor-first tail slice per execution-terminal event (a `session.execution.succeeded` tail = the complete turn, final metrics verified in production). Idle-marker fallbacks retained for transcript shapes that carry them.
 - Metrics per turn: prompts (user messages), tool-call parts (names → `toolCounts`), token totals (input/output/reasoning/cache read/write) from assistant messages, cost, model, agent, session title, first-prompt excerpt (Jev digest material). Numbers only beyond that.
 - Subagent sessions (`parentID`) are skipped. Sessions with no metrics produce nothing.
 
@@ -25,4 +25,4 @@ OpenCode server plugin (`agent-activity`) that captures per-turn agent activity 
 
 `{ source: "opencode", sessionId, turnId, startedAt, endedAt, durationMs, prompts, toolCalls, toolCounts, tokens: { input, output, reasoning, cacheRead, cacheWrite, total }, costUsd, model, agent, title, firstPrompt }` — timestamps ISO 8601 UTC.
 
-<!-- verified against: 7ef52da + working tree, 2026-11-20 (plugin v1: idle+execution triggers, bounded idle slices, durable cursor, dormant config path) -->
+<!-- verified against: 7e19ffb + working tree, 2026-11-22 (plugin live in production: execution-terminal triggers, location scoping, {file:} token config, diagnostic trail; first real captures verified via /activity/days) -->
