@@ -1,3 +1,5 @@
+import { appendFile } from 'node:fs/promises';
+import { homedir } from 'node:os';
 import { Plugin } from '@opencode/plugin';
 import { findSlice, toTurnMessage, type TurnMessage } from './turn.ts';
 
@@ -36,6 +38,11 @@ interface CtxLike {
 }
 
 const LOG = '[agent-activity]';
+/** Local diagnostic trail (ids/outcomes only — never prompt text or tokens). Owner-home, tiny. */
+const DIAG_LOG = `${homedir()}/.agent-activity.plugin.log`;
+const diag = (line: string): void => {
+  void appendFile(DIAG_LOG, `${new Date().toISOString()} ${line}\n`).catch(() => {});
+};
 /** Resolve an `{env:VAR_NAME}` reference against the server process environment. */
 const resolveEnvRef = (value: string | undefined): string | undefined => {
   if (typeof value !== 'string') return undefined;
@@ -78,8 +85,12 @@ async function handleEvent(
   cfg: { url: string; token: string },
   event: unknown,
 ): Promise<void> {
+  const eventType = (event as EventLike).type ?? 'unknown';
   const sessionID = sessionIDOf(event);
-  if (!sessionID) return;
+  if (!sessionID) {
+    diag(`event=${eventType} skipped: no sessionID in payload`);
+    return;
+  }
 
   const session = (await ctx.session.get({ sessionID })) as
     | {
@@ -91,7 +102,10 @@ async function handleEvent(
     | undefined;
   const info = session?.data ?? session ?? {};
   // Decision 9: subagent sessions are skipped entirely.
-  if (info.parentID) return;
+  if (info.parentID) {
+    diag(`event=${eventType} session=${sessionID.slice(0, 16)}… skipped: subagent`);
+    return;
+  }
 
   const transcript = await ctx.session.context({ sessionID });
   const rawItems: unknown[] = Array.isArray(transcript)
@@ -109,7 +123,12 @@ async function handleEvent(
       : null;
   const eventKind = eventKindOf((event as EventLike).type);
   const slice = findSlice(messages, cursorId, eventKind);
-  if (!slice) return; // nothing new (deduped, empty turn, or marker race resolved elsewhere)
+  if (!slice) {
+    diag(
+      `event=${eventType} session=${sessionID.slice(0, 16)}… skipped: no new turn (deduped or empty)`,
+    );
+    return; // nothing new (deduped, empty turn, or marker race resolved elsewhere)
+  }
 
   const ok = await postTurn(cfg.url, cfg.token, {
     source: 'opencode',
@@ -128,11 +147,19 @@ async function handleEvent(
     title: info.title ?? null,
     firstPrompt: slice.stats.firstPrompt,
   });
-  if (ok) await ctx.storage.set(storageKey, slice.cursorId);
-  else
+  if (ok) {
+    await ctx.storage.set(storageKey, slice.cursorId);
+    diag(
+      `event=${eventType} session=${sessionID.slice(0, 16)}… posted turn=${slice.stats.turnId.slice(0, 24)} prompts=${slice.stats.prompts} toolCalls=${slice.stats.toolCalls} tokens=${slice.stats.tokens.total}`,
+    );
+  } else {
+    diag(
+      `event=${eventType} session=${sessionID.slice(0, 16)}… turn=${slice.stats.turnId.slice(0, 24)} POST FAILED (cursor not advanced; retries next event)`,
+    );
     console.warn(
       `${LOG} worker rejected the turn; will retry on the next event (cursor not advanced)`,
     );
+  }
 }
 
 export default Plugin.define({
@@ -147,6 +174,7 @@ export default Plugin.define({
       return;
     }
     console.log(`${LOG} armed → ${cfg.url}`);
+    diag(`setup: armed → ${cfg.url}`);
     const controller = new AbortController();
     void (async () => {
       try {
