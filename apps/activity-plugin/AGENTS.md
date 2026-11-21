@@ -21,9 +21,9 @@
 
 ## Config & secrets (owner)
 
-- The plugin reads `AGENT_ACTIVITY_URL` + `AGENT_ACTIVITY_TOKEN` from the **OpenCode service process environment**; nothing secret belongs in any `opencode.json(c)`.
-- Recommended: a 600-permission env file outside the repo (e.g. `~/.agent-activity.env`), sourced from the shell profile with `set -a`, then `opencode service restart` (env is read only at service launch).
-- Plugin options may reference env vars without plaintext: `{ url: "…", token: "{env:MY_TOKEN_NAME}" }` — `{env:VAR}` is resolved by the plugin at load time (also works if the host pre-expands it).
+- Recommended: the global config passes credentials via `{file:}` substitution — plugin options `{ url: "https://api.arvian.to/activity/turns", token: "{file:~/.agent-activity.token}" }` in `~/.config/opencode/opencode.json`; the owner keeps the raw token in `~/.agent-activity.token` (600 perms, outside any repo). OpenCode substitutes the file contents at config load; nothing secret lives in config.
+- Alternatives that also work: env vars `AGENT_ACTIVITY_URL` / `AGENT_ACTIVITY_TOKEN` in the OpenCode service process env (spawn-time only — a service restarted without them stays dormant), plugin options `{ token: "{env:VAR}" }`, or a literal `token` (plaintext in config — avoid).
+- Config changes hot-reload; note `{file:}` contents are re-read at config (re)load — after rotating the token, touch the global config or restart the service.
 - Missing/unset → dormant with a one-time warning: no crashes, no data sent.
 - No secrets in this scope — the token lives outside the repo (owner-managed).
 
