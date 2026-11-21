@@ -86,6 +86,25 @@ async function handleEvent(
   event: unknown,
 ): Promise<void> {
   const eventType = (event as EventLike).type ?? 'unknown';
+  // TEMP diagnostics: accept all session.* events (type filter disabled in
+  // setup) and log every step, so capture failures are visible in the trail.
+  if (!eventType.startsWith('session.')) return;
+  diag(`received event=${eventType}`);
+  try {
+    await handleSessionEvent(ctx, cfg, eventType, event);
+  } catch (error) {
+    diag(
+      `event=${eventType} handler error: ${error instanceof Error ? error.message : String(error)}`,
+    );
+  }
+}
+
+async function handleSessionEvent(
+  ctx: CtxLike,
+  cfg: { url: string; token: string },
+  eventType: string,
+  event: unknown,
+): Promise<void> {
   const sessionID = sessionIDOf(event);
   if (!sessionID) {
     diag(`event=${eventType} skipped: no sessionID in payload`);
@@ -174,12 +193,12 @@ export default Plugin.define({
       return;
     }
     console.log(`${LOG} armed → ${cfg.url}`);
-    diag(`setup: armed → ${cfg.url}`);
+    diag('setup: subscribing (all events, diagnostic filter in handler)');
     const controller = new AbortController();
     void (async () => {
       try {
         for await (const event of self.event.subscribe({
-          types: ['session.idle', 'session.execution.failed', 'session.execution.interrupted'],
+          // TEMP diagnostics: no type filter — log actual event names, then restore.
           signal: controller.signal,
         })) {
           void handleEvent(self, cfg, event).catch((error) =>
@@ -187,6 +206,7 @@ export default Plugin.define({
           );
         }
       } catch (error) {
+        diag(`subscription failed: ${error instanceof Error ? error.message : String(error)}`);
         console.error(`${LOG} event subscription failed:`, error);
       }
     })();
