@@ -103,17 +103,29 @@ async function attempt(
       }),
       signal: AbortSignal.timeout(TIMEOUT_MS),
     });
-    if (!response.ok) return null;
+    if (!response.ok) {
+      console.warn(`[jev] ${model}: HTTP ${response.status} — falling back`);
+      return null;
+    }
     interface ChatResponse {
       choices?: Array<{ message?: { content?: string } }>;
     }
     const data: ChatResponse = await response.json();
     const content = data.choices?.[0]?.message?.content;
-    if (typeof content !== 'string') return null;
+    if (typeof content !== 'string') {
+      console.warn(`[jev] ${model}: no message content in response — falling back`);
+      return null;
+    }
     const answer = parseAnswer(content);
-    if (!answer) return null;
+    if (!answer) {
+      console.warn(`[jev] ${model}: unparseable answer (${content.slice(0, 80)}) — falling back`);
+      return null;
+    }
     return { category: answer.category, probs: null, confidence: answer.confidence };
-  } catch {
+  } catch (error) {
+    console.warn(
+      `[jev] ${model}: request failed (${error instanceof Error ? error.message : String(error)}) — falling back`,
+    );
     return null;
   }
 }
@@ -124,11 +136,18 @@ async function attempt(
  * to null and the caller keeps the heuristic label (graceful degradation).
  */
 export async function classifyWithJev(turn: ValidTurn, env: Env): Promise<JevResult | null> {
-  if (!env.JEV_API_KEY) return null;
+  if (!env.JEV_API_KEY) {
+    console.warn('[jev] no JEV_API_KEY configured — heuristic-only mode');
+    return null;
+  }
   const base = jevBaseUrl(env);
   for (const model of JEV_MODELS) {
     const result = await attempt(base, env.JEV_API_KEY, model, turn);
-    if (result && result.confidence >= JEV_MIN_CONFIDENCE) return result;
+    if (!result) continue;
+    if (result.confidence >= JEV_MIN_CONFIDENCE) return result;
+    console.warn(
+      `[jev] ${model}: confidence ${result.confidence} < ${JEV_MIN_CONFIDENCE} — trying next / heuristic`,
+    );
   }
   return null;
 }
