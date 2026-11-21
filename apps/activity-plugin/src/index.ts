@@ -47,7 +47,8 @@ const config = (ctx: CtxLike): { url: string; token: string } | null => {
   const url = resolveEnvRef(options.url) ?? process.env.AGENT_ACTIVITY_URL;
   const token = resolveEnvRef(options.token) ?? process.env.AGENT_ACTIVITY_TOKEN;
   if (!url || !token) return null;
-  return { url: url.replace(/\/$/, ''), token };
+  // {file:} substitution can carry trailing whitespace/newlines — trim defensively.
+  return { url: url.trim().replace(/\/$/, ''), token: token.trim() };
 };
 
 const sessionIDOf = (event: unknown): string | null => {
