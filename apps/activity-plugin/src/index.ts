@@ -146,6 +146,7 @@ export default Plugin.define({
       );
       return;
     }
+    console.log(`${LOG} armed → ${cfg.url}`);
     const controller = new AbortController();
     void (async () => {
       try {
