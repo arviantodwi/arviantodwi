@@ -79,7 +79,11 @@ const sessionIDOf = (event: unknown): string | null => {
 // All trigger types are execution-terminal events → always the execution slice.
 const eventKindOf = (): 'idle' | 'execution' => 'execution';
 
-async function postTurn(url: string, token: string, payload: unknown): Promise<boolean> {
+async function postTurn(
+  url: string,
+  token: string,
+  payload: unknown,
+): Promise<{ ok: boolean; category?: string; categorySource?: string }> {
   try {
     const response = await fetch(url, {
       method: 'POST',
@@ -87,9 +91,14 @@ async function postTurn(url: string, token: string, payload: unknown): Promise<b
       body: JSON.stringify(payload),
       signal: AbortSignal.timeout(15_000),
     });
-    return response.ok;
+    if (!response.ok) return { ok: false };
+    const data = (await response.json()) as {
+      turns?: Array<{ category?: string; categorySource?: string }>;
+    };
+    const first = data.turns?.[0];
+    return { ok: true, category: first?.category, categorySource: first?.categorySource };
   } catch {
-    return false;
+    return { ok: false };
   }
 }
 
@@ -153,7 +162,7 @@ async function handleEvent(
       return; // nothing new (deduped, empty turn, or marker race resolved elsewhere)
     }
 
-    const ok = await postTurn(cfg.url, cfg.token, {
+    const result = await postTurn(cfg.url, cfg.token, {
       source: 'opencode',
       sessionId: sessionID,
       turnId: slice.stats.turnId,
@@ -170,10 +179,10 @@ async function handleEvent(
       title: info.title ?? null,
       firstPrompt: slice.stats.firstPrompt,
     });
-    if (ok) {
+    if (result.ok) {
       await ctx.storage.set(storageKey, slice.cursorId);
       diag(
-        `event=${eventType} session=${sessionID.slice(0, 16)}… posted turn=${slice.stats.turnId.slice(0, 24)} prompts=${slice.stats.prompts} toolCalls=${slice.stats.toolCalls} tokens=${slice.stats.tokens.total}`,
+        `event=${eventType} session=${sessionID.slice(0, 16)}… posted turn=${slice.stats.turnId.slice(0, 24)} category=${result.category ?? '?'} (${result.categorySource ?? '?'}) prompts=${slice.stats.prompts} toolCalls=${slice.stats.toolCalls} tokens=${slice.stats.tokens.total}`,
       );
     } else {
       diag(
