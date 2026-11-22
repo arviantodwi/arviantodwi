@@ -9,6 +9,7 @@ export default defineConfig({
   fmt: {
     ignorePatterns: [
       '**/.next/**',
+      '**/.wrangler/**',
       '**/node_modules/**',
       '**/out/**',
       '**/public/**',
@@ -38,6 +39,7 @@ export default defineConfig({
   lint: {
     ignorePatterns: [
       '**/.next/**',
+      '**/.wrangler/**',
       '**/node_modules/**',
       '**/out/**',
       '.agents/**',
