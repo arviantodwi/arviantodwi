@@ -82,6 +82,22 @@ run('first idle of a fresh session: bounded slice = turn 1', () => {
   return null;
 });
 
+run(
+  'succeeded event with marker already persisted (production race): fresh session still captures turn 2',
+  () => {
+    // session.execution.succeeded fires ~7 ms after the runtime appends the idle
+    // marker, so the handler usually sees the full transcript including idle2.
+    // Without the bounded slice a cursorless session would slice past idle2 into
+    // nothing and skip forever (verified in production 2026-11-22).
+    const slice = findSlice(transcript, null, 'idle');
+    if (!slice) return 'expected a slice';
+    if (slice.stats.turnId !== 'u2') return `turnId ${slice.stats.turnId}`;
+    if (slice.stats.prompts !== 1 || slice.stats.toolCalls !== 2) return 'stats wrong';
+    if (slice.cursorId !== 'idle2') return `cursor ${slice.cursorId}`;
+    return null;
+  },
+);
+
 run('idle event whose marker is not persisted yet: tail slice from cursor, same turn key', () => {
   const withoutIdle2 = transcript.slice(0, -1);
   const slice = findSlice(withoutIdle2, 'idle1', 'idle');

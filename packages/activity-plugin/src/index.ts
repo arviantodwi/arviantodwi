@@ -76,8 +76,14 @@ const sessionIDOf = (event: unknown): string | null => {
   return e.data?.sessionID ?? e.properties?.sessionID ?? null;
 };
 
-// All trigger types are execution-terminal events → always the execution slice.
-const eventKindOf = (): 'idle' | 'execution' => 'execution';
+// Trigger → slice kind. `session.execution.succeeded` coincides with the runtime
+// appending an `idle` marker message to the transcript (verified 2026-11-22: the
+// marker lands ~7 ms before the event is handled) → use the bounded idle-marker
+// slice, or a fresh session (no cursor yet) would slice past the newest marker
+// into nothing and never capture a turn. failed / interrupted keep the
+// tail-from-cursor slice.
+const eventKindOf = (eventType: string): 'idle' | 'execution' =>
+  eventType === 'session.execution.succeeded' ? 'idle' : 'execution';
 
 async function postTurn(
   url: string,
@@ -154,7 +160,7 @@ async function handleEvent(
     const storageKey = `turn/${sessionID}`;
     const stored = await ctx.storage.get(storageKey);
     const cursorId = typeof stored === 'string' ? stored : null;
-    const slice = findSlice(messages, cursorId, eventKindOf());
+    const slice = findSlice(messages, cursorId, eventKindOf(eventType));
     if (!slice) {
       diag(
         `event=${eventType} session=${sessionID.slice(0, 16)}… skipped: no new turn (deduped or empty)`,
