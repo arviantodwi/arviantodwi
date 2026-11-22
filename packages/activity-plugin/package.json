@@ -1,0 +1,16 @@
+{
+  "name": "@arvianto/opencode-activity-plugin",
+  "version": "1.1.0",
+  "private": true,
+  "type": "module",
+  "description": "OpenCode server plugin: pushes per-turn agent activity stats to the activity worker.",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "@opencode/plugin": "latest"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.6"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "name": "@arvianto/activity-worker",
+  "version": "1.1.0",
+  "private": true,
+  "description": "Agent activity backend: ingest, categorize (Jev), aggregate, and expose MCP — deployed as a Cloudflare Worker with D1.",
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "workerd"
+    ]
+  },
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "db:migrate:local": "wrangler d1 migrations apply agent-activity --local",
+    "db:migrate": "wrangler d1 migrations apply agent-activity --remote",
+    "db:create": "wrangler d1 create agent-activity"
+  },
+  "dependencies": {
+    "hono": "^4.13.19"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20261118.1",
+    "typescript": "^7.0.2",
+    "wrangler": "^4.164.0"
+  }
+}

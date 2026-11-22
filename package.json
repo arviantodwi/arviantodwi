@@ -3,13 +3,20 @@
   "version": "1.0.0",
   "private": true,
   "packageManager": "pnpm@12.21.0",
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "workerd"
+    ]
+  },
   "scripts": {
     "dev": "vp -C apps/web run dev",
     "build": "vp -C apps/web run build",
     "start": "vp -C apps/web run start",
     "lint": "vp lint",
     "format": "vp fmt",
-    "check": "vp check"
+    "check": "vp check",
+    "release:agent": "node scripts/release-agent.ts"
   },
   "devDependencies": {
     "vite-plus": "1.7.0"
