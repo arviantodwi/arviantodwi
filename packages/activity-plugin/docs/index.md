@@ -25,4 +25,8 @@ OpenCode server plugin (`agent-activity`) that captures per-turn agent activity 
 
 `{ source: "opencode", sessionId, turnId, startedAt, endedAt, durationMs, prompts, toolCalls, toolCounts, tokens: { input, output, reasoning, cacheRead, cacheWrite, total }, costUsd, model, agent, title, firstPrompt }` — timestamps ISO 8601 UTC.
 
-<!-- verified against: d9e15ce + the packages/ move (this commit), 2026-11-22 (plugin live in production: execution-terminal triggers, location scoping, {file:} token config, diagnostic trail; first real captures verified via /activity/days) -->
+## Releases
+
+The plugin ships as one half of the agent-activity pair: **one version, one tag** — `activity-vX.Y.Z`, applied by CI (`release-tag.yml`) when the release PR `release/next` → `main` merges with a **merge commit** (never squash). The tag prefix changed from `activity-plugin-v*` to `activity-v*` at 1.1.0; client pickup of the new prefix via the global spec `github:arviantodwi/arviantodwi#semver:^1.0.0::path:packages/activity-plugin` is **pending verification** — if instances stay on 1.0.2 after the first release, adjust the global spec per OpenCode's tag-resolution behavior. Flow, bump rules, and exclusions: root `AGENTS.md` → "Versioning & releases".
+
+<!-- verified against: 6b99b23 (release flow), 2026-11-23 (plugin live in production: execution-terminal triggers, location scoping, {file:} token config, diagnostic trail; first real captures verified via /activity/days) -->
