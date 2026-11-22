@@ -61,4 +61,4 @@ One row per agent **turn**. Key: `(source, session_id, turn_id)` unique. Timesta
 
 The worker ships as one half of the agent-activity pair: **one version, one tag** — `activity-vX.Y.Z`, applied by CI (`release-tag.yml`) when the release PR `release/next` → `main` merges with a **merge commit** (never squash). `pnpm deploy` runs from `main` at that tag — deploy = release, never from an untagged commit; hotfixes are patch releases. Flow, bump rules, and exclusions: root `AGENTS.md` → "Versioning & releases".
 
-<!-- verified against: d9448ab (release flow), 2026-11-23 (worker v1: turns/days/mcp routes, Jev via LiteLLM gateway jev-1.14.0→jev-1.13.0, UTC time policy, secrets policy) -->
+<!-- verified against: 6b99b23 (release flow), 2026-11-23 (worker v1: turns/days/mcp routes, Jev via LiteLLM gateway jev-1.14.0→jev-1.13.0, UTC time policy, secrets policy) -->
