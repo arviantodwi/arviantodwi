@@ -4,39 +4,36 @@ import { categoryMix } from './heuristic';
 import type { ValidTurn } from './validate';
 
 /**
- * Jev classification via the owner's custom provider (OpenAI-compatible chat
- * completions — NOT the typed Decisions API). Chat-mode Jev returns no
- * calibrated per-option distribution: we prompt for strict JSON and gate on
- * the self-reported confidence at ≥ 0.7 (decision 4); below threshold, missing
- * confidence, or any failure → heuristic fallback. Primary model with a
- * fallback model in case the primary is down.
+ * Jev classification via the owner's custom provider (a LiteLLM gateway).
+ * Jev is a TypeSafe **decision model** — NOT a chat model: the gateway serves
+ * it on `POST /v1/decisions` with an OpenAI-shaped body (`input` + a
+ * `questions` array whose choice questions are flat:
+ * `{ type, instructions, choices: [{ value, description }] }`). Verified
+ * 2026-11-22 against the live gateway (HTTP 200, full probability
+ * distribution in the response — `category_probs` is populated again).
  */
 const JEV_MODELS = ['jev-1.14.0', 'jev-1.13.0'] as const;
-/** Accept the label at or above this self-reported confidence; else heuristic (decision 4). */
+/** Accept the label at or above this self-reported confidence; otherwise heuristic (decision 4). */
 export const JEV_MIN_CONFIDENCE = 0.7;
 const TIMEOUT_MS = 12_000;
 
 export interface JevResult {
   category: Category;
-  probs: Record<string, number> | null;
+  probs: Record<string, number>;
   confidence: number;
 }
 
-const CRITERIA = [
-  'planning — research, exploration, requirement gathering, or reading code without changing it',
-  'design — visual or interface work: design tools, mockups, image generation, UI crafting',
-  'coding — writing or changing source code, running builds or git commands, configuring projects',
-  'test_review — running tests, linters, static analysis, or reviewing code and pull requests',
-  'other — anything that does not fit the four categories above',
-].join('\n');
+const CATEGORY_DESCRIPTIONS: Record<Category, string> = {
+  planning: 'research, exploration, requirement gathering, or reading code without changing it',
+  design: 'visual or interface work: design tools, mockups, image generation, UI crafting',
+  coding: 'writing or changing source code, running builds or git commands, configuring projects',
+  test_review: 'running tests, linters, static analysis, or reviewing code and pull requests',
+  other: 'anything that does not fit the four categories above',
+};
 
-const SYSTEM_PROMPT =
-  'You are a strict classifier for coding-agent activity. Given a digest of one agent turn, pick exactly one category. ' +
-  'Respond with ONLY minified JSON, no prose, no code fences: {"category":"planning|design|coding|test_review|other","confidence":<number 0..1>}.\n' +
-  'Categories:\n' +
-  CRITERIA;
+const QUESTION_INSTRUCTIONS = 'Which category best describes what this coding-agent turn did?';
 
-const userPrompt = (turn: ValidTurn): string => {
+function digestInput(turn: ValidTurn): string {
   const mix = categoryMix(turn.toolCounts);
   const topTools = Object.entries(turn.toolCounts)
     .sort((a, b) => b[1] - a[1])
@@ -50,35 +47,31 @@ const userPrompt = (turn: ValidTurn): string => {
     toolMixByFamily: mix,
     topToolCalls: topTools || undefined,
   });
-};
-
-/** Pull the first JSON object out of a model answer, tolerating code fences or prose. */
-function parseAnswer(content: string): { category: Category; confidence: number } | null {
-  const match = content.match(/\{[\s\S]*\}/);
-  if (!match) return null;
-  try {
-    const parsed = JSON.parse(match[0]) as { category?: unknown; confidence?: unknown };
-    const category = typeof parsed.category === 'string' ? parsed.category : null;
-    const confidence =
-      typeof parsed.confidence === 'number' && Number.isFinite(parsed.confidence)
-        ? parsed.confidence
-        : null;
-    if (
-      !category ||
-      !CATEGORIES.includes(category as Category) ||
-      confidence === null ||
-      confidence < 0 ||
-      confidence > 1
-    ) {
-      return null;
-    }
-    return { category: category as Category, confidence };
-  } catch {
-    return null;
-  }
 }
 
-/** One chat-completions classification attempt against the provider. */
+function buildRequest(model: string, turn: ValidTurn): unknown {
+  return {
+    model,
+    input: digestInput(turn),
+    questions: [
+      {
+        type: 'choice',
+        instructions: QUESTION_INSTRUCTIONS,
+        choices: CATEGORIES.map((value) => ({ value, description: CATEGORY_DESCRIPTIONS[value] })),
+      },
+    ],
+  };
+}
+
+interface DecisionResponse {
+  answers?: Array<{
+    type?: string;
+    choice?: string;
+    confidence?: number;
+    probabilities?: Array<{ value?: string; probability?: number }>;
+  }>;
+}
+
 async function attempt(
   base: string,
   apiKey: string,
@@ -86,42 +79,41 @@ async function attempt(
   turn: ValidTurn,
 ): Promise<JevResult | null> {
   try {
-    const response = await fetch(`${base}/v1/chat/completions`, {
+    const response = await fetch(`${base}/v1/decisions`, {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${apiKey}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        model,
-        messages: [
-          { role: 'system', content: SYSTEM_PROMPT },
-          { role: 'user', content: userPrompt(turn) },
-        ],
-        max_tokens: 100,
-        temperature: 0,
-      }),
+      body: JSON.stringify(buildRequest(model, turn)),
       signal: AbortSignal.timeout(TIMEOUT_MS),
     });
     if (!response.ok) {
-      console.warn(`[jev] ${model}: HTTP ${response.status} — falling back`);
+      const body = await response.text().catch(() => '');
+      console.warn(
+        `[jev] ${model}: HTTP ${response.status} — falling back (${body.slice(0, 200)})`,
+      );
       return null;
     }
-    interface ChatResponse {
-      choices?: Array<{ message?: { content?: string } }>;
-    }
-    const data: ChatResponse = await response.json();
-    const content = data.choices?.[0]?.message?.content;
-    if (typeof content !== 'string') {
-      console.warn(`[jev] ${model}: no message content in response — falling back`);
+    const data: DecisionResponse = await response.json();
+    const answer = data.answers?.[0];
+    const choice = answer?.choice;
+    const confidence = answer?.confidence;
+    if (answer?.type !== 'choice' || typeof choice !== 'string' || typeof confidence !== 'number') {
+      console.warn(`[jev] ${model}: unexpected answer shape — falling back`);
       return null;
     }
-    const answer = parseAnswer(content);
-    if (!answer) {
-      console.warn(`[jev] ${model}: unparseable answer (${content.slice(0, 80)}) — falling back`);
+    if (!CATEGORIES.includes(choice as Category)) {
+      console.warn(`[jev] ${model}: unknown choice "${choice}" — falling back`);
       return null;
     }
-    return { category: answer.category, probs: null, confidence: answer.confidence };
+    const probs: Record<string, number> = {};
+    for (const item of answer.probabilities ?? []) {
+      if (typeof item?.value === 'string' && typeof item?.probability === 'number') {
+        probs[item.value] = item.probability;
+      }
+    }
+    return { category: choice as Category, probs, confidence };
   } catch (error) {
     console.warn(
       `[jev] ${model}: request failed (${error instanceof Error ? error.message : String(error)}) — falling back`,
