@@ -186,7 +186,15 @@ function loadWindow(range: string, deep: boolean): Commit[] {
 
 /** Fallback for squash bodies edited down to the title: recover the PR's commits via gh. */
 function ghPrHeadlines(pr: number): string[] {
-  const r = run(`gh pr view ${pr} --json commits --jq '.[].messageHeadline'`);
+  // REST gives full commit subjects; GraphQL's messageHeadline truncates at ~72 chars.
+  const m = /github\.com[:/]+([^/]+)\/([^/.]+?)(?:\.git)?$/.exec(
+    run('git remote get-url origin').out,
+  );
+  const cmd = m
+    ? `gh api repos/${m[1]}/${m[2]}/pulls/${pr}/commits --jq '.[].commit.message | split("\\n")[0]'`
+    : `gh pr view ${pr} --json commits --jq '.commits[].messageHeadline'`;
+  const r = run(cmd);
+  if (!r.ok) console.error(`release-agent: gh fallback for PR #${pr} failed — ${r.err}`);
   return r.ok ? r.out.split('\n').filter(Boolean) : [];
 }
 
@@ -399,8 +407,6 @@ function findOpenPr(): number | null {
 
 function modeBot(): void {
   requireCi();
-  git(`config user.name "${BOT_NAME}"`);
-  git(`config user.email "${BOT_EMAIL}"`);
   git('fetch origin main dev --quiet');
   const remoteBranch = run(`git fetch origin ${RELEASE_BRANCH} --quiet`).ok;
   const hasRemoteBranch =
@@ -419,8 +425,14 @@ function modeBot(): void {
   }
   const { level, source } = levelOf(commits);
   if (!level) {
+    const detail = commits
+      .map(
+        (c) =>
+          `  ${c.sha.slice(0, 7)} ${c.subject}${c.unparseable.length > 0 ? ` (${c.unparseable.length} unparsed)` : ''}`,
+      )
+      .join('\n');
     die(
-      `cannot determine the release level — no conventional commits in the window (${source || 'see run log'}). ` +
+      `cannot determine the release level — no conventional commits in the window:\n${detail}\n` +
         'Fix the commit subjects or run `apply` locally with an explicit level.',
     );
   }
@@ -461,7 +473,9 @@ function modeBot(): void {
   setVersion(WORKER_PKG, next);
   setVersion(PLUGIN_PKG, next);
   git(`add ${CHANGELOG} ${WORKER_PKG} ${PLUGIN_PKG}`);
-  git(`commit -m "chore(release): agent-activity ${next}"`);
+  git(
+    `-c user.name='${BOT_NAME}' -c user.email='${BOT_EMAIL}' commit -m "chore(release): agent-activity ${next}"`,
+  );
   must(
     `git push ${hasRemoteBranch ? '--force-with-lease' : ''} origin ${RELEASE_BRANCH}:${RELEASE_BRANCH}`.replace(
       /\s+/g,
@@ -495,8 +509,6 @@ function modeBot(): void {
 
 function modeTag(): void {
   requireCi();
-  git(`config user.name "${BOT_NAME}"`);
-  git(`config user.email "${BOT_EMAIL}"`);
   must('git fetch origin --tags --quiet');
   const versions = readVersions();
   if (versions.worker === null || versions.plugin === null) {
@@ -512,7 +524,9 @@ function modeTag(): void {
     console.log(`release-agent: ${tag} already exists — nothing to do`);
     return;
   }
-  git(`tag -a ${tag} -m "agent-activity ${versions.worker}"`);
+  git(
+    `-c user.name='${BOT_NAME}' -c user.email='${BOT_EMAIL}' tag -a ${tag} -m "agent-activity ${versions.worker}"`,
+  );
   must(`git push origin ${tag}`);
   console.log(
     `release-agent: ${tag} pushed. Next: deploy the worker from this tag (apps/activity-worker → pnpm deploy), ` +
