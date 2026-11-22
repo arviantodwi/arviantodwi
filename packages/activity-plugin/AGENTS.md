@@ -2,7 +2,7 @@
 
 ## Scope
 
-`apps/activity-plugin` is the OpenCode server plugin that captures per-turn agent activity and pushes it to the activity worker. It runs **inside the OpenCode server** (loaded globally via `plugins` in `~/.config/opencode/opencode.json`, pointing at this directory). Repo-wide rules live in the root `AGENTS.md`.
+`packages/activity-plugin` is the OpenCode server plugin that captures per-turn agent activity and pushes it to the activity worker. It runs **inside the OpenCode server** (loaded globally via `plugins` in `~/.config/opencode/opencode.json`, via the git semver spec `github:arviantodwi/arviantodwi#semver:^1.0.0::path:packages/activity-plugin` — not a local path). Repo-wide rules live in the root `AGENTS.md`.
 
 ## Tooling
 

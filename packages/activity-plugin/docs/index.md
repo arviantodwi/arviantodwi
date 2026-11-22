@@ -1,6 +1,6 @@
 # Index
 
-OpenCode server plugin (`agent-activity`) that captures per-turn agent activity and pushes it to the activity worker (`apps/activity-worker`). Loaded globally via `plugins` in `~/.config/opencode/opencode.json` → this directory. One POST per closed turn; idempotent by turn key + durable cursor; dormant until configured.
+OpenCode server plugin (`agent-activity`) that captures per-turn agent activity and pushes it to the activity worker (`apps/activity-worker`). Loaded globally via `plugins` in `~/.config/opencode/opencode.json` → git semver spec `github:arviantodwi/arviantodwi#semver:^1.0.0::path:packages/activity-plugin`. One POST per closed turn; idempotent by turn key + durable cursor; dormant until configured.
 
 **Read this file first.**
 
@@ -25,4 +25,4 @@ OpenCode server plugin (`agent-activity`) that captures per-turn agent activity 
 
 `{ source: "opencode", sessionId, turnId, startedAt, endedAt, durationMs, prompts, toolCalls, toolCounts, tokens: { input, output, reasoning, cacheRead, cacheWrite, total }, costUsd, model, agent, title, firstPrompt }` — timestamps ISO 8601 UTC.
 
-<!-- verified against: 7e19ffb + working tree, 2026-11-22 (plugin live in production: execution-terminal triggers, location scoping, {file:} token config, diagnostic trail; first real captures verified via /activity/days) -->
+<!-- verified against: d9e15ce + the packages/ move (this commit), 2026-11-22 (plugin live in production: execution-terminal triggers, location scoping, {file:} token config, diagnostic trail; first real captures verified via /activity/days) -->

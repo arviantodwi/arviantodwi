@@ -1,16 +1,16 @@
 # Index
 
-Agent-activity backend (Cloudflare Worker `activity-worker` + D1 `agent-activity`, served at `api.arvian.to/activity/*`). Hono router, three routes: ingest (`POST /activity/turns`, Bearer), public read (`GET /activity/days`), read-only MCP (`POST /activity/mcp`, Bearer). Jev (TypeSafe decision model via the owner's LiteLLM gateway — `jev-1.14.0` primary, `jev-1.13.0` fallback, native `POST /v1/decisions` route) categorizes each turn at ingest; tool-mix heuristic is the fallback. Consumed by the OpenCode plugin (`apps/activity-plugin`) and — later, when built — the site grid page.
+Agent-activity backend (Cloudflare Worker `activity-worker` + D1 `agent-activity`, served at `api.arvian.to/activity/*`). Hono router, three routes: ingest (`POST /activity/turns`, Bearer), public read (`GET /activity/days`), read-only MCP (`POST /activity/mcp`, Bearer). Jev (TypeSafe decision model via the owner's LiteLLM gateway — `jev-1.14.0` primary, `jev-1.13.0` fallback, native `POST /v1/decisions` route) categorizes each turn at ingest; tool-mix heuristic is the fallback. Consumed by the OpenCode plugin (`packages/activity-plugin`) and — later, when built — the site grid page.
 
 **Read this file first. Read only the doc your task needs.**
 
 ## Router
 
-| Task                         | Doc                                  |
-| ---------------------------- | ------------------------------------ |
-| Endpoints, auth, env, schema | this file                            |
-| Capture side (plugin)        | `apps/activity-plugin/docs/index.md` |
-| Repo-wide behavior           | root `AGENTS.md`                     |
+| Task                         | Doc                                      |
+| ---------------------------- | ---------------------------------------- |
+| Endpoints, auth, env, schema | this file                                |
+| Capture side (plugin)        | `packages/activity-plugin/docs/index.md` |
+| Repo-wide behavior           | root `AGENTS.md`                         |
 
 ## Routes
 
