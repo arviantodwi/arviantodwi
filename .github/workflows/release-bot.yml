@@ -1,0 +1,33 @@
+name: Release bot
+
+# Maintains `release/next` (dev + one prep commit: version bump + changelog)
+# and the self-updating release PR against main. Run by every push to dev.
+# Core logic lives in scripts/release-agent.ts; rules live in the root
+# AGENTS.md "Versioning & releases" section.
+
+on:
+  push:
+    branches: [dev]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: release-bot
+  cancel-in-progress: true
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Rebuild release/next and update the release PR
+        run: node scripts/release-agent.ts bot
+        env:
+          GH_TOKEN: ${{ github.token }}

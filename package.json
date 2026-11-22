@@ -9,7 +9,8 @@
     "start": "vp -C apps/web run start",
     "lint": "vp lint",
     "format": "vp fmt",
-    "check": "vp check"
+    "check": "vp check",
+    "release:agent": "node scripts/release-agent.ts"
   },
   "devDependencies": {
     "vite-plus": "1.7.0"

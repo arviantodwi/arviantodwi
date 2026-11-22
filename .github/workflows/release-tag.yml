@@ -1,0 +1,25 @@
+name: Release tag
+
+# Tags `activity-vX.Y.Z` on main whenever the pair's version changed — i.e.
+# when a release PR merges (merge commit, never squash). Deploy the worker
+# from the tag afterwards: deploy = release.
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  tag:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Tag activity-vX.Y.Z if the version changed
+        run: node scripts/release-agent.ts tag
