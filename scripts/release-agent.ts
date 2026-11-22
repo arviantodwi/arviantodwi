@@ -186,7 +186,14 @@ function loadWindow(range: string, deep: boolean): Commit[] {
 
 /** Fallback for squash bodies edited down to the title: recover the PR's commits via gh. */
 function ghPrHeadlines(pr: number): string[] {
-  const r = run(`gh pr view ${pr} --json commits --jq '.commits[].messageHeadline'`);
+  // REST gives full commit subjects; GraphQL's messageHeadline truncates at ~72 chars.
+  const m = /github\.com[:/]+([^/]+)\/([^/.]+?)(?:\.git)?$/.exec(
+    run('git remote get-url origin').out,
+  );
+  const cmd = m
+    ? `gh api repos/${m[1]}/${m[2]}/pulls/${pr}/commits --jq '[].commit.message | split("\\n")[0]'`
+    : `gh pr view ${pr} --json commits --jq '.commits[].messageHeadline'`;
+  const r = run(cmd);
   if (!r.ok) console.error(`release-agent: gh fallback for PR #${pr} failed — ${r.err}`);
   return r.ok ? r.out.split('\n').filter(Boolean) : [];
 }
