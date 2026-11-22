@@ -242,7 +242,7 @@ function renderSections(items: Item[]): string {
 }
 
 function buildEntry(version: string, items: Item[]): string {
-  const date = new Date().toISOString().slice(0, 10);
+  const date = new Date().toLocaleDateString('en-CA');
   return `## ${version} — ${date}\n\n${renderSections(items)}\n`;
 }
 
@@ -343,7 +343,8 @@ function modeCheck(range: string): void {
 function modeApply(levelArg: string | undefined): void {
   const branch = git('rev-parse --abbrev-ref HEAD');
   if (branch !== 'dev' && !FORCE) die('apply runs on dev — use --force to run elsewhere');
-  if (git('status --porcelain') !== '') die('tree is not clean — commit or stash first');
+  if (git('status --porcelain --untracked-files=no') !== '')
+    die('tree is not clean — commit or stash first');
   fetchMainQuietly();
   const commits = loadWindow('origin/main..HEAD', DEEP);
   if (commits.length === 0) die('nothing to release — the window is empty');
