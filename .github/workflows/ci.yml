@@ -1,0 +1,36 @@
+name: CI
+
+# The repo's one static gate (vp check: Oxfmt + Oxlint + type-check) as a merge
+# gate: every PR into dev and every push to dev must pass it. Required status
+# check "check" is enforced by the dev branch protection rule (owner-side).
+# Warnings stay advisory for now; errors block.
+
+on:
+  pull_request:
+    branches: [dev]
+  push:
+    branches: [dev]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 26
+      - uses: pnpm/action-setup@v6
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Static gate (format, lint, types)
+        run: pnpm check
