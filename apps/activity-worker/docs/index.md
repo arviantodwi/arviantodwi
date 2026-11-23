@@ -19,7 +19,7 @@ Agent-activity backend (Cloudflare Worker `activity-worker` + D1 `agent-activity
 | `POST /activity/turns` | `Bearer AGENT_ACTIVITY_TOKEN` | Single turn object, top-level array, or `{ turns: [...] }` (≤ 50; ≤ 64 KB/turn). Upsert by `(source, session_id, turn_id)` — idempotent, latest values win. Rejects malformed batches whole (400, per-index details). |
 | `GET /activity/days`   | public                        | `{ days, turns, generatedAt }`; `?range=` absent \| `last12` \| `YYYY`. Numbers only. CORS via `ALLOWED_ORIGINS`; `Cache-Control: public, max-age=300`.                                                               |
 | `POST /activity/mcp`   | `Bearer AGENT_ACTIVITY_TOKEN` | Stateless streamable-HTTP MCP (JSON responses, no SSE). Tools: `get_activity_stats` (`range`: `"last12"` \| `"YYYY"`, default full history). `submit_agent_activity` deferred.                                        |
-| `GET /activity/health` | public                        | `{ ok: true }` readiness probe.                                                                                                                                                                                       |
+| `GET /activity/health` | public                        | `{ ok: true, version }` readiness probe; `version` = deployed release, injected at deploy from the `activity-vX.Y.Z` tag (`dev` locally).                                                                             |
 
 ## Source layout
 
@@ -50,15 +50,19 @@ One row per agent **turn**. Key: `(source, session_id, turn_id)` unique. Timesta
 | `ACTIVITY_TZ`          | day projection                                                                          | no     | wrangler var, default `Asia/Jakarta`                                                     |
 | `ALLOWED_ORIGINS`      | CORS on `/days`                                                                         | no     | wrangler var, default `https://arvian.to`                                                |
 
-## Deploy checklist (owner)
+## Deploy checklist (owner, first-time setup only)
 
-1. `pnpm db:create` → replace the placeholder `database_id` in `wrangler.jsonc`.
+1. `pnpm db:create` → the real `database_id` is in `wrangler.jsonc` (current value is live).
 2. `wrangler secret put AGENT_ACTIVITY_TOKEN` and `wrangler secret put JEV_API_KEY`.
-3. Uncomment the `routes` block in `wrangler.jsonc` (`api.arvian.to/activity/*`, zone already in Cloudflare), then `pnpm deploy`.
-4. `pnpm db:migrate` (remote), then verify `GET https://api.arvian.to/activity/health`.
+3. GitHub repo secrets for CI deploys: `CLOUDFLARE_API_TOKEN` (Workers Scripts:Edit, D1:Edit, Workers Routes:Edit on `arvian.to`) and `CLOUDFLARE_ACCOUNT_ID`.
+4. Local runs stay manual: `pnpm dev`, `pnpm db:migrate:local`.
+
+## Deploys (CI)
+
+`worker-deploy.yml` runs on every `activity-vX.Y.Z` tag push (applied by `release-tag.yml` when a release PR merges): the gate (`release-agent.ts should-deploy`) diffs the tag against the previous activity tag and **deploys only when `apps/activity-worker/` changed** — plugin-only releases ship the version and tag but skip the deploy. Version-only package.json bumps never deploy. Deploy = `wrangler deploy --define APP_VERSION` (tag's version) → `pnpm db:migrate` (remote) → health check `GET https://api.arvian.to/activity/health` (`ok: true` + matching `version`). Manual redeploy of an existing tag: run the workflow with `workflow_dispatch` (skips the gate).
 
 ## Releases
 
-The worker ships as one half of the agent-activity pair: **one version, one tag** — `activity-vX.Y.Z`, applied by CI (`release-tag.yml`) when the release PR `release/next` → `main` merges with a **merge commit** (never squash). `pnpm deploy` runs from `main` at that tag — deploy = release, never from an untagged commit; hotfixes are patch releases. Flow, bump rules, and exclusions: root `AGENTS.md` → "Versioning & releases".
+The worker ships as one half of the agent-activity pair: **one version, one tag** — `activity-vX.Y.Z`, applied by CI (`release-tag.yml`) when the release PR `release/next` → `main` merges with a **merge commit** (never squash). CI then deploys the worker from the tag (`worker-deploy.yml`) when the tag changed `apps/activity-worker/` — deploy = release, never from an untagged commit; hotfixes are patch releases. Flow, bump rules, and exclusions: root `AGENTS.md` → "Versioning & releases".
 
-<!-- verified against: 6b99b23 (release flow), 2026-11-23 (worker v1: turns/days/mcp routes, Jev via LiteLLM gateway jev-1.14.0→jev-1.13.0, UTC time policy, secrets policy) -->
+<!-- verified against: working tree, 2026-11-24 (CI worker deploy via worker-deploy.yml: tag-triggered, gate = worker paths changed since the previous activity tag; /activity/health now stamps the deployed version; wrangler.jsonc database_id confirmed live) -->

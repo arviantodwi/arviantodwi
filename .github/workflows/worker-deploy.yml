@@ -1,0 +1,89 @@
+name: Worker deploy
+
+# Deploys apps/activity-worker to Cloudflare when a release tag
+# `activity-vX.Y.Z` is pushed by release-tag.yml — deploy = release, never
+# from an untagged commit. The gate (release-agent.ts should-deploy) skips the
+# deploy when the tag's diff vs the previous activity tag has no worker
+# changes: plugin-only releases still ship their version and tag. Manual
+# redeploys of an existing tag run via workflow_dispatch and skip the gate.
+
+on:
+  push:
+    tags: ['activity-v*']
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Existing activity-vX.Y.Z tag to redeploy'
+        required: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: worker-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # all tags: the gate diffs against the previous activity tag
+          ref: ${{ github.event_name == 'workflow_dispatch' && inputs.tag || github.ref }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: pnpm/action-setup@v4
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Resolve tag
+        run: |
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            TAG="${{ inputs.tag }}"
+          else
+            TAG="${{ github.ref_name }}"
+          fi
+          if [[ ! "$TAG" =~ ^activity-v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "::error::not an activity tag: $TAG"; exit 1
+          fi
+          echo "TAG=$TAG" >> "$GITHUB_ENV"
+          echo "VERSION=${TAG#activity-v}" >> "$GITHUB_ENV"
+      - name: Deploy gate (worker changed since the previous tag?)
+        if: github.event_name != 'workflow_dispatch'
+        run: |
+          set -o pipefail
+          verdict="$(node scripts/release-agent.ts should-deploy "$TAG" | tail -n1)"
+          echo "verdict=$verdict" >> "$GITHUB_OUTPUT"
+          [[ "$verdict" == "deploy" || "$verdict" == "skip" ]] || {
+            echo "::error::unexpected gate verdict: $verdict"; exit 1; }
+        id: gate
+      - name: Skipping deploy — no worker changes in this tag
+        if: github.event_name != 'workflow_dispatch' && steps.gate.outputs.verdict == 'skip'
+        run: echo "$TAG has no changes under apps/activity-worker/ — skipping deploy"
+      - name: Deploy worker
+        if: github.event_name == 'workflow_dispatch' || steps.gate.outputs.verdict == 'deploy'
+        working-directory: apps/activity-worker
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: pnpm exec wrangler deploy --define "APP_VERSION:\"$VERSION\""
+      - name: Apply D1 migrations (remote)
+        if: github.event_name == 'workflow_dispatch' || steps.gate.outputs.verdict == 'deploy'
+        working-directory: apps/activity-worker
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: pnpm run db:migrate
+      - name: Verify health (version stamp matches the tag)
+        if: github.event_name == 'workflow_dispatch' || steps.gate.outputs.verdict == 'deploy'
+        run: |
+          for i in $(seq 1 6); do
+            if curl -fsS https://api.arvian.to/activity/health \
+                | jq -e --arg v "$VERSION" '.ok == true and .version == $v'; then
+              echo "health OK for $TAG (version $VERSION)"; exit 0
+            fi
+            echo "attempt $i: health not matching yet — retrying in 10s"; sleep 10
+          done
+          echo "::error::$TAG deployed but /activity/health never reported ok:true with version $VERSION"
+          exit 1

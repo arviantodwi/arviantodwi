@@ -14,6 +14,7 @@
  *                                                            local fallback (on dev): bump + changelog + prep commit; never tags
  *   node scripts/release-agent.ts bot [--force]              CI (push to dev): rebuild release/next, maintain the release PR
  *   node scripts/release-agent.ts tag [--force]              CI (push to main): create+push activity-vX.Y.Z when the version changed
+ *   node scripts/release-agent.ts should-deploy <tag>        CI (tag push): "deploy" if the tag changed the worker since the previous tag, "skip" otherwise
  *
  * Flow and rules: root AGENTS.md → "Versioning & releases".
  */
@@ -49,6 +50,7 @@ interface Versions {
 
 const WORKER_PKG = 'apps/activity-worker/package.json';
 const PLUGIN_PKG = 'packages/activity-plugin/package.json';
+const WORKER_SCOPE = 'apps/activity-worker';
 const CHANGELOG = 'CHANGELOG.md';
 const TAG_PREFIX = 'activity-v';
 const RELEASE_BRANCH = 'release/next';
@@ -529,15 +531,69 @@ function modeTag(): void {
   );
   must(`git push origin ${tag}`);
   console.log(
-    `release-agent: ${tag} pushed. Next: deploy the worker from this tag (apps/activity-worker → pnpm deploy), ` +
-      'then verify plugin pickup on your OpenCode instances.',
+    `release-agent: ${tag} pushed. Next: CI deploys the worker from this tag ` +
+      '(worker-deploy.yml) when the tag contains worker changes.',
   );
+}
+
+// ------------------------------------------------------------- should-deploy
+
+function prevTagOf(tag: string): string | null {
+  // Highest activity-v* tag reachable from (and strictly below) `tag`.
+  const tags = git(`tag --list '${TAG_PREFIX}*' --merged ${tag}`)
+    .split('\n')
+    .filter((t) => t !== '' && t !== tag)
+    .sort((a, b) => compareVersions(a.slice(TAG_PREFIX.length), b.slice(TAG_PREFIX.length)));
+  return tags.at(-1) ?? null;
+}
+
+/**
+ * Deploy gate for a release tag. Prints "deploy" or "skip" on the last line;
+ * exits 0 on both — a non-zero exit is a hard failure (bad tag, git error).
+ * Deploy-worthy means: worker paths changed since the previous activity tag.
+ * Plugin-only releases still ship the version and tag, but skip the deploy.
+ */
+function modeShouldDeploy(tag: string | undefined): void {
+  if (!tag)
+    die(
+      `should-deploy needs the tag: node scripts/release-agent.ts should-deploy ${TAG_PREFIX}X.Y.Z`,
+    );
+  if (!new RegExp(`^${TAG_PREFIX}\\d+\\.\\d+\\.\\d+$`).test(tag))
+    die(`not an activity tag: ${tag}`);
+  if (!run(`git rev-parse -q --verify refs/tags/${tag}`).ok) die(`tag not found: ${tag}`);
+  const prev = prevTagOf(tag);
+  if (!prev) {
+    console.log(`no previous ${TAG_PREFIX}* tag — first tagged release`);
+    console.log('deploy');
+    return;
+  }
+  const changed = git(`diff --name-only ${prev}..${tag} -- ${WORKER_SCOPE}`)
+    .split('\n')
+    .filter(Boolean);
+  // The release prep commit bumps both package.jsons, so a worker
+  // package.json diff is deploy-worthy only beyond its version line
+  // (dependencies, scripts, config). Version-only changes never deploy.
+  const meaningful = changed.filter((file) => {
+    if (!file.endsWith('package.json')) return true;
+    const body = git(`diff ${prev}..${tag} -- ${file}`)
+      .split('\n')
+      .filter((l) => /^[+-]/.test(l) && !/^[+-]{3}/.test(l))
+      .filter((l) => !/^[+-]\s*"version":/.test(l));
+    return body.length > 0;
+  });
+  console.log(
+    `diff ${prev}..${tag} — ${changed.length} changed file(s) under ${WORKER_SCOPE}` +
+      (changed.length !== meaningful.length
+        ? ` (${changed.length - meaningful.length} version-only)`
+        : ''),
+  );
+  console.log(meaningful.length > 0 ? 'deploy' : 'skip');
 }
 
 // --------------------------------------------------------------------- main
 
 const usage =
-  'usage: node scripts/release-agent.ts check [<range>] [--deep] | apply [patch|minor|major] [--no-edit] [--force] | bot [--force] | tag [--force]';
+  'usage: node scripts/release-agent.ts check [<range>] [--deep] | apply [patch|minor|major] [--no-edit] [--force] | bot [--force] | tag [--force] | should-deploy <tag>';
 
 switch (MODE) {
   case 'check':
@@ -551,6 +607,9 @@ switch (MODE) {
     break;
   case 'tag':
     modeTag();
+    break;
+  case 'should-deploy':
+    modeShouldDeploy(POSITIONAL[0]);
     break;
   default:
     console.error(usage);
