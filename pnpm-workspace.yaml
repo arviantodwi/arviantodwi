@@ -1,3 +1,10 @@
 packages:
   - apps/*
   - packages/*
+
+# pnpm 12 reads build-script approvals ONLY from this file (`allowBuilds`;
+# the old `pnpm.onlyBuiltDependencies` field in package.json is ignored) —
+# unapproved scripts hard-error in CI and on Vercel (ERR_PNPM_IGNORED_BUILDS).
+allowBuilds:
+  esbuild: true
+  workerd: true

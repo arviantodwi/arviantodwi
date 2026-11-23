@@ -3,12 +3,6 @@
   "version": "1.0.0",
   "private": true,
   "packageManager": "pnpm@12.21.0",
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "esbuild",
-      "workerd"
-    ]
-  },
   "scripts": {
     "dev": "vp -C apps/web run dev",
     "build": "vp -C apps/web run build",
