@@ -32,5 +32,9 @@ jobs:
       - uses: pnpm/action-setup@v6
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+      # Fresh checkouts have no .next/ — PageProps/LayoutProps (generated
+      # globals) are missing until typegen runs. See apps/web/docs/tooling.md.
+      - name: Generate Next.js route types
+        run: pnpm -C apps/web exec next typegen
       - name: Static gate (format, lint, types)
         run: pnpm check
