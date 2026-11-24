@@ -4,6 +4,7 @@ import { activityTz, type Env } from './env';
 import { categorizeTurn, requireBearer, upsertTurns } from './ingest';
 import { handleMcpPost } from './mcp';
 import { parseTurnsBody, validateTurn, type ValidTurn } from './validate';
+import { appVersion } from './version';
 
 const app = new Hono<{ Bindings: Env }>();
 
@@ -18,8 +19,9 @@ function corsHeaders(env: Env, origin: string | undefined): Record<string, strin
   return headers;
 }
 
-// Readiness probe for local dev and deploy verification.
-app.get('/activity/health', (c) => c.json({ ok: true }));
+// Readiness probe for local dev and deploy verification. `version` carries the
+// deployed release (the `activity-vX.Y.Z` tag CI injected at deploy; `dev` locally).
+app.get('/activity/health', (c) => c.json({ ok: true, version: appVersion() }));
 
 // Public read: daily aggregates + per-turn numeric records. Numbers only.
 // CORS-restricted to ALLOWED_ORIGINS; short cache so the grid refreshes cheaply.

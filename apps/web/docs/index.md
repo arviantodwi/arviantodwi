@@ -34,4 +34,10 @@ These docs scope the web app only (`apps/web`); repo-wide behavior (Vite+/pnpm, 
 | Contact abuse throttling        | `apps/web/.env` — `CONTACT_RATE_LIMIT` (per window), `CONTACT_RATE_WINDOW_MIN` (minutes); optional, defaults 5 / 10 min, clamped                                                                                                                                                                                                                                                                                                                                                                        |
 | Contact mail logic / templates  | `src/app/lib/mail/` (Resend client + branded builders — owner notification EN-only; see design.md "Email templates"), `src/app/lib/contact/` (validate + rate limit), `src/app/actions/contact.ts` (Server Action)                                                                                                                                                                                                                                                                                      |
 
+## Vercel
+
+Deploys on push to Vercel: project `personal-website` (`prj_Dfh5iQwLnowO6iK0tN82jHNX3hnS`), team Arvi's Projects (`arvi-s-projects`, `team_oLOJFDSNnKyqq0KDyy4Rzvsv`). The local link lives in `.vercel/project.json` (gitignored): Vercel MCP tools read it to resolve `teamId`/`projectId` automatically. Outside this checkout, pass those IDs explicitly as `teamId`/`projectId` to Vercel MCP tools.
+
+The Ignored Build Step (set via MCP `update_project` → `commandForIgnoringBuildStep`, 2026-11-24) skips builds with no changes under `apps/web/`: `cd "$(git rev-parse --show-toplevel)" && git diff --quiet HEAD^ HEAD -- ./apps/web/` — exit 1 (changes found) builds, exit 0 cancels. On merge-commit releases `HEAD^` is the previous main tip, so any PR in the merge touching `apps/web/` deploys.
+
 <!-- verified against: working tree, 2026-11-19 (monorepo migration: docs moved from repo root to apps/web/docs; .env references now apps/web/.env; repo-wide tooling moved to root AGENTS.md) -->

@@ -15,15 +15,14 @@
     {
       "binding": "DB",
       "database_name": "agent-activity",
-      // Local dev runs fully on this placeholder UUID. Before deploying, run
-      // `pnpm db:create` (wrangler d1 create agent-activity) and replace it
-      // with the real database_id it prints.
+      // Live production database (verified 2026-11-24). Recreate only via
+      // `pnpm db:create` and a follow-up `pnpm db:migrate` on remote.
       "database_id": "077b30bd-66c5-48c0-b6a7-07146591aa16",
       "migrations_dir": "migrations"
     }
   ],
   // Deploy-time: mount this worker at the /activity/* path of the existing
-  // zone (arvian.to is already in Cloudflare). Uncomment together with
-  // `pnpm deploy` once secrets are in place:
+  // zone (arvian.to is already in Cloudflare). CI deploys with this route on
+  // every worker change; secrets are managed via `wrangler secret put`:
   "routes": [{ "pattern": "api.arvian.to/activity/*", "zone_name": "arvian.to" }]
 }

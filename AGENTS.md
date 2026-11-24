@@ -34,11 +34,10 @@ The agent-activity pair — `packages/activity-plugin` (client) + `apps/activity
 | `release/next` | dev + one prep commit (bump + changelog entry); disposable | CI only (`release-bot.yml`), force-updated per dev push  |
 | `main`         | released state                                             | only release-PR merges, via **merge commit** (no squash) |
 
-- Flow: PR → `dev` (squash) → CI rebuilds `release/next` and keeps the release PR self-updating → owner merges the release PR (merge commit) → CI tags → deploy the worker from the tag. **Deploy = release**: never deploy from an untagged commit.
+- Flow: PR → `dev` (squash) → CI rebuilds `release/next` and keeps the release PR self-updating → owner merges the release PR (merge commit) → CI tags → CI deploys the worker from the tag when it changed `apps/activity-worker/` (`worker-deploy.yml`; plugin-only releases skip the deploy). **Deploy = release**: never deploy from an untagged commit.
 - Release notes: root `CHANGELOG.md`, generated from conventional commit subjects (branch-commit bullets survive GitHub squash bodies). Scopes `plugin*` → Plugin, `worker*` → Worker, anything else → Repo. Breaking changes: `!` in a branch commit subject; a major also means updating the global OpenCode plugin spec (`#semver:^2.0.0`).
 - Merge to `dev` = ships next release. Exclusions: `git revert` commit(s) on `release/next` (the bot pauses on manual commits — merge as-is, re-ship later by reverting the revert). Never cherry-pick releases.
-- Core + fallback: `scripts/release-agent.ts` (`check` dry-run, `apply` local on dev — never tags); the same code CI runs. Merge-button discipline is manual — GitHub cannot enforce per-branch merge methods.
-- Deferred to a future session: tag-triggered CI worker deploy and a version stamp on `GET /activity/health`.
+- Core + fallback: `scripts/release-agent.ts` (`check` dry-run, `apply` local on dev, `should-deploy <tag>` deploy gate — never tags); the same code CI runs. Merge-button discipline is manual — GitHub cannot enforce per-branch merge methods.
 
 ## Pencil MCP (design → code)
 
